@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Narrow FileProvider scope: only the /cache/scans/ subdir is shareable with the camera intent. -->
+<paths>
+    <cache-path name="scans_tmp" path="scans/" />
+</paths>

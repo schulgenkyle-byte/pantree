@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Debug-only network config — this file replaces the main one in debug builds.
+  Allows user-installed CAs so Charles/Proxyman can intercept local traffic.
+  NEVER commit this path into release variants.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system"/>
+            <certificates src="user"/>
+        </trust-anchors>
+    </base-config>
+    <!-- Debug builds don't pin certs so dev proxies can rotate freely. -->
+</network-security-config>

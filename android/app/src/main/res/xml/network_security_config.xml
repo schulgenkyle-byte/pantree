@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  TLS hardening:
+    * No cleartext at any domain
+    * Pin the Cloudflare edge SPKI + a backup pin for your Worker hostname
+    * Debug builds override to trust user CAs (charles/proxyman only); this override is
+      resource-replaced in the :debug build type so it does not ship in release APKs.
+
+  Generate pins:
+    openssl s_client -servername pantrie-backend.workers.dev \
+      -connect pantrie-backend.workers.dev:443 </dev/null 2>/dev/null \
+      | openssl x509 -pubkey -noout \
+      | openssl pkey -pubin -outform der \
+      | openssl dgst -sha256 -binary \
+      | base64
+
+  Replace both placeholder pins before release. Keep the backup pin fresh;
+  without it, any future cert rotation bricks connectivity.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </base-config>
+
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">pantrie.app</domain>
+        <domain includeSubdomains="true">workers.dev</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+        <pin-set expiration="2027-01-01">
+            <!-- Primary Cloudflare edge SPKI -->
+            <pin digest="SHA-256">REPLACE_WITH_PRIMARY_PIN_BASE64=</pin>
+            <!-- Backup (different CA) so rotation never strands clients -->
+            <pin digest="SHA-256">REPLACE_WITH_BACKUP_PIN_BASE64=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>

@@ -1,0 +1,24 @@
+{
+  "name": "pantrie-backend",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 execute pantrie-db-staging --file=schema.sql",
+    "db:init:remote": "wrangler d1 execute pantrie-db-staging --file=schema.sql --remote",
+    "seed": "bash ../pentest/seed-recipes.sh",
+    "ingest:themealdb": "node ingest/fetch-themealdb.js && node ingest/normalize-themealdb.js",
+    "ingest:wikibooks": "node ingest/fetch-wikibooks.js && node ingest/normalize-wikibooks.js",
+    "ingest:huggingface": "node ingest/fetch-huggingface.js && node ingest/normalize-huggingface.js",
+    "ingest:myplate": "node ingest/fetch-myplate.js && node ingest/normalize-myplate.js",
+    "ingest:upload:themealdb": "node ingest/upload.js ingest/normalized/themealdb-normalized.json",
+    "ingest:upload:wikibooks": "node ingest/upload.js ingest/normalized/wikibooks-normalized.json",
+    "ingest:upload:huggingface": "node ingest/upload.js ingest/normalized/hf-normalized.json",
+    "ingest:upload:myplate": "node ingest/upload.js ingest/normalized/myplate-normalized.json",
+    "ingest:upload:all": "node ingest/upload.js ingest/normalized/themealdb-normalized.json ingest/normalized/wikibooks-normalized.json ingest/normalized/hf-normalized.json ingest/normalized/myplate-normalized.json"
+  },
+  "devDependencies": {
+    "wrangler": "^4.84.1"
+  }
+}

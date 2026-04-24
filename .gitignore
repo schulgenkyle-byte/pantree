@@ -1,0 +1,67 @@
+# Secrets
+.env
+.env.local
+.dev.vars
+keystore.jks
+google-services.json
+service-account.json
+
+# Build artifacts
+node_modules/
+.wrangler/
+dist/
+build/
+.gradle/
+*.apk
+*.aab
+
+# Android Studio
+.idea/
+*.iml
+local.properties
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Ingest raw/normalized data — too big (1.6GB HF), regenerable from source scripts
+backend/ingest/raw/
+backend/ingest/normalized/
+backend/ingest/image-migrate.sql
+backend/ingest/*.sql
+backend/ingest/*.json
+backend/ingest/*.ndjson
+
+# Android build outputs (can be hundreds of MB)
+android/app/build/
+android/.gradle/
+android/.kotlin/
+android/build/
+android/captures/
+android/.cxx/
+
+# Backend build / local state
+backend/.wrangler/
+backend/node_modules/
+
+# Pentest artifacts — keep scripts, ignore generated output
+pentest/reports/
+pentest/output/
+
+# Admin key + anything else ending _KEY.txt
+*_KEY.txt
+PANTREE_ADMIN_KEY.txt
+
+# Debug/release APKs — don't commit binaries
+*.apk
+*.aab
+
+# Logs / editor / temp
+*.log
+/tmp/
+*.swp
+.vscode/
+
+# Keystore files (any location)
+*.keystore
+*.jks

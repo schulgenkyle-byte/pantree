@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pre-API-31 backup rules. Exclude everything sensitive; only UI prefs are backed up. -->
+<full-backup-content>
+    <exclude domain="database" path="pantrie.db" />
+    <exclude domain="database" path="pantrie.db-journal" />
+    <exclude domain="database" path="pantrie.db-wal" />
+    <exclude domain="database" path="pantrie.db-shm" />
+    <exclude domain="sharedpref" path="pantrie_prefs.xml" />
+    <exclude domain="file" path="scans" />
+    <exclude domain="file" path="reviews" />
+    <exclude domain="file" path="dek_v1.bin" />
+</full-backup-content>

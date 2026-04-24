@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  API 31+ backup/restore rules.
+  With allowBackup=false in the manifest these are defense-in-depth; exclude everything
+  sensitive in case a future maintainer flips allowBackup=true.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" />
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="pantrie_prefs.xml" />
+        <exclude domain="file" path="." />
+        <exclude domain="file" path="scans/" />
+        <exclude domain="file" path="reviews/" />
+        <exclude domain="file" path="dek_v1.bin" />
+        <include domain="sharedpref" path="ui_prefs.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" />
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="pantrie_prefs.xml" />
+        <exclude domain="file" path="." />
+        <include domain="sharedpref" path="ui_prefs.xml" />
+    </device-transfer>
+</data-extraction-rules>

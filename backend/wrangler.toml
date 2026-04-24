@@ -1,0 +1,58 @@
+name = "pantrie-backend"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+# ---- Bindings ----
+[[d1_databases]]
+binding = "DB"
+database_name = "pantrie-db-staging"
+database_id = "3a141f01-de57-4a7e-a332-e576c9df83b3"
+
+# RATE_LIMIT_KV doubles as the general KV: rate buckets, JWKs cache, nonces, revocation list,
+# service-account token cache, daily scan counters. One binding = simpler ops.
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "077c4c0587494d66a90ede9efb58bf31"
+
+# R2 bucket for user-submitted recipe photos. One-time setup:
+#   1. Open Cloudflare dashboard → R2 → click "Enable R2" (accepts free-tier pricing)
+#   2. wrangler r2 bucket create pantrie-photos
+#   3. Cloudflare dashboard → R2 → pantrie-photos → Settings → Public access → enable
+#   4. Uncomment the binding below and update PHOTOS_PUBLIC_BASE with the public URL
+#   5. wrangler deploy
+# Until R2 is enabled, /submissions/photo returns 503 but everything else works.
+[[r2_buckets]]
+binding = "PHOTOS_BUCKET"
+bucket_name = "pan-tree"
+
+# ---- Non-secret vars ----
+# Accepts a comma-separated list so you can ship Android + iOS + Web clients.
+[vars]
+ENVIRONMENT = "dev"                                   # staging — enables /auth/dev-token + relaxes prod-only config checks
+GOOGLE_CLIENT_ID = "551337065169-ndra9iucotdmg1f4e8chcojfipo8k59q.apps.googleusercontent.com"
+ALLOWED_ORIGIN = "https://pantrie.app,https://www.pantrie.app"
+PLAY_PACKAGE_NAME = "app.pantrie"
+PLAY_INTEGRITY_PROJECT = "REPLACE_WITH_YOUR_CLOUD_PROJECT_NUMBER"
+# RTDN audience MUST match the Pub/Sub push-subscription audience you configured in Play Console.
+RTDN_AUDIENCE = "https://pantrie-backend.REPLACE.workers.dev/billing/rtdn"
+# RTDN service-account email — the identity Pub/Sub signs its OIDC tokens with.
+RTDN_SA_EMAIL = "REPLACE_WITH_SA_EMAIL@REPLACE.iam.gserviceaccount.com"
+# Daily global Anthropic vision budget circuit breaker (images/day across all users).
+VISION_GLOBAL_DAILY = "5000"
+# Public base URL for R2-served photos. Replace with your bucket's public URL after
+# running `wrangler r2 bucket domain add` — or a custom domain if you've set one up.
+PHOTOS_PUBLIC_BASE = "https://pub-65a8f8e3232e458b87e6e0fe67312158.r2.dev"
+
+# ---- Secrets (do NOT commit; set via `wrangler secret put NAME`) ----
+#   JWT_SECRET                  -- `openssl rand -hex 32`
+#   ANTHROPIC_API_KEY           -- platform.claude.com
+#   PLAY_SERVICE_ACCOUNT_JSON   -- full service-account JSON (stringified), needs Android Publisher + Play Integrity roles
+#   DEV_TOKEN_KEY               -- only set in dev; prod startup check rejects this
+#   SEED_KEY                    -- only set when ingesting catalog (dev/staging); rotate after
+#   ADMIN_KEY                   -- admin dashboard + feedback triage key (set for beta; required by /admin/*)
+#   BETA_DISCORD_WEBHOOK        -- Discord webhook URL to mirror beta feedback (optional but recommended)
+#   # Optional ops:
+#   # SENTRY_DSN, etc.
+
+[observability]
+enabled = true
