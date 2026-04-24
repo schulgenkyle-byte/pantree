@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
@@ -6,6 +9,14 @@ plugins {
   alias(libs.plugins.ksp)
   alias(libs.plugins.hilt)
 }
+
+// Load local.properties for release signing + build config overrides.
+// local.properties is gitignored and never committed.
+val localProps = Properties().apply {
+  val f = rootProject.file("local.properties")
+  if (f.exists()) FileInputStream(f).use { load(it) }
+}
+fun localProp(key: String): String? = localProps.getProperty(key) ?: System.getenv(key)
 
 android {
   namespace = "app.pantrie"
@@ -20,9 +31,9 @@ android {
     vectorDrawables.useSupportLibrary = true
 
     buildConfigField("String", "API_BASE_URL",
-      "\"${project.findProperty("PANTRIE_API_URL") ?: "https://pantrie-backend.REPLACE.workers.dev"}\"")
+      "\"${localProp("PANTRIE_API_URL") ?: project.findProperty("PANTRIE_API_URL") ?: "https://pantrie-backend.REPLACE.workers.dev"}\"")
     buildConfigField("String", "GOOGLE_SERVER_CLIENT_ID",
-      "\"${project.findProperty("PANTRIE_GOOGLE_CLIENT_ID") ?: "REPLACE.apps.googleusercontent.com"}\"")
+      "\"${localProp("PANTRIE_GOOGLE_CLIENT_ID") ?: project.findProperty("PANTRIE_GOOGLE_CLIENT_ID") ?: "REPLACE.apps.googleusercontent.com"}\"")
     // SHA-256 SPKI pins (base64, no "sha256/" prefix). Leave blank in debug; required in release.
     // See android/app/src/main/res/xml/network_security_config.xml for how to generate them.
     buildConfigField("String", "API_PIN_PRIMARY",
@@ -37,12 +48,12 @@ android {
 
   signingConfigs {
     create("release") {
-      val ksf = System.getenv("RELEASE_KEYSTORE")
+      val ksf = localProp("RELEASE_KEYSTORE")
       if (ksf != null) {
         storeFile = file(ksf)
-        storePassword = System.getenv("RELEASE_KEYSTORE_PW")
-        keyAlias = System.getenv("RELEASE_KEY_ALIAS")
-        keyPassword = System.getenv("RELEASE_KEY_PW")
+        storePassword = localProp("RELEASE_KEYSTORE_PW")
+        keyAlias = localProp("RELEASE_KEY_ALIAS")
+        keyPassword = localProp("RELEASE_KEY_PW")
       }
     }
   }
