@@ -65,3 +65,4 @@ PANTREE_ADMIN_KEY.txt
 # Keystore files (any location)
 *.keystore
 *.jks
+pan-tree/
