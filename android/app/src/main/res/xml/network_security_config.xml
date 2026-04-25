@@ -25,16 +25,14 @@
     </base-config>
 
     <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">pantrie.app</domain>
+        <domain includeSubdomains="true">brimmapp.com</domain>
         <domain includeSubdomains="true">workers.dev</domain>
         <trust-anchors>
             <certificates src="system"/>
         </trust-anchors>
-        <pin-set expiration="2027-01-01">
-            <!-- Primary Cloudflare edge SPKI -->
-            <pin digest="SHA-256">REPLACE_WITH_PRIMARY_PIN_BASE64=</pin>
-            <!-- Backup (different CA) so rotation never strands clients -->
-            <pin digest="SHA-256">REPLACE_WITH_BACKUP_PIN_BASE64=</pin>
-        </pin-set>
+        <!-- Pinning disabled for v0.1.2 launch — placeholder pins above were causing
+             SSLPeerUnverifiedException on first network call, crashing the app on launch.
+             Re-add real SPKI pins (see comment block at top) before promoting to Production.
+             System CA validation still applies; TLS is still mandatory. -->
     </domain-config>
 </network-security-config>
