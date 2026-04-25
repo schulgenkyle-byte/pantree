@@ -50,13 +50,20 @@ export const handleRecipes = {
     }
 
     // Daily swipe budget — counted from D1 interaction rows (source of truth).
-    // KV was fail-opening on quota exhaustion, which gave users unlimited swipes.
+    // Quota is per-content-bucket: food deck and Mixology deck (cocktail+mocktail) each
+    // get their own 20/day. Otherwise burning through 20 food swipes leaves Mixology
+    // empty for the rest of the day, which surprised testers.
     const dayKey = `swipe:${userId}:${day}`; // kept for backward-compat in interact() legacy writes
     const dayStartMs = day * 86400_000;
+    const isMixologyBucket = contentType === 'cocktail' || contentType === 'mocktail';
+    const bucketTypes = isMixologyBucket ? ['cocktail', 'mocktail'] : ['food'];
+    const placeholders = bucketTypes.map(() => '?').join(',');
     const swipeRow = await env.DB.prepare(
-      `SELECT COUNT(*) AS n FROM interaction
-        WHERE user_id = ? AND status IN ('saved','dismissed') AND created_at >= ?`
-    ).bind(userId, dayStartMs).first();
+      `SELECT COUNT(*) AS n FROM interaction i
+         JOIN recipe r ON r.id = i.recipe_id
+        WHERE i.user_id = ? AND i.status IN ('saved','dismissed') AND i.created_at >= ?
+          AND r.content_type IN (${placeholders})`
+    ).bind(userId, dayStartMs, ...bucketTypes).first();
     const used = swipeRow?.n || 0;
 
     // Tier check: active entitlement => Pro. Dev (.test) accounts get unlimited for QA.
@@ -71,12 +78,13 @@ export const handleRecipes = {
     const resetAt = (day + 1) * 86400_000;
 
     if (remaining === 0) {
+      const bucketLabel = isMixologyBucket ? 'cocktails' : 'recipes';
       return json({
         deck: [],
         dailyCap, remaining: 0, resetAt, tier,
         message: tier === 'free'
-          ? "You've seen your 20 free swipes today. Come back tomorrow, or upgrade to Brimm Pro for unlimited swipes."
-          : "You've worked through every match for today — come back tomorrow.",
+          ? `You've seen your 20 free ${bucketLabel} today. Come back tomorrow, or upgrade to Brimm Pro for unlimited swipes.`
+          : `You've worked through every ${bucketLabel.slice(0, -1)} match for today — come back tomorrow.`,
       }, 200, request, env);
     }
 
@@ -784,10 +792,18 @@ export const handleRecipes = {
     if (status === 'saved' || status === 'dismissed') {
       const day = Math.floor(Date.now() / 86400_000);
       const dayStartMs = day * 86400_000;
+      // Per-bucket quota (food vs cocktail/mocktail) — match the deck endpoint logic
+      // so the `remaining` field returned to the client is accurate per content type.
+      const recipeRow = await env.DB.prepare('SELECT content_type FROM recipe WHERE id = ?').bind(recipeId).first();
+      const isMixologyBucket = recipeRow?.content_type === 'cocktail' || recipeRow?.content_type === 'mocktail';
+      const bucketTypes = isMixologyBucket ? ['cocktail', 'mocktail'] : ['food'];
+      const placeholders = bucketTypes.map(() => '?').join(',');
       const swipeRow = await env.DB.prepare(
-        `SELECT COUNT(*) AS n FROM interaction
-          WHERE user_id = ? AND status IN ('saved','dismissed') AND created_at >= ?`
-      ).bind(userId, dayStartMs).first();
+        `SELECT COUNT(*) AS n FROM interaction i
+           JOIN recipe r ON r.id = i.recipe_id
+          WHERE i.user_id = ? AND i.status IN ('saved','dismissed') AND i.created_at >= ?
+            AND r.content_type IN (${placeholders})`
+      ).bind(userId, dayStartMs, ...bucketTypes).first();
       const used = swipeRow?.n || 0;
       const ent = await env.DB.prepare(
         'SELECT expires_at FROM entitlement WHERE user_id = ? AND expires_at > ?'
