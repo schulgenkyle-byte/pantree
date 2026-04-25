@@ -133,18 +133,33 @@ class BillingManager @Inject constructor(
         .build()
     }
     val all = mutableMapOf<String, ProductDetails>()
+    val errors = mutableListOf<String>()
     runCatching {
       val subResult = client.queryProductDetails(
         QueryProductDetailsParams.newBuilder().setProductList(subRows).build()
       )
+      val billingResult = subResult.billingResult
+      if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
+        errors += "subs query: code=${billingResult.responseCode} msg=${billingResult.debugMessage}"
+      }
       subResult.productDetailsList?.forEach { all[it.productId] = it }
-    }
+    }.onFailure { errors += "subs query threw: ${it.message ?: it::class.simpleName}" }
     runCatching {
       val inappResult = client.queryProductDetails(
         QueryProductDetailsParams.newBuilder().setProductList(inappRows).build()
       )
+      val billingResult = inappResult.billingResult
+      if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
+        errors += "inapp query: code=${billingResult.responseCode} msg=${billingResult.debugMessage}"
+      }
       inappResult.productDetailsList?.forEach { all[it.productId] = it }
-    }
+    }.onFailure { errors += "inapp query threw: ${it.message ?: it::class.simpleName}" }
+
+    android.util.Log.i(
+      "Billing",
+      "queryProducts: found ${all.size}/${SUBSCRIPTION_SKUS.size + INAPP_SKUS.size} " +
+        "(${all.keys.joinToString(",")}); errors: ${errors.joinToString(" | ").ifEmpty { "none" }}"
+    )
     _products.value = all
   }
 
@@ -168,11 +183,16 @@ class BillingManager @Inject constructor(
    * Result lands asynchronously via [purchaseEvents] (the PurchasesUpdatedListener callback).
    */
   suspend fun launchPurchase(activity: Activity, sku: String): Result<Unit> = runCatching {
-    if (!awaitReady()) error("Play Billing not connected")
+    android.util.Log.i("Billing", "launchPurchase($sku) start; products cached: ${_products.value.keys}")
+    if (!awaitReady()) error("Play Billing not connected — Google Play Services unavailable. Reboot phone or update Play Store app.")
     val product = _products.value[sku] ?: run {
       // Try a refresh in case it landed late.
+      android.util.Log.w("Billing", "launchPurchase($sku): product not in cache, retrying queryProducts()")
       queryProducts()
-      _products.value[sku] ?: error("Product $sku not found in Play Console — verify it's created and active")
+      _products.value[sku] ?: error(
+        "Product '$sku' not found in Google Play. Most likely Play Console subscription/in-app product " +
+          "isn't created or activated yet. Check Play Console → Monetization → Subscriptions / In-app products."
+      )
     }
 
     // For subscriptions, we need an offer token (the specific base plan / offer the user is buying).
