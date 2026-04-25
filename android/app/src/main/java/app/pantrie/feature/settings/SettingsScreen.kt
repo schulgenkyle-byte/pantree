@@ -152,6 +152,42 @@ fun SettingsScreen(
         Text(s.errorMessage ?: "", color = Terracotta, style = MaterialTheme.typography.bodySmall)
       }
 
+      // ---------- Mixology toggle ----------
+      // Hidden by default; 21+ disclaimer in the subtitle. Flips a device-local
+      // SharedPreferences flag, which MainActivity reads to decide whether to
+      // render the Mixology tab in the bottom nav.
+      Spacer(Modifier.height(24.dp))
+      val mixOn by vm.showMixology.collectAsState()
+      Surface(shape = RoundedCornerShape(8.dp), color = Paper, modifier = Modifier.fillMaxWidth()) {
+        Row(
+          Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+          verticalAlignment = Alignment.CenterVertically,
+        ) {
+          Column(Modifier.weight(1f)) {
+            Text(
+              "Show Mixology (cocktails)",
+              style = MaterialTheme.typography.titleMedium,
+              fontWeight = FontWeight.SemiBold,
+              color = Ink,
+            )
+            Spacer(Modifier.height(2.dp))
+            Text(
+              "Enables the cocktail deck with historic drinks and modernized recipes. Requires 21+.",
+              style = MaterialTheme.typography.bodySmall,
+              color = InkMuted,
+            )
+          }
+          Switch(
+            checked = mixOn,
+            onCheckedChange = vm::setShowMixology,
+            colors = SwitchDefaults.colors(
+              checkedThumbColor = Terracotta,
+              checkedTrackColor = Terracotta.copy(alpha = 0.4f),
+            ),
+          )
+        }
+      }
+
       Spacer(Modifier.height(24.dp))
       Button(
         onClick = vm::save,

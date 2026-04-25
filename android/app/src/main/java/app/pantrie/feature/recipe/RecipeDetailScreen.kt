@@ -7,6 +7,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -102,7 +103,7 @@ fun RecipeDetailScreen(
         Text("Long-press for substitutes.", style = MaterialTheme.typography.labelSmall)
       }
 
-      items(recipe.ingredients, key = { it.name + (it.unit ?: "") }) { ing ->
+      itemsIndexed(recipe.ingredients, key = { idx, ing -> "${idx}-${ing.name}" }) { _, ing ->
         Row(
           Modifier
             .fillMaxWidth()

@@ -237,6 +237,14 @@ export const handleAdmin = {
          FROM beta_feedback ORDER BY created_at DESC LIMIT 50`
     ).all();
 
+    // Catalog breakdown: total recipe count per content_type, with alcoholic split for cocktails.
+    const catalog = await env.DB.prepare(
+      `SELECT content_type, COALESCE(is_alcoholic, 0) AS alcoholic, COUNT(*) AS n
+         FROM recipe
+        GROUP BY content_type, alcoholic
+        ORDER BY content_type, alcoholic`
+    ).all();
+
     return json({
       users: users?.n || 0,
       dau: dau?.n || 0,
@@ -250,6 +258,7 @@ export const handleAdmin = {
       topEvents7d: topEvents?.results || [],
       topRecipes7d: topRecipes?.results || [],
       recentFeedback: recentFeedback?.results || [],
+      catalogBreakdown: catalog?.results || [],
       generatedAt: now,
     }, 200, request, env);
   },

@@ -333,7 +333,7 @@ private fun PaywallCard(message: String) {
       Spacer(Modifier.width(10.dp))
       Column(Modifier.weight(1f)) {
         Text(
-          "pan-tree Pro",
+          "Brimm Pro",
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.SemiBold, color = Terracotta,
         )

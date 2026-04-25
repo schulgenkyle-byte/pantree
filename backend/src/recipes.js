@@ -20,6 +20,12 @@ export const handleRecipes = {
     // Meal-target filter: narrows the candidate pool before ranking. One of:
     //   quick | comfort | healthy | breakfast | lunch | dinner | vegetarian | baking
     const mealFilter = (url.searchParams.get('filter') || '').toLowerCase();
+    // Content type: 'food' (default — the Tonight deck) or 'cocktail' | 'mocktail'
+    // for the Mixology tab. Restricts WHERE r.content_type = ? on the sample query.
+    const contentType = (url.searchParams.get('content_type') || 'food').toLowerCase();
+    // Photo-required: when client passes require_photo=1 (e.g. Mixology in MODERN mode),
+    // pre-filter at SQL so we don't waste 75-recipe sample slots on photoless cards.
+    const requirePhoto = url.searchParams.get('require_photo') === '1';
 
     // Load palate: explicit prefs + derived taste profile. Both are best-effort —
     // if either fails we fall back to neutral blending (no regression of existing logic).
@@ -29,9 +35,10 @@ export const handleRecipes = {
 
     // Per-user 2-minute cache. Bust on save/dismiss/cook/pantry-change (handled in those
     // handlers). Keying also by prefsKey so a preferences update invalidates the cache,
-    // and by mealFilter so filtered decks cache independently from the default deck.
+    // mealFilter so filtered decks cache independently, and contentType so the
+    // Mixology deck does not collide with the food deck.
     const day = Math.floor(Date.now() / 86400_000);
-    const cacheKey = `deck:${userId}:${prefsKey}:${day}:${mealFilter || 'all'}`;
+    const cacheKey = `deck:${userId}:${prefsKey}:${day}:${mealFilter || 'all'}:${contentType}:${requirePhoto ? 'p' : 'np'}`;
     if (env.RATE_LIMIT_KV) {
       const cached = await env.RATE_LIMIT_KV.get(cacheKey);
       if (cached) {
@@ -77,9 +84,15 @@ export const handleRecipes = {
     const excludedIds = new Set((excluded.results || []).map(r => r.recipe_id));
 
     // Pantry + expiring window (anything <= 5 days is "expiring")
-    const { results: pantry } = await env.DB.prepare(
-      'SELECT name, canonical_name, quantity, unit, expires_at FROM pantry_item WHERE user_id = ?'
-    ).bind(userId).all();
+    // For Mixology we prefer matches against bar items (spirits, mixers, bitters)
+    // — everything else is still considered but bar items lead the index so cocktails
+    // don't get starved by produce-heavy pantries.
+    const pantrySql = (contentType === 'cocktail' || contentType === 'mocktail')
+      ? `SELECT name, canonical_name, quantity, unit, expires_at,
+                CASE WHEN LOWER(COALESCE(category,'')) = 'bar' THEN 0 ELSE 1 END AS sort_key
+           FROM pantry_item WHERE user_id = ? ORDER BY sort_key ASC`
+      : 'SELECT name, canonical_name, quantity, unit, expires_at FROM pantry_item WHERE user_id = ?';
+    const { results: pantry } = await env.DB.prepare(pantrySql).bind(userId).all();
     const nowMs = Date.now();
     const EXPIRING_WINDOW_MS = 5 * 86400_000;
     // Prefer canonical_name when present; falls back to raw name
@@ -137,10 +150,34 @@ export const handleRecipes = {
         filterWhere = '';
     }
 
+    // Compose WHERE clause with content_type filter ANDed in. Default = 'food' so the
+    // Tonight deck never pulls cocktails; Mixology explicitly requests 'cocktail'.
+    // We wrap the existing filter in parens so any internal OR (e.g. the 'healthy'
+    // filter) doesn't accidentally short-circuit past the content_type guard.
+    let whereSql;
+    const whereBindings = [];
+    const ctClause = 'content_type = ?';
+    if (filterWhere) {
+      const inner = filterWhere.replace(/^WHERE\s+/i, '');
+      whereSql = `WHERE (${inner}) AND ${ctClause}`;
+    } else {
+      whereSql = `WHERE ${ctClause}`;
+    }
+    whereBindings.push(contentType);
+    // require_photo: hard SQL filter so the random sample doesn't waste slots on photoless rows.
+    if (requirePhoto) {
+      whereSql += ` AND image_url IS NOT NULL AND image_url != ''`;
+    }
+
     // 75-recipe random sample — plenty to find 10 good matches, minimal CPU.
+    // SELECT now also pulls the historic/cocktail metadata columns so the Mixology
+    // card can render glass, ABV, origin story, and the true-vintage toggle without
+    // an extra fetch. Columns coalesced in the payload below; untouched for food.
     const { results: recipes } = await env.DB.prepare(
-      `SELECT id, title, cuisine, description, skill_level, prep_minutes, cook_minutes, servings, avg_rating, total_ratings, cook_count, image_url, photo_credit, photo_license, photo_source_url, attribution FROM recipe ${filterWhere} ORDER BY RANDOM() LIMIT 75`
-    ).all();
+      `SELECT id, title, cuisine, description, skill_level, prep_minutes, cook_minutes, servings, avg_rating, total_ratings, cook_count, image_url, photo_credit, photo_license, photo_source_url, attribution,
+              content_type, is_historic, is_alcoholic, glass_type, method, garnish, abv_percent, original_text, modernized_text, contributor_name, contributor_story, source_year, source_book, source_region
+         FROM recipe ${whereSql} ORDER BY RANDOM() LIMIT 75`
+    ).bind(...whereBindings).all();
 
     const candidates = (recipes || []).filter(r => !excludedIds.has(r.id));
     if (candidates.length === 0) return json({ deck: [], dailyCap, remaining, resetAt, tier }, 200, request, env);
@@ -189,7 +226,16 @@ export const handleRecipes = {
         return indexMatch(i.name, pantryIdx) !== null;
       });
       const matched = haveFlags.filter(Boolean).length;
-      const percent = Math.round((matched / ingList.length) * 100);
+      // Exclude universal staples (salt/pepper/water) from the match %.
+      // Nobody cares "do I have water for the Manhattan." Count only real ingredients
+      // in both the numerator AND the denominator so staples don't inflate the score.
+      const staplePositions = ingList.map(i => isStaple(i.canonical_name || i.name));
+      const denominator = ingList.length - staplePositions.filter(Boolean).length;
+      const numerator = haveFlags
+        .filter((hit, idx) => hit && !staplePositions[idx]).length;
+      const percent = denominator > 0
+        ? Math.round((numerator / denominator) * 100)
+        : 0;
 
       const usesExpiring = ingList
         .filter(i => {
@@ -288,6 +334,21 @@ export const handleRecipes = {
           usesExpiring,
           maxServings,
           costPerServing,
+          // Cocktail / historic metadata — null for food recipes, populated for Mixology.
+          content_type: r.content_type || 'food',
+          is_historic: !!r.is_historic,
+          is_alcoholic: !!r.is_alcoholic,
+          glass_type: r.glass_type || null,
+          method: r.method || null,
+          garnish: r.garnish || null,
+          abv_percent: r.abv_percent ?? null,
+          original_text: r.original_text || null,
+          modernized_text: r.modernized_text || null,
+          contributor_name: r.contributor_name || null,
+          contributor_story: r.contributor_story || null,
+          source_year: r.source_year ?? null,
+          source_book: r.source_book || null,
+          source_region: r.source_region || null,
           ingredients: ingList.map((i, idx) => ({
             name: i.name, quantity: i.quantity, unit: i.unit, aisle: i.aisle,
             have: haveFlags[idx],
@@ -319,6 +380,63 @@ export const handleRecipes = {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'X-Cache': 'MISS' },
     });
+  },
+
+  /** Search recipes by title. Bars want to look up "Margarita" and see all 50 versions
+   *  in a grid. Results sorted by photo-first then by user engagement (saves desc).
+   *  Filters: ?q=name (required), ?content_type=cocktail|food (optional), ?limit=50 (max 100). */
+  async search(request, userId, env) {
+    const rl = await enforce(env, 'read', userId);
+    if (rl) return rl;
+    const url = new URL(request.url);
+    const q = (url.searchParams.get('q') || '').trim();
+    if (q.length < 2) return json({ results: [], total: 0 }, 200, request, env);
+    const contentType = (url.searchParams.get('content_type') || '').toLowerCase();
+    const limit = Math.max(1, Math.min(100, parseInt(url.searchParams.get('limit') || '50', 10)));
+    // Optional alcohol filter — '1' = alcoholic only, '0' = mocktails/zero-proof only.
+    const alcoholParam = url.searchParams.get('alcoholic');
+    const alcoholFilter = alcoholParam === '1' ? 1 : alcoholParam === '0' ? 0 : null;
+
+    const like = `%${q.replace(/[%_]/g, m => '\\' + m)}%`;
+    // Search both title AND ingredient names. Title matches rank higher (ORDER BY below).
+    let sql = `SELECT id, title, cuisine, image_url, content_type, source_year, source_book,
+                      glass_type, abv_percent, is_historic, is_alcoholic, avg_rating,
+                      (LOWER(title) LIKE LOWER(?) ESCAPE '\\') AS title_hit
+                 FROM recipe
+                WHERE (
+                  LOWER(title) LIKE LOWER(?) ESCAPE '\\'
+                  OR id IN (
+                    SELECT recipe_id FROM recipe_ingredient
+                     WHERE LOWER(name) LIKE LOWER(?) ESCAPE '\\'
+                     LIMIT 500
+                  )
+                )`;
+    const bindings = [like, like, like];
+    if (contentType === 'cocktail' || contentType === 'mocktail') {
+      sql += ` AND content_type IN ('cocktail','mocktail')`;
+    } else if (contentType === 'food') {
+      sql += ` AND (content_type = 'food' OR content_type IS NULL)`;
+    }
+    if (alcoholFilter !== null) {
+      sql += ` AND COALESCE(is_alcoholic, 0) = ?`;
+      bindings.push(alcoholFilter);
+    }
+    // Title matches first, then photo'd, then quality, then alphabetic.
+    sql += ` ORDER BY title_hit DESC,
+                      (image_url IS NOT NULL AND image_url != '') DESC,
+                      COALESCE(avg_rating, 0) DESC,
+                      title ASC
+              LIMIT ?`;
+    bindings.push(limit);
+    const { results } = await env.DB.prepare(sql).bind(...bindings).all();
+    // Coerce SQLite ints → real booleans so kotlinx.serialization on Android can parse.
+    // (Other deck/get endpoints already do this; the search handler missed it.)
+    const coerced = (results || []).map(r => ({
+      ...r,
+      is_historic: !!r.is_historic,
+      is_alcoholic: !!r.is_alcoholic,
+    }));
+    return json({ results: coerced, total: coerced.length }, 200, request, env);
   },
 
   /** All recipes the user has saved (swiped right on) — ordered newest-first,
@@ -402,6 +520,8 @@ export const handleRecipes = {
       const key = (i.canonical_name || i.name || '').toLowerCase().trim();
       if (!key || have.has(key)) continue;
       if (isStaple(i.name) || isStaple(key)) continue;  // skip salt/pepper/water
+      // Block obvious junk: undefined / empty / pure numerals / 1-char names
+      if (!key || key === 'undefined' || key === 'null' || key.length < 2 || /^[\d\s./,&-]+$/.test(key)) continue;
       if (key.length > 35 || /\.\s*$/.test(key)) continue;
       if (/^(cover|bring|allow|leave|serve|taste|place|spoon|press|enjoy|repeat|apply|smear|layer|whisk|knead|brush|let |wait|cool|warm|drain|remove|unwrap|wrap |cut |mix |chop |dice |peel |rinse|grate|shred|slice|blend|crush|mince|stir |fold |drizzl|sprink|arrang|spread|put |add |combine|pour |heat |simmer|reduce|transfer)/.test(key)) continue;
       const existing = await env.DB.prepare(
@@ -696,6 +816,8 @@ export const handleRecipes = {
         // Synonym / canonical / token match — matches the deck's "have" calculation.
         if (indexMatch(i.canonical_name || i.name, pantryIdx) !== null) continue;
         if (isStaple(i.name) || isStaple(key)) continue;  // skip salt/pepper/water
+      // Block obvious junk: undefined / empty / pure numerals / 1-char names
+      if (!key || key === 'undefined' || key === 'null' || key.length < 2 || /^[\d\s./,&-]+$/.test(key)) continue;
         // Filter obvious instruction fragments that slipped into ingredient tables
         // (mostly Wikibooks imports). Reject names that are too long, end with a
         // period, or start with an imperative verb.

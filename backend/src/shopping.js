@@ -64,11 +64,32 @@ export const handleShopping = {
     }
     expiringItems.sort((a, b) => a.daysLeft - b.daysLeft);
 
-    // 3) "Unlock more recipes" — find ingredients that, if added, would enable the most recipes
-    //    Strategy: pull top-100 recipes, for each count what pantry items cover. Find ingredients
-    //    the user is missing across many close-match recipes.
+    // 3) "Unlock more recipes" — only suggest HIGH-VALUE ingredients.
+    // Rules:
+    //   - Pull top 600 food recipes (skip cocktails — they shouldn't suggest spirits to a cooking shopper)
+    //   - Skip junk: undefined, empty, stopwords, single-letter, "1/2", numerals
+    //   - Skip universal staples (water/salt/pepper) — already always-have
+    //   - Min unlock count = 5 recipes (no more "flavored water → 1 new recipe" garbage)
+    const JUNK = new Set([
+      'undefined', 'null', '', 'water', 'salt', 'pepper', 'ice',
+      'oil', 'cooking oil', 'vegetable oil', 'olive oil',
+      'salt and pepper', 'pinch of salt', 'pinch of pepper',
+      'taste', 'to taste', 'as needed', 'optional',
+      'garnish', 'for garnish', 'for serving', 'for dusting',
+      'flavored water', 'sparkling water', 'tap water',
+      'half', 'whole', 'small', 'large', 'medium', 'fresh',
+    ]);
+    const isJunk = n => {
+      const t = n.trim();
+      if (!t) return true;
+      if (JUNK.has(t)) return true;
+      if (t.length < 3) return true;             // "a", "1/2"
+      if (/^\d/.test(t)) return true;            // "1/2 cup"
+      if (/^[\d\s./,&-]+$/.test(t)) return true; // pure numbers/punct
+      return false;
+    };
     const { results: recipes } = await env.DB.prepare(
-      'SELECT id, title, cuisine FROM recipe ORDER BY avg_rating DESC, ROWID LIMIT 100'
+      "SELECT id, title, cuisine FROM recipe WHERE (content_type = 'food' OR content_type IS NULL) ORDER BY avg_rating DESC, cook_count DESC, ROWID LIMIT 600"
     ).all();
     const recipeIds = (recipes || []).map(r => r.id);
     const unlockMap = new Map();
@@ -81,17 +102,17 @@ export const handleShopping = {
         ).bind(...chunk).all();
         const byRecipe = new Map();
         for (const x of ings || []) {
+          const norm = String(x.name || '').toLowerCase().trim();
+          if (isJunk(norm)) continue;
           if (!byRecipe.has(x.recipe_id)) byRecipe.set(x.recipe_id, []);
-          byRecipe.get(x.recipe_id).push(String(x.name || '').toLowerCase().trim());
+          byRecipe.get(x.recipe_id).push(norm);
         }
         for (const rid of chunk) {
           const recipeIngs = byRecipe.get(rid) || [];
-          if (recipeIngs.length < 2) continue;
+          if (recipeIngs.length < 3) continue;
           const missing = recipeIngs.filter(n => !pantryNames.has(n));
-          // Only consider "close" recipes (missing 1-3 ingredients)
           if (missing.length === 0 || missing.length > 3) continue;
           for (const m of missing) {
-            if (!m) continue;
             const rec = recipes.find(r => r.id === rid);
             if (!unlockMap.has(m)) unlockMap.set(m, { ingredient: m, count: 0, recipes: [] });
             const entry = unlockMap.get(m);
@@ -101,7 +122,9 @@ export const handleShopping = {
         }
       }
     }
+    const MIN_UNLOCK_COUNT = 5;
     const unlocks = [...unlockMap.values()]
+      .filter(u => u.count >= MIN_UNLOCK_COUNT)   // no more 1-recipe junk suggestions
       .sort((a, b) => b.count - a.count)
       .slice(0, 5);
 
@@ -150,6 +173,11 @@ export const handleShopping = {
     // Silently drop universal staples (salt/pepper/water). Every kitchen has
     // these — adding them to shopping is noise.
     if (isStaple(name)) return json({ ok: true, skipped: 'staple' }, 200, request, env);
+    // Reject obvious garbage names (undefined / empty / pure numerals / single chars).
+    const cleaned = String(name).toLowerCase().trim();
+    if (!cleaned || cleaned === 'undefined' || cleaned === 'null' || cleaned.length < 2 || /^[\d\s./,&-]+$/.test(cleaned)) {
+      return json({ ok: true, skipped: 'junk' }, 200, request, env);
+    }
 
     const id = uid();
     await env.DB.prepare(

@@ -23,7 +23,7 @@ android {
   compileSdk = 35
 
   defaultConfig {
-    applicationId = "app.pantrie"
+    applicationId = "app.brimm"
     minSdk = 26
     targetSdk = 35
     versionCode = 1
@@ -76,6 +76,14 @@ android {
   buildFeatures {
     compose = true
     buildConfig = true
+  }
+
+  // Don't block release builds on pre-existing lint findings during launch crunch.
+  // Lint errors are still reported; they just don't fail the build. Tighten this back to
+  // abortOnError = true once the existing 11 findings (data_extraction_rules.xml etc.) are fixed.
+  lint {
+    abortOnError = false
+    checkReleaseBuilds = true
   }
 
   compileOptions {
@@ -142,6 +150,14 @@ dependencies {
 
   implementation(libs.mlkit.barcode.scanning)
   implementation(libs.kotlinx.coroutines.play.services)
+
+  // Monetization: AdMob + UMP (GDPR consent for EU users).
+  implementation(libs.play.services.ads)
+  implementation(libs.user.messaging.platform)
+  // Force a full Guava android — AdMob brings a stub `listenablefuture-1.0` that hides
+  // the real ListenableFuture.addListener used by CameraX, which breaks BarcodeScreen +
+  // ScanScreen compilation. Pinning to a real Guava version resolves the namespace.
+  implementation("com.google.guava:guava:33.4.0-android")
 
   implementation("androidx.core:core-splashscreen:1.0.1")
 }

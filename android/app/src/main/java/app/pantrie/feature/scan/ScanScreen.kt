@@ -100,7 +100,7 @@ fun ScanScreen(
   val thumbnails = remember { mutableStateListOf<android.graphics.Bitmap>() }
   var showDiscardDialog by remember { mutableStateOf(false) }
 
-  val inCapture = initialMode == ScanMode.PantryPhoto && state is ScanUiState.Idle
+  val inCapture = (initialMode == ScanMode.PantryPhoto || initialMode == ScanMode.BarShelf) && state is ScanUiState.Idle
 
   BackHandler(enabled = inCapture && capturedPhotos.isNotEmpty()) {
     showDiscardDialog = true
@@ -128,7 +128,16 @@ fun ScanScreen(
   Scaffold(
     topBar = {
       TopAppBar(
-        title = { Text(if (initialMode == ScanMode.Receipt) "Scan receipt" else "Scan pantry", style = MaterialTheme.typography.titleLarge) },
+        title = {
+          Text(
+            when (initialMode) {
+              ScanMode.Receipt -> "Scan receipt"
+              ScanMode.BarShelf -> "Scan bar"
+              else -> "Scan pantry"
+            },
+            style = MaterialTheme.typography.titleLarge,
+          )
+        },
         navigationIcon = {
           IconButton(onClick = {
             if (inCapture && capturedPhotos.isNotEmpty()) showDiscardDialog = true
@@ -143,7 +152,7 @@ fun ScanScreen(
     Box(modifier = Modifier.padding(padding).fillMaxSize()) {
       when (val s = state) {
         ScanUiState.Idle -> {
-          if (initialMode == ScanMode.PantryPhoto) {
+          if (initialMode == ScanMode.PantryPhoto || initialMode == ScanMode.BarShelf) {
             MultiCaptureView(
               photos = capturedPhotos,
               thumbnails = thumbnails,
@@ -199,7 +208,7 @@ fun ScanScreen(
           ReviewView(
             items = s.items,
             onToggle = vm::toggleAccept,
-            onSave = vm::saveAccepted,
+            onSave = { vm.saveAccepted(initialMode) },
             onCancel = {
               // Reset both VM and local capture buffer so user returns to fresh capture.
               capturedPhotos.clear()
@@ -377,7 +386,7 @@ private fun MultiCaptureView(
       verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
       Text(
-        if (count == 0) "Tap the shutter to add photos." else "Review thumbnails — tap X to remove.",
+        if (count == 0) "Snap image" else "Tap X to remove.",
         style = MaterialTheme.typography.bodyMedium,
         color = InkMuted,
       )

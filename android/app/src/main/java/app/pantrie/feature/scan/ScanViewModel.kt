@@ -31,7 +31,7 @@ import java.io.File
 import java.util.UUID
 import javax.inject.Inject
 
-enum class ScanMode { PantryPhoto, Receipt }
+enum class ScanMode { PantryPhoto, Receipt, BarShelf }
 
 sealed interface ScanUiState {
   data object Idle : ScanUiState
@@ -82,8 +82,13 @@ class ScanViewModel @Inject constructor(
 
         val req = ScanRequest(image = dataUrl, mode = "multi", existingItems = emptyList())
         val review = when (mode) {
-          ScanMode.PantryPhoto -> api.scan(req).let { r ->
-            if (!r.ok || r.items.isEmpty()) { _state.value = ScanUiState.Error(r.error ?: "No items detected. Try a clearer photo."); return@launch }
+          ScanMode.PantryPhoto, ScanMode.BarShelf -> api.scan(req).let { r ->
+            if (!r.ok || r.items.isEmpty()) {
+              _state.value = ScanUiState.Error(
+                r.error ?: if (mode == ScanMode.BarShelf) "No bottles detected. Try better lighting." else "No items detected. Try a clearer photo.",
+              )
+              return@launch
+            }
             r.items.map { it.toReview() }
           }
           ScanMode.Receipt -> api.scanReceipt(req).let { r ->
@@ -152,18 +157,20 @@ class ScanViewModel @Inject constructor(
     _state.value = ScanUiState.Review(curr.items.map { if (it.id == id) it.copy(accept = !it.accept) else it }, curr.mode)
   }
 
-  fun saveAccepted() {
+  fun saveAccepted(mode: ScanMode = ScanMode.PantryPhoto) {
     val curr = _state.value as? ScanUiState.Review ?: return
     viewModelScope.launch {
       val accepted = curr.items.filter { it.accept }
-      // Send to backend FIRST (source of truth for recipe matching) then mirror to Room.
+      // Bar-shelf scan: force every accepted item into the 'bar' aisle so Mixology
+      // pantry-matching picks up spirits/mixers cleanly. Other modes keep the inferred category.
+      val forcedAisle = if (mode == ScanMode.BarShelf) "bar" else null
       runCatching {
         api.addPantryItemsBulk(
           PantryBulkRequest(
             items = accepted.map {
               PantryAddRequest(
                 name = it.name,
-                category = it.category,
+                category = forcedAisle ?: it.category,
                 quantity = it.quantity,
                 unit = it.unit,
                 expiresAt = null,

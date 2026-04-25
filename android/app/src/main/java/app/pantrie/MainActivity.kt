@@ -34,6 +34,7 @@ import app.pantrie.feature.beta.CommunityScreen
 import app.pantrie.feature.cook.CookModeScreen
 import app.pantrie.feature.deck.DeckScreen
 import app.pantrie.feature.mealprep.MealPrepScreen
+import app.pantrie.feature.mixology.MixologyScreen
 import app.pantrie.feature.notifications.NotificationScheduler
 import app.pantrie.feature.notifications.RescanWorker
 import app.pantrie.feature.onboarding.OnboardingScreen
@@ -41,10 +42,12 @@ import app.pantrie.feature.pantry.PantryScreen
 import app.pantrie.feature.plan.PlanScreen
 import app.pantrie.feature.recipe.RecipeDetailScreen
 import app.pantrie.feature.saved.SavedScreen
+import app.pantrie.feature.search.SearchSheet
 import app.pantrie.feature.submit.MySubmissionsScreen
 import app.pantrie.feature.submit.SubmitRecipeScreen
 import app.pantrie.feature.scan.ScanMode
 import app.pantrie.feature.scan.ScanScreen
+import app.pantrie.feature.settings.LocalSettingsStore
 import app.pantrie.feature.settings.SettingsScreen
 import app.pantrie.feature.shopping.ShoppingScreen
 import app.pantrie.network.PantrieApi
@@ -57,6 +60,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
   @Inject lateinit var analytics: Analytics
   @Inject lateinit var api: PantrieApi
+  @Inject lateinit var localSettings: LocalSettingsStore
 
   override fun onCreate(savedInstanceState: Bundle?) {
     installSplashScreen()
@@ -69,7 +73,12 @@ class MainActivity : ComponentActivity() {
     setContent {
       PantrieTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          PantrieNav(analytics = analytics, api = api, initialDeepLink = initialNavTarget)
+          PantrieNav(
+            analytics = analytics,
+            api = api,
+            localSettings = localSettings,
+            initialDeepLink = initialNavTarget,
+          )
         }
       }
     }
@@ -99,22 +108,42 @@ fun SensitiveScreen(sensitive: Boolean, content: @Composable () -> Unit) {
 
 private data class Tab(val route: String, val label: String, val icon: ImageVector)
 
-private val TABS = listOf(
-  Tab("pantry", "Pantry", Icons.Outlined.Kitchen),
-  Tab("deck", "Tonight", Icons.Outlined.Explore),
-  Tab("shopping", "Shop", Icons.Outlined.ShoppingCart),
-  Tab("plan", "Plan", Icons.Outlined.CalendarMonth),
+// Streamlined bottom nav: Home + Feed + You. Pantry/Shop/Plan live as quick-action
+// buttons on the Home screen to reclaim the half-inch of wasted bottom space.
+private val BASE_TABS = listOf(
+  Tab("deck", "Culinary", Icons.Outlined.SoupKitchen),
   Tab("community", "Feed", Icons.Outlined.Forum),
   Tab("settings", "You", Icons.Outlined.Settings),
 )
 
+private val MIXOLOGY_TAB = Tab("mixology", "Mixology", Icons.Outlined.LocalBar)
+
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
-fun PantrieNav(analytics: Analytics, api: PantrieApi, initialDeepLink: String? = null) {
+fun PantrieNav(
+  analytics: Analytics,
+  api: PantrieApi,
+  localSettings: LocalSettingsStore,
+  initialDeepLink: String? = null,
+) {
   val nav = rememberNavController()
   val backStack by nav.currentBackStackEntryAsState()
   val currentRoute = backStack?.destination?.route
-  val showBottomBar = currentRoute in TABS.map { it.route }
+
+  // Mixology tab is opt-in (Settings → Show Mixology). Inserted between Tonight
+  // and Shop so it reads as the second "what to make" tab.
+  val showMixology by localSettings.showMixology.collectAsState()
+  val tabs = remember(showMixology) {
+    if (showMixology) {
+      BASE_TABS.toMutableList().apply { add(2, MIXOLOGY_TAB) }
+    } else BASE_TABS
+  }
+  // Show bottom nav on every logged-in screen so users can always navigate home.
+  // Hide only on login / onboarding / deep drill-downs that own the whole screen (scan, cook, etc).
+  val fullScreenRoutes = setOf("login", "onboarding", "scan", "receipt", "barcode")
+  val showBottomBar = currentRoute != null
+    && currentRoute !in fullScreenRoutes
+    && !(currentRoute.startsWith("cook/"))
 
   LaunchedEffect(currentRoute) {
     analytics.setRoute(currentRoute)
@@ -144,12 +173,25 @@ fun PantrieNav(analytics: Analytics, api: PantrieApi, initialDeepLink: String? =
   var fbOffsetX by rememberSaveable { mutableFloatStateOf(0f) }
   var fbOffsetY by rememberSaveable { mutableFloatStateOf(0f) }
 
+  // Theme the bottom nav + FAB for Mixology. Default to DARK (modern speakeasy) vibe;
+  // switches to sepia only if we later expose vintageMode globally. MVP: always dark on Mixology.
+  val isMixology = currentRoute == "mixology"
+  val darkBg = androidx.compose.ui.graphics.Color(0xFF0D0D0E)
+  val goldAccent = androidx.compose.ui.graphics.Color(0xFFC9A554)
+  val mutedGold = androidx.compose.ui.graphics.Color(0xFF8B8578)
+  val navBg = if (isMixology) darkBg
+    else MaterialTheme.colorScheme.surface
+  val navItemSelected = if (isMixology) goldAccent
+    else MaterialTheme.colorScheme.onSurface
+  val navItemUnselected = if (isMixology) mutedGold
+    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+
   Box(modifier = Modifier.fillMaxSize()) {
   Scaffold(
     bottomBar = {
       if (showBottomBar) {
-        NavigationBar {
-          TABS.forEach { tab ->
+        NavigationBar(containerColor = navBg) {
+          tabs.forEach { tab ->
             NavigationBarItem(
               selected = currentRoute == tab.route,
               onClick = {
@@ -182,6 +224,14 @@ fun PantrieNav(analytics: Analytics, api: PantrieApi, initialDeepLink: String? =
                 }
               },
               label = { Text(tab.label, maxLines = 1, softWrap = false) },
+              colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = navItemSelected,
+                selectedTextColor = navItemSelected,
+                unselectedIconColor = navItemUnselected,
+                unselectedTextColor = navItemUnselected,
+                indicatorColor = if (isMixology) goldAccent.copy(alpha = 0.15f)
+                  else MaterialTheme.colorScheme.secondaryContainer,
+              ),
             )
           }
         }
@@ -199,14 +249,14 @@ fun PantrieNav(analytics: Analytics, api: PantrieApi, initialDeepLink: String? =
           analytics.track("login_success")
           scope.launch {
             val onboarded = runCatching { api.getPreferences().onboarded }.getOrDefault(false)
-            val dest = if (onboarded) "pantry" else "onboarding"
+            val dest = if (onboarded) "deck" else "onboarding"
             nav.navigate(dest) { popUpTo("login") { inclusive = true } }
           }
         })
       }
       composable("onboarding") {
         OnboardingScreen(onDone = {
-          nav.navigate("pantry") { popUpTo("onboarding") { inclusive = true } }
+          nav.navigate("deck") { popUpTo("onboarding") { inclusive = true } }
         })
       }
       composable("pantry") {
@@ -221,6 +271,37 @@ fun PantrieNav(analytics: Analytics, api: PantrieApi, initialDeepLink: String? =
           onOpenRecipe = { nav.navigate("recipe/$it") },
           onStartCook = { nav.navigate("cook/$it") },
           onOpenSaved = { nav.navigate("saved") },
+          onOpenPantry = { nav.navigate("pantry") },
+          onOpenShopping = { nav.navigate("shopping") },
+          onOpenPlan = { nav.navigate("plan") },
+          onOpenSearch = { nav.navigate("search?type=food") },
+        )
+      }
+      composable("mixology") {
+        MixologyScreen(
+          onOpenSaved = { nav.navigate("saved") },
+          onScanBar = { nav.navigate("scan_bar") },
+          onOpenShopping = { nav.navigate("shopping") },
+          onOpenPlan = { nav.navigate("plan") },
+          onOpenSearch = { nav.navigate("search?type=cocktail") },
+        )
+      }
+      composable(
+        route = "search?type={type}",
+        arguments = listOf(navArgument("type") {
+          type = NavType.StringType
+          defaultValue = ""
+        }),
+      ) { back ->
+        val type = back.arguments?.getString("type")?.takeIf { it.isNotBlank() }
+        SearchSheet(
+          contentType = type,
+          onBack = { nav.popBackStack() },
+          onPick = { id ->
+            nav.navigate("recipe/$id") {
+              popUpTo("search?type={type}") { inclusive = true }
+            }
+          },
         )
       }
       composable("saved") {
@@ -258,6 +339,7 @@ fun PantrieNav(analytics: Analytics, api: PantrieApi, initialDeepLink: String? =
       composable("mealprep") { MealPrepScreen(onBack = { nav.popBackStack() }) }
       composable("scan") { ScanScreen(onDone = { nav.popBackStack() }, initialMode = ScanMode.PantryPhoto) }
       composable("receipt") { ScanScreen(onDone = { nav.popBackStack() }, initialMode = ScanMode.Receipt) }
+      composable("scan_bar") { ScanScreen(onDone = { nav.popBackStack() }, initialMode = ScanMode.BarShelf) }
       composable("barcode") { BarcodeScreen(onDone = { nav.popBackStack() }) }
       composable(
         route = "recipe/{recipeId}",
@@ -281,7 +363,8 @@ fun PantrieNav(analytics: Analytics, api: PantrieApi, initialDeepLink: String? =
   if (currentRoute != null && currentRoute != "login" && currentRoute != "onboarding") {
     SmallFloatingActionButton(
       onClick = { analytics.track("beta_feedback_opened"); showFeedback = true },
-      containerColor = MaterialTheme.colorScheme.secondaryContainer,
+      containerColor = if (isMixology) darkBg else MaterialTheme.colorScheme.secondaryContainer,
+      contentColor = if (isMixology) goldAccent else androidx.compose.material3.contentColorFor(MaterialTheme.colorScheme.secondaryContainer),
       modifier = Modifier
         .align(Alignment.BottomEnd)
         .padding(end = 16.dp, bottom = if (showBottomBar) 96.dp else 24.dp)

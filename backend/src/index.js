@@ -114,6 +114,7 @@ export default {
       if (path === '/auth/logout-all' && request.method === 'POST') return handleAuth.logoutAll(request, userId, env, authPayload);
 
       if (path === '/recipes/deck' && request.method === 'GET') return handleRecipes.deck(userId, env, request);
+      if (path === '/recipes/search' && request.method === 'GET') return handleRecipes.search(request, userId, env);
       if (path === '/me/saved' && request.method === 'GET') return handleRecipes.saved(userId, env, request);
       if (path === '/interactions/reshop' && request.method === 'POST') return handleRecipes.reshop(request, userId, env);
       const recipeMatch = path.match(/^\/recipes\/([\w-]+)$/);

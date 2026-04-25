@@ -1,0 +1,1 @@
+SELECT id, title FROM recipe WHERE audit_status='needs_redo' AND modernized_text IS NULL ORDER BY id LIMIT 3;

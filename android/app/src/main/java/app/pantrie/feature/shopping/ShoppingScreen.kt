@@ -15,6 +15,8 @@ import androidx.compose.material.icons.outlined.CheckBox
 import androidx.compose.material.icons.outlined.CheckBoxOutlineBlank
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
+import androidx.compose.material.icons.outlined.ExpandLess
+import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.RadioButtonChecked
 import androidx.compose.material.icons.outlined.RadioButtonUnchecked
@@ -22,6 +24,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.Alignment
@@ -164,13 +169,40 @@ class ShoppingViewModel @Inject constructor(
 private val AISLES = listOf(
   "produce", "bakery", "deli", "protein", "dairy",
   "frozen", "grain", "pantry", "spice", "condiment",
-  "beverage", "other",
+  "bar", "beverage", "other",
+)
+
+// Walk-the-store order. Each aisle = colored accordion spine, like Library books.
+private data class AisleMeta(val key: String, val label: String, val emoji: String, val color: Color)
+private val AISLE_WALK_ORDER = listOf(
+  AisleMeta("produce",   "Produce",   "🥬", Color(0xFF7A8450)),  // olive
+  AisleMeta("bakery",    "Bakery",    "🥖", Color(0xFFB58A4D)),  // wheat
+  AisleMeta("deli",      "Deli",      "🧀", Color(0xFFD4A017)),  // amber
+  AisleMeta("protein",   "Protein",   "🥩", Color(0xFFB04A3C)),  // terracotta
+  AisleMeta("dairy",     "Dairy",     "🥛", Color(0xFF6F8FB5)),  // soft blue
+  AisleMeta("frozen",    "Frozen",    "❄",  Color(0xFF4A7BA3)),  // ice blue
+  AisleMeta("grain",     "Grain",     "🌾", Color(0xFF8C6E3F)),  // tan
+  AisleMeta("pantry",    "Pantry",    "🥫", Color(0xFF6E5638)),  // brown
+  AisleMeta("spice",     "Spice",     "🌶", Color(0xFFB55D2F)),  // paprika
+  AisleMeta("condiment", "Condiment", "🍯", Color(0xFFB58F2E)),  // honey
+  AisleMeta("bar",       "Bar",       "🥃", Color(0xFF2F2A22)),  // speakeasy black
+  AisleMeta("beverage",  "Beverage",  "🥤", Color(0xFF5C8A7A)),  // sea
+  AisleMeta("other",     "Other",     "📦", Color(0xFF6A6864)),  // muted ink
+)
+
+private val ExpandedAislesSaver: Saver<MutableState<Set<String>>, ArrayList<String>> = Saver(
+  save = { ArrayList(it.value) },
+  restore = { mutableStateOf(it.toSet()) },
 )
 
 @Composable
 fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
   val smart by vm.smart.collectAsState()
   val loading by vm.loading.collectAsState()
+  // All aisles default expanded (matches user expectation when shopping). State survives rotation.
+  val expandedAisles = rememberSaveable(saver = ExpandedAislesSaver) {
+    mutableStateOf(AISLE_WALK_ORDER.map { it.key }.toSet())
+  }
   // Refresh the nav badge when the expiring count may have changed
   val appVm: app.pantrie.feature.app.AppStateViewModel = hiltViewModel()
   LaunchedEffect(smart) { appVm.refresh() }
@@ -193,8 +225,9 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
   val s = smart
 
   Scaffold(containerColor = Cream) { padding ->
+   Column(Modifier.padding(padding).fillMaxSize()) {
     LazyColumn(
-      Modifier.padding(padding).fillMaxSize(),
+      Modifier.weight(1f).fillMaxWidth(),
       contentPadding = PaddingValues(bottom = 24.dp),
     ) {
       item {
@@ -297,20 +330,55 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
         }
       }
 
-      // Regular list grouped by aisle
+      // Regular list grouped by aisle — Library-style accordion spines, walk-the-store order.
       val items = s?.items.orEmpty()
-      val byAisle = items.groupBy { it.aisle ?: "other" }.toSortedMap()
+      val byAisle = items.groupBy { (it.aisle ?: "other").lowercase() }
+      val orderedAisles = AISLE_WALK_ORDER.filter { byAisle.containsKey(it.key) }
       if (items.isNotEmpty()) item { SectionHeader("Your list") }
-      byAisle.forEach { (aisle, list) ->
-        item {
-          Text(
-            aisle.replaceFirstChar { it.uppercase() },
-            style = MaterialTheme.typography.labelMedium,
-            color = InkSoft,
-            modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 12.dp, bottom = 4.dp),
-          )
+      orderedAisles.forEach { aisleMeta ->
+        val list = byAisle[aisleMeta.key] ?: emptyList()
+        val isOpen = aisleMeta.key in expandedAisles.value
+        item(key = "spine-${aisleMeta.key}") {
+          Surface(
+            onClick = {
+              expandedAisles.value = if (isOpen) expandedAisles.value - aisleMeta.key
+              else expandedAisles.value + aisleMeta.key
+            },
+            shape = RoundedCornerShape(10.dp),
+            color = aisleMeta.color,
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(horizontal = 16.dp, vertical = 4.dp),
+          ) {
+            Row(
+              Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+              verticalAlignment = Alignment.CenterVertically,
+            ) {
+              Text(aisleMeta.emoji, fontSize = 20.sp)
+              Spacer(Modifier.width(10.dp))
+              Text(
+                aisleMeta.label,
+                style = MaterialTheme.typography.titleMedium,
+                color = androidx.compose.ui.graphics.Color.White,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.weight(1f),
+              )
+              Text(
+                "${list.size}",
+                style = MaterialTheme.typography.labelMedium,
+                color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.8f),
+                fontWeight = FontWeight.SemiBold,
+              )
+              Spacer(Modifier.width(8.dp))
+              Icon(
+                if (isOpen) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore,
+                contentDescription = if (isOpen) "Collapse" else "Expand",
+                tint = androidx.compose.ui.graphics.Color.White,
+              )
+            }
+          }
         }
-        items(list, key = { it.id }) { item ->
+        if (isOpen) items(list, key = { it.id }) { item ->
           ShoppingRow(
             item,
             onToggle = { vm.toggleChecked(item) },
@@ -347,6 +415,10 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
         }
       }
     }
+
+    // Banner pinned at bottom — only renders for non-Pro. Hidden if Pro.
+    app.pantrie.billing.BannerAd()
+   } // close Column
 
     // Aisle re-file sheet. Rendered inside the Scaffold so it gets proper insets.
     moveTarget?.let { item ->
@@ -414,13 +486,28 @@ private fun UnlockRow(sug: UnlockSuggestion, onAdd: () -> Unit) {
   ) {
     Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
       Column(Modifier.weight(1f)) {
-        Text(sug.ingredient, style = MaterialTheme.typography.titleMedium, color = Ink)
-        val recipeHint = sug.recipes.take(2).joinToString(", ") { it.title }
         Text(
-          "+${sug.count} recipes${if (recipeHint.isNotBlank()) " · $recipeHint" else ""}",
-          style = MaterialTheme.typography.bodySmall, color = Olive, fontWeight = FontWeight.Medium,
-          maxLines = 1,
+          "Add ${sug.ingredient}",
+          style = MaterialTheme.typography.titleMedium,
+          color = Ink,
+          fontWeight = FontWeight.SemiBold,
         )
+        Text(
+          "Unlocks ${sug.count} new recipes",
+          style = MaterialTheme.typography.bodyMedium,
+          color = Olive,
+          fontWeight = FontWeight.Bold,
+        )
+        val recipeHint = sug.recipes.take(2).joinToString(", ") { it.title }
+        if (recipeHint.isNotBlank()) {
+          Text(
+            "incl. $recipeHint",
+            style = MaterialTheme.typography.labelSmall,
+            color = InkMuted,
+            fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+            maxLines = 1,
+          )
+        }
       }
       Button(
         onClick = onAdd,

@@ -31,9 +31,18 @@ data class SettingsState(
 class SettingsViewModel @Inject constructor(
   private val api: PantrieApi,
   private val analytics: Analytics,
+  private val localSettings: LocalSettingsStore,
 ) : ViewModel() {
   private val _state = MutableStateFlow(SettingsState())
   val state = _state.asStateFlow()
+
+  /** Exposed so the Settings screen can render the Mixology toggle row. */
+  val showMixology = localSettings.showMixology
+
+  fun setShowMixology(on: Boolean) {
+    localSettings.setShowMixology(on)
+    analytics.track("mixology_toggle", mapOf("on" to on))
+  }
 
   init { load() }
 

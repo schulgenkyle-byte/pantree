@@ -16,12 +16,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Kitchen
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.People
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material.icons.outlined.SoupKitchen
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -66,11 +71,18 @@ import app.pantrie.ui.theme.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import javax.inject.Inject
 
 private const val SWIPE_THRESHOLD_DP = 110f
+
+/** One-shot UI events emitted after a swipe consumes a quota slot. */
+sealed interface SwipeOutcomeEvent {
+  data object ShowAd : SwipeOutcomeEvent
+  data object Wall : SwipeOutcomeEvent
+}
 
 /** Soft background tints per cuisine — gives each card visual character. */
 // Cuisine-specific card tints. Distinct enough to read at a glance, still editorial (no neon).
@@ -108,7 +120,37 @@ class DeckViewModel @Inject constructor(
   private val api: PantrieApi,
   private val analytics: app.pantrie.feature.beta.Analytics,
   private val refreshBus: app.pantrie.feature.app.RefreshBus,
+  private val quota: app.pantrie.billing.SwipeQuotaRepository,
+  private val entitlement: app.pantrie.billing.EntitlementRepository,
 ) : ViewModel() {
+
+  /** Pro users skip all quota gating. */
+  val isPro = entitlement.isPro
+  val swipesToday = quota.swipesToday
+
+  // Channel for one-shot UI events: show interstitial, show wall.
+  private val _swipeEvent = kotlinx.coroutines.channels.Channel<SwipeOutcomeEvent>(kotlinx.coroutines.channels.Channel.BUFFERED)
+  val swipeEvents = _swipeEvent.receiveAsFlow()
+
+  /** Called by save()/dismiss() after the swipe lands. Emits the right outcome. */
+  private fun trackSwipeAndEmit() {
+    if (entitlement.isPro.value) return  // unlimited for Pro — no counter, no ads
+    viewModelScope.launch {
+      val n = quota.increment()
+      val outcome = when {
+        n > app.pantrie.billing.SwipeQuotaRepository.FREE_DAILY_LIMIT -> SwipeOutcomeEvent.Wall
+        n % app.pantrie.billing.SwipeQuotaRepository.AD_EVERY_N_SWIPES == 0 -> SwipeOutcomeEvent.ShowAd
+        else -> return@launch  // no event needed
+      }
+      _swipeEvent.send(outcome)
+    }
+  }
+
+  fun grantBonusSwipes() {
+    viewModelScope.launch {
+      quota.grantBonusSwipes(app.pantrie.billing.SwipeQuotaRepository.REWARDED_BONUS)
+    }
+  }
   private val _state = MutableStateFlow<DeckResponse?>(null)
   val state = _state.asStateFlow()
   private val _toast = MutableStateFlow<ToastState?>(null)
@@ -198,6 +240,7 @@ class DeckViewModel @Inject constructor(
       s.copy(deck = s.deck.filter { it.id != r.id }, remaining = (s.remaining - 1).coerceAtLeast(0))
     }
     analytics.track("recipe_saved", mapOf("recipeId" to r.id, "match" to r.pantryMatchPercent))
+    trackSwipeAndEmit()
     viewModelScope.launch {
       val resp = runCatching { api.interact(InteractRequest(recipeId = r.id, status = "saved")) }.getOrNull()
       val added = resp?.addedToShopping ?: 0
@@ -217,6 +260,7 @@ class DeckViewModel @Inject constructor(
       s.copy(deck = s.deck.filter { it.id != r.id }, remaining = (s.remaining - 1).coerceAtLeast(0))
     }
     analytics.track("recipe_dismissed", mapOf("recipeId" to r.id, "match" to r.pantryMatchPercent))
+    trackSwipeAndEmit()
     viewModelScope.launch {
       val resp = runCatching { api.interact(InteractRequest(recipeId = r.id, status = "dismissed")) }.getOrNull()
       _toast.value = ToastState("Skipped")
@@ -257,12 +301,52 @@ fun DeckScreen(
   onOpenRecipe: (String) -> Unit = {},
   onStartCook: (String) -> Unit = {},
   onOpenSaved: () -> Unit = {},
+  onOpenPantry: () -> Unit = {},
+  onOpenShopping: () -> Unit = {},
+  onOpenPlan: () -> Unit = {},
+  onOpenSearch: () -> Unit = {},
   vm: DeckViewModel = hiltViewModel(),
 ) {
   val state by vm.state.collectAsState()
   val toast by vm.toast.collectAsState()
   val error by vm.error.collectAsState()
   val s = state
+
+  // ===== Ad / quota plumbing =====
+  // We observe one-shot swipe events from the VM and either fire an interstitial or pop the wall.
+  val adHost: app.pantrie.billing.AdHostViewModel = hiltViewModel()
+  val context = androidx.compose.ui.platform.LocalContext.current
+  var showWall by remember { mutableStateOf(false) }
+  androidx.compose.runtime.LaunchedEffect(Unit) {
+    vm.swipeEvents.collect { ev ->
+      val activity = context as? android.app.Activity ?: return@collect
+      when (ev) {
+        app.pantrie.feature.deck.SwipeOutcomeEvent.ShowAd -> {
+          adHost.adManager.showInterstitial(activity) {}
+        }
+        app.pantrie.feature.deck.SwipeOutcomeEvent.Wall -> {
+          showWall = true
+        }
+      }
+    }
+  }
+  if (showWall) {
+    app.pantrie.billing.SwipeWallSheet(
+      onWatchAd = {
+        val activity = context as? android.app.Activity ?: return@SwipeWallSheet
+        adHost.adManager.showRewarded(
+          activity = activity,
+          onReward = { vm.grantBonusSwipes() },
+          onClosed = { showWall = false },
+        )
+      },
+      onGoPro = {
+        showWall = false
+        // TODO(paywall): navigate to PaywallScreen route once added to MainActivity nav graph.
+      },
+      onDismiss = { showWall = false },
+    )
+  }
 
   // Intentionally NOT re-fetching on every tab return — doing so was rerolling the
   // random 75-recipe sample each visit, which felt buggy (different cards each switch)
@@ -334,10 +418,18 @@ fun DeckScreen(
               )
             }
           }
+          IconButton(onClick = onOpenSearch, modifier = Modifier.size(40.dp)) {
+            Icon(
+              Icons.Outlined.Search,
+              contentDescription = "Search recipes",
+              tint = InkMuted,
+              modifier = Modifier.size(22.dp),
+            )
+          }
           IconButton(onClick = onOpenSaved, modifier = Modifier.size(40.dp)) {
             Icon(
-              Icons.Outlined.Favorite,
-              contentDescription = "Cookbook",
+              Icons.Outlined.SoupKitchen,
+              contentDescription = "Library",
               tint = Terracotta,
               modifier = Modifier.size(22.dp),
             )
@@ -376,29 +468,11 @@ fun DeckScreen(
           }
         }
 
-        // Card stack area — fills ALL remaining vertical space, edge-to-edge. The card IS the page.
-        // Counter pill overlaid OUTSIDE the card so it doesn't move with swipes.
-        Box(Modifier.fillMaxSize().padding(horizontal = 4.dp), contentAlignment = Alignment.TopCenter) {
-          // Pinned counter pill — top-right of this Box, sits above the cards, doesn't rotate with them.
-          if (s != null) {
-            val used = (s.dailyCap - s.remaining).coerceAtLeast(0)
-            Surface(
-              shape = RoundedCornerShape(14.dp),
-              color = Ink.copy(alpha = 0.7f),
-              modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 8.dp, end = 8.dp)
-                .zIndex(10f),
-            ) {
-              Text(
-                "$used/${s.dailyCap}",
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-                style = MaterialTheme.typography.labelMedium,
-                color = Paper,
-                fontWeight = FontWeight.SemiBold,
-              )
-            }
-          }
+        // Card stack area — takes all remaining vertical space between filter banner and
+        // the quick-action row at the bottom. weight(1f) lets the quick-action row claim a
+        // fixed strip at the bottom instead of floating dead space.
+        Box(Modifier.weight(1f).fillMaxWidth().padding(horizontal = 4.dp), contentAlignment = Alignment.TopCenter) {
+          // Swipe counter removed — daily-cap exhaustion still surfaces via the empty-deck message.
           when {
             error != null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
               Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -440,6 +514,34 @@ fun DeckScreen(
               CircularProgressIndicator(color = Ink)
             }
           }
+        }
+
+        // Quick actions — Pantry / Shop / Plan row that replaces the cluttered bottom nav tabs.
+        // Sits between the card and the system nav bar. Same height the dead space used to be.
+        Row(
+          Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 6.dp),
+          horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+          QuickActionButton(
+            icon = Icons.Outlined.Kitchen,
+            label = "Pantry",
+            onClick = onOpenPantry,
+            modifier = Modifier.weight(1f),
+          )
+          QuickActionButton(
+            icon = Icons.Outlined.ShoppingCart,
+            label = "Shop",
+            onClick = onOpenShopping,
+            modifier = Modifier.weight(1f),
+          )
+          QuickActionButton(
+            icon = Icons.Outlined.CalendarMonth,
+            label = "Plan",
+            onClick = onOpenPlan,
+            modifier = Modifier.weight(1f),
+          )
         }
       }
 
@@ -975,4 +1077,35 @@ private fun firstStepDescription(r: Recipe): String? {
   // Take the first sentence, capped at 200 chars
   val firstSentence = step.split(Regex("(?<=[.!?])\\s+")).firstOrNull()?.trim() ?: step
   return firstSentence.take(200)
+}
+
+@Composable
+private fun QuickActionButton(
+  icon: androidx.compose.ui.graphics.vector.ImageVector,
+  label: String,
+  onClick: () -> Unit,
+  modifier: Modifier = Modifier,
+) {
+  Surface(
+    onClick = onClick,
+    shape = RoundedCornerShape(12.dp),
+    color = Paper,
+    border = androidx.compose.foundation.BorderStroke(1.dp, InkFaint),
+    modifier = modifier.height(56.dp),
+  ) {
+    Row(
+      Modifier.fillMaxSize().padding(horizontal = 12.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.Center,
+    ) {
+      Icon(icon, contentDescription = null, tint = Ink, modifier = Modifier.size(20.dp))
+      Spacer(Modifier.width(8.dp))
+      Text(
+        label,
+        style = MaterialTheme.typography.labelLarge,
+        color = Ink,
+        fontWeight = FontWeight.SemiBold,
+      )
+    }
+  }
 }

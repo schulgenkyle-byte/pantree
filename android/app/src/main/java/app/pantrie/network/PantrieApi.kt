@@ -50,7 +50,17 @@ interface PantrieApi {
   suspend fun deck(
     @Query("adventurous") adventurous: Int? = null,
     @Query("filter") filter: String? = null,
+    @Query("content_type") contentType: String? = null,
+    @Query("require_photo") requirePhoto: Int? = null,
   ): DeckResponse
+
+  @GET("recipes/search")
+  suspend fun searchRecipes(
+    @Query("q") query: String,
+    @Query("content_type") contentType: String? = null,
+    @Query("alcoholic") alcoholic: Int? = null,
+    @Query("limit") limit: Int = 50,
+  ): SearchResponse
 
   @GET("recipes/{id}")
   suspend fun recipe(@Path("id") id: String): Recipe

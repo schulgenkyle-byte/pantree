@@ -86,7 +86,7 @@ fun LoginScreen(
       verticalArrangement = Arrangement.Center,
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-      Text("pan-tree", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Normal, color = Ink)
+      Text("Brimm", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Normal, color = Ink)
       Spacer(Modifier.height(8.dp))
       Text(
         "see it. save it. savor it.",

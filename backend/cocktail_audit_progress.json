@@ -1,0 +1,112 @@
+{
+  "offset": 2600,
+  "processed_total": 2565,
+  "deleted": 0,
+  "modernized": 2565,
+  "story_filled": 1587,
+  "ocr_damaged": 2,
+  "prose_variant": 0,
+  "rejected_ids": [],
+  "sample_modernizations": [
+    {
+      "title": "Blue Blazer",
+      "modernized": "2 oz overproof Scotch whisky (Laphroaig 10 or any cask-strength blend)\n2 oz boiling water\n1 tsp demerara sugar\nLemon peel\n\nWarm two metal mugs with hot water; discard.\nCombine whisky, hot water, and sugar in one mug.\nCarefully ignite (long lighter), then pour the flaming liquid back and forth between mugs 4-5 times in a long arc.\nPour into a heat-safe glass; express lemon peel and drop in.\n\nBartender's note: Jerry Thomas 1862 fire-show cocktail. SAFETY: practice the pour cold first, never near anything flammable, and have a wet towel ready. A modern-trained flair bartender supervising is recommended."
+    },
+    {
+      "title": "Painkiller (cocktail)",
+      "modernized": "2 oz Pusser's Navy rum (trademark requirement)\n4 oz unsweetened pineapple juice\n1 oz fresh orange juice\n1 oz cream of coconut (Coco Lopez)\n\nShake with ice 10 seconds.\nPour unstrained into a tiki mug or large rocks glass.\nTop with crushed ice.\nGarnish with a fresh nutmeg grating and a pineapple wedge.\n\nBartender's note: BVI Soggy Dollar Bar 1970s. Pusser's holds the trademark; freshly grated nutmeg is the move that separates this from a pina colada."
+    },
+    {
+      "title": "Moscow Mule",
+      "modernized": "2 oz vodka (Tito's or Reyka)\n0.5 oz fresh lime juice\n4 oz cold ginger beer (Fever-Tree or Q)\n\nBuild in a copper mug over fresh ice.\nStir gently.\nGarnish with a lime wedge and candied ginger.\n\nBartender's note: Use real fiery ginger beer, not ginger ale. The 1940s original was equal parts marketing for Smirnoff and copper Cock 'n Bull mugs."
+    },
+    {
+      "title": "Tom Collins",
+      "modernized": "2 oz London dry gin (Tanqueray)\n1 oz fresh lemon juice\n0.75 oz simple syrup\n3 oz cold club soda\n\nBuild in a chilled collins glass over fresh ice.\nStir gently to combine.\nGarnish with a lemon wheel and brandied cherry.\n\nBartender's note: Originally made with Old Tom (a sweetened gin); modern London dry needs the syrup bumped slightly. Fresh juice is non-negotiable."
+    },
+    {
+      "title": "Gin Fizz",
+      "modernized": "2 oz London dry gin\n0.75 oz fresh lemon juice\n0.5 oz simple syrup\n2 oz cold club soda\n\nShake gin, lemon, syrup with ice 10 seconds.\nStrain into a chilled highball over fresh ice.\nTop with cold club soda.\nGarnish with a lemon wheel.\n\nBartender's note: Nail the carbonation by adding soda LAST and not stirring; the lift is the whole point of a fizz."
+    },
+    {
+      "title": "French 75",
+      "modernized": "1 oz London dry gin (or cognac)\n0.5 oz fresh lemon juice\n0.5 oz simple syrup\n3 oz cold champagne or dry sparkling wine\n\nShake gin, lemon, syrup with ice 8 seconds.\nStrain into a chilled flute.\nTop with cold champagne.\nGarnish with a lemon twist.\n\nBartender's note: Original 1915 Paris recipe used cognac; gin became standard mid-century. Either is correct — pick the one that matches your dinner."
+    },
+    {
+      "title": "Manhattan Cocktail",
+      "modernized": "2 oz rye whiskey (try Rittenhouse 100 or Sazerac 6)\n1 oz sweet vermouth (Carpano Antica or Cocchi di Torino)\n2 dashes Angostura bitters\n\nStir with ice 30 seconds until well-chilled.\nStrain into a chilled coupe.\nGarnish with a brandied cherry (Luxardo) and an expressed orange peel.\n\nBartender's note: Original calls for \"half whiskey, half vermouth\"; modern 2:1 keeps the rye in front and the vermouth as accent — and Carpano Antica was formulated specifically for this drink."
+    },
+    {
+      "title": "Mint Julep",
+      "modernized": "2.5 oz Kentucky bourbon (Woodford Reserve or Old Forester)\n0.5 oz simple syrup (or 1 tsp demerara)\n8-10 fresh mint leaves\nCrushed ice\n\nGently slap mint between palms; place in a julep cup with syrup.\nAdd bourbon and pack with crushed ice; swizzle with a barspoon until cup frosts.\nTop with more crushed ice into a dome.\nGarnish with a fat mint bouquet and a short straw.\n\nBartender's note: Don't muddle the mint to death — bruising releases bitter compounds. The frost on the cup is the tell."
+    },
+    {
+      "title": "Cosmopolitan",
+      "modernized": "1.5 oz citron vodka (Absolut Citron)\n0.75 oz Cointreau\n0.5 oz fresh lime juice\n0.5 oz cranberry juice cocktail\n\nShake with ice 10 seconds.\nDouble-strain into a chilled coupe.\nGarnish with a flamed orange peel.\n\nBartender's note: Toby Cecchini's 1988 NYC version, not the pink-cosmo TV variety — fresh lime, real Cointreau, and a flamed peel turn this into a respectable drink."
+    },
+    {
+      "title": "Bacardi cocktail",
+      "modernized": "2 oz Bacardi white rum\n0.75 oz fresh lime juice\n0.5 oz real grenadine\n\nShake with ice 10 seconds.\nDouble-strain into a chilled coupe.\nGarnish with a lime wheel.\n\nBartender's note: 1936 NY court case ruled this name requires actual Bacardi — same drink with another rum is just a \"pink daiquiri.\" Use real pomegranate grenadine."
+    },
+    {
+      "title": "Gimlet",
+      "modernized": "2.5 oz London dry gin (Plymouth or Tanqueray)\n0.75 oz fresh lime juice\n0.5 oz simple syrup (1:1)\n\nShake with ice 10 seconds.\nDouble-strain into a chilled coupe.\nGarnish with a lime wheel.\n\nBartender's note: Historic recipes used Rose's lime cordial; modern fresh-juice-and-syrup version is brighter and cleaner — but a half-ounce of Rose's is fun once a year for tradition."
+    },
+    {
+      "title": "Tom Collins",
+      "modernized": "2 oz London dry gin (Tanqueray)\n1 oz fresh lemon juice\n0.75 oz simple syrup\n3 oz cold club soda\n\nBuild in a chilled collins glass over fresh ice.\nStir gently to combine.\nGarnish with a lemon wheel and brandied cherry.\n\nBartender's note: Originally made with Old Tom (a sweetened gin); modern London dry needs the syrup bumped slightly. Fresh juice is non-negotiable."
+    }
+  ],
+  "sample_stories": [
+    {
+      "title": "Jockey Club Cocktail",
+      "story": "A historic recipe from ABC of Mixing Cocktails (Harry MacElhone, 1923), published 1923, part of the canon in the Paris, France bartending tradition of the era. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    },
+    {
+      "title": "Chocolate Cocktail",
+      "story": "A historic recipe from ABC of Mixing Cocktails (Harry MacElhone, 1923), published 1923, part of the canon in the Paris, France bartending tradition of the era. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    },
+    {
+      "title": "Magnus",
+      "story": "A historic recipe from Jack's Manual (J.A. Grohusko, 1908), published 1908, part of the canon in the New York, USA bartending tradition of the era. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    },
+    {
+      "title": "Calasaya Cocktail",
+      "story": "George J. Kappeler tended bar at the Holland House in New York and published \"Modern American Drinks\" in 1895. The book captured the height of the American Golden Age cocktail bar — refined, ingredient-forward recipes that the Pre-Prohibition giants like the Waldorf and Hoffman House also served."
+    },
+    {
+      "title": "Egg-Nog - Classic Cooked",
+      "story": "A historic recipe from TheCocktailDB, part of the canon. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    },
+    {
+      "title": "Saratoga Cocktail",
+      "story": "A historic recipe from Jack's Manual (J.A. Grohusko, 1908), published 1908, part of the canon in the New York, USA bartending tradition of the era. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    },
+    {
+      "title": "Flaming B-52",
+      "story": "A historic recipe from Wikipedia (CC-BY-SA), part of the canon in the Ireland bartending tradition of the era. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    },
+    {
+      "title": "United Service Punch",
+      "story": "Jerry Thomas was the first celebrity American bartender; his 1862 \"Bar-Tender's Guide\" (a.k.a. \"The Bon-Vivant's Companion\") was the first cocktail book published in the United States and codified an entire profession. He toured Europe demonstrating the Blue Blazer and other showpieces, and his book remains the foundational text every modern bartender still references."
+    },
+    {
+      "title": "Golden dream (cocktail)",
+      "story": "A historic recipe from Wikipedia (CC-BY-SA), part of the canon. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    },
+    {
+      "title": "Darkwood Sling",
+      "story": "A historic recipe from TheCocktailDB, part of the canon. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    },
+    {
+      "title": "Smith Cocktail",
+      "story": "George J. Kappeler tended bar at the Holland House in New York and published \"Modern American Drinks\" in 1895. The book captured the height of the American Golden Age cocktail bar — refined, ingredient-forward recipes that the Pre-Prohibition giants like the Waldorf and Hoffman House also served."
+    },
+    {
+      "title": "Boston (cocktail)",
+      "story": "A historic recipe from Wikipedia (CC-BY-SA), part of the canon in the United Kingdom bartending tradition of the era. Modern bartenders revisit these mid-19th and early-20th century manuals as the foundation of every classic cocktail today carries."
+    }
+  ],
+  "started_at": "2026-04-25T00:19:38.492Z",
+  "last_run_at": "2026-04-25T00:24:59.187Z"
+}

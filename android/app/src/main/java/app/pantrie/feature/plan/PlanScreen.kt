@@ -53,9 +53,15 @@ data class DayProposal(
 @HiltViewModel
 class PlanViewModel @Inject constructor(
   private val api: PantrieApi,
+  private val refreshBus: app.pantrie.feature.app.RefreshBus,
 ) : ViewModel() {
   private val _state = MutableStateFlow<PlanUiState>(PlanUiState.Empty)
   val state = _state.asStateFlow()
+
+  init {
+    // Re-propose when pantry changes — ingredients in pantry shape what plans we suggest.
+    viewModelScope.launch { refreshBus.pantry.collect { proposeWeek() } }
+  }
 
   fun proposeWeek() {
     viewModelScope.launch {

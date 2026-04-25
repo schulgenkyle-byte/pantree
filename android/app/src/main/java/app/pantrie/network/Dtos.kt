@@ -114,6 +114,24 @@ data class Recipe(
   val maxServings: Int? = null,
   val costPerServing: Double = 0.0,
   val shortestExpiryDays: Int? = null,
+  // Cocktail / historic metadata — populated for Mixology content only.
+  @SerialName("content_type") val contentType: String = "food",
+  @SerialName("is_historic") val isHistoric: Boolean = false,
+  @SerialName("is_alcoholic") val isAlcoholic: Boolean = false,
+  @SerialName("source_year") val sourceYear: Int? = null,
+  @SerialName("source_book") val sourceBook: String? = null,
+  @SerialName("source_region") val sourceRegion: String? = null,
+  @SerialName("contributor_name") val contributorName: String? = null,
+  @SerialName("contributor_story") val contributorStory: String? = null,
+  @SerialName("original_text") val originalText: String? = null,
+  @SerialName("modernized_text") val modernizedText: String? = null,
+  @SerialName("glass_type") val glassType: String? = null,
+  val method: String? = null,
+  val garnish: String? = null,
+  @SerialName("abv_percent") val abvPercent: Double? = null,
+  // Social signals — TikTok-style counts on the card.
+  @SerialName("pan_count") val panCount: Int = 0,
+  @SerialName("save_count") val saveCount: Int = 0,
 ) {
   // Convenience accessors so UI code stays simple
   val prepMin: Int get() = prepMinutes ?: 0
@@ -735,6 +753,8 @@ data class SavedRecipe(
   val pantryMatchPercent: Int = 0,
   val missingCount: Int = 0,
   val savedAt: Long = 0L,
+  // "food" (default) / "cocktail" / "mocktail" — drives Library accordion grouping.
+  @SerialName("content_type") val contentType: String = "food",
 )
 
 @Serializable
@@ -755,4 +775,26 @@ data class MealPrepResponse(
   val preview: MealPrepWeek? = null,
   val weeks: List<MealPrepWeek> = emptyList(),
   val shoppingList: List<MealPrepShoppingItem> = emptyList(),
+)
+
+// ---------- Search ----------
+@Serializable
+data class SearchResponse(
+  val results: List<SearchHit> = emptyList(),
+  val total: Int = 0,
+)
+
+@Serializable
+data class SearchHit(
+  val id: String,
+  val title: String,
+  val cuisine: String? = null,
+  @SerialName("image_url") val imageUrl: String? = null,
+  @SerialName("content_type") val contentType: String = "food",
+  @SerialName("source_year") val sourceYear: Int? = null,
+  @SerialName("source_book") val sourceBook: String? = null,
+  @SerialName("glass_type") val glassType: String? = null,
+  @SerialName("abv_percent") val abvPercent: Double? = null,
+  @SerialName("is_historic") val isHistoric: Boolean = false,
+  @SerialName("is_alcoholic") val isAlcoholic: Boolean = false,
 )

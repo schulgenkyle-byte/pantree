@@ -1,0 +1,734 @@
+TheCocktailDB	A. J.	cck_b843cbb887de8b0d59c620
+TheCocktailDB	A1	cck_0b0cc5ab80add72a897a5a
+TheCocktailDB	ABC	cck_b1da63e6c386be855b1682
+TheCocktailDB	ACID	cck_da2343792d6ad2f95a0ebe
+TheCocktailDB	AT&T	cck_7375a836d73d45e64a98b8
+TheCocktailDB	Abilene	cck_70afd8e8207eec16cf6fe9
+TheCocktailDB	Acapulco	cck_ae98bb6040628fde93f5f7
+TheCocktailDB	Ace	cck_51d1eb4b726eb04f700013
+TheCocktailDB	Adam	cck_e5fb0a2b2a51d09c0e7b1d
+TheCocktailDB	Addington	cck_4f641117f0f5dc826dc5c9
+TheCocktailDB	Addison	cck_e2df434970cf9279d60858
+TheCocktailDB	Affair	cck_26d57f7b92cd883e3a0d47
+TheCocktailDB	Affinity	cck_5c9c9bb26678ee86485e95
+TheCocktailDB	Afterglow	cck_cb6443e0a2f75717c84dfd
+TheCocktailDB	Alexander	cck_f9a55b432d4be9779636a4
+TheCocktailDB	Algonquin	cck_078579b059b22063c97998
+TheCocktailDB	Allegheny	cck_70c6ac58bc771ab4b0e2d7
+TheCocktailDB	Almeria	cck_ad8ccab72278ba99dbfa70
+TheCocktailDB	Americano	cck_3f81b4b8696146bb3ece37
+TheCocktailDB	Apello	cck_c53a1078c2fa876b7f1ac2
+TheCocktailDB	Applecar	cck_daa734a2cc89d93790dfd7
+TheCocktailDB	Artillery	cck_7a78ea895818c81738011f
+TheCocktailDB	Avalanche	cck_5b2fd3346701cb6acbfadd
+TheCocktailDB	Avalon	cck_bd45dab77f73fb9edaad8a
+TheCocktailDB	Aviation	cck_d4b76dfdd6a9a2b1df6899
+TheCocktailDB	B-52	cck_453c3c22435ede70537739
+TheCocktailDB	B-53	cck_9afa6870b87b716c0acd2d
+TheCocktailDB	Baby Eskimo	cck_70a0538b8a038fb4e7559b
+TheCocktailDB	Bahama Mama	cck_74eca01a9204553e72d730
+TheCocktailDB	Balmoral	cck_108760206f699bfa558031
+TheCocktailDB	Barracuda	cck_983b0e4368849dbb970086
+TheCocktailDB	Bellini	cck_c3d79cb1c5760f750b6bbc
+TheCocktailDB	Bible Belt	cck_a21e932c1669a7f6255dc0
+TheCocktailDB	Big Red	cck_eb49c1fbc2d44656d0a354
+TheCocktailDB	Bijou	cck_da4a3db6905944f2acfdd3
+TheCocktailDB	Blackthorn	cck_31624744d10c43e2ac62ac
+TheCocktailDB	Bluebird	cck_697935791a773003cc020e
+TheCocktailDB	Bob Marley	cck_0f18fc872e145f2b934618
+TheCocktailDB	Boomerang	cck_a107192493d11fc8671bc5
+TheCocktailDB	Bora Bora	cck_e880a94e49d47fdc4eb02f
+TheCocktailDB	Boston Sour	cck_61e1d58f49b803ea46cd32
+TheCocktailDB	Boxcar	cck_e64e2f650d2bb52c6c7634
+TheCocktailDB	Brain Fart	cck_aeb3a8013c38456299b0d6
+TheCocktailDB	Bramble	cck_b0416cabeb1f2f69f5bfa8
+TheCocktailDB	Brigadier	cck_289a5154dd349d721514e4
+TheCocktailDB	Broadside	cck_c9ccfc24a7180600df93ee
+TheCocktailDB	Brooklyn	cck_24b58156a8bae64f098902
+TheCocktailDB	Bubble Gum	cck_aede2153eb34d2e963bf29
+TheCocktailDB	Buccaneer	cck_f77273c409bcedce944c6c
+TheCocktailDB	Bumble Bee	cck_e20e06f62c1c66972c39b3
+TheCocktailDB	Cafe Savoy	cck_4845be00e6e5b2c74ea38a
+TheCocktailDB	Caipirinha	cck_259875b73b4fdab3d131e6
+TheCocktailDB	Caipirissima	cck_ff3609dfd33bfdb38bd4b6
+TheCocktailDB	Campari Beer	cck_389ca9822e352761498251
+TheCocktailDB	Casa Blanca	cck_2d3c77fe2b968718db252d
+TheCocktailDB	Casino	cck_84907ab3a6fab505eb8364
+TheCocktailDB	Casino Royale	cck_a88e9aac6320f6c085853f
+TheCocktailDB	Cherry Rum	cck_64590b1466542fc9fe0808
+TheCocktailDB	Chicago Fizz	cck_01e3ef55d25eedf46f4510
+TheCocktailDB	Chocolate Drink	cck_cfe4cbdfdd29eeb4e036e9
+TheCocktailDB	Chocolate Milk	cck_6f498eb6a04e4762b1af20
+TheCocktailDB	Citrus Coke	cck_84ba27828e5b65405086bb
+TheCocktailDB	City Slicker	cck_2278319f323e97e2a5c17c
+TheCocktailDB	Clove Cocktail	cck_0ffc3d7d0610b9b74613b1
+TheCocktailDB	Clover Club	cck_5003f414c68040db2d689a
+TheCocktailDB	Coffee Liqueur	cck_8522b38930a7edde938eeb
+TheCocktailDB	Coffee-Vodka	cck_186cd36020e8d5a1ffcf34
+TheCocktailDB	Coke and Drops	cck_4b72a62b9e20db998e510e
+TheCocktailDB	Corn n Oil	cck_c1a699c6337f0cbe1a813a
+TheCocktailDB	Corpse Reviver	cck_14ae381ad97e4d8d437be1
+TheCocktailDB	Cranberry Punch	cck_9540554c7eec15d6b0d7ee
+TheCocktailDB	Cream Soda	cck_82c41d0408dc932f32f823
+TheCocktailDB	Cuba Libra	cck_42ae7b660ef5aa810bfe01
+TheCocktailDB	Cuba Libre	cck_7d35cc11aa90ff812f3ee8
+TheCocktailDB	Daiquiri	cck_76c3372cd6482d5e02f012
+TheCocktailDB	Damned if you do	cck_77f2ea8fbaeabdad2fca6a
+TheCocktailDB	Danbooka	cck_413da76290c55f3d12765d
+TheCocktailDB	Dark Caipirinha	cck_cbfcd7e65e9ec2cc3de181
+TheCocktailDB	Darkwood Sling	cck_06f3bef88d2768c91ad32d
+TheCocktailDB	Death in the Afternoon	cck_89489d5d26c3606ccb414e
+TheCocktailDB	Derby	cck_b49ec3d0de188351aeb4c9
+TheCocktailDB	Diesel	cck_ef04981bbb7f6611439a18
+TheCocktailDB	Dirty Martini	cck_e7ff07d827403b6d5371e7
+TheCocktailDB	Dirty Nipple	cck_cce54eead145429bf32062
+TheCocktailDB	Downshift	cck_7d9f301f363d1e0a4799ce
+TheCocktailDB	Dragonfly	cck_7a698957999bf8a98f01b5
+TheCocktailDB	Drinking Chocolate	cck_be73f82051e1cc7f6ead4f
+TheCocktailDB	Dry Martini	cck_e8029bfac9886c1cd6e1f1
+TheCocktailDB	Dry Rob Roy	cck_dcfe4c9b7aac92eda80fcd
+TheCocktailDB	Dubonnet Cocktail	cck_18c6b0ea84be42e44fb310
+TheCocktailDB	Duchamp's Punch	cck_e87564f460c72ba60420dc
+TheCocktailDB	Egg Cream	cck_dc0d7e7a5fba1254aae514
+TheCocktailDB	Egg Nog #4	cck_b00e4b0c6b8b36f86eb760
+TheCocktailDB	Egg Nog - Healthy	cck_34195841cacbd89d637bec
+TheCocktailDB	Egg-Nog - Classic Cooked	cck_0630598867842f511b2566
+TheCocktailDB	Elderflower Caipirinha	cck_be4fc2056de90c05685bec
+TheCocktailDB	Empellón Cocina's Fat-Washed Mezcal	cck_89d22dd4b4e5312bfef3d8
+TheCocktailDB	English Highball	cck_bd6438483a6c35d9924e14
+TheCocktailDB	English Rose Cocktail	cck_25f733857d67edd36feb43
+TheCocktailDB	Espresso Martini	cck_fb53c8a8af01b0a25f130b
+TheCocktailDB	Espresso Rumtini	cck_941489440e750d057cbb78
+TheCocktailDB	Fahrenheit 5000	cck_c4a2b29b411101c207723f
+TheCocktailDB	Figgy Thyme	cck_abd072f7138569778ebe77
+TheCocktailDB	Flaming Dr. Pepper	cck_ab71bc5dccca42852a4ee5
+TheCocktailDB	Flaming Lamborghini	cck_2cab0f9ab131103ffd414d
+TheCocktailDB	Flander's Flake-Out	cck_e6f9b398de559a34bb85a1
+TheCocktailDB	Flying Dutchman	cck_29d324c677d912e8d3588a
+TheCocktailDB	Flying Scotchman	cck_8e1f741591bce66e4d5747
+TheCocktailDB	Foxy Lady	cck_818e83dd968ce9433bfb6a
+TheCocktailDB	Frappé	cck_b65faa7896f6d5e739528a
+TheCocktailDB	Freddy Kruger	cck_c16f3b836cffa2d07d4659
+TheCocktailDB	French 75	cck_0505c2b2d0416a8c4cf9aa
+TheCocktailDB	French Connection	cck_d05927e5c207a62cb3a7d9
+TheCocktailDB	French Martini	cck_a7ebf640345cf965c8030d
+TheCocktailDB	French Negroni	cck_a58da6bf731cb44749e707
+TheCocktailDB	Frisco Sour	cck_95cbb5424f265911709dec
+TheCocktailDB	Frosé	cck_7f03bf738ed76a54c3bda5
+TheCocktailDB	Frozen Mint Daiquiri	cck_fdd75dc3af8ce51987a64d
+TheCocktailDB	Frozen Pineapple Daiquiri	cck_6a3e41270cb059484ae0f2
+TheCocktailDB	Fruit Cooler	cck_c579d79bde46cb0b0877e0
+TheCocktailDB	Fruit Flip-Flop	cck_1982f6dd377f2fa7cb5a7a
+TheCocktailDB	Fruit Shake	cck_866b9f34854788abbc0de9
+TheCocktailDB	Funk and Soul	cck_9adf1761158459977df2d1
+TheCocktailDB	Fuzzy Asshole	cck_372825adf948707301f3aa
+TheCocktailDB	GG	cck_ba37fe603b98e75549c7f9
+TheCocktailDB	Gagliardo	cck_b5eaf1bc377489f61c19c2
+TheCocktailDB	Gimlet	cck_0f26fd099df038994a7469
+TheCocktailDB	Gin Cooler	cck_a008bd01e4b27ae3937e8f
+TheCocktailDB	Gin Daisy	cck_c46d8b82585a1606fb5e1b
+TheCocktailDB	Gin Fizz	cck_ba8e0b053da0d781fbbd39
+TheCocktailDB	Gin Lemon	cck_f06a489d62f7f38cdff45e
+TheCocktailDB	Gin Rickey	cck_4ff5b3aaa2a38fbadf053f
+TheCocktailDB	Gin Sling	cck_e5fdff1eac1029fea0f960
+TheCocktailDB	Gin Smash	cck_a3eba250bdee34a2481523
+TheCocktailDB	Gin Sour	cck_c3423b48362e3e77453ec6
+TheCocktailDB	Gin Squirt	cck_e8fc40e57346e1385050e6
+TheCocktailDB	Gin Swizzle	cck_5c257055303e927b1be50f
+TheCocktailDB	Gin Toddy	cck_975d3addddb1db1bc21aef
+TheCocktailDB	Gin Tonic	cck_be3c9229549f483bfe5079
+TheCocktailDB	Gin and Soda	cck_7557ecd4f2a1a0ce24cb65
+TheCocktailDB	Gluehwein	cck_84faf028aaf844c908cd6b
+TheCocktailDB	Godchild	cck_9f4b8a54307a5282b5987b
+TheCocktailDB	Godfather	cck_afd14101bf151011b14e07
+TheCocktailDB	Godmother	cck_c18c40ad8dca06524773a0
+TheCocktailDB	Grand Blue	cck_fcf9729e5c290f03210df1
+TheCocktailDB	Grass Skirt	cck_3f6b415a41ceac3bb0cced
+TheCocktailDB	Grasshopper	cck_922ce9182a63890faf0021
+TheCocktailDB	Greyhound	cck_50d5aacc83465c9ab1d5d2
+TheCocktailDB	Grim Reaper	cck_92120eaa6b069ae96cb47c
+TheCocktailDB	H.D.	cck_7540c98004408c8ad18b8b
+TheCocktailDB	Halloween Punch	cck_27d27f47fa3bba05a37f44
+TheCocktailDB	Happy Skipper	cck_fa20b238b44d92f252a11d
+TheCocktailDB	Harvey Wallbanger	cck_f3956b1e75431fbe1822fb
+TheCocktailDB	Havana Cocktail	cck_4b5e32eb336ee084f1e807
+TheCocktailDB	Hawaiian Cocktail	cck_37746307797f048732ba31
+TheCocktailDB	Hemingway Special	cck_ebcc250602be80d512c3df
+TheCocktailDB	Herbal flame	cck_657ac56fae4e74f97c7e9a
+TheCocktailDB	Highland Fling Cocktail	cck_b232d0aed937056d6d802e
+TheCocktailDB	Holloween Punch	cck_ac3ce2935df6c6d8ae84b0
+TheCocktailDB	Homemade Kahlua	cck_f75d0b4c01c2215ed51201
+TheCocktailDB	Honey Bee	cck_191a47b9a8d0314b8cb13b
+TheCocktailDB	Horse's Neck	cck_135b3eea29d1c4267bc05a
+TheCocktailDB	Hot Chocolate to Die for	cck_8fe9765fa6cab07cb7fa46
+TheCocktailDB	Hot Creamy Bush	cck_506e07c871129e3bef48e2
+TheCocktailDB	Hot Toddy	cck_0b7f0b7fd39c83fbb822dd
+TheCocktailDB	Hunter's Moon	cck_9cbb6a25617ee71411db04
+TheCocktailDB	Ice Pick	cck_2b3d20d5460efefddfcc7b
+TheCocktailDB	Iced Coffee	cck_96106a96261790f50422f1
+TheCocktailDB	Iced Coffee Fillip	cck_65cc3f5d677567d3fcdd9e
+TheCocktailDB	Imperial Cocktail	cck_9bb4ece5bf1d900aebab63
+TheCocktailDB	Imperial Fizz	cck_1b8015cd42ef2a55355d7e
+TheCocktailDB	Ipamena	cck_37f041ca89648d0bf5aee3
+TheCocktailDB	Irish Coffee	cck_44deb28937e53be54978aa
+TheCocktailDB	Irish Cream	cck_0c058a8da206e06047173a
+TheCocktailDB	Irish Curdling Cow	cck_87d8033ceae94b76cb8d02
+TheCocktailDB	Irish Russian	cck_56f8cc9afcb4affd3fb196
+TheCocktailDB	Irish Spring	cck_848caa6a7ee82bbb7176b5
+TheCocktailDB	Jack Rose Cocktail	cck_30201a8456079fe6085473
+TheCocktailDB	Jack's Vanilla Coke	cck_9ec3d1aaaf04f6028caf47
+TheCocktailDB	Jackhammer	cck_5217e4eb3cf0df5823f28a
+TheCocktailDB	Jam Donut	cck_930527cbb57a91676e14aa
+TheCocktailDB	Jamaica Kiss	cck_27ef619ab070a86a892dd4
+TheCocktailDB	Jamaican Coffee	cck_d37c14166d8faf9c7a5199
+TheCocktailDB	Japanese Fizz	cck_5ba28ed187b9045adc3716
+TheCocktailDB	Jello shots	cck_33a2291a04d19315df6882
+TheCocktailDB	Jelly Bean	cck_48ffc38f828eb3d6293be1
+TheCocktailDB	Jewel Of The Nile	cck_d93669c54d5f03f96cd52a
+TheCocktailDB	Jitterbug	cck_0379b421a619a98c73c88e
+TheCocktailDB	John Collins	cck_26f96f16c31cc78f48a6ac
+TheCocktailDB	Just a Moonmint	cck_7a32cebf9f573aa317a1da
+TheCocktailDB	Kamikaze	cck_e472bc5e43aec9a36e9a2c
+TheCocktailDB	Karsk	cck_ecddb22acdb40e5449ddba
+TheCocktailDB	Kentucky B And B	cck_d6678c0536e5c2ab2721a5
+TheCocktailDB	Kentucky Colonel	cck_37eb067d40eaa288560fdb
+TheCocktailDB	Kill the cold Smoothie	cck_befff1916302a1ddfef020
+TheCocktailDB	Kioki Coffee	cck_3a023b492bad5d95940e03
+TheCocktailDB	Kir	cck_c8c27e4c3111e2362b4443
+TheCocktailDB	Kir Royale	cck_7f3f685878eb926f5eb1cb
+TheCocktailDB	Kiss me Quick	cck_504649123d4216f1709cc3
+TheCocktailDB	Kiwi Lemon	cck_5bf03cc7d01744a37abf23
+TheCocktailDB	Kiwi Martini	cck_d5a753b775d1b4f4480a39
+TheCocktailDB	Kiwi Papaya Smoothie	cck_37654520db3d33b3a2d559
+TheCocktailDB	Kool First Aid	cck_e9f0a97155970277d93b08
+TheCocktailDB	Kool-Aid Shot	cck_9927595073b089a9011df6
+TheCocktailDB	Kool-Aid Slammer	cck_44da0203c3909e42bec281
+TheCocktailDB	Kurant Tea	cck_8ee620bf91116024842ed2
+TheCocktailDB	Lady Love Fizz	cck_eeaf31466131e624313394
+TheCocktailDB	Lassi - A South Indian Drink	cck_e911e6cc09589d9fc0d1a3
+TheCocktailDB	Lassi - Mango	cck_ef56723b9ea08930523af4
+TheCocktailDB	Lassi - Sweet	cck_63c3f371c7b03e05be086e
+TheCocktailDB	Lassi Khara	cck_f72dcd244feb80f5933d48
+TheCocktailDB	Lassi Raita	cck_c5508cf93b065e2e4dea93
+TheCocktailDB	Lazy Coconut Paloma	cck_3e35881c7b39ba579faab3
+TheCocktailDB	Lemon Drop	cck_6775ee179a37b625b1330f
+TheCocktailDB	Lemon Elderflower Spritzer	cck_9e2487b49421d2251ebf75
+TheCocktailDB	Lemon Shot	cck_2e3d099ee9de5b5d6acb96
+TheCocktailDB	Lemouroudji	cck_736314b6ea3d752762fea5
+TheCocktailDB	Limeade	cck_2a6c3622d16b74dea745e1
+TheCocktailDB	Limona Corona	cck_2daa82a697b1b019c607e4
+TheCocktailDB	Loch Lomond	cck_69a4075442a304c2b92132
+TheCocktailDB	London Town	cck_93d6505321c7d9e846232d
+TheCocktailDB	Lone Tree Cocktail	cck_f973a6df95e8eb427124ff
+TheCocktailDB	Lone Tree Cooler	cck_0ee6de4bdf26ffb4f5cc70
+TheCocktailDB	Long vodka	cck_2b8c955a711e2b6a84213f
+TheCocktailDB	Lord And Lady	cck_6fdf1da572e70a84f0f8a5
+TheCocktailDB	Lunch Box	cck_7639ccc48d0f50fb00187e
+TheCocktailDB	Mai Tai	cck_8994777e2e30abd17393c2
+TheCocktailDB	Mango Mojito	cck_2325e7079eb5d8c474e632
+TheCocktailDB	Manhattan	cck_eedd90dc3a30e7b441d7ec
+TheCocktailDB	Margarita	cck_58c9c663d753062d59e789
+TheCocktailDB	Martinez 2	cck_85113e99dac88c23a35d08
+TheCocktailDB	Martini	cck_56b9cf0d23505edb66fb89
+TheCocktailDB	Mary Pickford	cck_48fd6dbfd3279285bcb238
+TheCocktailDB	Masala Chai	cck_2fe1131f815d554d23df03
+TheCocktailDB	Mauresque	cck_fa4f913222484fb2b443c3
+TheCocktailDB	Melya	cck_658c1602082530d4329ab3
+TheCocktailDB	Miami Vice	cck_300f145a0a8a705e4f62fe
+TheCocktailDB	Michelada	cck_d6813972da9d344fdc4131
+TheCocktailDB	Midnight Mint	cck_61f526ae0c188952667189
+TheCocktailDB	Mimosa	cck_4df0b30c2602166781af72
+TheCocktailDB	Mint Julep	cck_d09284a181475bc2d4ead3
+TheCocktailDB	Mocha-Berry	cck_604b03ebac04313cac3a1e
+TheCocktailDB	Mojito	cck_afc3b14d5a1ef983aeeaab
+TheCocktailDB	Mojito Extra	cck_73bed469051f6068e563f3
+TheCocktailDB	Monkey Gland	cck_2a9a6e88b7914162a4198f
+TheCocktailDB	Monkey Wrench	cck_cd69f716d3c10073daa8cc
+TheCocktailDB	Moranguito	cck_b5817b3869c6bc39259eaf
+TheCocktailDB	Moscow Mule	cck_0156c324bf518531b15095
+TheCocktailDB	Mudslinger	cck_d76bccb8eac701fdb02cd6
+TheCocktailDB	Mulled Wine	cck_81a09eac0fdd0c50fe4c61
+TheCocktailDB	Munich Mule	cck_4a0eb858ace21cb6acf8a0
+TheCocktailDB	National Aquarium	cck_c694b9b38b505804c366b6
+TheCocktailDB	Negroni	cck_6a03a79728b58c1967a7f4
+TheCocktailDB	New York Lemonade	cck_2dd73c0cd800c14540bf26
+TheCocktailDB	New York Sour	cck_fdc6a9296b7596f4ac1fbb
+TheCocktailDB	Nuked Hot Chocolate	cck_fd8b486a3f806406c94b1c
+TheCocktailDB	Nutty Irishman	cck_6b48713efa93dacbae24ea
+TheCocktailDB	Oatmeal Cookie	cck_771ae2bbd567a5d6c72d7a
+TheCocktailDB	Old Cuban	cck_b0841f14d3923a0ad4fda7
+TheCocktailDB	Old Fashioned	cck_ab98f540d9a3dc4afcd142
+TheCocktailDB	Old Pal	cck_71d7728de95df32c1db10b
+TheCocktailDB	Orange Crush	cck_a72664dd2d102da488e0e9
+TheCocktailDB	Orange Oasis	cck_044d0125d43605d9461cfa
+TheCocktailDB	Orange Push-up	cck_d6d19574eb5b52e3cc1d8e
+TheCocktailDB	Orange Rosemary Collins	cck_57b833c18b4deacd14bcec
+TheCocktailDB	Orange Scented Hot Chocolate	cck_26fe5a2b4916bf45222dc9
+TheCocktailDB	Orange Whip	cck_5b9490753261e86d5f072e
+TheCocktailDB	Orangeade	cck_8b968b0080f49ca49fc04a
+TheCocktailDB	Oreo Mudslide	cck_0d7e03d95416816c77a497
+TheCocktailDB	Orgasm	cck_21daa663e1f56e1cf2174c
+TheCocktailDB	Owen's Grandmother's Revenge	cck_eafdb339fd50df3fafd7ea
+TheCocktailDB	Paloma	cck_c3edd7c5ba22f29685dc60
+TheCocktailDB	Paradise	cck_aad2eea56995d0a93fb4f1
+TheCocktailDB	Passion Fruit Martini	cck_c71f39cdc6b05daed71d0d
+TheCocktailDB	Pegu Club	cck_f69e021ba087a5f02b27d9
+TheCocktailDB	Penicillin	cck_9426cfc73bcba377825461
+TheCocktailDB	Pineapple Gingerale Smoothie	cck_dfd7cf70d0ccbf090b8697
+TheCocktailDB	Pineapple Paloma	cck_07656006e2f1a4452f01d2
+TheCocktailDB	Pink Gin	cck_4cd3052bc64c1f9f91d011
+TheCocktailDB	Pink Lady	cck_484309dc6eda52737cd726
+TheCocktailDB	Pink Moon	cck_b75bd18238dac45c546546
+TheCocktailDB	Pink Panty Pulldowns	cck_9307c936242939ec3771d5
+TheCocktailDB	Pink Penocha	cck_6600526872903d89daf147
+TheCocktailDB	Pisco Sour	cck_737141f64bf8f086de6653
+TheCocktailDB	Planter's Punch	cck_b380d6e4a11af14ac0474c
+TheCocktailDB	Planter’s Punch	cck_d60c655e3d456e8fd400bc
+TheCocktailDB	Popped cherry	cck_2634b5fa27993de720768b
+TheCocktailDB	Poppy Cocktail	cck_3692737048b35fb1b8bdc6
+TheCocktailDB	Pornstar Martini	cck_ce77bba222a408f95cac6b
+TheCocktailDB	Port And Starboard	cck_e4eb49bbce260de98d2a8a
+TheCocktailDB	Port Wine Cocktail	cck_1b320c19073e3aacbd187c
+TheCocktailDB	Port Wine Flip	cck_7e81ab43b5f8ab09445029
+TheCocktailDB	Porto flip	cck_8734501ffde177b85f9545
+TheCocktailDB	Pure Passion	cck_ff4868a0cdf2fbdddb5606
+TheCocktailDB	Pysch Vitamin Light	cck_b85d6af50ec621ba719cf9
+TheCocktailDB	Quaker's Cocktail	cck_a16f5a7613a90be1f50f15
+TheCocktailDB	Quarter Deck Cocktail	cck_fe3f7c4bac6e7a12203d90
+TheCocktailDB	Queen Bee	cck_eb201b231f8a73906fac94
+TheCocktailDB	Queen Charlotte	cck_285d3b6ccacac67db2319d
+TheCocktailDB	Queen Elizabeth	cck_3c5a05148b311379b44525
+TheCocktailDB	Quentin	cck_58da4a32bfbde709ac76b7
+TheCocktailDB	Quick F**K	cck_5ce58f1d516dfd926fd59f
+TheCocktailDB	Quick-sand	cck_89bc6d744fdcaf49425bbf
+TheCocktailDB	Radioactive Long Island Iced Tea	cck_6f156d0de8859d151e26e3
+TheCocktailDB	Radler	cck_67da06b64e38d82a34a072
+TheCocktailDB	Rail Splitter	cck_46e9c0038def51ce4d3c9e
+TheCocktailDB	Ramos Gin Fizz	cck_558f3edb115cbe7074440b
+TheCocktailDB	Raspberry Cooler	cck_4fb7415cff6c36b5948d73
+TheCocktailDB	Raspberry Julep	cck_a3432d921970b97152661f
+TheCocktailDB	Red Snapper	cck_3639ac86e888322244e301
+TheCocktailDB	Rose	cck_30a71acc29460906cc7211
+TheCocktailDB	Rosemary Blue	cck_0ad24e39c90a2eb9d6d55c
+TheCocktailDB	Royal Bitch	cck_5dc196244b2de37d8d8831
+TheCocktailDB	Royal Fizz	cck_6f9606317403b81c632fc6
+TheCocktailDB	Royal Flush	cck_56f201e1cf36ba3ebc6edf
+TheCocktailDB	Royal Gin Fizz	cck_155e4b9f4fe8807539f90e
+TheCocktailDB	Ruby Tuesday	cck_387caf503cc8afe85c800f
+TheCocktailDB	Rum Cobbler	cck_4321792f58530b9b9df71c
+TheCocktailDB	Rum Cooler	cck_b0aeec3fa91bd981e1946b
+TheCocktailDB	Rum Milk Punch	cck_7484ea43a5faa6f76a7319
+TheCocktailDB	Rum Old-fashioned	cck_1822a8c34a4ad81e2d242b
+TheCocktailDB	Rum Punch	cck_d85bf7685890a71485b198
+TheCocktailDB	Rum Runner	cck_7a26498cb896e9ca75b884
+TheCocktailDB	Rum Screwdriver	cck_80706113e8c44ade799446
+TheCocktailDB	Rum Sour	cck_2c73555a99d12662339f4e
+TheCocktailDB	Rum Toddy	cck_b42f0e22e46671b48863a7
+TheCocktailDB	Russian Spring Punch	cck_3ef506d326586931c8b717
+TheCocktailDB	Rusty Nail	cck_57526236877cd5a7390e82
+TheCocktailDB	Salty Dog	cck_895c4f236541bc0900b7fe
+TheCocktailDB	San Francisco	cck_5ca4f2d8b508eb9162c49f
+TheCocktailDB	Sangria	cck_3b1e7443e18f28b900cc46
+TheCocktailDB	Sazerac	cck_3d7b15741e9a5a35037cb9
+TheCocktailDB	Scooter	cck_eab8245f151dc4dfe5d7da
+TheCocktailDB	Scotch Sour	cck_6e978bd33533eadcf6b079
+TheCocktailDB	Screwdriver	cck_521c262cc2c21650691b5f
+TheCocktailDB	Sea breeze	cck_fb52592c7ec2607a4096b7
+TheCocktailDB	Shark Attack	cck_2a9a3d2aefbefa77b0e573
+TheCocktailDB	Sherry Eggnog	cck_5a66389106d6552aae9d43
+TheCocktailDB	Sherry Flip	cck_46d909a596978b5fffb4ea
+TheCocktailDB	Shot-gun	cck_42c00bd5babe3ce93f39fb
+TheCocktailDB	Sidecar	cck_6fe2e9d0b6227b37912e6f
+TheCocktailDB	Smut	cck_dc6e27533656dcb01d16f5
+TheCocktailDB	Snowball	cck_b512f5ec8ec6827ca1dae0
+TheCocktailDB	Snowday	cck_7a37abde167e37cfa249af
+TheCocktailDB	Sol Y Sombra	cck_26b581cfb9c4a2c9ef2be3
+TheCocktailDB	Space Odyssey	cck_4c93104a2e03778c331c06
+TheCocktailDB	Spice 75	cck_356da496ab69eeadd777ff
+TheCocktailDB	Spritz	cck_0a3142c2ec341f85afb576
+TheCocktailDB	Stinger	cck_895410c0ef864c2aa8cf42
+TheCocktailDB	Stone Sour	cck_54fdc247aed56ace174240
+TheCocktailDB	Sweet Bananas	cck_8fbb4bfa92b1f72e48a62f
+TheCocktailDB	Sweet Sangria	cck_3f6acaf76652f262020921
+TheCocktailDB	Sweet Tooth	cck_d9d8100df1bc9c7f7c2f74
+TheCocktailDB	Talos Coffee	cck_7e22f06a96c40993f854a6
+TheCocktailDB	Tennesee Mud	cck_8ac55a9fc4d74a4553a751
+TheCocktailDB	Tequila Fizz	cck_5233bfffc5f58174a57de6
+TheCocktailDB	Tequila Slammer	cck_2b5920aca84c86fb787142
+TheCocktailDB	Tequila Sour	cck_1b73848a7865777dbfe690
+TheCocktailDB	Tequila Surprise	cck_b3e16686d7884b90878277
+TheCocktailDB	Texas Rattlesnake	cck_fb8eacdd8b2fb6ab447ac0
+TheCocktailDB	Texas Sling	cck_d3c593a5ad452b16db58f0
+TheCocktailDB	Thai Coffee	cck_dea1f6575fcf7abeb74e11
+TheCocktailDB	The Galah	cck_ad32513c76c5bec61bc932
+TheCocktailDB	The Jimmy Conway	cck_c8f35f11fd5b35f9ff3eec
+TheCocktailDB	The Last Word	cck_4291bdad34454204f6793f
+TheCocktailDB	The Laverstoke	cck_00ee4fc66650028d7376f3
+TheCocktailDB	The Philosopher	cck_2c7dabb2eb334cdaf9903b
+TheCocktailDB	Thriller	cck_66cf0774ddfecd3bb391cc
+TheCocktailDB	Tia-Maria	cck_e2a09c8f8db51ad2083fd9
+TheCocktailDB	Tipperary	cck_f5b1531aea990b1b03d720
+TheCocktailDB	Tom Collins	cck_bc97c837093f386216b194
+TheCocktailDB	Tomato Tang	cck_e43e8c1c8dd5a1f87fde1a
+TheCocktailDB	Turf Cocktail	cck_d49b47fb75351b54b68016
+TheCocktailDB	Turkeyball	cck_2ba5903b2a70225624ae41
+TheCocktailDB	Tuxedo Cocktail	cck_669e284b54c74e5d50b42d
+TheCocktailDB	Valencia Cocktail	cck_6b3f538415a29b03463681
+TheCocktailDB	Vampiro	cck_628425347a17d7e2aa7f76
+TheCocktailDB	Van Vleet	cck_c24352b2d88787bd1ac228
+TheCocktailDB	Vermouth Cassis	cck_a6cdec98e910c21ff4ee11
+TheCocktailDB	Vesper	cck_3a33da2ad68e4a1fc74b34
+TheCocktailDB	Vesuvio	cck_6735cf1be1041b8a34627d
+TheCocktailDB	Veteran	cck_ed5dc85c1cd92fc794f8f3
+TheCocktailDB	Victor	cck_d1572dec0df4c5669eb35d
+TheCocktailDB	Victory Collins	cck_adeefacab4154f5c899983
+TheCocktailDB	Vodka And Tonic	cck_865927c547549a897f14bf
+TheCocktailDB	Vodka Fizz	cck_a08aa625342feffdc7ac35
+TheCocktailDB	Vodka Lemon	cck_8db6ca0674d2dba38ab95a
+TheCocktailDB	Vodka Martini	cck_12672d0ee602fb1c55c1f2
+TheCocktailDB	Vodka Russian	cck_6bde3df085110be53ab81c
+TheCocktailDB	Vodka Slime	cck_078771790b9568ca4a3279
+TheCocktailDB	Vodka Tonic	cck_7d9e7999c53eec18c00750
+TheCocktailDB	Waikiki Beachcomber	cck_6d54cb0be4c74c45c02535
+TheCocktailDB	Whiskey Sour	cck_74db6c7746e0bd58deb5fd
+TheCocktailDB	Whisky Mac	cck_10625626ec171a0f2a0c05
+TheCocktailDB	White Lady	cck_f922d3294053c7b92214ed
+TheCocktailDB	White Russian	cck_687cee4a84235f6d26fdb6
+TheCocktailDB	White Wine Sangria	cck_cc68cac51e06726c4fb197
+TheCocktailDB	Whitecap Margarita	cck_1cef4700a061a7a9b68af1
+TheCocktailDB	Wine Cooler	cck_b79f13ac0174573c408406
+TheCocktailDB	Wine Punch	cck_3542bcbf65a45725c2f403
+TheCocktailDB	Winter Paloma	cck_1692cc9e9860ac72254933
+TheCocktailDB	Winter Rita	cck_d2a2e493896c8c24d3d9f6
+TheCocktailDB	Yellow Bird	cck_2948b7e55d45573cc5a3c6
+TheCocktailDB	Yoghurt Cooler	cck_d4a9daac7a72180c532c9f
+TheCocktailDB	Zambeer	cck_71d694ac2172684308682b
+TheCocktailDB	Zenmeister	cck_e8ead23a19d09ef73d2eb9
+TheCocktailDB	Ziemes Martini Apfelsaft	cck_cf29ee6f4faf7c456f398c
+TheCocktailDB	Zima Blaster	cck_6cf2ddfc56599852eb1625
+TheCocktailDB	Zimadori Zinger	cck_fd473416d1ba8f1187ca60
+TheCocktailDB	Zinger	cck_b3f9643960e0ba0bfe4486
+TheCocktailDB	Zipperhead	cck_4bc41b15e6efee9a827770
+TheCocktailDB	Zippy's Revenge	cck_c09dd78d68f7544378836f
+TheCocktailDB	Zizi Coin-coin	cck_1d0d5e67de3c8aaad8bd60
+TheCocktailDB	Zoksel	cck_036c51f353404d88f524f0
+TheCocktailDB	Zombie	cck_a57af058238822cf81df23
+TheCocktailDB	Zorbatini	cck_3ab72e5cd8c1ec724ff10c
+TheCocktailDB	Zorro	cck_8fb7075dcabcebccbfebb6
+Wikipedia (CC-BY-SA)	20th century (cocktail)	cck_6f4809cc39349117abeae4
+Wikipedia (CC-BY-SA)	7 and 7	cck_26a61a76a8e819e4e2ee7f
+Wikipedia (CC-BY-SA)	Adonis (cocktail)	cck_2af78f52ef2d1f92979493
+Wikipedia (CC-BY-SA)	Advocaat	cck_53402cbb3d84b0a5480176
+Wikipedia (CC-BY-SA)	Aigua de València	cck_83e3fcdd802634c5e935f0
+Wikipedia (CC-BY-SA)	Alabama slammer	cck_30129e3d67abb95da8746a
+Wikipedia (CC-BY-SA)	Alexander (cocktail)	cck_87b64a228550d2ece834e6
+Wikipedia (CC-BY-SA)	Amaretto sour	cck_0c21b79aef80ca245f03c9
+Wikipedia (CC-BY-SA)	Amber moon	cck_96705458cf8279df16103a
+Wikipedia (CC-BY-SA)	Americano (cocktail)	cck_85ad01d449ab3205116a9c
+Wikipedia (CC-BY-SA)	Ancient Mariner (cocktail)	cck_3f13ce31ab8755a32ae733
+Wikipedia (CC-BY-SA)	Angel face (cocktail)	cck_57e9b8232bcbaece5a1175
+Wikipedia (CC-BY-SA)	Aperol spritz	cck_f710fd97c0b19f0e00f7f1
+Wikipedia (CC-BY-SA)	Appletini	cck_6e6f403c368823d560b0f8
+Wikipedia (CC-BY-SA)	Aqua Velva (cocktail)	cck_c9ae4d14acea398e47ef52
+Wikipedia (CC-BY-SA)	Arsenic and Old Lace (cocktail)	cck_99a082f95b4b73f476e74a
+Wikipedia (CC-BY-SA)	Aruba Ariba	cck_45ebeba5b25cdb3850c899
+Wikipedia (CC-BY-SA)	Astro pop (cocktail)	cck_356adfe9ceab8f5f7fd027
+Wikipedia (CC-BY-SA)	Atomic (cocktail)	cck_84ae27b71aa09aaa06983f
+Wikipedia (CC-BY-SA)	Aviation (cocktail)	cck_ed8896b42006764505bb95
+Wikipedia (CC-BY-SA)	Aviation cocktail	cck_779f8123e54e12fc7d45e6
+Wikipedia (CC-BY-SA)	B-52 (cocktail)	cck_60e69507c88041dabf1c47
+Wikipedia (CC-BY-SA)	BLT cocktail	cck_3e54907e26ff067096c630
+Wikipedia (CC-BY-SA)	Bacardi cocktail	cck_0e78f45ca61f5b78703415
+Wikipedia (CC-BY-SA)	Bacon martini	cck_d0ee6ba733f014a6253a5c
+Wikipedia (CC-BY-SA)	Barbary coast (cocktail)	cck_9eb5b77b37bae0b6dc4a25
+Wikipedia (CC-BY-SA)	Barraquito	cck_4410b32d2c78a389943fbb
+Wikipedia (CC-BY-SA)	Batanga (cocktail)	cck_bc424432f735cec40e562f
+Wikipedia (CC-BY-SA)	Batida	cck_d241429c16e9044836e611
+Wikipedia (CC-BY-SA)	Bay breeze (cocktail)	cck_632c61445fba465f6cc427
+Wikipedia (CC-BY-SA)	Bee's knees	cck_7f6e2a6bcdc5260e7db70c
+Wikipedia (CC-BY-SA)	Bee's knees (cocktail)	cck_450a91c504378834d29e10
+Wikipedia (CC-BY-SA)	Bellini (cocktail)	cck_851994bcb0a870314aa82f
+Wikipedia (CC-BY-SA)	Between the sheets (cocktail)	cck_43a69ac59f93f130f8b477
+Wikipedia (CC-BY-SA)	Bijou (cocktail)	cck_6b92ef03c2719d1ecd499a
+Wikipedia (CC-BY-SA)	Black Russian	cck_04afca20591a61f6cd0751
+Wikipedia (CC-BY-SA)	Black and tan	cck_12578402ed7b9fe07fe274
+Wikipedia (CC-BY-SA)	Black nail	cck_9e6f11249b69c8e282844a
+Wikipedia (CC-BY-SA)	Black velvet (cocktail)	cck_17d9fbe05e0edd1e9599b6
+Wikipedia (CC-BY-SA)	Blackthorn (cocktail)	cck_8f38e4198cc720648d49d3
+Wikipedia (CC-BY-SA)	Blood and Sand (cocktail)	cck_df4774532afcccf5755812
+Wikipedia (CC-BY-SA)	Bloody Margaret	cck_e51a59ceb7977e45a9ed5b
+Wikipedia (CC-BY-SA)	Bloody Mary (cocktail)	cck_68869c2676fc40a6c0d3ca
+Wikipedia (CC-BY-SA)	Blow my skull	cck_0efeb6da636b9488841e54
+Wikipedia (CC-BY-SA)	Blue Hawaii (cocktail)	cck_38445d8c93f2ba9fcf2de3
+Wikipedia (CC-BY-SA)	Blue Lagoon (cocktail)	cck_b294d73b29947515410e55
+Wikipedia (CC-BY-SA)	Blue bird (cocktail)	cck_1beb1706789e65dd67859f
+Wikipedia (CC-BY-SA)	Blueberry tea	cck_03e1dd5903bb06eef71cc2
+Wikipedia (CC-BY-SA)	Blueberry tea (cocktail)	cck_46e822d889854a089240f0
+Wikipedia (CC-BY-SA)	Bobby Burns (drink)	cck_8dcf0fe265568ae054d338
+Wikipedia (CC-BY-SA)	Bombardino	cck_302695cd9e0c65433d9a21
+Wikipedia (CC-BY-SA)	Boomerang (cocktail)	cck_c6027f4397d54e4e04b0fa
+Wikipedia (CC-BY-SA)	Boston (cocktail)	cck_0760fb5203230625d22855
+Wikipedia (CC-BY-SA)	Boulevardier (cocktail)	cck_63e2b6e239336a0fc3de8a
+Wikipedia (CC-BY-SA)	Bourbon lancer	cck_37d87249ce15abf742870b
+Wikipedia (CC-BY-SA)	Bramble (cocktail)	cck_9019794a9b8c00682d9d79
+Wikipedia (CC-BY-SA)	Brandy Alexander	cck_110247a8d175e214d04ae5
+Wikipedia (CC-BY-SA)	Brandy Daisy	cck_b36fcee4540cc969c61f88
+Wikipedia (CC-BY-SA)	Brandy crusta	cck_0f877d62c32cafd5291782
+Wikipedia (CC-BY-SA)	Brandy sour	cck_325a5f320ae8773a915e71
+Wikipedia (CC-BY-SA)	Brandy sour (Cyprus)	cck_9c8d75dd408f9f48435603
+Wikipedia (CC-BY-SA)	Brass Monkey (cocktail)	cck_ce712280b66811eb8ccc04
+Wikipedia (CC-BY-SA)	Breakfast martini	cck_00bc47c39328bbf893f4c8
+Wikipedia (CC-BY-SA)	Broken Spur (cocktail)	cck_707cbb589ba0f16bb33cd9
+Wikipedia (CC-BY-SA)	Bronx (cocktail)	cck_b43a8a8cd4faf4f01648dd
+Wikipedia (CC-BY-SA)	Brooklyn (cocktail)	cck_2469eb8549968a37de767c
+Wikipedia (CC-BY-SA)	Brown Bomber (cocktail)	cck_7f67e81edb46c528a378ee
+Wikipedia (CC-BY-SA)	Brown Derby (cocktail)	cck_dde24c14b3c7d1228b704e
+Wikipedia (CC-BY-SA)	Buck's Fizz (cocktail)	cck_0f4755d2158d43a7ef2643
+Wikipedia (CC-BY-SA)	Buck's fizz	cck_7ad1edd1a1f2c3965b8a5c
+Wikipedia (CC-BY-SA)	Bumbo	cck_0a34263b1401c0a0e9f41b
+Wikipedia (CC-BY-SA)	Caesar (cocktail)	cck_d9409b57a31942c436fb3c
+Wikipedia (CC-BY-SA)	Caipiroska	cck_6e660cfcc3ac670f8880de
+Wikipedia (CC-BY-SA)	Canchanchara	cck_031b38fe38cbf9c82cd821
+Wikipedia (CC-BY-SA)	Cantarito	cck_298daa7349fd1e72377ceb
+Wikipedia (CC-BY-SA)	Cape Codder (cocktail)	cck_c7486262e434ff77758577
+Wikipedia (CC-BY-SA)	Carajillo	cck_ffc6e27cf540cb4162357a
+Wikipedia (CC-BY-SA)	Casino (cocktail)	cck_1c5ea30937b234022b1e29
+Wikipedia (CC-BY-SA)	Cat's Eye (cocktail)	cck_6baa6f413fffeaa659b83d
+Wikipedia (CC-BY-SA)	Champagne cocktail	cck_66db40a1d9d7e25117778c
+Wikipedia (CC-BY-SA)	Chartreuse swizzle	cck_595b2fcb9b5c0e1a597712
+Wikipedia (CC-BY-SA)	Cheeky Vimto	cck_ef7da151509b8346c9664d
+Wikipedia (CC-BY-SA)	Chiliguaro	cck_21e3482187746165cddf87
+Wikipedia (CC-BY-SA)	Chocolate martini	cck_2f1569930f054309eb7032
+Wikipedia (CC-BY-SA)	Chrysanthemum (cocktail)	cck_83a6c7978fb78232c6ec84
+Wikipedia (CC-BY-SA)	Churchill (cocktail)	cck_c562a59ee64bab6268ffde
+Wikipedia (CC-BY-SA)	Cloister (cocktail)	cck_11ec447dafa8e62780d999
+Wikipedia (CC-BY-SA)	Clover Club cocktail	cck_4a60a1504b979d2023c7b8
+Wikipedia (CC-BY-SA)	Cobra's fang	cck_d485eb8decc3d65c750988
+Wikipedia (CC-BY-SA)	Cocktails with cachaça	cck_c054b6e1396a7dc85f4a48
+Wikipedia (CC-BY-SA)	Coffee grog	cck_e77715e09562c737f379d5
+Wikipedia (CC-BY-SA)	Cojito	cck_db3dc1f3b91d1a54abbb3f
+Wikipedia (CC-BY-SA)	Colombia (cocktail)	cck_db673344b61f1c6cb4a7c8
+Wikipedia (CC-BY-SA)	Common market (cocktail)	cck_921a2f9131b2fc619b5341
+Wikipedia (CC-BY-SA)	Cooperstown cocktail (cocktail)	cck_146da9f1461b88dda72b9f
+Wikipedia (CC-BY-SA)	Coquito	cck_25b7874bff4e8d036dad1d
+Wikipedia (CC-BY-SA)	Cowboy (cocktail)	cck_f3d506e6aa5b8b14a51c1b
+Wikipedia (CC-BY-SA)	Creamsicle (cocktail)	cck_00dcdb69b20b4465b685dd
+Wikipedia (CC-BY-SA)	Cremat	cck_68beccd1f278e0bad3c72b
+Wikipedia (CC-BY-SA)	Crémas	cck_f53099f543179473c2b609
+Wikipedia (CC-BY-SA)	Cuban sunset	cck_827967a0f98fd21dcdf0a3
+Wikipedia (CC-BY-SA)	Curaçao punch	cck_2ae9166f15917fedfecdf9
+Wikipedia (CC-BY-SA)	Damn the weather	cck_2ea6f1298cc48daf7084ee
+Wikipedia (CC-BY-SA)	Damn the weather (cocktail)	cck_7e53c59ea8f12388ae6378
+Wikipedia (CC-BY-SA)	Dean Lyder	cck_18f25ad81c62465cbc4ed6
+Wikipedia (CC-BY-SA)	Death Flip	cck_ff1ebfc8d21f490e467adf
+Wikipedia (CC-BY-SA)	Derby (cocktail)	cck_4712fbb2e1e1952a8c23eb
+Wikipedia (CC-BY-SA)	Desert healer	cck_3fa78c4ca25cbfeeb2eac6
+Wikipedia (CC-BY-SA)	Don Alfredo (cocktail)	cck_6ce6583105b6e5fe3c4807
+Wikipedia (CC-BY-SA)	Donkey punch (cocktail)	cck_c850795c242a609e1bf53b
+Wikipedia (CC-BY-SA)	Dry Manhattan	cck_ddb02cffd332b67cc15164
+Wikipedia (CC-BY-SA)	Eierpunsch	cck_9b83a369f9350cde91e1d5
+Wikipedia (CC-BY-SA)	El Presidente (cocktail)	cck_e64ca517e3c2afc10730c6
+Wikipedia (CC-BY-SA)	Fanciulli cocktail	cck_3c105e1c5b4af0c7351c71
+Wikipedia (CC-BY-SA)	Farnell (cocktail)	cck_52384157afd978b91f56e0
+Wikipedia (CC-BY-SA)	Fernet con coca	cck_5c446649b76809959a1255
+Wikipedia (CC-BY-SA)	Flaming B-52	cck_0689c432704366ec76339a
+Wikipedia (CC-BY-SA)	Flaming Doctor Pepper	cck_bf04cd8f4334fdd5b20998
+Wikipedia (CC-BY-SA)	Flaming volcano	cck_46bc534b60b542658fa9c5
+Wikipedia (CC-BY-SA)	Fog Cutter	cck_7c8b5a15a2b3054995aa69
+Wikipedia (CC-BY-SA)	French 75 (cocktail)	cck_aecd4f6068584c70be7272
+Wikipedia (CC-BY-SA)	Fuzzy navel	cck_1961ccf76facb5f888e394
+Wikipedia (CC-BY-SA)	Garibaldi (cocktail)	cck_2df42b0d38c92a3209ff00
+Wikipedia (CC-BY-SA)	Gibson (cocktail)	cck_6120f549482e5f4954dc19
+Wikipedia (CC-BY-SA)	Gimlet (cocktail)	cck_bbf984eb66ccfc0bdc1c1b
+Wikipedia (CC-BY-SA)	Gin Basil Smash	cck_ae3830309263fb24557c30
+Wikipedia (CC-BY-SA)	Gin and juice (cocktail)	cck_856ab8df318298b8bb4493
+Wikipedia (CC-BY-SA)	Gin and tonic	cck_cb3cd26d9dfa4315b81542
+Wikipedia (CC-BY-SA)	Gin bucket	cck_2e04e485d0dd9ee6a62ea6
+Wikipedia (CC-BY-SA)	Gin pahit	cck_d208586b798c3f42004df3
+Wikipedia (CC-BY-SA)	Glowtini	cck_bd7395636d8645f311b957
+Wikipedia (CC-BY-SA)	Godfather (cocktail)	cck_2ee46d0f24bab8b0f022b8
+Wikipedia (CC-BY-SA)	Godmother (cocktail)	cck_0ba76d2c0e54a9f910859e
+Wikipedia (CC-BY-SA)	Golden Elk	cck_0f8ed2559346bd2c913987
+Wikipedia (CC-BY-SA)	Golden dream (cocktail)	cck_06c225a86363b0ff851bd7
+Wikipedia (CC-BY-SA)	Grasshopper (cocktail)	cck_2a74d3d432d8444b7195ef
+Wikipedia (CC-BY-SA)	Green Swizzle	cck_f297cedcca09b7effd8b88
+Wikipedia (CC-BY-SA)	Greyhound (cocktail)	cck_49545c365d115ecf52a4b5
+Wikipedia (CC-BY-SA)	Gunfire (drink)	cck_ae23f1e58d33d37de179e7
+Wikipedia (CC-BY-SA)	Gunner (cocktail)	cck_f828ccf63ce28bfd248a29
+Wikipedia (CC-BY-SA)	Hangman's blood	cck_09deab8a08664d0b558d0d
+Wikipedia (CC-BY-SA)	Hanky panky (cocktail)	cck_fd6f60a953f32c02679197
+Wikipedia (CC-BY-SA)	Harlem mugger (cocktail)	cck_a32211948f5e846ed5e53c
+Wikipedia (CC-BY-SA)	Harvey Wallbanger (cocktail)	cck_015a91978def4adb8ed1c5
+Wikipedia (CC-BY-SA)	Honey deuce	cck_12899f82974a478347d04d
+Wikipedia (CC-BY-SA)	Hoppel poppel (drink)	cck_548eabe8169166096bd9f9
+Wikipedia (CC-BY-SA)	Horsefeather (cocktail)	cck_74223b916503906c5b7c2c
+Wikipedia (CC-BY-SA)	Hot buttered rum	cck_4773c3d5baaff3bde3ad19
+Wikipedia (CC-BY-SA)	Hugo (cocktail)	cck_adcc6b598961060033919e
+Wikipedia (CC-BY-SA)	Hummer (cocktail)	cck_989c6854f09d77ce2f2db4
+Wikipedia (CC-BY-SA)	Hurricane (cocktail)	cck_44c2df6e4cbbecbe58fcc3
+Wikipedia (CC-BY-SA)	Illegal (cocktail)	cck_d527e4101246dfd02a59f4
+Wikipedia (CC-BY-SA)	Incredible Hulk (cocktail)	cck_b97c349d3efe93b0a96f09
+Wikipedia (CC-BY-SA)	Irish car bomb (cocktail)	cck_5e654e7c9104d4958ec9cf
+Wikipedia (CC-BY-SA)	Jack Rose (cocktail)	cck_a2a4fb1553be123715580c
+Wikipedia (CC-BY-SA)	Japanese slipper	cck_e54548ef05af13963f9a26
+Wikipedia (CC-BY-SA)	John Collins (cocktail)	cck_67afd46c36573f3c04c741
+Wikipedia (CC-BY-SA)	John Daly (cocktail)	cck_5bee0992cdcbb078748ba5
+Wikipedia (CC-BY-SA)	Juan Collins	cck_e747783006a7912b09bbef
+Wikipedia (CC-BY-SA)	Juan Collins (cocktail)	cck_73a56394480fa8da087557
+Wikipedia (CC-BY-SA)	Jungle Bird	cck_38964367b78241e61bc613
+Wikipedia (CC-BY-SA)	Kalimotxo	cck_92e9ff120f431ef4b5a335
+Wikipedia (CC-BY-SA)	Kamikaze (cocktail)	cck_fc481acca39b8de03b6e1c
+Wikipedia (CC-BY-SA)	Kir (cocktail)	cck_a8938a250014ba9f1f19c1
+Wikipedia (CC-BY-SA)	Kir Royal (cocktail)	cck_806d0f9803df2ec8432731
+Wikipedia (CC-BY-SA)	Kir royal	cck_fdc8b3a758477ee7d8672e
+Wikipedia (CC-BY-SA)	Last Word (cocktail)	cck_5706f7259cb66de35d438e
+Wikipedia (CC-BY-SA)	Lemon drop (cocktail)	cck_9aa2c09f622eeab80cdcbd
+Wikipedia (CC-BY-SA)	Lemon, lime and bitters	cck_c6703f490b7c0d6c37a221
+Wikipedia (CC-BY-SA)	Lime Rickey	cck_ed9f96f9b7d0719744a12c
+Wikipedia (CC-BY-SA)	Link up (cocktail)	cck_ac87b18969dd2a780ba725
+Wikipedia (CC-BY-SA)	Lonkero	cck_c7ded598791f5ea117e36a
+Wikipedia (CC-BY-SA)	Lorraine (cocktail)	cck_b26ef4acd66e43158f7362
+Wikipedia (CC-BY-SA)	Lumumba (drink)	cck_ca13469281af6f81006dd1
+Wikipedia (CC-BY-SA)	Lynchburg lemonade	cck_8888b0135dcf7dcfef59e9
+Wikipedia (CC-BY-SA)	Macuá	cck_e29697dd1790256ac8b1b2
+Wikipedia (CC-BY-SA)	Malecon (cocktail)	cck_fbcbb6729b2c5524959014
+Wikipedia (CC-BY-SA)	Manhattan (cocktail)	cck_69a1a4fd3b164748db6472
+Wikipedia (CC-BY-SA)	Martinez (cocktail)	cck_38bed4f3fff491cbacc1e9
+Wikipedia (CC-BY-SA)	Martini (cocktail)	cck_e2ea272a2d9e030ea8d63c
+Wikipedia (CC-BY-SA)	Mary Pickford (cocktail)	cck_62a9147733161b89ab2d7f
+Wikipedia (CC-BY-SA)	Matador (cocktail)	cck_994d6788de4f802fff6e0a
+Wikipedia (CC-BY-SA)	Mate con malicia	cck_7c4aac4e86aa59050e066b
+Wikipedia (CC-BY-SA)	Metropolitan (cocktail)	cck_61b19ffe7c7eee479ef908
+Wikipedia (CC-BY-SA)	Mexican martini	cck_e019ecb8a3ece7f428a3fb
+Wikipedia (CC-BY-SA)	Mickey Slim	cck_f137a8ee32a637b0d7c56a
+Wikipedia (CC-BY-SA)	Milk punch	cck_766cda54d7817826aca69a
+Wikipedia (CC-BY-SA)	Mimosa (cocktail)	cck_75365133f07c3a1b52ad2e
+Wikipedia (CC-BY-SA)	Mismo	cck_a1c6356ef5f72b6b90c9de
+Wikipedia (CC-BY-SA)	Mitch Morgan	cck_f11d594e2d4c91d752b1b3
+Wikipedia (CC-BY-SA)	Mizuwari	cck_d78145288680470e4ff1b5
+Wikipedia (CC-BY-SA)	Modernista (cocktail)	cck_09fa5f8eae865588f81e63
+Wikipedia (CC-BY-SA)	Monaco (cocktail)	cck_6635e3a75058582b8264cf
+Wikipedia (CC-BY-SA)	Monkey gland (cocktail)	cck_e6363baa4bc024f15a440b
+Wikipedia (CC-BY-SA)	Mr. Bali Hai	cck_00fb29ad0db4deafda6abe
+Wikipedia (CC-BY-SA)	My Fair Lady (cocktail)	cck_b8eacf0430aa3b39009736
+Wikipedia (CC-BY-SA)	Naked and famous (cocktail)	cck_a337698dc4d9447642f2e7
+Wikipedia (CC-BY-SA)	Nixon (cocktail)	cck_b2005e22f57963529d2431
+Wikipedia (CC-BY-SA)	Old Etonian (cocktail)	cck_20d6ee60844dfffed9d351
+Wikipedia (CC-BY-SA)	Old fashioned (cocktail)	cck_598cea4c984266b1901f97
+Wikipedia (CC-BY-SA)	Old pal (cocktail)	cck_53fa6e4874cbe20c9261ab
+Wikipedia (CC-BY-SA)	Orange Crush (cocktail)	cck_c192af45dd049681b2d9b9
+Wikipedia (CC-BY-SA)	Orgasm (cocktail)	cck_557c643c420ee5596c8f2c
+Wikipedia (CC-BY-SA)	Ouzini	cck_4b04aefc94211d18edb4d3
+Wikipedia (CC-BY-SA)	Paloma (cocktail)	cck_4b5caf7b084c9b22518365
+Wikipedia (CC-BY-SA)	Paper plane (cocktail)	cck_459cd23bd91fae283d42fb
+Wikipedia (CC-BY-SA)	Paradise (cocktail)	cck_17e08880850793847b0690
+Wikipedia (CC-BY-SA)	Pegu (cocktail)	cck_2a512cf87caa21de5b2598
+Wikipedia (CC-BY-SA)	Pegu Club (cocktail)	cck_b69c702a7ec1d16cd1f92e
+Wikipedia (CC-BY-SA)	Pendennis Club (cocktail)	cck_fa79abf74fd943c7164fd8
+Wikipedia (CC-BY-SA)	Penicillin (cocktail)	cck_1f4605aac506fde5066514
+Wikipedia (CC-BY-SA)	Perfect Manhattan	cck_98a1f652209671e5b4c1a1
+Wikipedia (CC-BY-SA)	Picon Punch	cck_0df2d9de796d94709a347b
+Wikipedia (CC-BY-SA)	Pimm's cocktail	cck_98f319d7737e9b66d85276
+Wikipedia (CC-BY-SA)	Pimm's cup	cck_818e257f35c49bc6378dea
+Wikipedia (CC-BY-SA)	Pink Squirrel	cck_bfd8e3481c7bfcce1c254d
+Wikipedia (CC-BY-SA)	Pink lady (cocktail)	cck_b2cf4f86a801809c40c7d4
+Wikipedia (CC-BY-SA)	Pisco punch	cck_7b2153e7acb67f4d163e3c
+Wikipedia (CC-BY-SA)	Piscola	cck_e45b2ff60d8084e2d2143c
+Wikipedia (CC-BY-SA)	Piña colada	cck_a669a18a628bab25419922
+Wikipedia (CC-BY-SA)	Platinum blonde (cocktail)	cck_93d510b0044cef75be8d36
+Wikipedia (CC-BY-SA)	Porn star martini	cck_39daff49921e7fba4adbb6
+Wikipedia (CC-BY-SA)	Prince of Wales (cocktail)	cck_1aba9d6855b7808a5f03a6
+Wikipedia (CC-BY-SA)	Purple Rain (cocktail)	cck_7c30b878829183da74ab7e
+Wikipedia (CC-BY-SA)	Q.B. Cooler	cck_17c7ed0ecf082e352c1c91
+Wikipedia (CC-BY-SA)	Queen Mary (cocktail)	cck_839212054907880e608a82
+Wikipedia (CC-BY-SA)	Queen's Park Swizzle	cck_d60cd1ea02d2f29904b9ba
+Wikipedia (CC-BY-SA)	Queens (cocktail)	cck_86bcf1ebd86e928e0647fd
+Wikipedia (CC-BY-SA)	Queimada (drink)	cck_9b62f2eccc2672389db29b
+Wikipedia (CC-BY-SA)	Quentão	cck_6b56593cc65ec2f5f9652e
+Wikipedia (CC-BY-SA)	Rabo-de-galo	cck_d58cd820a44176d0c1d584
+Wikipedia (CC-BY-SA)	Ramos fizz	cck_e934f23bf7b09528b80dcb
+Wikipedia (CC-BY-SA)	Ranch water	cck_c88ee06ac04c3716fa5bd0
+Wikipedia (CC-BY-SA)	Raymond Massey (cocktail)	cck_b4f363cc05cb3e6a92468b
+Wikipedia (CC-BY-SA)	Red Eye (cocktail)	cck_352d7fd72be084a91c2d91
+Wikipedia (CC-BY-SA)	Redheaded slut	cck_a1f8dadb4fa506fa6fba4d
+Wikipedia (CC-BY-SA)	Remember the Maine (cocktail)	cck_791c43692d354481d2519b
+Wikipedia (CC-BY-SA)	Rickey (cocktail)	cck_01e9a421585313a6b5a692
+Wikipedia (CC-BY-SA)	Ritz Sidecar	cck_12f4bd02ff333cca2122ff
+Wikipedia (CC-BY-SA)	Rob Roy (cocktail)	cck_6b5faa23ddd52f6287ff2a
+Wikipedia (CC-BY-SA)	Rock and Rye	cck_50b723c75605675be0c560
+Wikipedia (CC-BY-SA)	Roffignac cocktail	cck_851a7b163d5c99970cb96a
+Wikipedia (CC-BY-SA)	Rompope	cck_c112da27126bffd0ea4cff
+Wikipedia (CC-BY-SA)	Rose (cocktail)	cck_3c203c39e58f48d316b549
+Wikipedia (CC-BY-SA)	Rose Kennedy (cocktail)	cck_65d2eb178e6be3be02b062
+Wikipedia (CC-BY-SA)	Rum Collins	cck_a5b2d7d2ba13bed4475b06
+Wikipedia (CC-BY-SA)	Rum and Coke	cck_685feedfe1dc4edb90ab40
+Wikipedia (CC-BY-SA)	Rum swizzle	cck_cd51c8705f410821846d76
+Wikipedia (CC-BY-SA)	Rusty nail (cocktail)	cck_73eeaa9fbde7846d3ec40a
+Wikipedia (CC-BY-SA)	Rüdesheimer Kaffee	cck_37b72fc2ff79c66b37ef64
+Wikipedia (CC-BY-SA)	Sake bomb	cck_8febbe0ebf6ad967845849
+Wikipedia (CC-BY-SA)	Saketini	cck_ef2c99df31b85fe4962d34
+Wikipedia (CC-BY-SA)	Salmoncito	cck_1aad420a2db46b08851ace
+Wikipedia (CC-BY-SA)	Salty dog (cocktail)	cck_ede157aa3c5f062c0334f5
+Wikipedia (CC-BY-SA)	Sazerac (cocktail)	cck_492dc62684517df8e92075
+Wikipedia (CC-BY-SA)	Scorpion bowl	cck_287354bf0e4ccc3e687a52
+Wikipedia (CC-BY-SA)	Scotch and soda	cck_3481b864e3f4add41eb01d
+Wikipedia (CC-BY-SA)	Scotch and soda (cocktail)	cck_d6538b9cc67d4667b0235f
+Wikipedia (CC-BY-SA)	Screwdriver (cocktail)	cck_e0589a5bc7d1d2b6a41250
+Wikipedia (CC-BY-SA)	Sea breeze (cocktail)	cck_1ab7871c37844e92ffab46
+Wikipedia (CC-BY-SA)	Seifu	cck_e67e775a7e7c28dcb3313a
+Wikipedia (CC-BY-SA)	Serena libre	cck_ebf6303bbea3653ed1a8be
+Wikipedia (CC-BY-SA)	Sex on the beach	cck_834b2cfa536103981b71e1
+Wikipedia (CC-BY-SA)	Sex on the beach (cocktail)	cck_5062a68542bba499f0add6
+Wikipedia (CC-BY-SA)	Sherry cobbler	cck_306d818847213bc524a2b1
+Wikipedia (CC-BY-SA)	Sidecar (cocktail)	cck_81509760ff0c752836deb2
+Wikipedia (CC-BY-SA)	Singapore sling	cck_112791c643ecbd355f7514
+Wikipedia (CC-BY-SA)	Sling (cocktail)	cck_8c3c7457698ac3150decdc
+Wikipedia (CC-BY-SA)	Slippery nipple	cck_37bc9330a696edf786687f
+Wikipedia (CC-BY-SA)	Snakebite (drink)	cck_51e123fdce26b61459c8e7
+Wikipedia (CC-BY-SA)	Sour mix	cck_40ff76adddef59fd1dcad6
+Wikipedia (CC-BY-SA)	South Side (cocktail)	cck_8be00afbda738f0920132b
+Wikipedia (CC-BY-SA)	Spaghett	cck_bfb5e297c2a9a388183736
+Wikipedia (CC-BY-SA)	Spicy Fifty	cck_1b653546fe57862e75b578
+Wikipedia (CC-BY-SA)	Springbokkie	cck_cee11ba6d81ed63de26452
+Wikipedia (CC-BY-SA)	Spritz (cocktail)	cck_43f4e31be5285151be992b
+Wikipedia (CC-BY-SA)	Stengah	cck_1ce4506cd34aa778064784
+Wikipedia (CC-BY-SA)	Stinger (cocktail)	cck_772e1172bd9c20e38f9037
+Wikipedia (CC-BY-SA)	Stirling Punch	cck_d06e6d77513b82a9a956c7
+Wikipedia (CC-BY-SA)	Suffering bastard	cck_3c35bfe4eba3d5ed1c7c29
+Wikipedia (CC-BY-SA)	Sunflower (cocktail)	cck_44a3f6f511127ae80857bc
+Wikipedia (CC-BY-SA)	Takumi's aviation	cck_507f977d3cf35e603a274d
+Wikipedia (CC-BY-SA)	Tamagozake	cck_0be39c8533d8e3c8239cf1
+Wikipedia (CC-BY-SA)	Tepache	cck_d0ddd8077bfc2daa7daaa6
+Wikipedia (CC-BY-SA)	Tequila	cck_37c3cdd3bc8e3bfb62a915
+Wikipedia (CC-BY-SA)	Tequila Sunrise (cocktail)	cck_cc5218558ef00c47a63974
+Wikipedia (CC-BY-SA)	Terremoto (drink)	cck_f6f841f10fd234c789bb69
+Wikipedia (CC-BY-SA)	The last word (cocktail)	cck_fcdcc0a9d50d8ad2c48213
+Wikipedia (CC-BY-SA)	Ti' punch	cck_74bfd92e0dbf1f2956835b
+Wikipedia (CC-BY-SA)	Tom and Jerry (drink)	cck_db68d93d7d801609e554b7
+Wikipedia (CC-BY-SA)	Tommy's margarita	cck_ba513dbf4d1464c9e7ad08
+Wikipedia (CC-BY-SA)	Torito	cck_68d872dce2edadfd2714fb
+Wikipedia (CC-BY-SA)	Trinidad sour	cck_b982d3fa2d348b56a990ec
+Wikipedia (CC-BY-SA)	Trumptini	cck_e4df881df690885404b54e
+Wikipedia (CC-BY-SA)	Tuxedo (cocktail)	cck_b8722a8355df1559565c36
+Wikipedia (CC-BY-SA)	Up to date (cocktail)	cck_cc7907d747f5d72ceef473
+Wikipedia (CC-BY-SA)	Vampiro (cocktail)	cck_a37881a9b2d6769061f770
+Wikipedia (CC-BY-SA)	Vargtass	cck_bafaf326b11f38bda99740
+Wikipedia (CC-BY-SA)	Ve.n.to	cck_16805f4df58aa7e856ee3c
+Wikipedia (CC-BY-SA)	Venom (cocktail)	cck_fc50eac4c5ac88d0bebda0
+Wikipedia (CC-BY-SA)	Vesper (cocktail)	cck_af827e963d71e9194b9375
+Wikipedia (CC-BY-SA)	Vieux Carré (cocktail)	cck_982aa41b903bb9b9c2a3c9
+Wikipedia (CC-BY-SA)	Virgin colada	cck_68a3c3653d3ee684729092
+Wikipedia (CC-BY-SA)	Vodka Red Bull	cck_27337aa7aef2e997d6cbbf
+Wikipedia (CC-BY-SA)	Volcano bowl	cck_c8fe713778cdbd1fa2d0ec
+Wikipedia (CC-BY-SA)	Ward 8 (cocktail)	cck_57a3c8eb75caa1459d337d
+Wikipedia (CC-BY-SA)	Water Lily (cocktail)	cck_6072b9691f721b86337908
+Wikipedia (CC-BY-SA)	Whiskey and Coke	cck_625ce01ff671c8fea326c1
+Wikipedia (CC-BY-SA)	White Cargo (cocktail)	cck_8ae1e985a9a4a4875579fd
+Wikipedia (CC-BY-SA)	White Russian (cocktail)	cck_473021d7b78440251d75cd
+Wikipedia (CC-BY-SA)	White lady (cocktail)	cck_7d833f48bb4fd7a41370f1
+Wikipedia (CC-BY-SA)	Woo Woo (cocktail)	cck_718f355736fd2f84d422e3
+Wikipedia (CC-BY-SA)	Woo woo	cck_d4b963fab6fed627e88255
+Wikipedia (CC-BY-SA)	Yellow bird (cocktail)	cck_15a0c50c86a9234e3d5cf1
+Wikipedia (CC-BY-SA)	Yorsh	cck_9c0a57de361bd9c2ae0540
+Wikipedia (CC-BY-SA)	Zazarac	cck_ba2bbd631ac7342dd2620b
+Wikipedia (CC-BY-SA)	Zombie (cocktail)	cck_a8ebe2fc16f6632d2fb6cf

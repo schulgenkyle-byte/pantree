@@ -32,6 +32,11 @@ backend/ingest/*.sql
 backend/ingest/*.json
 backend/ingest/*.ndjson
 
+# Source PDFs from Internet Archive cocktail-book scrapes — over GitHub's 100MB limit.
+# Extracted text already committed via NDJSON; the PDFs themselves regenerate from fetchers.
+backend/ingest/cocktails/raw/*.pdf
+backend/ingest/cocktails/_tmp/
+
 # Android build outputs (can be hundreds of MB)
 android/app/build/
 android/.gradle/

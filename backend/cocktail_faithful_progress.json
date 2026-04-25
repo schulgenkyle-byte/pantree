@@ -1,0 +1,85 @@
+{
+  "started_at": "2026-04-25T00:53:00Z",
+  "last_run_at": "2026-04-25T01:04:43.646Z",
+  "batches_run": 41,
+  "rows_redone": 1756,
+  "rows_too_fragmentary": 13,
+  "rows_failed": 59,
+  "samples": [
+    {
+      "id": "cck_09f2df37dbd4793d847545",
+      "title": "Overall Julep--St. Louis Style",
+      "orig_snippet": "OVERALL JULEP--St. Louis Style\n\nUse a large Mixing glass; fill with Lump Ice.\n\n\n\n2/3 Wineglass Rye Whiskey.\n\n\n\n2/3 Wineglass Gordon Gin.\n\n\n\n1/2 Wineglass Import",
+      "modern": "2 oz London dry gin\n0.5 oz simple syrup\n8–10 fresh mint leaves\n\nLightly press the mint and sugar in a julep cup; do not muddle to oblivion.\nAdd the spirit and pack the cup with crushed ice.\nStir until the cup frosts, then top with more crushed ice and a tall mint bouquet.\nServe with a short straw.\n\nBartender's note: julep template intact — spirit, mint, sugar, crushed ice."
+    },
+    {
+      "id": "cck_0b997c4c6d1ee8662c5129",
+      "title": "Port Wine Negus",
+      "orig_snippet": "To every pint of port allow one quart of boiling watery quarter of a pound of loaf sugar ; one lemon ; grated nutmeg to taste. Put the wine in a jug ; rub some ",
+      "modern": "2 oz tawny port\n2 oz hot water\n1 tsp simple syrup\nlemon peel\n\nCombine wine, sugar, and hot water in a warmed mug; stir to dissolve.\nTwist a lemon peel over the surface, grate fresh nutmeg on top, and serve hot.\n\nBartender's note: negus is a hot wine punch — port/wine base preserved."
+    },
+    {
+      "id": "cck_137bb1672f14294e6f6e65",
+      "title": "Brandy Sling",
+      "orig_snippet": "BRANDY SLING\n\nIn a Whiskey glass:\n\n\n\n1 lump Ice.\n\n\n\n1 teaspoonful Sugar dissolved in little Water.\n\n\n\n1 jigger Brandy.\n\n\n\nStir; twist in a piece of Lemon Peel; ",
+      "modern": "2 oz Cognac or brandy\n1 tsp simple syrup\n1 oz cold water (or club soda if original is sparkling)\n\nStir spirit, sweetener, and water in a rocks glass with one large cube.\nGrate fresh nutmeg over the top.\n\nBartender's note: 19th-c. sling template kept — short, lightly sweetened, nutmeg dust."
+    },
+    {
+      "id": "cck_1c63238eb5b0d43eb0f9c4",
+      "title": "Mint Julep, Western Style",
+      "orig_snippet": "Mint Julep, Western Style\n\nIn julep cup or lemonade glass crush 1 lump\nof sugar and 3 sprigs of mint.\n\nFill with fine ice.\n\n1 jigger bourbon.\n\n% barspoonful Jam",
+      "modern": "2 oz Jamaican rum (funky pot-still)\n0.5 oz simple syrup\n8–10 fresh mint leaves\n\nLightly press the mint and sugar in a julep cup; do not muddle to oblivion.\nAdd the spirit and pack the cup with crushed ice.\nStir until the cup frosts, then top with more crushed ice and a tall mint bouquet.\nServe with a short straw.\n\nBartender's note: julep template intact — spirit, mint, sugar, crushed ice."
+    },
+    {
+      "id": "cck_203ba23940c727b4dd2c2b",
+      "title": "Egg Flip (No. 116)",
+      "orig_snippet": "Another way. Beat up in a jug four new-laid eggs, omitting two of the whites ; add half a dozen lumps of sugar, and rub these well in the eggs. Pour in boiling ",
+      "modern": "2 oz Cognac (or VSOP brandy)\n0.5 oz simple syrup\n1 whole egg\n\nDry-shake all ingredients hard for 15 seconds.\nAdd ice and shake again until well chilled.\nStrain into a small wine glass and grate fresh nutmeg over the top.\n\nBartender's note: flip template — whole egg, sugar, and the original spirit preserved."
+    },
+    {
+      "id": "cck_26190cd03de496a1b8a270",
+      "title": "Brandy Skin",
+      "orig_snippet": "BRANDY SKIN\n\nFill a Whiskey glass 1/2 full Hot Water and pour in:\n\n\n\n1 jigger Brandy.\n\n\n\nTwist a piece of Lemon Skin on top and serve.\n\n\n\n(It may occur that a c",
+      "modern": "2 oz Cognac or brandy\n1 tsp sugar\nhot water (to fill)\n1 long lemon peel\n\nDissolve sugar in a splash of hot water in a warmed mug.\nAdd the spirit and top with hot water; twist the lemon peel over the surface and drop it in.\n\nBartender's note: skin = lemon-peel toddy — preserved exactly."
+    }
+  ],
+  "edge_cases": [
+    {
+      "id": "cck_6da43c764cc017a29d60e2",
+      "title": "Ojen Cocktail—(new Orleans Style)",
+      "reason": "no identifiable spirit",
+      "orig_snippet": "Ojen Cocktail—(New Orleans Style)\n\n1 jigger Ojen.\n\n2 dashes Peychaud bitters.\n\nShake with shaved ice. Serve in white win"
+    },
+    {
+      "id": "cck_7d240f1280a95a36626cd6",
+      "title": "Martinique",
+      "reason": "no identifiable spirit",
+      "orig_snippet": "Martinique\n\n% jigger benedictiue.\n\n3 /6 jigger kummel.\n\n% jigger cream on top."
+    },
+    {
+      "id": "cck_896405d6733c36f42d84b0",
+      "title": "Riding Club Cocktail",
+      "reason": "no identifiable spirit",
+      "orig_snippet": "Mixing-glass half-full fine ice, one dash Angos- tura bitters, a small bar-spoonful Horsford acid phosphate, one jigger "
+    },
+    {
+      "id": "cck_a5adc2ae4416d0f5f6bfa2",
+      "title": "Bhine-Wine Lemonade",
+      "reason": "no identifiable spirit",
+      "orig_snippet": "Make a plain lemonade, strain it into a long thin glass, trim with fruit, top it off with a jigger of Rhine-wine."
+    },
+    {
+      "id": "cck_d7bb7aee0a74250ecd3000",
+      "title": "Creme De Menthe Highball",
+      "reason": "no identifiable spirit",
+      "orig_snippet": "CREME    DE    MENTHE    HIGHBALL\n1   piece  of  ice  in  glass,\n100%  Creme  De  Menthe\nFill  glass  with  fizz  water,"
+    },
+    {
+      "id": "cck_e6af24c013bedb39c6fcb3",
+      "title": "Violet Fizz",
+      "reason": "no identifiable spirit",
+      "orig_snippet": "Prepare in the same manner as a Silver Fizz, adding a tablespoonful raspberry vinegar before shaking."
+    }
+  ],
+  "last_id_seen": "cck_b8338bd8d4ded4431a8674"
+}

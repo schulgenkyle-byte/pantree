@@ -1,0 +1,120 @@
+{
+  "started_at": "2026-04-23",
+  "finished_at": "2026-04-23",
+  "total_titles_in_db": 734,
+  "lookups_attempted": 23,
+  "lookups_method": "WebSearch (USPTO/Trademarkia/justia/uspto.report) + industry-source verification (CraftJacks 5-trademarked-list, Wine Enthusiast, Difford's, Bacardi case law). WebFetch was blocked, so direct TESS HTML retrieval was not possible; all USPTO data was extracted via WebSearch summaries.",
+  "candidate_methodology": "Cross-referenced 734 titles against (a) the canonical 5 US-trademarked cocktails (Sazerac, Painkiller, Dark 'n' Stormy, Hand Grenade, Whiskarita); (b) brand-name-as-cocktail patterns (Kahlua, Tia Maria, Pimm's, Vimto, Bellini, etc.); (c) modern post-2000 branded creations (Honey Deuce, Frosé, Ranch Water, Spaghett, Whiskarita); (d) restaurant-named cocktails (Empellón); (e) celebrity-likeness names (Bob Marley).",
+  "verified_conflicts": [
+    {
+      "id": "cck_3d7b15741e9a5a35037cb9",
+      "title": "Sazerac",
+      "holder": "Sazerac Brands LLC",
+      "reg_no": "0602218",
+      "class": "33 (alcoholic cocktails)",
+      "registered": "1955-02-15",
+      "evidence": "USPTO Reg# 0602218 - covers ALCOHOLIC COCKTAILS"
+    },
+    {
+      "id": "cck_492dc62684517df8e92075",
+      "title": "Sazerac (cocktail)",
+      "holder": "Sazerac Brands LLC",
+      "reg_no": "0602218",
+      "class": "33",
+      "evidence": "Same as above (Wikipedia variant of same cocktail)"
+    },
+    {
+      "id": "cck_74eca01a9204553e72d730",
+      "title": "Bahama Mama",
+      "holder": "Goombay IP Holdings LLC",
+      "reg_no": "uspto.report/TM/99588360 (also other holders for unrelated goods)",
+      "class": "33 (alcoholic carbonated drinks)",
+      "evidence": "Active TM for alcoholic carbonated drinks"
+    },
+    {
+      "id": "cck_12899f82974a478347d04d",
+      "title": "Honey deuce",
+      "holder": "United States Tennis Association Inc.",
+      "reg_no": "filed 2024 (pending)",
+      "class": "33 + apparel",
+      "evidence": "USTA filed 2024; Grey Goose holds exclusive license; cocktail is officially branded US Open drink"
+    },
+    {
+      "id": "cck_0e78f45ca61f5b78703415",
+      "title": "Bacardi cocktail",
+      "holder": "Bacardi Limited",
+      "reg_no": "1936 + ongoing",
+      "class": "33",
+      "evidence": "1936 NY Supreme Court ruling: must contain Bacardi rum to use 'Bacardi Cocktail' name; Bacardi historically enforces"
+    },
+    {
+      "id": "cck_98f319d7737e9b66d85276",
+      "title": "Pimm's cocktail",
+      "holder": "Diageo (Pimm's brand)",
+      "reg_no": "Pimm's TM 1912+",
+      "class": "33",
+      "evidence": "Pimm's brand mark since 1912; cocktail name embeds the brand"
+    },
+    {
+      "id": "cck_818e257f35c49bc6378dea",
+      "title": "Pimm's cup",
+      "holder": "Diageo (Pimm's brand)",
+      "reg_no": "Pimm's TM 1912+",
+      "class": "33",
+      "evidence": "Same as above"
+    },
+    {
+      "id": "cck_f75d0b4c01c2215ed51201",
+      "title": "Homemade Kahlua",
+      "holder": "The Absolut Company AB / Pernod Ricard",
+      "reg_no": "0711952",
+      "class": "33 (coffee liqueur)",
+      "evidence": "Kahlua TM Reg# 0711952; Pernod sued Kahfua importer for $2M for Lanham Act violations - very active enforcement"
+    },
+    {
+      "id": "cck_ef7da151509b8346c9664d",
+      "title": "Cheeky Vimto",
+      "holder": "Nichols plc (Vimto)",
+      "reg_no": "Vimto brand TM",
+      "class": "32 / 33",
+      "evidence": "Wikipedia/encyclopedia notes bars rename this drink to avoid Vimto IP"
+    },
+    {
+      "id": "cck_89d22dd4b4e5312bfef3d8",
+      "title": "Empellón Cocina's Fat-Washed Mezcal",
+      "holder": "Alex Stupak / Empellón Restaurant Group",
+      "reg_no": "Empellón restaurant TM",
+      "class": "43 (restaurant services)",
+      "evidence": "Title literally embeds restaurant brand name and possessive ('Cocina's')"
+    },
+    {
+      "id": "cck_0f18fc872e145f2b934618",
+      "title": "Bob Marley",
+      "holder": "Fifty-Six Hope Road Music Ltd. (Marley estate)",
+      "reg_no": "Multiple BOB MARLEY/MARLEY marks",
+      "class": "various incl. beverages",
+      "evidence": "Marley estate is HIGHLY litigious: 400+ C&Ds, 20+ lawsuits, $2.4M judgment vs Jammin Java for unauthorized brand use"
+    }
+  ],
+  "checked_clear_or_generic": [
+    {"name": "Hurricane (cocktail)", "reason": "Despite popular belief, Pat O'Brien's only TMs the 'Hurricane Mix' product, not the cocktail name"},
+    {"name": "Mai Tai", "reason": "Trader Vic's claims trade dress but no enforced cocktail-name TM found"},
+    {"name": "Frosé", "reason": "No USPTO TM filing"},
+    {"name": "Aperol Spritz", "reason": "Reg #4024560 was CANCELLED Nov 2019 - now generic"},
+    {"name": "Ranch Water", "reason": "USPTO ruled GENERIC in 2017 (refused 616 Restaurant application)"},
+    {"name": "Spaghett", "reason": "No TM filed; Wet City Brewery did not register"},
+    {"name": "Moscow Mule", "reason": "Smirnoff/Heublein TM ABANDONED 1997; USPTO rules name is generic"},
+    {"name": "Long Island Iced Tea", "reason": "TM Reg #4943056 exists but for Class 30 tea-based beverages on Supplemental Register only; cocktail name generic. Plus only 'Radioactive Long Island Iced Tea' in DB"},
+    {"name": "Penicillin", "reason": "Sam Ross 2005 creation; no TM, IBA-recognized as classic"},
+    {"name": "Jungle Bird", "reason": "1973 KL Hilton; no TM, IBA-recognized 2024"},
+    {"name": "Bellini", "reason": "Only abandoned BELLINI SEAPORT filing by Cipriani; no active cocktail TM"},
+    {"name": "Aigua de València", "reason": "Constante Gil tried to register; refused as generic"},
+    {"name": "Singapore Sling", "reason": "Raffles Hotel serves but does not enforce on name"},
+    {"name": "Aviation (cocktail)", "reason": "1916 cocktail predates Aviation Gin (2006) by 90 years; clearly generic"},
+    {"name": "Vesper", "reason": "Danjaq holds JAMES BOND TM but explicitly noted as not active in cocktail/beverage class"},
+    {"name": "Casino Royale", "reason": "Same - Danjaq holds film TM, no beverage class"},
+    {"name": "Incredible Hulk (cocktail)", "reason": "Marvel HULK TM (Reg #2920699) is for characters/merch; cocktail informally named, no enforcement"},
+    {"name": "Cuba Libre / Cuba Libra", "reason": "No specific TM; Bacardi never registered"}
+  ],
+  "rate_limit_issues": "WebFetch tool is blocked in this environment, preventing direct TESS HTML scraping. WebSearch worked but is rate-limited; relied on Trademarkia/Justia/uspto.report search summaries. Coverage is thus indirect for non-canonical names."
+}
