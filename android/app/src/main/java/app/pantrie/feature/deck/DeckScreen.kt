@@ -1059,7 +1059,7 @@ private fun UpsellCard(message: String, tier: String) {
           onClick = { /* TODO: Play Billing */ },
           colors = ButtonDefaults.buttonColors(containerColor = Ink),
           shape = RoundedCornerShape(4.dp),
-        ) { Text("Upgrade to Pro — 40/day", color = Paper) }
+        ) { Text("Brimm Pro · unlimited swipes", color = Paper) }
       }
     }
   }

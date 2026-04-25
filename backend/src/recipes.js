@@ -66,7 +66,7 @@ export const handleRecipes = {
       'SELECT sku, expires_at FROM entitlement WHERE user_id = ? AND expires_at > ?'
     ).bind(userId, Date.now()).first();
     const tier = isDev ? 'dev' : (ent ? (ent.sku === 'pantrie_pro_annual' ? 'pro_annual' : 'pro_monthly') : 'free');
-    const dailyCap = isDev ? 9999 : (tier === 'free' ? 20 : 40);
+    const dailyCap = isDev ? 9999 : (tier === 'free' ? 20 : 9999);
     const remaining = Math.max(0, dailyCap - used);
     const resetAt = (day + 1) * 86400_000;
 
@@ -75,8 +75,8 @@ export const handleRecipes = {
         deck: [],
         dailyCap, remaining: 0, resetAt, tier,
         message: tier === 'free'
-          ? "You've seen today's 20 — come back tomorrow, or upgrade to Pro for 40/day."
-          : "You've seen today's 40 — come back tomorrow.",
+          ? "You've seen your 20 free swipes today. Come back tomorrow, or upgrade to Brimm Pro for unlimited swipes."
+          : "You've worked through every match for today — come back tomorrow.",
       }, 200, request, env);
     }
 
@@ -792,7 +792,7 @@ export const handleRecipes = {
       const ent = await env.DB.prepare(
         'SELECT expires_at FROM entitlement WHERE user_id = ? AND expires_at > ?'
       ).bind(userId, Date.now()).first();
-      dailyCap = ent ? 40 : 20;
+      dailyCap = ent ? 9999 : 20;
       remaining = Math.max(0, dailyCap - (used + 1));
     }
 
