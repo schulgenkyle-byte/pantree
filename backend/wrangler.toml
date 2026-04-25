@@ -29,9 +29,9 @@ bucket_name = "pan-tree"
 # Accepts a comma-separated list so you can ship Android + iOS + Web clients.
 [vars]
 ENVIRONMENT = "dev"                                   # staging — enables /auth/dev-token + relaxes prod-only config checks
-GOOGLE_CLIENT_ID = "551337065169-ndra9iucotdmg1f4e8chcojfipo8k59q.apps.googleusercontent.com"
-ALLOWED_ORIGIN = "https://pantrie.app,https://www.pantrie.app"
-PLAY_PACKAGE_NAME = "app.pantrie"
+GOOGLE_CLIENT_ID = "551337065169-ndra9iucotdmg1f4e8chcojfipo8k59q.apps.googleusercontent.com,551337065169-9hdrtlbv44oi0mc4jcd4oadhct8r6je2.apps.googleusercontent.com,551337065169-0tbr9ko8nbpvh59tnhngco9t72sd5svo.apps.googleusercontent.com"
+ALLOWED_ORIGIN = "https://brimmapp.com,https://www.brimmapp.com,https://pantrie.app,https://www.pantrie.app"
+PLAY_PACKAGE_NAME = "app.brimm"
 PLAY_INTEGRITY_PROJECT = "REPLACE_WITH_YOUR_CLOUD_PROJECT_NUMBER"
 # RTDN audience MUST match the Pub/Sub push-subscription audience you configured in Play Console.
 RTDN_AUDIENCE = "https://pantrie-backend.REPLACE.workers.dev/billing/rtdn"
