@@ -245,6 +245,38 @@ export const handleAdmin = {
         ORDER BY content_type, alcoholic`
     ).all();
 
+    // Save -> cook funnel (7d). Counts saves, then how many of those saves later turned into cooks.
+    const funnel = await env.DB.prepare(
+      `SELECT
+         (SELECT COUNT(*) FROM interaction WHERE status = 'saved' AND created_at >= ?) AS saves,
+         (SELECT COUNT(*) FROM interaction c
+            WHERE c.status = 'cooked' AND c.created_at >= ?
+              AND EXISTS (SELECT 1 FROM interaction s
+                            WHERE s.user_id = c.user_id AND s.recipe_id = c.recipe_id
+                              AND s.status = 'saved' AND s.created_at <= c.created_at)
+         ) AS cooks_after_save`
+    ).bind(now - 7 * day, now - 7 * day).first();
+
+    // Engagement split by content_type (food vs cocktail vs mocktail) for the past 7 days.
+    const splitByType = await env.DB.prepare(
+      `SELECT r.content_type, i.status, COUNT(*) AS n
+         FROM interaction i
+         JOIN recipe r ON r.id = i.recipe_id
+        WHERE i.created_at >= ?
+        GROUP BY r.content_type, i.status`
+    ).bind(now - 7 * day).all();
+
+    // Open feedback by severity — surfaced as colored badges at the top for triage urgency.
+    const feedbackOpen = await env.DB.prepare(
+      `SELECT severity, COUNT(*) AS n
+         FROM beta_feedback
+        WHERE status = 'open'
+        GROUP BY severity`
+    ).all();
+
+    const funnelSaves = funnel?.saves || 0;
+    const funnelCooks = funnel?.cooks_after_save || 0;
+
     return json({
       users: users?.n || 0,
       dau: dau?.n || 0,
@@ -254,6 +286,13 @@ export const handleAdmin = {
       saves7d: savesN,
       dismisses7d: dismissesN,
       saveRate7d: saveRate,
+      saveToCookFunnel: {
+        saves: funnelSaves,
+        cooksAfterSave: funnelCooks,
+        rate: funnelSaves > 0 ? Math.round((funnelCooks / funnelSaves) * 100) : 0,
+      },
+      engagementByContentType: splitByType?.results || [],
+      feedbackOpenBySeverity: feedbackOpen?.results || [],
       feedbackBreakdown: feedback?.results || [],
       topEvents7d: topEvents?.results || [],
       topRecipes7d: topRecipes?.results || [],
@@ -311,10 +350,28 @@ const DASHBOARD_HTML = `<!doctype html>
   code{background:#eee;padding:1px 4px;border-radius:3px;font-size:12px}
 </style>
 </head><body>
-<h1>Pantrie Beta</h1>
+<h1>brimm Beta</h1>
 <div class="sub" id="gen">loading…</div>
 
+<div id="severity-bar" style="margin-bottom:18px"></div>
+
 <div class="grid" id="kpis"></div>
+
+<section><h2>Save → Cook funnel (7d)</h2>
+  <div id="funnel" class="card" style="font-size:14px"></div>
+</section>
+
+<section><h2>Catalog breakdown</h2>
+  <div id="catalog" class="grid"></div>
+</section>
+
+<section><h2>Engagement by content type (7d)</h2>
+  <table id="engagement"><thead><tr><th>Content type</th><th>Saved</th><th>Dismissed</th><th>Cooked</th><th>Save rate</th></tr></thead><tbody></tbody></table>
+</section>
+
+<section><h2>Mixology engagement (7d)</h2>
+  <div id="mixology" class="grid"></div>
+</section>
 
 <section><h2>Top events (7d)</h2><table id="events"><thead><tr><th>Event</th><th>Count</th></tr></thead><tbody></tbody></table></section>
 
@@ -390,6 +447,104 @@ async function load() {
     card.appendChild(el('div', { className: 'kpi', text: v == null ? '' : v }));
     card.appendChild(el('div', { className: 'label', text: l }));
     kpiBox.appendChild(card);
+  }
+
+  // Severity badge bar — open feedback by severity, color-coded
+  const sevBar = document.getElementById('severity-bar');
+  clear(sevBar);
+  const sevRows = (d.feedbackOpenBySeverity || []);
+  const sevTotal = sevRows.reduce((s, r) => s + (r.n || 0), 0);
+  if (sevTotal > 0) {
+    const wrap = el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;align-items:center' });
+    wrap.appendChild(el('span', { style: 'font-size:13px;color:var(--muted)', text: 'Open feedback:' }));
+    const colors = { high: '#b04a3c', med: '#d29040', low: '#7a8450' };
+    for (const r of sevRows) {
+      const sev = (r.severity || 'med').toLowerCase();
+      const color = colors[sev] || '#6a6864';
+      wrap.appendChild(el('span', {
+        style: 'background:' + color + ';color:white;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600',
+        text: sev + ' · ' + (r.n || 0),
+      }));
+    }
+    sevBar.appendChild(wrap);
+  }
+
+  // Save -> Cook funnel card
+  const f = d.saveToCookFunnel || { saves: 0, cooksAfterSave: 0, rate: 0 };
+  const funnel = document.getElementById('funnel');
+  clear(funnel);
+  const funnelLine = el('div', { style: 'display:flex;align-items:baseline;gap:14px;flex-wrap:wrap' });
+  funnelLine.appendChild(el('div', { style: 'font-size:32px;font-weight:600', text: f.rate + '%' }));
+  funnelLine.appendChild(el('div', { style: 'color:var(--muted)', text: f.cooksAfterSave + ' of ' + f.saves + ' saves became cooks' }));
+  funnel.appendChild(funnelLine);
+  if (f.rate < 5 && f.saves > 10) {
+    funnel.appendChild(el('div', {
+      style: 'margin-top:8px;color:var(--red);font-size:13px',
+      text: 'Heads up: save→cook conversion below 5%. Likely friction in cook flow or low-pantry-match saves.',
+    }));
+  }
+
+  // Catalog breakdown cards
+  const catBox = document.getElementById('catalog');
+  clear(catBox);
+  for (const row of (d.catalogBreakdown || [])) {
+    const isCocktail = row.content_type === 'cocktail';
+    const labelParts = [row.content_type];
+    if (isCocktail) labelParts.push(row.alcoholic ? 'alcoholic' : 'non-alcoholic');
+    const card = el('div', { className: 'card' });
+    card.appendChild(el('div', { className: 'kpi', text: row.n.toLocaleString() }));
+    card.appendChild(el('div', { className: 'label', text: labelParts.join(' · ') }));
+    if (isCocktail && !row.alcoholic && row.n > 0) {
+      card.appendChild(el('div', {
+        style: 'margin-top:6px;font-size:11px;color:var(--red)',
+        text: '⚠ likely mislabeled — should be alcoholic',
+      }));
+    }
+    catBox.appendChild(card);
+  }
+
+  // Engagement by content type
+  const engTbody = document.querySelector('#engagement tbody');
+  clear(engTbody);
+  const engRows = (d.engagementByContentType || []);
+  // Reshape into rows keyed by content_type
+  const engByType = {};
+  for (const r of engRows) {
+    const ct = r.content_type || 'unknown';
+    if (!engByType[ct]) engByType[ct] = { saved: 0, dismissed: 0, cooked: 0 };
+    if (engByType[ct][r.status] != null) engByType[ct][r.status] = r.n;
+  }
+  for (const ct of Object.keys(engByType).sort()) {
+    const r = engByType[ct];
+    const total = (r.saved || 0) + (r.dismissed || 0);
+    const rate = total > 0 ? Math.round(((r.saved || 0) / total) * 100) + '%' : '—';
+    const tr = el('tr');
+    tr.appendChild(el('td', { text: ct }));
+    tr.appendChild(el('td', { text: r.saved || 0 }));
+    tr.appendChild(el('td', { text: r.dismissed || 0 }));
+    tr.appendChild(el('td', { text: r.cooked || 0 }));
+    tr.appendChild(el('td', { text: rate }));
+    engTbody.appendChild(tr);
+  }
+
+  // Mixology engagement breakdown — sourced from event names
+  const evMap = {};
+  for (const e of (d.topEvents7d || [])) evMap[e.name] = e.n;
+  const mixBox = document.getElementById('mixology');
+  clear(mixBox);
+  const mixCards = [
+    ['Card flips', evMap.page_turned || 0, 'multi-page cocktail card swipes'],
+    ['Story page views', evMap.story_page_view || 0, 'people reading vintage origin stories'],
+    ['Mode toggles', evMap.mixology_toggle || 0, 'switching between Bootlegger and Mixologist'],
+    ['Vintage on/off', (evMap.vintage_toggle_on || 0) + ' / ' + (evMap.vintage_toggle_off || 0), 'tab-level vintage mode flips'],
+    ['Pan it clicks', evMap.pan_clicked || 0, 'crediting source bars on Mixologist cards'],
+  ];
+  for (const [label, val, sub] of mixCards) {
+    const card = el('div', { className: 'card' });
+    card.appendChild(el('div', { className: 'kpi', text: val }));
+    card.appendChild(el('div', { className: 'label', text: label }));
+    card.appendChild(el('div', { style: 'font-size:11px;color:var(--muted);margin-top:4px', text: sub }));
+    mixBox.appendChild(card);
   }
 
   // Events table
