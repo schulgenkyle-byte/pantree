@@ -9,6 +9,7 @@ import app.pantrie.BuildConfig
 import app.pantrie.network.PantrieApi
 import app.pantrie.network.dto.GoogleExchangeRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.play.core.integrity.IntegrityManagerFactory
 import com.google.android.play.core.integrity.StandardIntegrityManager.PrepareIntegrityTokenRequest
@@ -32,19 +33,26 @@ class CredentialManagerFlow @Inject constructor(
    *   4. Exchange everything with the backend, which verifies nonce + integrity + id token locally.
    */
   suspend fun signInWithGoogle(activity: Activity): Result<String> = runCatching {
+    android.util.Log.i("CredFlow", "signInWithGoogle: requesting nonce")
     val nonceResp = api.authNonce()
     val nonce = nonceResp.nonce
+    android.util.Log.i("CredFlow", "signInWithGoogle: got nonce, opening picker")
 
     val credentialManager = CredentialManager.create(activity)
-    val googleOption = GetGoogleIdOption.Builder()
-      .setServerClientId(BuildConfig.GOOGLE_SERVER_CLIENT_ID)
-      .setFilterByAuthorizedAccounts(false)
-      .setAutoSelectEnabled(true)
+    // GetSignInWithGoogleOption is the right API for an explicit "Sign in with Google" button —
+    // always renders the picker, never hangs on Android 14+ when auto-select can't decide.
+    // GetGoogleIdOption (with setAutoSelectEnabled) is for SILENT/zero-tap re-auth flows only.
+    val googleOption = GetSignInWithGoogleOption.Builder(BuildConfig.GOOGLE_SERVER_CLIENT_ID)
       .setNonce(nonce)
       .build()
 
     val request = GetCredentialRequest.Builder().addCredentialOption(googleOption).build()
-    val result = credentialManager.getCredential(activity, request)
+    // 30-second cap — if the Credential Manager bottom sheet fails to render
+    // (rare Android 14+ bug), the user gets an Error state instead of an infinite spinner.
+    val result = kotlinx.coroutines.withTimeout(30_000L) {
+      credentialManager.getCredential(activity, request)
+    }
+    android.util.Log.i("CredFlow", "signInWithGoogle: picker returned, extracting id token")
 
     val cred = result.credential
     val idToken = when {
@@ -53,15 +61,20 @@ class CredentialManagerFlow @Inject constructor(
         GoogleIdTokenCredential.createFrom(cred.data).idToken
       else -> error("Unexpected credential type: ${cred.type}")
     }
+    android.util.Log.i("CredFlow", "signInWithGoogle: requesting integrity token")
 
     // Integrity token bound to the SAME nonce so the backend can cross-check.
     val integrityToken = getIntegrityToken(activity, nonce)
+    android.util.Log.i("CredFlow", "signInWithGoogle: exchanging with backend")
 
     val resp = api.googleExchange(GoogleExchangeRequest(idToken, nonce, integrityToken))
     tokenStore.saveRefreshToken(resp.refreshToken)
     tokenStore.saveUserId(resp.userId)
     tokenStore.setAccess(resp.accessToken, resp.expiresAt)
+    android.util.Log.i("CredFlow", "signInWithGoogle: SUCCESS userId=${resp.userId}")
     resp.userId
+  }.onFailure { e ->
+    android.util.Log.e("CredFlow", "signInWithGoogle FAILED: ${e::class.simpleName}: ${e.message}", e)
   }
 
   /**
