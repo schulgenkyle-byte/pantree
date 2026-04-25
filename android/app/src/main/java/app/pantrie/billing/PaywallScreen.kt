@@ -86,7 +86,19 @@ fun PaywallScreen(
   val purchaseEvent by vm.purchaseEvents.collectAsState()
   var selectedSku by remember { mutableStateOf("brimm_pro_yearly") }
   val context = androidx.compose.ui.platform.LocalContext.current
-  val activity = context as? android.app.Activity
+  // Walk the ContextWrapper chain to find the Activity — LocalContext sometimes returns
+  // a ContextWrapper instead of the Activity directly (varies by phone OEM / launcher),
+  // which made the Continue button render as disabled (invisible on dark theme) on
+  // some testers' phones while working on others. Walking the chain handles every case.
+  val activity = remember(context) {
+    var c: android.content.Context? = context
+    while (c is android.content.ContextWrapper && c !is android.app.Activity) c = c.baseContext
+    c as? android.app.Activity
+  }
+
+  // Reset purchasing state on screen entry — if a previous attempt got stuck (e.g. Play Store
+  // process killed mid-purchase), the button could be permanently disabled until process restart.
+  androidx.compose.runtime.LaunchedEffect(Unit) { vm.resetPurchasing() }
 
   // Auto-close on successful purchase, surface errors via a snackbar-style toast.
   androidx.compose.runtime.LaunchedEffect(purchaseEvent) {
@@ -158,12 +170,27 @@ fun PaywallScreen(
 
       Spacer(Modifier.weight(1f))
 
-      // CTA
+      // CTA — always rendered with full-contrast colors so it's never invisible on dark bg.
+      // Disabled only while a purchase is actively in flight (purchasing) or already Pro.
       Button(
-        onClick = { activity?.let { vm.purchase(it, selectedSku) } },
-        enabled = !purchasing && !isPro && activity != null,
+        onClick = {
+          val act = activity
+          if (act != null) {
+            vm.purchase(act, selectedSku)
+          } else {
+            vm.surfaceActivityError()
+          }
+        },
+        enabled = !purchasing && !isPro,
         modifier = Modifier.fillMaxWidth().height(54.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = ProGold, contentColor = ProBg),
+        colors = ButtonDefaults.buttonColors(
+          containerColor = ProGold,
+          contentColor = ProBg,
+          // Force the disabled colors to STILL be high-contrast — Material3's default
+          // disabled palette fades to ~38% alpha which renders nearly invisible on dark bg.
+          disabledContainerColor = ProGold.copy(alpha = 0.6f),
+          disabledContentColor = ProBg,
+        ),
         shape = RoundedCornerShape(14.dp),
       ) {
         when {
@@ -275,5 +302,15 @@ class PaywallViewModel @Inject constructor(
       }
       _purchasing.value = false
     }
+  }
+
+  /** Force-clear the purchasing flag on screen entry — recovers from a stuck state where
+   * a previous purchase attempt left _purchasing.value = true forever (process killed mid-flow). */
+  fun resetPurchasing() { _purchasing.value = false }
+
+  /** Surface an error when the Continue button can't resolve the host Activity from
+   * LocalContext (rare — usually the ContextWrapper-walk in PaywallScreen handles it). */
+  fun surfaceActivityError() {
+    billing.surfaceError("Couldn't open the purchase sheet — close Brimm and reopen, then try again.")
   }
 }

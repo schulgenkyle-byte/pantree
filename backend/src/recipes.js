@@ -455,7 +455,8 @@ export const handleRecipes = {
 
     const { results: interactions } = await env.DB.prepare(
       `SELECT i.recipe_id, i.created_at, r.title, r.cuisine, r.prep_minutes, r.cook_minutes,
-              r.servings, r.avg_rating, r.total_ratings, r.cook_count, r.image_url
+              r.servings, r.avg_rating, r.total_ratings, r.cook_count, r.image_url,
+              r.content_type
          FROM interaction i JOIN recipe r ON r.id = i.recipe_id
         WHERE i.user_id = ? AND i.status = 'saved'
         ORDER BY i.created_at DESC LIMIT 200`
@@ -495,6 +496,10 @@ export const handleRecipes = {
         prepMinutes: r.prep_minutes, cookMinutes: r.cook_minutes,
         servings: r.servings, avgRating: r.avg_rating, totalRatings: r.total_ratings,
         cookCount: r.cook_count || 0, imageUrl: r.image_url,
+        // content_type was missing from this payload — caused EVERY saved recipe to default
+        // to "food" on the client and dump into the Cooking book regardless of bucket.
+        // Snake_case to match the @SerialName("content_type") binding on SavedRecipe DTO.
+        content_type: r.content_type || 'food',
         pantryMatchPercent: percent,
         missingCount: ings.length - matched,
         savedAt: r.created_at,
