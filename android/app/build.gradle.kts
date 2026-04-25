@@ -26,8 +26,8 @@ android {
     applicationId = "app.brimm"
     minSdk = 26
     targetSdk = 35
-    versionCode = 9
-    versionName = "0.1.8"
+    versionCode = 10
+    versionName = "0.1.9"
     vectorDrawables.useSupportLibrary = true
 
     buildConfigField("String", "API_BASE_URL",

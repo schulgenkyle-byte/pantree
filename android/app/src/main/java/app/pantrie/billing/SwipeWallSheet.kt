@@ -39,10 +39,19 @@ fun SwipeWallSheet(
   onGoPro: () -> Unit,
   onDismiss: () -> Unit,
 ) {
+  // Non-dismissible by design: once free quota is exhausted, the only paths off the deck
+  // are (a) watch a rewarded ad for +10, (b) upgrade to Pro, or (c) leave the Tonight tab
+  // via the bottom nav. No "come back tomorrow" soft escape — that's what tomorrow's
+  // counter reset is for. ModalBottomSheet's onDismissRequest still fires on back-press,
+  // so we no-op it here to lock the user on the wall until they convert or navigate away.
   ModalBottomSheet(
-    onDismissRequest = onDismiss,
+    onDismissRequest = { /* intentionally empty — wall is sticky */ },
     containerColor = WallBg,
-    dragHandle = { BottomSheetDefaults.DragHandle(color = WallMuted) },
+    dragHandle = null,  // no drag handle = no swipe-down-to-dismiss affordance
+    sheetState = androidx.compose.material3.rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    properties = androidx.compose.material3.ModalBottomSheetProperties(
+      shouldDismissOnBackPress = false,
+    ),
   ) {
     Column(
       Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp),
@@ -105,10 +114,8 @@ fun SwipeWallSheet(
         }
       }
 
-      Spacer(Modifier.height(8.dp))
-      TextButton(onClick = onDismiss) {
-        Text("Come back tomorrow", color = WallMuted)
-      }
+      // No "Come back tomorrow" — the wall is non-dismissible by design. To leave the
+      // Tonight tab without watching an ad or paying, users tap the bottom nav.
       Spacer(Modifier.height(8.dp))
     }
   }
