@@ -199,6 +199,7 @@ fun MixologyScreen(
   onOpenShopping: () -> Unit = {},
   onOpenPlan: () -> Unit = {},
   onOpenSearch: () -> Unit = {},
+  onOpenPaywall: () -> Unit = {},
   vm: MixologyViewModel = hiltViewModel(),
 ) {
   val state by vm.state.collectAsState()

@@ -305,6 +305,7 @@ fun DeckScreen(
   onOpenShopping: () -> Unit = {},
   onOpenPlan: () -> Unit = {},
   onOpenSearch: () -> Unit = {},
+  onOpenPaywall: () -> Unit = {},
   vm: DeckViewModel = hiltViewModel(),
 ) {
   val state by vm.state.collectAsState()
@@ -342,7 +343,7 @@ fun DeckScreen(
       },
       onGoPro = {
         showWall = false
-        // TODO(paywall): navigate to PaywallScreen route once added to MainActivity nav graph.
+        onOpenPaywall()
       },
       onDismiss = { showWall = false },
     )
@@ -487,7 +488,7 @@ fun DeckScreen(
               CircularProgressIndicator(color = Ink)
             }
             s.deck.isEmpty() && s.remaining == 0 -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-              UpsellCard(message = s.message ?: "Come back tomorrow.", tier = s.tier)
+              UpsellCard(message = s.message ?: "Come back tomorrow.", tier = s.tier, onOpenPaywall = onOpenPaywall)
             }
             s.deck.isEmpty() -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
               EmptyDeckMessage()
@@ -1043,7 +1044,7 @@ private fun EmptyDeckMessage() {
 }
 
 @Composable
-private fun UpsellCard(message: String, tier: String) {
+private fun UpsellCard(message: String, tier: String, onOpenPaywall: () -> Unit) {
   Surface(shape = RoundedCornerShape(12.dp), color = Paper) {
     Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
       Text("That's your 10 for today.", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
@@ -1056,7 +1057,7 @@ private fun UpsellCard(message: String, tier: String) {
       if (tier == "free") {
         Spacer(Modifier.height(16.dp))
         Button(
-          onClick = { /* TODO: Play Billing */ },
+          onClick = onOpenPaywall,
           colors = ButtonDefaults.buttonColors(containerColor = Ink),
           shape = RoundedCornerShape(4.dp),
         ) { Text("Brimm Pro · unlimited swipes", color = Paper) }

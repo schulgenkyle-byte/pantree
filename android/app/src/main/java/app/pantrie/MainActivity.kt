@@ -275,6 +275,7 @@ fun PantrieNav(
           onOpenShopping = { nav.navigate("shopping") },
           onOpenPlan = { nav.navigate("plan") },
           onOpenSearch = { nav.navigate("search?type=food") },
+          onOpenPaywall = { nav.navigate("paywall") },
         )
       }
       composable("mixology") {
@@ -284,7 +285,11 @@ fun PantrieNav(
           onOpenShopping = { nav.navigate("shopping") },
           onOpenPlan = { nav.navigate("plan") },
           onOpenSearch = { nav.navigate("search?type=cocktail") },
+          onOpenPaywall = { nav.navigate("paywall") },
         )
+      }
+      composable("paywall") {
+        app.pantrie.billing.PaywallScreen(onClose = { nav.popBackStack() })
       }
       composable(
         route = "search?type={type}",

@@ -83,7 +83,19 @@ fun PaywallScreen(
 ) {
   val isPro by vm.isPro.collectAsState()
   val purchasing by vm.purchasing.collectAsState()
+  val purchaseEvent by vm.purchaseEvents.collectAsState()
   var selectedSku by remember { mutableStateOf("brimm_pro_yearly") }
+  val context = androidx.compose.ui.platform.LocalContext.current
+  val activity = context as? android.app.Activity
+
+  // Auto-close on successful purchase, surface errors via a snackbar-style toast.
+  androidx.compose.runtime.LaunchedEffect(purchaseEvent) {
+    val ev = purchaseEvent
+    if (ev is PurchaseEvent.Success) {
+      kotlinx.coroutines.delay(800)
+      onClose()
+    }
+  }
 
   Scaffold(containerColor = ProBg) { padding ->
     Column(
@@ -148,8 +160,8 @@ fun PaywallScreen(
 
       // CTA
       Button(
-        onClick = { vm.purchase(selectedSku) },
-        enabled = !purchasing && !isPro,
+        onClick = { activity?.let { vm.purchase(it, selectedSku) } },
+        enabled = !purchasing && !isPro && activity != null,
         modifier = Modifier.fillMaxWidth().height(54.dp),
         colors = ButtonDefaults.buttonColors(containerColor = ProGold, contentColor = ProBg),
         shape = RoundedCornerShape(14.dp),
@@ -159,6 +171,16 @@ fun PaywallScreen(
           purchasing -> CircularProgressIndicator(color = ProBg, modifier = Modifier.size(20.dp))
           else -> Text("Continue", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
+      }
+
+      // Error / cancel surfacing — small inline message under the CTA.
+      val ev = purchaseEvent
+      if (ev is PurchaseEvent.Error) {
+        Spacer(Modifier.height(6.dp))
+        Text(ev.message, color = Color(0xFFE07060), fontSize = 12.sp)
+      } else if (ev is PurchaseEvent.Cancelled) {
+        Spacer(Modifier.height(6.dp))
+        Text("Purchase cancelled.", color = ProMuted, fontSize = 12.sp)
       }
 
       Spacer(Modifier.height(8.dp))
@@ -220,26 +242,29 @@ private fun TierCard(tier: PriceTier, selected: Boolean, onSelect: () -> Unit) {
 @HiltViewModel
 class PaywallViewModel @Inject constructor(
   private val entitlement: EntitlementRepository,
+  private val billing: BillingManager,
 ) : ViewModel() {
   val isPro = entitlement.isPro
 
   private val _purchasing = MutableStateFlow(false)
   val purchasing = _purchasing.asStateFlow()
 
+  /** Forwarded from BillingManager so the paywall UI can react to success/error. */
+  val purchaseEvents = billing.purchaseEvents
+
   /**
-   * Stub purchase flow. Real implementation will:
-   *   1. BillingClient.queryProductDetails(sku)
-   *   2. BillingClient.launchBillingFlow(...)
-   *   3. On success → api.verifyPurchase(token) → entitlement.refresh()
-   *
-   * This requires the Brimm Pro subscription products to be created in Play Console first.
-   * For now we just refresh entitlement so the screen wiring is exercisable end-to-end.
+   * Real Play Billing flow:
+   *   1. BillingManager.launchPurchase pops Google's purchase sheet
+   *   2. PurchasesUpdatedListener fires with the result
+   *   3. BillingManager forwards purchase token to backend (api.verifyPurchase)
+   *   4. Backend validates with Google Play Developer API + writes entitlement row
+   *   5. entitlement.markProAfterPurchase() flips isPro locally
+   *   6. Paywall auto-closes via the LaunchedEffect on Success
    */
-  fun purchase(sku: String) {
+  fun purchase(activity: android.app.Activity, sku: String) {
     viewModelScope.launch {
       _purchasing.value = true
-      // TODO(billing): wire BillingClient.launchBillingFlow once products are provisioned.
-      entitlement.refresh()
+      runCatching { billing.launchPurchase(activity, sku) }
       _purchasing.value = false
     }
   }
