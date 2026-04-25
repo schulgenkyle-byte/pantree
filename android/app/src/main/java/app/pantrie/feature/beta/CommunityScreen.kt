@@ -71,7 +71,7 @@ fun CommunityScreen(
         Column(Modifier.padding(horizontal = 24.dp, vertical = 20.dp)) {
           Text("Community", style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Normal)
           Text(
-            "What other pan-tree cooks are making — real reviews, real photos.",
+            "What other Brimm cooks are making — real reviews, real photos.",
             style = MaterialTheme.typography.bodyMedium, color = InkMuted,
           )
         }

@@ -46,7 +46,7 @@ fun OnboardingScreen(
     containerColor = Cream,
     topBar = {
       TopAppBar(
-        title = { Text("Welcome to pan-tree", fontWeight = FontWeight.Medium) },
+        title = { Text("Welcome to Brimm", fontWeight = FontWeight.Medium) },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Cream),
       )
     },

@@ -109,7 +109,7 @@ fun BetaFeedbackSheet(
         placeholder = {
           Text(when (kind) {
             "bug" -> "What did you do? What did you expect? What happened?"
-            "idea" -> "What would make pan-tree better?"
+            "idea" -> "What would make Brimm better?"
             "praise" -> "What worked well?"
             else -> "Tell us more…"
           })
