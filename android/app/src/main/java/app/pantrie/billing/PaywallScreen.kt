@@ -264,7 +264,15 @@ class PaywallViewModel @Inject constructor(
   fun purchase(activity: android.app.Activity, sku: String) {
     viewModelScope.launch {
       _purchasing.value = true
-      runCatching { billing.launchPurchase(activity, sku) }
+      val result = billing.launchPurchase(activity, sku)
+      result.onFailure { e ->
+        // Surface the failure so the paywall shows it under the Continue button.
+        // Most common cause: Play Console product not created/activated yet
+        // ("Product brimm_pro_X not found in Play Console — verify it's created and active").
+        billing.surfaceError(
+          "Couldn't open Google's purchase sheet: ${e.message ?: e::class.simpleName ?: "unknown"}"
+        )
+      }
       _purchasing.value = false
     }
   }

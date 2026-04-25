@@ -58,6 +58,10 @@ class BillingManager @Inject constructor(
   private val _purchaseEvents = MutableStateFlow<PurchaseEvent?>(null)
   val purchaseEvents = _purchaseEvents.asStateFlow()
   fun consumePurchaseEvent() { _purchaseEvents.value = null }
+  /** Push a manual error into the event stream so UIs that don't capture launchPurchase()'s
+   * Result can still surface what went wrong. Used by PaywallViewModel when the launch call
+   * itself throws (e.g. product not found in Play Console yet). */
+  fun surfaceError(message: String) { _purchaseEvents.value = PurchaseEvent.Error(message) }
 
   private val purchasesListener = PurchasesUpdatedListener { result, purchases ->
     when {
