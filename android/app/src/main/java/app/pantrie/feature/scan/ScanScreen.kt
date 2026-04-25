@@ -242,6 +242,40 @@ private fun MultiCaptureView(
   onCancel: () -> Unit,
 ) {
   val ctx = LocalContext.current
+  // Camera permission gate — without this CameraX bindToLifecycle silently fails and the
+  // preview surface stays black. The buttons still render, so the user sees a broken camera.
+  // Bug surfaced in v0.1.12 closed-beta testing 2026-04-25.
+  var cameraGranted by remember {
+    mutableStateOf(
+      ContextCompat.checkSelfPermission(ctx, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    )
+  }
+  val cameraPermissionLauncher = rememberLauncherForActivityResult(
+    ActivityResultContracts.RequestPermission()
+  ) { granted -> cameraGranted = granted }
+  LaunchedEffect(Unit) {
+    if (!cameraGranted) cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+  }
+  if (!cameraGranted) {
+    Column(
+      modifier = Modifier.fillMaxSize().padding(24.dp),
+      verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+      horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+      Text("Camera permission needed", style = MaterialTheme.typography.titleLarge, color = Ink, fontWeight = FontWeight.SemiBold)
+      Text(
+        "Brimm needs camera access to scan your pantry. Tap Allow when prompted.",
+        style = MaterialTheme.typography.bodyMedium, color = InkMuted,
+        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+      )
+      Button(onClick = { cameraPermissionLauncher.launch(Manifest.permission.CAMERA) }) {
+        Text("Grant camera access")
+      }
+      TextButton(onClick = onCancel) { Text("Cancel", color = InkMuted) }
+    }
+    return
+  }
+
   val lifecycleOwner = LocalLifecycleOwner.current
   val imageCapture = remember { ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build() }
   val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
