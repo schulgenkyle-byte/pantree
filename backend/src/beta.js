@@ -202,6 +202,71 @@ function adminAuthed(request, env) {
 }
 
 export const handleAdmin = {
+  /** One-shot purge: delete the 11 HF recipes flagged by the 2026-04-25 audit
+   *  for corrupted fraction quantities (e.g. "34 cups" was original "3/4 cups").
+   *  Idempotent. Returns the count actually deleted. */
+  async purgeBrokenRecipes(request, env) {
+    if (!adminAuthed(request, env)) return err(401, 'bad admin key');
+    const ids = [
+      'hf-1658191-roasted-salmon-with-mango-salsa',
+      'hf-1756016-hobo-bread',
+      'hf-1617575-cheese-stuffed-mushrooms',
+      'hf-1982924-vegan-quinoa-waldorf',
+      'hf-1630446-aunt-myrna-s-oatmeal-chocolate-chip-cookies',
+      'hf-1723403-peanut-butter-and-chocolate-chip-bars',
+      'hf-1759581-shrimp-with-spicy-black-bean-spread',
+      'hf-1707932-monastery-pumpkin-bread',
+      'hf-1858346-spicy-peach-pork-chops',
+      'hf-1922052-casserole-italiano',
+      'hf-1838963-guadalatuckey-beans',
+    ];
+    const ph = ids.map(() => '?').join(',');
+    const ingDel = await env.DB.prepare(`DELETE FROM recipe_ingredient WHERE recipe_id IN (${ph})`).bind(...ids).run();
+    const stepDel = await env.DB.prepare(`DELETE FROM recipe_step WHERE recipe_id IN (${ph})`).bind(...ids).run();
+    const recDel = await env.DB.prepare(`DELETE FROM recipe WHERE id IN (${ph})`).bind(...ids).run();
+    return json({
+      ok: true,
+      recipes_deleted: recDel.meta?.changes ?? 0,
+      ingredients_deleted: ingDel.meta?.changes ?? 0,
+      steps_deleted: stepDel.meta?.changes ?? 0,
+    }, 200, request, env);
+  },
+
+  /** One-shot data cleanup: reclassify mis-tagged cocktail rows.
+   *  - Food impostors (Beef Tea, Clam Juice Cocktail, etc) → content_type='food'
+   *  - Remaining non-alcoholic "cocktails" → content_type='mocktail'
+   *  Idempotent — safe to call multiple times. */
+  async fixContentTypes(request, env) {
+    if (!adminAuthed(request, env)) return err(401, 'bad admin key');
+    const foodImpostorPredicate = `LOWER(title) LIKE '%beef tea%'
+       OR LOWER(title) LIKE '%clam juice%'
+       OR LOWER(title) LIKE '%oyster cocktail%'
+       OR LOWER(title) LIKE '%bromo seltzer%'
+       OR LOWER(title) LIKE '%black cow%'
+       OR LOWER(title) LIKE '%eggnog%'
+       OR LOWER(title) LIKE '%egg sour%'`;
+    const previewFood = await env.DB.prepare(
+      `SELECT id, title FROM recipe
+        WHERE content_type='cocktail' AND COALESCE(is_alcoholic,0)=0
+          AND (${foodImpostorPredicate})`
+    ).all();
+    const updFood = await env.DB.prepare(
+      `UPDATE recipe SET content_type='food'
+        WHERE content_type='cocktail' AND COALESCE(is_alcoholic,0)=0
+          AND (${foodImpostorPredicate})`
+    ).run();
+    const updMocktail = await env.DB.prepare(
+      `UPDATE recipe SET content_type='mocktail'
+        WHERE content_type='cocktail' AND COALESCE(is_alcoholic,0)=0`
+    ).run();
+    return json({
+      ok: true,
+      reclassified_to_food: updFood.meta?.changes ?? 0,
+      reclassified_to_mocktail: updMocktail.meta?.changes ?? 0,
+      food_sample_titles: (previewFood.results || []).map(r => r.title).slice(0, 20),
+    }, 200, request, env);
+  },
+
   async stats(request, env) {
     if (!adminAuthed(request, env)) return err(401, 'bad admin key');
     const now = Date.now();
@@ -274,6 +339,51 @@ export const handleAdmin = {
         GROUP BY severity`
     ).all();
 
+    // Recipe leaderboards (lifetime, not 7d-windowed)
+    const topCookedLifetime = await env.DB.prepare(
+      `SELECT id, title, cuisine, content_type, COALESCE(cook_count, 0) AS n
+         FROM recipe
+        WHERE COALESCE(cook_count, 0) > 0
+        ORDER BY n DESC, title ASC LIMIT 10`
+    ).all();
+
+    const topSavedLifetime = await env.DB.prepare(
+      `SELECT r.id, r.title, r.cuisine, r.content_type, COUNT(*) AS n
+         FROM interaction i
+         JOIN recipe r ON r.id = i.recipe_id
+        WHERE i.status = 'saved'
+        GROUP BY r.id
+        ORDER BY n DESC, r.title ASC LIMIT 10`
+    ).all();
+
+    const topRated = await env.DB.prepare(
+      `SELECT id, title, cuisine, content_type,
+              COALESCE(avg_rating, 0) AS rating,
+              COALESCE(total_ratings, 0) AS n_ratings
+         FROM recipe
+        WHERE COALESCE(total_ratings, 0) >= 3
+        ORDER BY rating DESC, n_ratings DESC LIMIT 10`
+    ).all();
+
+    const mostReviewed = await env.DB.prepare(
+      `SELECT r.id, r.title, r.cuisine, r.content_type, COUNT(*) AS n
+         FROM review v
+         JOIN recipe r ON r.id = v.recipe_id
+        WHERE v.moderation = 'approved' OR v.moderation IS NULL
+        GROUP BY r.id
+        ORDER BY n DESC, r.title ASC LIMIT 10`
+    ).all();
+
+    const recentReviews = await env.DB.prepare(
+      `SELECT v.id, v.recipe_id, r.title AS recipe_title, r.content_type,
+              v.rating_pots, v.rating_taste, v.rating_ease, v.notes,
+              v.cook_again, v.created_at
+         FROM review v
+         LEFT JOIN recipe r ON r.id = v.recipe_id
+        WHERE (v.moderation = 'approved' OR v.moderation IS NULL)
+        ORDER BY v.created_at DESC LIMIT 8`
+    ).all();
+
     const funnelSaves = funnel?.saves || 0;
     const funnelCooks = funnel?.cooks_after_save || 0;
 
@@ -298,6 +408,12 @@ export const handleAdmin = {
       topRecipes7d: topRecipes?.results || [],
       recentFeedback: recentFeedback?.results || [],
       catalogBreakdown: catalog?.results || [],
+      // Recipe leaderboards
+      topCookedLifetime: topCookedLifetime?.results || [],
+      topSavedLifetime: topSavedLifetime?.results || [],
+      topRated: topRated?.results || [],
+      mostReviewed: mostReviewed?.results || [],
+      recentReviews: recentReviews?.results || [],
       generatedAt: now,
     }, 200, request, env);
   },
@@ -310,6 +426,98 @@ export const handleAdmin = {
     if (!['open', 'triaged', 'fixed', 'wontfix', 'duplicate'].includes(status)) return err(400, 'bad status');
     await env.DB.prepare(`UPDATE beta_feedback SET status = ? WHERE id = ?`).bind(status, id).run();
     return json({ ok: true }, 200, request, env);
+  },
+
+  /** Random recipe sampler for catalog QA. Returns ?limit= rows from a given source.
+   *  Source filtering uses id-prefix matching (recipe.id has no `source` column).
+   *    ?source=hf       → ids starting with "hf-"
+   *    ?source=mealdb   → ids starting with "mealdb-"
+   *    ?source=wiki     → ids starting with "wiki-"
+   *    (omit / "all")   → no prefix filter
+   *  Joins recipe_ingredient + recipe_step so the auditor can judge data quality. */
+  async sampleRecipes(request, env) {
+    if (!adminAuthed(request, env)) return err(401, 'bad admin key');
+    const url = new URL(request.url);
+    const source = (url.searchParams.get('source') || 'all').toLowerCase();
+    const rawLimit = parseInt(url.searchParams.get('limit') || '200', 10);
+    const limit = Math.max(1, Math.min(1000, isNaN(rawLimit) ? 200 : rawLimit));
+
+    let where = '';
+    const binds = [];
+    if (source && source !== 'all') {
+      where = 'WHERE r.id LIKE ?';
+      binds.push(source + '-%');
+    }
+
+    const recipeRows = await env.DB.prepare(
+      `SELECT r.id, r.title, r.cuisine, r.image_url, r.content_type,
+              r.source_book, r.source_year, r.description
+         FROM recipe r
+         ${where}
+         ORDER BY RANDOM()
+         LIMIT ?`
+    ).bind(...binds, limit).all();
+
+    const recipes = recipeRows?.results || [];
+    if (recipes.length === 0) return json({ recipes: [], count: 0 }, 200, request, env);
+
+    // Bulk-fetch ingredients + steps for the sampled ids.
+    const ids = recipes.map(r => r.id);
+    const placeholders = ids.map(() => '?').join(',');
+
+    const ingRows = await env.DB.prepare(
+      `SELECT recipe_id, seq, name, canonical_name, quantity, unit
+         FROM recipe_ingredient
+        WHERE recipe_id IN (${placeholders})
+        ORDER BY recipe_id, seq`
+    ).bind(...ids).all();
+
+    const stepRows = await env.DB.prepare(
+      `SELECT recipe_id, seq, text
+         FROM recipe_step
+        WHERE recipe_id IN (${placeholders})
+        ORDER BY recipe_id, seq`
+    ).bind(...ids).all();
+
+    const ingByRecipe = {};
+    for (const row of (ingRows?.results || [])) {
+      if (!ingByRecipe[row.recipe_id]) ingByRecipe[row.recipe_id] = [];
+      ingByRecipe[row.recipe_id].push({
+        name: row.name,
+        canonical_name: row.canonical_name,
+        quantity: row.quantity,
+        unit: row.unit,
+      });
+    }
+    const stepByRecipe = {};
+    for (const row of (stepRows?.results || [])) {
+      if (!stepByRecipe[row.recipe_id]) stepByRecipe[row.recipe_id] = [];
+      stepByRecipe[row.recipe_id].push(row.text || '');
+    }
+
+    const out = recipes.map(r => {
+      const ings = ingByRecipe[r.id] || [];
+      const steps = stepByRecipe[r.id] || [];
+      const instructions = steps.join(' • ');
+      const truncated = instructions.length > 500 ? instructions.slice(0, 500) + '…' : instructions;
+      return {
+        id: r.id,
+        title: r.title,
+        cuisine: r.cuisine,
+        content_type: r.content_type,
+        source_book: r.source_book,
+        source_year: r.source_year,
+        image_url: r.image_url,
+        description: r.description,
+        ingredient_count: ings.length,
+        ingredients: ings,
+        ingredient_names: ings.map(i => i.name).filter(Boolean).join(', '),
+        step_count: steps.length,
+        instructions: truncated,
+      };
+    });
+
+    return json({ recipes: out, count: out.length, source, limit }, 200, request, env);
   },
 
   async dashboard(request, env) {

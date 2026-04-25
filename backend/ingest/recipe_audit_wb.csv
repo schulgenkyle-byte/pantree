@@ -1,0 +1,196 @@
+id,title,verdict,reason
+wb-easy-chili,Easy Chili,fix,no image
+wb-spaghetti-with-meat-sauce-naporitan,Spaghetti with Meat Sauce (Naporitan),fix,no image
+wb-zalabiyeh-sweet-fritters-ii,Zalabiyeh (Sweet Fritters) II,fix,no image
+wb-not-quite-eggs-benedict,Not Quite Eggs Benedict,fix,no image
+wb-beef-tongue-with-chiles-corn-and-tomato-lengua-de-res,"Beef Tongue with Chiles, Corn and Tomato (Lengua de Res)",fix,no image
+wb-egg-casserole,Egg Casserole,fix,no image
+wb-beer-and-rye-bread-porridge-llebr-d,Beer and Rye Bread Porridge (Øllebrød),fix,no image
+wb-coleslaw-i,Coleslaw I,keep,
+wb-rib-rub,Rib Rub,fix,no image
+wb-dud-patti-milk-tea,Dud Patti (Milk Tea),fix,no image
+wb-brazilian-shrimp-and-cassava-sauce-bob-de-camarao,Brazilian Shrimp and Cassava Sauce (Bobó de Camarao),fix,no image
+wb-egyptian-meatballs-kofta,Egyptian Meatballs (Kofta),fix,no image
+wb-yogurt-curry-soup-kadhi,Yogurt Curry Soup (Kadhi),fix,no image
+wb-blueberry-cream-pie,Blueberry Cream Pie,fix,no image
+wb-zambian-beans-and-rice,Zambian Beans and Rice,fix,no image
+wb-quick-guacamole-ii,Quick Guacamole II,fix,no image
+wb-apple-raisin-oat-muffins,Apple Raisin Oat Muffins,fix,no image
+wb-plain-bagels,Plain Bagels,fix,no image
+wb-tahini-cookies,Tahini Cookies,fix,no image
+wb-banana-chip-muffins,Banana Chip Muffins,keep,
+wb-cappelletti-pasta-soup-cappelletti-in-brodo,Cappelletti Pasta Soup (Cappelletti in Brodo),fix,no image
+wb-sambal-tempoyak-anchovies-with-fermented-durian-chili-paste,Sambal Tempoyak (Anchovies with Fermented Durian Chili Paste),fix,no image
+wb-risotto-alla-milanese,Risotto alla Milanese,fix,no image
+wb-tamina-algerian-semolina-honey-dessert,Tamina (Algerian Semolina Honey Dessert),delete,no instructions; no image
+wb-tabbouleh-i,Tabbouleh I,fix,no image
+wb-rice-in-fish-broth-sayyadieh,Rice in Fish Broth (Sayyadieh),fix,no image
+wb-blackened-sirloin,Blackened Sirloin,fix,no image
+wb-banga-soup,Banga Soup,fix,no image
+wb-chicken-barbecue-sauce,Chicken Barbecue Sauce,fix,no image
+wb-tomatoes-with-chile-and-onion-baladho,Tomatoes with Chile and Onion (Baladho),fix,no image
+wb-chicken-pot-pie-ii,Chicken Pot Pie II,fix,no image
+wb-kheer-rice-pudding,Kheer (Rice Pudding),keep,
+wb-cherry-brownies,Cherry Brownies,fix,no image
+wb-sausage-egg-breakfast-dish,Sausage-Egg Breakfast Dish,fix,no image
+wb-pita,Pita,keep,
+wb-african-salad-ii,African Salad II,fix,no image
+wb-cornmeal-fried-morels,Cornmeal Fried Morels,fix,no image
+wb-chicken-mull,Chicken Mull,fix,no image
+wb-cornbread-ii,Cornbread II,fix,no image
+wb-isombe-na-kariyo-cassava-leaves-with-pumpkin,Isombe na Kariyo (Cassava Leaves with Pumpkin),fix,no image
+wb-ratatouille-i,Ratatouille I,keep,
+wb-peruvian-molded-rice-arroz-tapado,Peruvian Molded Rice (Arroz Tapado),fix,no image
+wb-oatmeal-stout-brownies,Oatmeal Stout Brownies,fix,no image
+wb-quiche-lorraine,Quiche Lorraine,keep,
+wb-rice-and-peas-risi-e-bisi,Rice and Peas (Risi e Bisi),fix,no image
+wb-mini-english-muffin-pizzas,Mini English Muffin Pizzas,fix,no image
+wb-asian-grilled-duck-breasts,Asian Grilled Duck Breasts,fix,no image
+wb-kiwi-and-asian-pear-in-lemon-dressing,Kiwi and Asian Pear in Lemon Dressing,fix,no image
+wb-simple-buttercream,Simple Buttercream,fix,no image
+wb-asun-goat-in-pepper-sauce,Asun (Goat in Pepper Sauce),fix,no image
+wb-christmas-cinnamon-cookies,Christmas Cinnamon Cookies,fix,no image
+wb-chicken-parmesan,Chicken Parmesan,fix,no image
+wb-irish-potatoes,Irish Potatoes,fix,no image
+wb-apple-pie-ii,Apple Pie II,fix,no image
+wb-mexican-tomato-soup,Mexican Tomato Soup,keep,
+wb-cassava-pone,Cassava Pone,fix,no image
+wb-eel-chowder,Eel Chowder,fix,no image
+wb-biscuits-and-gravy,Biscuits and Gravy,fix,no image
+wb-chicken-la-king,Chicken à la King,keep,
+wb-f-rik-l-norwegian-lamb-and-cabbage-stew,Fårikål (Norwegian Lamb and Cabbage Stew),fix,no image
+wb-shrimp-hooman-goan-shrimp-curry,Shrimp Hooman (Goan Shrimp Curry),fix,no image
+wb-fruit-ice-pops,Fruit Ice Pops,fix,no image
+wb-nut-roast,Nut Roast,keep,
+wb-fruity-white-sangria,Fruity White Sangria,fix,no image
+wb-pear-cranberry-crisp,Pear-Cranberry Crisp,fix,no image
+wb-ifisashi-n-ubwoko-rwandan-peanut-spinach-stew-with-mushroom,Ifisashi n'Ubwoko (Rwandan Peanut Spinach Stew with Mushroom),fix,no image
+wb-soy-mustard-lamb-chops,Soy Mustard Lamb Chops,fix,no image
+wb-chili-with-meat,Chili with Meat,keep,
+wb-deep-fried-wheat-and-chickpea-flour-dough-balls-muthiya,Deep Fried Wheat and Chickpea Flour Dough Balls (Muthiya),fix,no image
+wb-strawberry-frozen-yogurt,Strawberry Frozen Yogurt,fix,no image
+wb-bizcochito-cinnamon-anise-cookies-i,Bizcochito (Cinnamon Anise Cookies) I,fix,no image
+wb-ricotta-lasagne,Ricotta Lasagne,fix,no image
+wb-thumbprint-jam-cookies,Thumbprint Jam Cookies,fix,no image
+wb-seafood-marinade,Seafood Marinade,fix,no image
+wb-pickled-oysters,Pickled Oysters,fix,no image
+wb-ginger-tea,Ginger Tea,fix,no image
+wb-keralan-vegetable-stew,Keralan Vegetable Stew,fix,no image
+wb-almond-cake,Almond Cake,keep,
+wb-pezzetti-di-cavallo-italian-horse-and-tomato,Pezzetti di Cavallo (Italian Horse and Tomato),fix,no image
+wb-mesquite-chicken-wraps,Mesquite Chicken Wraps,fix,no image
+wb-hush-puppies,Hush Puppies,fix,no image
+wb-spaghetti-alla-puttanesca,Spaghetti alla Puttanesca,keep,
+wb-chicken-tikka-masala,Chicken Tikka Masala,keep,
+wb-carrot-paprika-spread,Carrot Paprika Spread,fix,no image
+wb-pear-chutney,Pear Chutney,fix,no image
+wb-banana-nut-muffins,Banana Nut Muffins,keep,
+wb-instant-chocolate-mousse,Instant Chocolate Mousse,fix,no image
+wb-braai-zambian-barbecue,Braai (Zambian Barbecue),fix,no image
+wb-beans-and-rice,Beans and Rice,keep,
+wb-orange-bread,Orange Bread,keep,
+wb-algerian-chakhchoukha-vegetable-and-flatbread-stew,Algerian Chakhchoukha (Vegetable and Flatbread Stew),fix,no image
+wb-chicken-fried-steak,Chicken-fried Steak,fix,no image
+wb-indian-butter-chicken-i,Indian Butter Chicken I,keep,
+wb-russian-salad,Russian Salad,fix,no image
+wb-salsa-recipe,Salsa (recipe),fix,no image
+wb-tater-tot-casserole,Tater Tot Casserole,fix,no image
+wb-jhilinga-nepalese-rice-fritters,Jhilinga (Nepalese Rice Fritters),fix,no image
+wb-saj-bread-iii,Saj Bread III,fix,no image
+wb-black-eyed-peas-and-kale,Black-Eyed Peas and Kale,fix,no image
+wb-cheeseburgers,Cheeseburgers,fix,no image
+wb-coconut-chutney-north-indian,Coconut Chutney (North Indian),keep,
+wb-red-devils,Red Devils,fix,no image
+wb-tadka-dhal-spiced-lentil-curry-ii,Tadka Dhal (Spiced Lentil Curry) II,fix,no image
+wb-boule-di-senegalese-fish-and-rice,Boule-Di (Senegalese Fish and Rice),fix,no image
+wb-pizza-rollups,Pizza Rollups,fix,no image
+wb-chicken-tikka,Chicken Tikka,keep,
+wb-sachertorte-original-version,Sachertorte (Original Version),fix,no image
+wb-baklava-with-pistachio-nuts,Baklava with Pistachio Nuts,keep,
+wb-chocolate-bananas-foster,Chocolate Bananas Foster,fix,no image
+wb-damper-australian-campfire-bread,Damper (Australian Campfire Bread),keep,
+wb-ikijumba-n-umutsima-rwandan-sweet-potato-stew-with-corn-and-,Ikijumba n'Umutsima (Rwandan Sweet Potato Stew with Corn and Bean Dish),fix,no image
+wb-tuna-salad-1940,Tuna Salad (1940),fix,no image
+wb-dynamite-shrimp,Dynamite Shrimp,fix,no image
+wb-pork-marinade,Pork Marinade,fix,no image
+wb-cheese-and-bacon-rolls,Cheese and Bacon Rolls,fix,only 1 ingredient; no image
+wb-radish-stew,Radish Stew,fix,no image
+wb-north-carolina-style-bbq-chicken,North Carolina Style BBQ Chicken,fix,no image
+wb-no-knead-bread,No-Knead Bread,keep,
+wb-leaf-masala-curry,Leaf Masala Curry,fix,no image
+wb-jamaican-curry-chicken-with-bullga,Jamaican Curry Chicken with Bullga,fix,no image
+wb-peach-strawberry-and-ice-cream-smoothie,"Peach, Strawberry and Ice Cream Smoothie",fix,no image
+wb-pasta-with-sausage,Pasta with Sausage,fix,no image
+wb-cola-iv,Cola IV,fix,no image
+wb-cucumber-and-radish-salad,Cucumber and Radish Salad,fix,no image
+wb-kik-alicha-yellow-split-pea-stew,Kik Alicha (Yellow Split Pea Stew),fix,no image
+wb-american-marinara-sauce-i,American Marinara Sauce I,fix,no image
+wb-sour-mashed-sweet-potato,Sour Mashed Sweet Potato,keep,
+wb-rice-cooked-in-tomato-meat-sauce-ross-il-forn,Rice Cooked in Tomato Meat Sauce (Ross il-Forn),fix,no image
+wb-savoury-rice-cake,Savoury Rice Cake,fix,no image
+wb-ghee-ii,Ghee II,fix,no image
+wb-yellow-saffron-food-coloring,Yellow Saffron Food Coloring,fix,no image
+wb-chicken-bog-i,Chicken Bog I,fix,no image
+wb-chicken-fajitas,Chicken Fajitas,fix,no image
+wb-kuih-lapis-malaysian-layered-steamed-confection,Kuih Lapis (Malaysian Layered Steamed Confection),delete,no instructions; no image
+wb-orange-french-toast,Orange French Toast,keep,
+wb-banana-bread-with-walnuts,Banana Bread with Walnuts,fix,no image
+wb-sev-puri-crispy-indian-snack-with-potato,Sev Puri (Crispy Indian Snack with Potato),fix,no image
+wb-alabama-white-sauce,Alabama White Sauce,fix,no image
+wb-cameroon-koki-corn,Cameroon Koki Corn,fix,no image
+wb-ibihaza-n-ubwoko-rwandan-beans-with-mushroom,Ibihaza n'Ubwoko (Rwandan Beans with Mushroom),fix,no image
+wb-rock-cookies,Rock Cookies,fix,no image
+wb-leek-parsley-and-cheddar-mash,"Leek, Parsley, and Cheddar Mash",fix,no image
+wb-chuck-wagon-beans,Chuck Wagon Beans,fix,no image
+wb-pork-braised-with-garlic-and-onions-of-indonesia-babi-kecap,Pork Braised with Garlic and Onions of Indonesia (Babi Kecap),fix,no image
+wb-coq-au-vin-iii,Coq au Vin III,delete,no instructions; no image
+wb-crullers-round,Crullers (Round),fix,no image
+wb-crotopo-soup,Crotopo Soup,fix,no image
+wb-classic-vanilla-milkshake,Classic Vanilla Milkshake,fix,no image
+wb-seared-chicken-breast-with-brandy-cream-sauce,Seared Chicken Breast with Brandy Cream Sauce,fix,no image
+wb-fusion-spice-cookie-gluten-free,Fusion Spice Cookie (Gluten-Free),fix,no image
+wb-basic-pizza-crust,Basic Pizza Crust,fix,no image
+wb-dinuguan-pork-blood-stew,Dinuguan (Pork Blood Stew),keep,
+wb-mini-three-cheese-english-muffin-pizzas,Mini Three-Cheese English Muffin Pizzas,fix,no image
+wb-biscuit-cake,Biscuit Cake,fix,no image
+wb-southern-style-greens,Southern Style Greens,delete,no ingredients; no instructions; no image
+wb-teriyaki-salmon,Teriyaki Salmon,fix,no image
+wb-denver-omelet,Denver Omelet,fix,no image
+wb-baked-custard,Baked Custard,delete,only 1 ingredient; no instructions
+wb-dosa-ii,Dosa II,fix,no image
+wb-steak-and-kidney-pudding,Steak and Kidney Pudding,fix,no image
+wb-zambian-vegetable-stir-fry,Zambian Vegetable Stir-Fry,fix,no image
+wb-orange-sherbet-smoothie,Orange Sherbet Smoothie,fix,no image
+wb-roman-sauce-ii,Roman Sauce II,fix,no image
+wb-bison-loaf,Bison Loaf,fix,no image
+wb-holiday-soda,Holiday Soda,fix,no image
+wb-holiday-pork-loin,Holiday Pork Loin,fix,no image
+wb-stuffed-zucchini,Stuffed Zucchini,keep,
+wb-chocolate-sour-cream-icing,Chocolate Sour-Cream Icing,fix,no image
+wb-jahnun-yemenite-layered-pastry,Jahnun (Yemenite Layered Pastry),fix,no image
+wb-butterbeer,Butterbeer,fix,no image
+wb-banana-roll-with-cream-cheese-filling,Banana Roll with Cream Cheese Filling,fix,no image
+wb-soy-lentil-vegetable-stew,Soy-Lentil-Vegetable Stew,fix,no image
+wb-maple-cumin-glazed-grilled-bananas,Maple Cumin Glazed Grilled Bananas,fix,no image
+wb-prata,Prata,fix,no image
+wb-chicken-wings-asian-style,Chicken Wings Asian Style,fix,no image
+wb-calamansi-juice-drink,Calamansi Juice Drink,fix,no image
+wb-eggs-connaught,Eggs Connaught,fix,no image
+wb-daniel-webster-s-chowder,Daniel Webster's Chowder,fix,no image
+wb-tuna-fish-cakes,Tuna Fish Cakes,fix,no image
+wb-mango-chutney-chunky,Mango Chutney (Chunky),fix,no image
+wb-alfajores-latin-american-sandwich-cookies,Alfajores (Latin American Sandwich Cookies),fix,no image
+wb-nune-soup,Nune Soup,fix,no image
+wb-san-francisco-style-scallop-ceviche,San Francisco style Scallop Ceviche,fix,no image
+wb-rustic-beer-bread,Rustic Beer Bread,fix,no image
+wb-space-cake,Space Cake,fix,no image
+wb-pastry-for-cornish-pasties,Pastry for Cornish Pasties,keep,
+wb-whole-wheat-pancakes-vegan,Whole Wheat Pancakes (Vegan),fix,no image
+wb-strawberry-and-banana-smoothie,Strawberry And Banana Smoothie,fix,no image
+wb-steamed-buns-with-bbq-pork,Steamed Buns with BBQ Pork,fix,no image
+wb-welsh-fruit-bread-bara-brith-i,Welsh Fruit Bread (Bara Brith) I,keep,
+wb-pudding-with-pistachios-and-rose-water-muhallebi,Pudding with Pistachios and Rose Water (Muhallebi),fix,no image
+wb-chop-rub,Chop Rub,fix,no image
+wb-roasted-brown-rice-mochi,Roasted Brown Rice Mochi,fix,no image
+wb-rabbit-with-abbey-beer-konijn-met-paterbier,Rabbit with Abbey Beer (Konijn met Paterbier),fix,no image
+wb-chicken-bog-ii,Chicken Bog II,fix,no image

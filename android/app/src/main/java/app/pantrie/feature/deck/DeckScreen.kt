@@ -196,7 +196,11 @@ class DeckViewModel @Inject constructor(
       _error.value = null
       _refreshing.value = true
       val advFlag = if (_adventurous.value) 1 else null
-      runCatching { api.deck(adventurous = advFlag, filter = _filter.value) }
+      // require_photo=1 — surface only photo-having recipes in the Tonight deck.
+      // Audit (2026-04-25) showed 94% of HuggingFace recipes have no image; without
+      // this guard the deck is mostly photoless garbage. Mixology has its own client-side
+      // photo guard for Mixologist mode (Bootlegger vintage cards intentionally photoless).
+      runCatching { api.deck(adventurous = advFlag, filter = _filter.value, requirePhoto = 1) }
         .onSuccess { resp ->
           _state.value = resp
         }

@@ -48,13 +48,13 @@ THE DAILY RHYTHM
 
 THE BAR — MIXOLOGY MODE
 
-Tap into Brimm's Mixology tab for 4,000+ cocktails — from Prohibition-era classics (Bootlegger mode, with verbatim 1862 Jerry Thomas recipes) to modern craft drinks (Mixologist mode, dark + gold speakeasy theme). 178 zero-proof mocktails included for nights off. Filter by Spirited or Zero-Proof, search by name or ingredient.
+Tap into Brimm's Mixology tab for 4,000+ cocktails. Bootlegger mode gives you the classics, presented straight. Mixologist mode gives you the modern craft scene, dialed in with real measurements and glassware. 178 zero-proof mocktails included for nights off. Filter by Spirited or Zero-Proof, search by name or ingredient.
 
 FEATURES
 
 • Camera-first pantry scan — multi-photo capture, ingredients auto-identified
-• 23,000+ recipes from TheMealDB, USDA MyPlate, Canada Food Guide, Wikibooks, HuggingFace all-recipes
-• 4,000+ cocktails + mocktails from Wikipedia, IBA Official, Wikibooks, public-domain bartending books
+• 23,000+ recipes across every major cuisine
+• 4,000+ cocktails plus 178 mocktails, ranging from the classics to modern craft
 • Match % on every card — the honest percentage of ingredients already in your kitchen
 • $/serving cost estimate — know what the missing ingredients will actually cost
 • Cook Mode — full-screen, auto-advancing timers, no thumb-taps with oily hands
@@ -113,7 +113,7 @@ First public build. Camera pantry scan, 23,000+ recipes, 4,000+ cocktails (Bootl
 
 Brimm Pro unlocks unlimited swipes, vision scan, meal-prep planner, and no ads.
 
-This is day one. Send notes to schulgenkyle@gmail.com — we read everything.
+This is day one. Send notes to support@brimmapp.com — we read everything.
 
 See it. Save it. Savor it.
 ```
@@ -260,7 +260,7 @@ What I'd love from you:
 • Cook one recipe AND pour one cocktail
 • Screenshot anything that feels off, slow, or weird
 
-Feedback goes to schulgenkyle@gmail.com or just reply here. I read every message.
+Feedback goes to support@brimmapp.com or just reply here. I read every message.
 
 See it. Save it. Savor it.
 

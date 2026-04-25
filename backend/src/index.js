@@ -53,6 +53,9 @@ export default {
       // Admin (key-gated) — no user auth required, just ADMIN_KEY
       if (path === '/admin/dashboard' && request.method === 'GET') return handleAdmin.dashboard(request, env);
       if (path === '/admin/stats'     && request.method === 'GET') return handleAdmin.stats(request, env);
+      if (path === '/admin/sample-recipes' && request.method === 'GET') return handleAdmin.sampleRecipes(request, env);
+      if (path === '/admin/fix-content-types' && request.method === 'POST') return handleAdmin.fixContentTypes(request, env);
+      if (path === '/admin/purge-broken-recipes' && request.method === 'POST') return handleAdmin.purgeBrokenRecipes(request, env);
       const adminFbMatch = path.match(/^\/admin\/feedback\/([\w-]+)$/);
       if (adminFbMatch && request.method === 'PATCH') return handleAdmin.feedbackUpdate(request, adminFbMatch[1], env);
       if (path === '/admin/submissions' && request.method === 'GET') return handleSubmissionsAdmin.list(request, env);

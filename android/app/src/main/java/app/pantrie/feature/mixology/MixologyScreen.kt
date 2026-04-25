@@ -321,7 +321,13 @@ fun MixologyScreen(
         // MODERN mode = only modern cocktails WITH a real photo (no photo → don't ship). The user
         // saw too many sparse cards; gating on imageUrl forces visual quality.
         val filteredDeck = remember(s?.deck, vintageMode) {
-          val deck = s?.deck ?: emptyList()
+          // Defensive content_type guard — server should already filter to cocktail/mocktail
+          // when called with contentType="cocktail", but guarantee it client-side too so any
+          // future ingest mis-tagging (food rows accidentally tagged 'cocktail') can't leak
+          // into Mixology and render as a broken cocktail card.
+          val deck = (s?.deck ?: emptyList()).filter {
+            it.contentType == "cocktail" || it.contentType == "mocktail"
+          }
           if (vintageMode) deck.filter { it.isHistoric && !it.originalText.isNullOrBlank() }
           else deck.filter { !it.isHistoric && !it.imageUrl.isNullOrBlank() }
         }
