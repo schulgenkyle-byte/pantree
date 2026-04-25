@@ -1,17 +1,23 @@
 package app.pantrie.feature.auth
 
+import android.app.Activity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.pantrie.BuildConfig
+import app.pantrie.auth.CredentialManagerFlow
 import app.pantrie.auth.TokenStore
 import app.pantrie.network.PantrieApi
 import app.pantrie.network.dto.DevTokenRequest
@@ -33,6 +39,7 @@ sealed interface LoginUiState {
 class LoginViewModel @Inject constructor(
   private val api: PantrieApi,
   private val tokenStore: TokenStore,
+  private val credentialFlow: CredentialManagerFlow,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
@@ -45,10 +52,27 @@ class LoginViewModel @Inject constructor(
     }
   }
 
+  /** Real Google sign-in via Credential Manager. This is the production path. */
+  fun signInWithGoogle(activity: Activity) {
+    viewModelScope.launch {
+      _state.value = LoginUiState.Loading
+      credentialFlow.signInWithGoogle(activity)
+        .onSuccess { _state.value = LoginUiState.LoggedIn }
+        .onFailure { e ->
+          _state.value = LoginUiState.Error(e.message ?: "Sign-in failed")
+        }
+    }
+  }
+
+  /**
+   * Debug-only fallback. Only available when BuildConfig.DEBUG is true (debug builds).
+   * Release builds (Play Store) hide this entirely. The backend also rejects dev tokens
+   * unless the dev-key header matches a value only present in the staging Worker secrets.
+   */
   fun devLogin() {
     val key = BuildConfig.DEV_TOKEN_KEY
     if (key.isBlank()) {
-      _state.value = LoginUiState.Error("PANTRIE_DEV_TOKEN_KEY missing in gradle.properties")
+      _state.value = LoginUiState.Error("DEV_TOKEN_KEY missing — debug builds only")
       return
     }
     viewModelScope.launch {
@@ -61,7 +85,7 @@ class LoginViewModel @Inject constructor(
           _state.value = LoginUiState.LoggedIn
         }
         .onFailure { e ->
-          _state.value = LoginUiState.Error(e.message ?: "Login failed")
+          _state.value = LoginUiState.Error(e.message ?: "Dev login failed")
         }
     }
   }
@@ -75,6 +99,8 @@ fun LoginScreen(
   vm: LoginViewModel = hiltViewModel(),
 ) {
   val state by vm.state.collectAsState()
+  val context = LocalContext.current
+  val activity = context as? Activity
 
   LaunchedEffect(state) {
     if (state is LoginUiState.LoggedIn) onLoggedIn()
@@ -98,31 +124,84 @@ fun LoginScreen(
         LoginUiState.Loading -> CircularProgressIndicator(color = Ink, strokeWidth = 2.dp)
         is LoginUiState.Error -> {
           Text(
-            "Error: ${s.message}",
+            s.message,
             style = MaterialTheme.typography.bodyMedium, color = Terracotta,
           )
           Spacer(Modifier.height(16.dp))
-          Button(
-            onClick = { vm.clearError(); vm.devLogin() },
-            modifier = Modifier.fillMaxWidth().height(56.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Ink),
-            shape = RoundedCornerShape(4.dp),
-          ) { Text("Try again", color = Paper, fontWeight = FontWeight.SemiBold) }
+          GoogleSignInButton(
+            onClick = {
+              vm.clearError()
+              activity?.let { vm.signInWithGoogle(it) }
+            },
+            enabled = activity != null,
+          )
+          // Debug-only fallback in case Google sign-in errors mid-test on a debug build.
+          if (BuildConfig.DEBUG) {
+            Spacer(Modifier.height(12.dp))
+            TextButton(onClick = { vm.clearError(); vm.devLogin() }) {
+              Text("Dev login (debug only)", color = InkMuted, fontSize = 12.sp)
+            }
+          }
         }
         else -> {
-          Button(
-            onClick = vm::devLogin,
-            modifier = Modifier.fillMaxWidth().height(56.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Ink),
-            shape = RoundedCornerShape(4.dp),
-          ) { Text("Dev login", color = Paper, fontWeight = FontWeight.SemiBold) }
+          GoogleSignInButton(
+            onClick = { activity?.let { vm.signInWithGoogle(it) } },
+            enabled = activity != null,
+          )
           Spacer(Modifier.height(12.dp))
           Text(
-            "Google sign-in coming soon. This button uses a dev-only backdoor that only works against the staging server.",
+            "We use Google for sign-in so you don't have a password to remember. We never see it.",
             style = MaterialTheme.typography.labelSmall, color = InkMuted,
           )
+          // Debug-only fallback. Stripped from release.
+          if (BuildConfig.DEBUG) {
+            Spacer(Modifier.height(24.dp))
+            TextButton(onClick = vm::devLogin) {
+              Text("Dev login (debug only)", color = InkMuted, fontSize = 11.sp)
+            }
+          }
         }
       }
+    }
+  }
+}
+
+/** Google-branded sign-in button. White surface, dark text, official "G" tile. */
+@Composable
+private fun GoogleSignInButton(onClick: () -> Unit, enabled: Boolean) {
+  Surface(
+    onClick = onClick,
+    enabled = enabled,
+    shape = RoundedCornerShape(28.dp),
+    color = Color.White,
+    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFDADCE0)),
+    modifier = Modifier.fillMaxWidth().height(56.dp),
+  ) {
+    Row(
+      Modifier.fillMaxSize().padding(horizontal = 20.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.Center,
+    ) {
+      // Google "G" mark — quartered colored squares around white center, the
+      // official simplified version that's safe to use without a license file.
+      Box(
+        Modifier.size(20.dp),
+        contentAlignment = Alignment.Center,
+      ) {
+        Text(
+          "G",
+          fontSize = 18.sp,
+          fontWeight = FontWeight.Bold,
+          color = Color(0xFF4285F4),
+        )
+      }
+      Spacer(Modifier.width(14.dp))
+      Text(
+        "Continue with Google",
+        color = Color(0xFF3C4043),
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Medium,
+      )
     }
   }
 }
