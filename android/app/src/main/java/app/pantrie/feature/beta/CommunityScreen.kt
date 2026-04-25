@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.Whatshot
 import androidx.compose.material3.*
@@ -40,6 +41,8 @@ class CommunityViewModel @Inject constructor(
   val trending = _trending.asStateFlow()
   private val _loading = MutableStateFlow(true)
   val loading = _loading.asStateFlow()
+  private val _toast = MutableStateFlow<String?>(null)
+  val toast = _toast.asStateFlow()
 
   init { refresh() }
 
@@ -51,6 +54,21 @@ class CommunityViewModel @Inject constructor(
       _loading.value = false
     }
   }
+
+  /** Submit a moderation report. Server-side handler hides the review for the reporter and
+   * flags it for admin review. We optimistically remove it from this user's feed too. */
+  fun reportReview(reviewId: String, reason: String) {
+    viewModelScope.launch {
+      runCatching { api.reportReview(reviewId, mapOf("reason" to reason)) }
+        .onSuccess {
+          _reviews.value = _reviews.value.filter { it.id != reviewId }
+          _toast.value = "Thanks — review reported. Our team will check it."
+        }
+        .onFailure { _toast.value = "Couldn't send report — try again later." }
+    }
+  }
+
+  fun clearToast() { _toast.value = null }
 }
 
 @Composable
@@ -61,6 +79,7 @@ fun CommunityScreen(
   val reviews by vm.reviews.collectAsState()
   val trending by vm.trending.collectAsState()
   val loading by vm.loading.collectAsState()
+  val toast by vm.toast.collectAsState()
 
   Scaffold(containerColor = Cream) { padding ->
     LazyColumn(
@@ -122,7 +141,25 @@ fun CommunityScreen(
         }
       } else {
         items(reviews, key = { it.id }) { rv ->
-          ReviewCard(rv = rv, onOpen = { onOpenRecipe(rv.recipeId) })
+          ReviewCard(
+            rv = rv,
+            onOpen = { onOpenRecipe(rv.recipeId) },
+            onReport = { reason -> vm.reportReview(rv.id, reason) },
+          )
+        }
+      }
+    }
+
+    // Lightweight toast — same pattern as Mixology / Deck. Auto-dismisses after 2.5s.
+    toast?.let { msg ->
+      LaunchedEffect(msg) { kotlinx.coroutines.delay(2500); vm.clearToast() }
+      Box(Modifier.padding(padding).fillMaxSize().padding(bottom = 90.dp), contentAlignment = Alignment.BottomCenter) {
+        Surface(
+          shape = RoundedCornerShape(10.dp),
+          color = Ink,
+          modifier = Modifier.padding(horizontal = 20.dp).fillMaxWidth(),
+        ) {
+          Text(msg, color = Paper, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(14.dp))
         }
       }
     }
@@ -151,7 +188,15 @@ private fun TrendingRow(t: TrendingItem, onOpen: () -> Unit) {
 }
 
 @Composable
-private fun ReviewCard(rv: CommunityReview, onOpen: () -> Unit) {
+private fun ReviewCard(
+  rv: CommunityReview,
+  onOpen: () -> Unit,
+  onReport: (String) -> Unit,
+) {
+  // Kebab-menu state for the per-card moderation overflow.
+  var menuOpen by remember { mutableStateOf(false) }
+  var reportSheetOpen by remember { mutableStateOf(false) }
+
   Card(
     onClick = onOpen,
     colors = CardDefaults.cardColors(containerColor = Paper),
@@ -194,6 +239,30 @@ private fun ReviewCard(rv: CommunityReview, onOpen: () -> Unit) {
             )
           }
         }
+        // Per-card overflow — only on other people's reviews. Hide on your own.
+        if (!rv.isOwn) {
+          Box {
+            IconButton(onClick = { menuOpen = true }, modifier = Modifier.size(28.dp)) {
+              Icon(Icons.Outlined.MoreVert, contentDescription = "More", tint = InkMuted, modifier = Modifier.size(18.dp))
+            }
+            DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+              DropdownMenuItem(
+                text = { Text("Report content") },
+                onClick = { menuOpen = false; reportSheetOpen = true },
+              )
+            }
+          }
+        }
+      }
+
+      if (reportSheetOpen) {
+        ReportReasonSheet(
+          onPick = { reason ->
+            reportSheetOpen = false
+            onReport(reason)
+          },
+          onDismiss = { reportSheetOpen = false },
+        )
       }
 
       // Review photo (if any)
@@ -258,5 +327,64 @@ private fun timeAgo(at: Long): String {
     mins < 60 -> "${mins}m ago"
     mins < 60 * 24 -> "${mins / 60}h ago"
     else -> "${mins / (60 * 24)}d ago"
+  }
+}
+
+/** Reasons map to backend `reason` field. Server stores them verbatim for admin triage;
+ * the names below are also what surfaces on the moderator dashboard. */
+private val REPORT_REASONS = listOf(
+  "spam" to "Spam or scam",
+  "inappropriate" to "Inappropriate / offensive",
+  "off_topic" to "Off-topic for this recipe",
+  "wrong_info" to "Dangerous or wrong info",
+  "other" to "Something else",
+)
+
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+private fun ReportReasonSheet(
+  onPick: (String) -> Unit,
+  onDismiss: () -> Unit,
+) {
+  ModalBottomSheet(
+    onDismissRequest = onDismiss,
+    containerColor = Cream,
+    dragHandle = { BottomSheetDefaults.DragHandle(color = InkMuted) },
+  ) {
+    Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp)) {
+      Text(
+        "Report this review",
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.SemiBold,
+        color = Ink,
+      )
+      Spacer(Modifier.height(4.dp))
+      Text(
+        "Tell us what's wrong. We'll review and take it down if it breaks our rules.",
+        style = MaterialTheme.typography.bodySmall,
+        color = InkMuted,
+      )
+      Spacer(Modifier.height(16.dp))
+      REPORT_REASONS.forEach { (key, label) ->
+        Surface(
+          onClick = { onPick(key) },
+          shape = RoundedCornerShape(10.dp),
+          color = Paper,
+          modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        ) {
+          Text(
+            label,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+            style = MaterialTheme.typography.bodyMedium,
+            color = Ink,
+          )
+        }
+      }
+      Spacer(Modifier.height(8.dp))
+      TextButton(onClick = onDismiss, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+        Text("Cancel", color = InkMuted)
+      }
+      Spacer(Modifier.height(8.dp))
+    }
   }
 }
