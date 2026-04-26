@@ -4,7 +4,9 @@ package app.pantrie.billing
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.Close
@@ -110,13 +112,24 @@ fun PaywallScreen(
   }
 
   Scaffold(containerColor = ProBg) { padding ->
+    // Two-section layout — scrollable content (features + tiers) on top with weight(1f),
+    // sticky CTA pinned at the bottom. Without this, on smaller screens or larger system
+    // font scales, the Continue button rendered below the visible viewport and was
+    // physically untappable. Reported on a Samsung S938U with default font size.
     Column(
       Modifier
         .padding(padding)
         .fillMaxSize()
-        .background(ProBg)
-        .padding(horizontal = 20.dp),
+        .background(ProBg),
     ) {
+      // Scrollable upper section.
+      Column(
+        Modifier
+          .weight(1f)
+          .fillMaxWidth()
+          .verticalScroll(rememberScrollState())
+          .padding(horizontal = 20.dp),
+      ) {
       // Header
       Row(
         Modifier.fillMaxWidth().padding(top = 4.dp),
@@ -168,8 +181,11 @@ fun PaywallScreen(
         Spacer(Modifier.height(10.dp))
       }
 
-      Spacer(Modifier.weight(1f))
+      Spacer(Modifier.height(16.dp))
+      } // end scrollable upper section
 
+      // ===== Sticky bottom CTA section — pinned regardless of screen size / font scale. =====
+      Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp).background(ProBg)) {
       // CTA — always rendered with full-contrast colors so it's never invisible on dark bg.
       // Disabled only while a purchase is actively in flight (purchasing) or already Pro.
       Button(
@@ -218,6 +234,7 @@ fun PaywallScreen(
         fontSize = 11.sp,
         modifier = Modifier.padding(bottom = 16.dp),
       )
+      } // end sticky bottom CTA section
     }
   }
 }
