@@ -43,11 +43,11 @@ fun OnboardingScreen(
   LaunchedEffect(s.done) { if (s.done) onDone() }
 
   Scaffold(
-    containerColor = Cream,
+    containerColor = Paper,
     topBar = {
       TopAppBar(
-        title = { Text("Welcome to Brimm", fontWeight = FontWeight.Medium) },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Cream),
+        title = { Text("Welcome to ${app.pantrie.Brand.APP_NAME}", fontWeight = FontWeight.Medium) },
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Paper),
       )
     },
   ) { padding ->
@@ -235,7 +235,7 @@ private fun ChipGrid(
         onClick = { onToggle(opt) },
         label = { Text(labelFor(opt)) },
         colors = FilterChipDefaults.filterChipColors(
-          containerColor = Paper,
+          containerColor = Paper2,
           selectedContainerColor = Ink,
           labelColor = Ink,
           selectedLabelColor = Paper,

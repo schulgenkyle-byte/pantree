@@ -5,15 +5,18 @@
 import { json, err, readJson, b64uDecodeBytes } from './util.js';
 import { enforce } from './ratelimit.js';
 import { estimateExpiryDays } from './expiry.js';
+import { canonicalize } from './canonicalize.js';
 
 const MAX_IMAGE_BYTES = 2_000_000;
 const MAX_B64_LEN = Math.ceil(MAX_IMAGE_BYTES * 4 / 3) + 8;
 
 // Tiered caps — survivable unit economics. Every change to these numbers ships
 // revenue risk; review PANTRIE.md before editing.
-const FREE_DAILY = 1;           // 1 scan / day free — prevents cost runaway at 200k users
-const PRO_DAILY = 20;           // 20 scans / day Pro
-const PRO_MONTHLY_HARD = 100;   // absolute Pro ceiling per month — caps worst-case at ~$0.20/user
+const FREE_LIFETIME = 5;        // 5 scans TOTAL for free users — never resets, upgrade to keep using vision
+const PRO_WEEKLY = 10;          // 10 scans / 7-day rolling window for Pro — caps cost at ~$0.20/user/month
+                                // Overage requires a credit-pack top-up (consumable IAP, separate billing wiring).
+                                // Rationale: the founder cannot afford an unbounded per-user vision bill;
+                                // 10/wk is enough for a normal cooking cadence without enabling abuse.
 
 const GLOBAL_DAY_CAP_KV = 'vision:day-count';
 const GLOBAL_DAY_CAP_DEFAULT = 5000;
@@ -48,7 +51,12 @@ async function getUserTier(env, userId) {
 }
 
 async function getUserDailyLimit(env, userId) {
-  return (await getUserTier(env, userId)) === 'pro' ? PRO_DAILY : FREE_DAILY;
+  // Returned shape: { kind, limit }
+  //   kind='weekly'   → rolling 7-day window (Pro)
+  //   kind='lifetime' → never resets (Free trial: 5 scans, ever)
+  const tier = await getUserTier(env, userId);
+  if (tier === 'pro') return { kind: 'weekly', limit: PRO_WEEKLY };
+  return { kind: 'lifetime', limit: FREE_LIFETIME };
 }
 
 async function monthlyScansUsed(env, userId) {
@@ -97,30 +105,51 @@ async function preflight(request, env, userId) {
   if (rlMin) return { error: rlMin };
 
   const tier = await getUserTier(env, userId);
-  const dailyLimit = tier === 'dev' ? 9999 : (tier === 'pro' ? PRO_DAILY : FREE_DAILY);
   const day = Math.floor(Date.now() / 86400_000);
   const dayKey = `scanq:${userId}:${day}`;
+  const limit = tier === 'dev' ? 9999 : (tier === 'pro' ? PRO_WEEKLY : FREE_LIFETIME);
   if (tier !== 'dev') {
-    // D1-derived count: count scan_history rows since start of today (UTC).
-    // Replaces KV `scanq:<userId>:<day>` counter — KV quota exhaustion was fail-open,
-    // so writes silently dropped while reads still returned the stale count, giving
-    // users unlimited scans once daily KV write budget was hit.
-    const dayStartMs = Math.floor(Date.now() / 86400_000) * 86400_000;
-    const row = await env.DB.prepare(
-      'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ? AND created_at >= ?'
-    ).bind(userId, dayStartMs).first();
-    const used = row?.n || 0;
-    if (used >= dailyLimit) {
-      const msg = tier === 'free'
-        ? `Free tier: 1 scan per day. Upgrade to Pro for 20/day.`
-        : `Daily Pro limit reached (${PRO_DAILY}). Resets at midnight.`;
-      return { error: err(429, msg, { retryAfter: 86400, upsell: tier === 'free' }) };
+    // Free tier counts lifetime — 5 scans total, ever, never resets. The
+    // photo-scan IS the trial: feel it work 5 times, then decide whether
+    // $4.99 Pro is worth it. Anything more bleeds money at scale.
+    //
+    // Pro tier counts a rolling 7-day window. Hits 10 scans this week →
+    // wait or buy a credit pack. Caps worst-case spend at ~$0.20/user/month.
+    let used = 0;
+    let windowStartMs = null;
+    if (tier === 'free') {
+      const row = await env.DB.prepare(
+        'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ?'
+      ).bind(userId).first();
+      used = row?.n || 0;
+    } else {
+      windowStartMs = Date.now() - 7 * 86400_000;
+      const row = await env.DB.prepare(
+        'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ? AND created_at >= ?'
+      ).bind(userId, windowStartMs).first();
+      used = row?.n || 0;
     }
-    if (tier === 'pro') {
-      const monthlyUsed = await monthlyScansUsed(env, userId);
-      if (monthlyUsed >= PRO_MONTHLY_HARD) {
-        return { error: err(429, `Monthly scan ceiling reached (${PRO_MONTHLY_HARD}). Resets 1st of next month.`, { retryAfter: 30 * 86400 }) };
+    if (used >= limit) {
+      // Compute when the oldest in-window scan ages out so the user knows
+      // exactly when their quota refills (only meaningful for Pro).
+      let retryAfterSec = null;
+      if (tier === 'pro') {
+        const oldest = await env.DB.prepare(
+          'SELECT MIN(created_at) AS t FROM scan_history WHERE user_id = ? AND created_at >= ?'
+        ).bind(userId, windowStartMs).first();
+        if (oldest?.t) {
+          const refillAt = oldest.t + 7 * 86400_000;
+          retryAfterSec = Math.max(60, Math.floor((refillAt - Date.now()) / 1000));
+        }
       }
+      const msg = tier === 'free'
+        ? `You've used all 5 free scans. Upgrade to Pro for 10 scans / week.`
+        : `Weekly Pro limit reached (${PRO_WEEKLY}). Your oldest scan ages out soon, or buy a credit pack to keep going.`;
+      return { error: err(429, msg, {
+        retryAfter: retryAfterSec,
+        upsell: tier === 'free',                   // Free → buy Pro
+        creditPackUpsell: tier === 'pro',          // Pro → buy a top-up credit pack
+      }) };
     }
   }
   const budget = await checkGlobalBudget(env);
@@ -214,8 +243,14 @@ export async function handleVision(request, env, userId) {
   const aRes = await callClaudeVision(env, pre, PANTRY_SYSTEM, [PANTRY_TOOL], 'report_items', userTextBlock);
   if (!aRes.ok) return err(502, 'vision upstream error');
 
+  // Add canonical_slug to each item so the Android client can dedup the same physical
+  // ingredient appearing across multiple photos in a single multi-capture batch
+  // (e.g., a 60-count egg carton seen from two angles → one entry, not two).
+  // The client builds the cross-photo map (it already loops one /scan call per photo);
+  // backend just supplies the slug used for matching.
   const items = (aRes.items || []).slice(0, 60).map(i => ({
     ...i,
+    canonical_slug: canonicalize(i.name) || (i.name || '').toLowerCase().trim(),
     suggested_expires_days: estimateExpiryDays(i.name, i.category),
   }));
 
@@ -270,6 +305,7 @@ export async function handleReceipt(request, env, userId) {
 
   const items = (aRes.items || []).slice(0, 80).map(i => ({
     ...i,
+    canonical_slug: canonicalize(i.name) || (i.name || '').toLowerCase().trim(),
     suggested_expires_days: estimateExpiryDays(i.name, i.category),
   }));
 
@@ -280,49 +316,99 @@ export async function handleReceipt(request, env, userId) {
 // ---------- shared Claude wrapper ----------
 
 async function callClaudeVision(env, pre, system, tools, toolName, userText) {
-  const aRes = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2500,
-      system,
-      tools,
-      tool_choice: { type: 'tool', name: toolName },
-      messages: [{
-        role: 'user',
-        content: [
-          { type: 'image', source: { type: 'base64', media_type: pre.mime, data: pre.b64 } },
-          { type: 'text', text: userText },
-        ],
-      }],
-    }),
-  });
-  if (!aRes.ok) { console.error('anthropic status', aRes.status); return { ok: false }; }
-  const data = await aRes.json();
+  if (!env.ANTHROPIC_API_KEY) {
+    console.error('vision: ANTHROPIC_API_KEY missing');
+    return { ok: false, reason: 'no_api_key' };
+  }
+  let aRes;
+  try {
+    aRes = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 2500,
+        system,
+        tools,
+        tool_choice: { type: 'tool', name: toolName },
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: pre.mime, data: pre.b64 } },
+            { type: 'text', text: userText },
+          ],
+        }],
+      }),
+    });
+  } catch (e) {
+    console.error('vision: anthropic fetch threw:', e?.message || e);
+    return { ok: false, reason: 'fetch_threw' };
+  }
+  if (!aRes.ok) {
+    // Pull the body so we can see WHICH error (auth, model not found, schema reject,
+    // overload, rate limit). Log the first 400 chars; keeps log volume bounded.
+    const body = await aRes.text().catch(() => '');
+    console.error(`vision: anthropic ${aRes.status} ${body.slice(0, 400)}`);
+    return { ok: false, reason: `http_${aRes.status}`, detail: body.slice(0, 200) };
+  }
+  let data;
+  try { data = await aRes.json(); }
+  catch (e) {
+    console.error('vision: anthropic bad json:', e?.message);
+    return { ok: false, reason: 'bad_json' };
+  }
+  // Surface stop_reason so we can tell "max_tokens cut off" vs "tool_use done".
+  const stop = data?.stop_reason;
   const tool = (data.content || []).find(c => c.type === 'tool_use' && c.name === toolName);
-  if (!tool?.input) return { ok: false };
+  if (!tool?.input) {
+    console.error(`vision: no tool_use in response (stop_reason=${stop}, content_types=${(data?.content || []).map(c => c.type).join(',')})`);
+    return { ok: false, reason: 'no_tool_call', stop };
+  }
+  // Note empty-results explicitly so logs distinguish "Claude saw nothing" from
+  // upstream errors. Same payload back to caller; just observability.
+  const items = Array.isArray(tool.input.items) ? tool.input.items : [];
+  if (items.length === 0) {
+    console.warn(`vision: claude returned 0 items (stop_reason=${stop})`);
+  }
   return { ok: true, ...tool.input };
 }
 
 export async function scanStatus(userId, env, request) {
   // D1-derived count — matches the enforcement path in preflight() so what the UI
-  // shows is exactly what the scan endpoint will allow.
-  const day = Math.floor(Date.now() / 86400_000);
-  const dayStartMs = day * 86400_000;
+  // shows is exactly what the scan endpoint will allow. Free tier counts lifetime
+  // total; Pro counts a rolling 7-day window.
+  const quota = await getUserDailyLimit(env, userId);
   let used = 0;
+  let resetAt = null;
   if (env.DB) {
     try {
-      const row = await env.DB.prepare(
-        'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ? AND created_at >= ?'
-      ).bind(userId, dayStartMs).first();
-      used = row?.n || 0;
+      if (quota.kind === 'lifetime') {
+        const row = await env.DB.prepare(
+          'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ?'
+        ).bind(userId).first();
+        used = row?.n || 0;
+      } else {
+        const windowStartMs = Date.now() - 7 * 86400_000;
+        const row = await env.DB.prepare(
+          'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ? AND created_at >= ?'
+        ).bind(userId, windowStartMs).first();
+        used = row?.n || 0;
+        // Next quota slot opens when the oldest in-window scan ages past 7 days.
+        const oldest = await env.DB.prepare(
+          'SELECT MIN(created_at) AS t FROM scan_history WHERE user_id = ? AND created_at >= ?'
+        ).bind(userId, windowStartMs).first();
+        if (oldest?.t) resetAt = oldest.t + 7 * 86400_000;
+      }
     } catch (e) { console.warn('scan status count failed:', e?.message); }
   }
-  const limit = await getUserDailyLimit(env, userId);
-  return json({ used, limit, resetAt: (day + 1) * 86400_000 }, 200, request, env);
+  return json({
+    used,
+    limit: quota.limit,
+    quotaKind: quota.kind,                                  // 'lifetime' | 'weekly'
+    resetAt,                                                // null for lifetime
+  }, 200, request, env);
 }

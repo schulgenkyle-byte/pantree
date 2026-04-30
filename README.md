@@ -144,9 +144,9 @@ Cost estimate: ~$20 in Anthropic fees to normalize 3,000 recipes.
 ## 8. Launch checklist
 
 - [ ] Google Play Developer account ($25)
-- [ ] Reserve `app.pantrie` package
-- [ ] Privacy policy live at pantrie.app/privacy (use `docs/privacy-policy.md`)
-- [ ] Account deletion page at pantrie.app/delete-account
+- [ ] Reserve `app.brimm` package (DONE — Play Store identity)
+- [ ] Privacy policy live at brimmapp.com/privacy (use `docs/privacy-policy.md`)
+- [ ] Account deletion page at brimmapp.com/delete-account
 - [ ] Data Safety form filled from `docs/data-safety.md`
 - [ ] Release keystore → enroll in Play App Signing
 - [ ] Set `CLOUD_PROJECT_NUMBER` for Play Integrity

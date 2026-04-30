@@ -12,6 +12,19 @@ const ALLOWED_SKUS = new Set([
   'pantrie_pro_annual',
 ]);
 
+/**
+ * Constant-time admin-key check, scoped to the debug-Pro routes.
+ * Defense-in-depth on top of `env.ENVIRONMENT === 'dev'`: even if the env gate
+ * gets flipped or forgotten, only callers holding ADMIN_KEY can mint/revoke Pro.
+ */
+function debugAdminAuthed(request, env) {
+  const key = request.headers.get('x-admin-key') || '';
+  if (!env.ADMIN_KEY || !key || key.length !== env.ADMIN_KEY.length) return false;
+  let x = 0;
+  for (let i = 0; i < key.length; i++) x |= key.charCodeAt(i) ^ env.ADMIN_KEY.charCodeAt(i);
+  return x === 0;
+}
+
 async function verifyPurchaseWithGoogle(env, sku, purchaseToken) {
   const accessToken = await getServiceAccountToken(env, 'https://www.googleapis.com/auth/androidpublisher');
   if (!accessToken) return { ok: false, reason: 'no-sa-token' };
@@ -128,6 +141,38 @@ export const handleBilling = {
     ).bind(userId, Date.now()).first();
     if (!row) return json({ active: false }, 200, request, env);
     return json({ active: true, sku: row.sku, expiresAt: row.expires_at, autoRenewing: !!row.auto_renewing }, 200, request, env);
+  },
+
+  /**
+   * DEV-ONLY: grant the calling user a 1-year Pro entitlement.
+   *
+   * SECURITY: dual-gate. ENVIRONMENT must be 'dev' AND the caller must present a
+   * valid X-Admin-Key header. The env gate alone is fragile (staging and prod
+   * share one Worker right now); the admin-key check is the real protection.
+   */
+  async debugGrantPro(userId, env, request) {
+    if (env.ENVIRONMENT !== 'dev') return err(404, 'not available');
+    if (!debugAdminAuthed(request, env)) return err(404, 'not available');
+    const oneYearFromNow = Date.now() + 365 * 24 * 60 * 60 * 1000;
+    await env.DB.prepare(
+      `INSERT INTO entitlement (user_id, sku, purchase_token_hash, expires_at, auto_renewing, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?)
+       ON CONFLICT(user_id) DO UPDATE SET
+         sku=excluded.sku,
+         purchase_token_hash=excluded.purchase_token_hash,
+         expires_at=excluded.expires_at,
+         auto_renewing=excluded.auto_renewing,
+         updated_at=excluded.updated_at`
+    ).bind(userId, 'brimm_pro_yearly', 'debug-grant', oneYearFromNow, 0, Date.now()).run();
+    return json({ active: true, source: 'debug', expiresAt: oneYearFromNow }, 200, request, env);
+  },
+
+  /** DEV-ONLY: revoke the calling user's Pro entitlement. Same dual-gate as grant. */
+  async debugRevokePro(userId, env, request) {
+    if (env.ENVIRONMENT !== 'dev') return err(404, 'not available');
+    if (!debugAdminAuthed(request, env)) return err(404, 'not available');
+    await env.DB.prepare('DELETE FROM entitlement WHERE user_id = ?').bind(userId).run();
+    return json({ active: false, source: 'debug' }, 200, request, env);
   },
 
   /**

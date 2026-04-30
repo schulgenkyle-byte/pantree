@@ -31,6 +31,25 @@ backend/ingest/image-migrate.sql
 backend/ingest/*.sql
 backend/ingest/*.json
 backend/ingest/*.ndjson
+# Subdirectory data (audit corpora, scrape outputs, cocktail NDJSONs ≥100MB total) —
+# regenerable via the *.cjs scripts in this folder. Keep scripts, drop data.
+backend/ingest/**/*.ndjson
+backend/ingest/**/*.json
+backend/ingest/audit_v2_data/
+backend/ingest/audit_v2_hf/
+backend/ingest/audit_v2_mocktails_data/
+backend/ingest/audit_v3_cfg/
+backend/ingest/audit_v3_hf/
+backend/ingest/audit_v3_tmdb/
+backend/ingest/audit_v3_usda/
+backend/ingest/scrape_5star/
+backend/ingest/scrape_drinks/
+backend/ingest/cocktails/agent5/
+backend/ingest/cocktails/_quarantine/
+backend/ingest/photo_backfill_log.csv
+backend/ingest/photo_backfill_pending.csv
+# Link-parser is a separate Oracle-box deploy artifact — large node_modules + scrape cache.
+backend/ingest/link-parser/
 
 # Source PDFs from Internet Archive cocktail-book scrapes — over GitHub's 100MB limit.
 # Extracted text already committed via NDJSON; the PDFs themselves regenerate from fetchers.
@@ -55,7 +74,7 @@ pentest/output/
 
 # Admin key + anything else ending _KEY.txt
 *_KEY.txt
-PANTREE_ADMIN_KEY.txt
+PANTRIE_ADMIN_KEY.txt
 
 # Debug/release APKs — don't commit binaries
 *.apk
@@ -71,3 +90,7 @@ PANTREE_ADMIN_KEY.txt
 *.keystore
 *.jks
 pan-tree/
+
+# Large generated CSVs in ingest — regenerable.
+backend/ingest/photo_backfill_log.csv
+backend/ingest/photo_backfill_pending.csv

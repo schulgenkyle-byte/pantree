@@ -1,0 +1,201 @@
+id,title,verdict,reason,has_photo,step_count,ingredient_count,source_prefix
+14858329027b266d602eb5f0,Oyster Cocktail,FIX,missing photo,0,2,4,14858329027b266d602eb5f0
+34b2bd280ce17ab7970b9bdb,Soda Lemonade,FIX,missing photo,0,1,1,34b2bd280ce17ab7970b9bdb
+513e1a94c5216090939eaa5b,Cider Nectar,FIX,missing photo,0,2,4,513e1a94c5216090939eaa5b
+5b083b7b1402f49a4f2b744e,Macedoine No. 3,FIX,missing photo,0,1,3,5b083b7b1402f49a4f2b744e
+5c4ca701e19d774a205e9f86,Hot Beef-Tea,FIX,missing photo,0,1,2,5c4ca701e19d774a205e9f86
+6d1657425ebd0b6d93ae194b,Raspberry Cream Frappe,FIX,missing photo,0,5,3,6d1657425ebd0b6d93ae194b
+6d8f7625b302ac79bb641f57,Cafe Royal Frappe,FIX,missing photo,0,1,2,6d8f7625b302ac79bb641f57
+6de09e9326ebf78927abcc05,Macedoine No. 2,FIX,missing photo,0,1,3,6de09e9326ebf78927abcc05
+6ff67813dd73bc33fcba88e6,Orangeade,FIX,missing photo,0,2,1,6ff67813dd73bc33fcba88e6
+816f2f716f4a9c7d23f57dd2,Hot Lemonade,FIX,missing photo,0,1,2,816f2f716f4a9c7d23f57dd2
+869dd09d87e88c0991178006,Clam Cocktail,FIX,missing photo,0,1,3,869dd09d87e88c0991178006
+8daa7043b093c35cc514d1fe,Phosphate Lemonade,FIX,missing photo,0,2,2,8daa7043b093c35cc514d1fe
+9502b773dc15696d74ee2666,Macedoine No. 1,FIX,missing photo,0,2,2,9502b773dc15696d74ee2666
+a272090e2688d480dbf0a6ad,Plain Lemonade,FIX,missing photo,0,1,1,a272090e2688d480dbf0a6ad
+a69269b8200798e0272be251,Grenadine Lemonade,FIX,missing photo,0,2,1,a69269b8200798e0272be251
+a6b0e788ec43e99e1ae4263b,Frappe Beef-Tea,FIX,missing photo,0,2,2,a6b0e788ec43e99e1ae4263b
+canada-apple-berry-crisp,Apple berry crisp,KEEP,cookable,1,4,11,canada
+canada-apple-nachos-peanut-butter-caramel-sauce,Apple nachos with peanut butter caramel sauce,KEEP,cookable,1,8,10,canada
+canada-apple-pie-breakfast-bowl,Apple pie breakfast bowl,KEEP,cookable,1,4,9,canada
+canada-apple-pie-oatmeal,Apple pie oatmeal,FIX,sparse steps for ingredient count,1,2,8,canada
+canada-baked-blueberry-banana-oatmeal,Baked blueberry and banana oatmeal,KEEP,cookable,1,4,9,canada
+canada-baked-cheese-stratas,Baked cheese stratas,KEEP,cookable,1,4,9,canada
+canada-baked-fish-chips,Baked fish and chips,KEEP,cookable,1,11,15,canada
+canada-banana-walnut-loaf,Banana walnut loaf,KEEP,cookable,1,6,11,canada
+canada-beef-bean-burger,Beef and bean burger,KEEP,cookable,1,5,10,canada
+canada-beef-fajitas-lime-sour-cream,Beef fajitas with lime sour cream,KEEP,cookable,1,4,12,canada
+canada-berry-brunch-bake,Berry brunch bake,KEEP,cookable,1,6,10,canada
+canada-black-bean-corn-salad,Black bean and corn salad,FIX,sparse steps for ingredient count,1,2,11,canada
+canada-black-bean-enchiladas,Black bean enchiladas,KEEP,cookable,1,12,20,canada
+canada-blueberry-cornmeal-muffins,Blueberry cornmeal muffins,KEEP,cookable,1,6,13,canada
+canada-braised-lentils-greens,Braised lentils with greens,KEEP,cookable,1,3,6,canada
+canada-cajun-lentil-soup,Cajun lentil soup,KEEP,cookable,1,3,10,canada
+canada-cantaloupe-bocconcini-cheese-salad,Cantaloupe and bocconcini cheese salad,KEEP,cookable,1,3,11,canada
+canada-caprese-muffin-tin-frittatas,Caprese muffin-tin frittatas,KEEP,cookable,1,5,7,canada
+canada-carrot-ginger-lentil-soup,Carrot ginger lentil soup,KEEP,cookable,1,5,9,canada
+canada-carrot-potato-pancakes,Carrot potato pancakes,FIX,sparse steps for ingredient count,1,2,6,canada
+canada-cauliflower-bean-dip,Cauliflower and bean dip,KEEP,cookable,1,5,8,canada
+canada-cheesy-broccoli-toast,Cheesy broccoli toast,KEEP,cookable,1,4,6,canada
+canada-chicken-bean-quesadillas,Chicken and bean quesadillas,KEEP,cookable,1,6,14,canada
+canada-chicken-lima-bean-stew,Chicken and lima bean stew,KEEP,cookable,1,6,15,canada
+canada-chicken-spring-vegetable-soup,Chicken and spring vegetable soup,KEEP,cookable,1,5,11,canada
+canada-chickpea-meatballs-gnocchi-bake,Chickpea “meatballs” and gnocchi bake,KEEP,cookable,1,9,16,canada
+canada-chocolate-berry-overnight-oats,Chocolate berry overnight oats,KEEP,cookable,1,3,7,canada
+canada-classic-overnight-oats,Classic overnight oats,FIX,sparse steps for ingredient count,1,2,5,canada
+canada-classic-poached-eggs,Classic poached eggs,KEEP,cookable,1,4,4,canada
+canada-cobb-salad-ranch-dressing,Cobb salad and ranch dressing,KEEP,cookable,1,7,21,canada
+canada-coleslaw,Coleslaw,KEEP,cookable,1,3,6,canada
+canada-colourful-quinoa-salad,Quinoa salad,KEEP,cookable,1,3,13,canada
+canada-corn-bean-squash-soup-three-sister-s-soup,"Three Sisters soup (corn, bean and squash)",KEEP,cookable,1,5,11,canada
+canada-corn-cakes-tomato-jam,Corn cakes with tomato jam,KEEP,cookable,1,9,19,canada
+canada-corn-lentil-soup,Corn and lentil soup,KEEP,cookable,1,5,11,canada
+canada-cornbread,Cornbread,KEEP,cookable,1,5,9,canada
+canada-cornmeal-porridge-fruit-preserve,Cornmeal porridge with fruit preserve,KEEP,cookable,1,4,6,canada
+canada-couscous-vegetables,Chickpea and vegetable couscous,KEEP,cookable,1,6,10,canada
+canada-creamy-clam-chowder,Creamy clam chowder,FIX,sparse steps for ingredient count,1,2,12,canada
+canada-creamy-dreamy-hummus,Creamy hummus,FIX,sparse steps for ingredient count,1,2,8,canada
+canada-creamy-smoothie,Creamy smoothie,FIX,sparse steps for ingredient count,1,2,6,canada
+canada-crispy-chickpeas,Crispy chickpeas,KEEP,cookable,1,6,4,canada
+canada-crowd-pleasing-chickpea-carrot-salad,Chickpea and carrot salad,KEEP,cookable,1,3,11,canada
+canada-crunchy-turkey-fingers-oven-fries,Crunchy turkey fingers with oven fries,KEEP,cookable,1,5,10,canada
+canada-cucumber-smash-salad,Cucumber smash salad,KEEP,cookable,1,3,9,canada
+canada-curried-chickpea-salad,Curried chickpea salad,KEEP,cookable,1,3,11,canada
+canada-curried-lentil-spinach-fritters,Curried lentil and spinach fritters,KEEP,cookable,1,5,16,canada
+canada-curried-vegetable-lentil-stew,Curried vegetable lentil stew,FIX,sparse steps for ingredient count,1,2,13,canada
+canada-curry-chicken-lettuce-wraps,Curry chicken lettuce wraps,FIX,sparse steps for ingredient count,1,2,9,canada
+canada-easy-peasy-fish-tacos,Whitefish tacos,KEEP,cookable,1,4,12,canada
+canada-eat-your-greens-frittata,Spicy vegetable frittata,KEEP,cookable,1,3,8,canada
+canada-egg-veggie-scramble,Egg and veggie scramble,KEEP,cookable,1,4,5,canada
+canada-eggplant-lentil-curry,Eggplant lentil curry,KEEP,cookable,1,4,11,canada
+canada-fish-fresh-herb-veggie-packets,Fish and herb vegetable packets,KEEP,cookable,1,4,12,canada
+canada-flourless-yogurt-blender-muffins,Flourless yogurt blender muffins,KEEP,cookable,1,5,10,canada
+canada-french-toast-sticks-pineapple-orange-topping,French toast sticks with pineapple orange topping,KEEP,cookable,1,6,11,canada
+canada-fresh-avocado-bean-lettuce-wrap,Avocado and bean lettuce wraps,FIX,sparse steps for ingredient count,1,2,10,canada
+canada-fried-brown-rice-chicken,Chicken fried rice,KEEP,cookable,1,5,11,canada
+canada-fried-wild-rice,Fried wild rice,KEEP,cookable,1,4,9,canada
+canada-fruit-kebabs-maple-cinnamon-yogurt-dip,Fruit skewers with maple yogurt dip,FIX,sparse steps for ingredient count,1,2,6,canada
+canada-fruit-leathers,Fruit leathers,KEEP,cookable,1,6,3,canada
+canada-fruit-salad,Fruit salad,FIX,sparse steps for ingredient count,1,1,5,canada
+canada-fruit-yogurt-granola-parfaits,Fruit and yogurt granola parfaits,KEEP,cookable,1,4,10,canada
+canada-fun-flatbread-pizza,Flatbread pizza,KEEP,cookable,1,3,9,canada
+canada-ginger-scallion-noodles,Ginger scallion noodles,KEEP,cookable,1,4,6,canada
+canada-good-morning-egg-roll,Egg wrap with vegetables,KEEP,cookable,1,4,6,canada
+canada-greek-style-chicken-sandwiches,Chicken and feta sandwiches,KEEP,cookable,1,3,12,canada
+canada-greek-style-couscous-egg-wrap,Couscous and egg wraps,KEEP,cookable,1,3,12,canada
+canada-grilled-flank-steak-bbq-veggies,Grilled flank steak with BBQ vegetables,KEEP,cookable,1,4,13,canada
+canada-hearty-chicken-noodle-soup,Chicken noodle soup,FIX,sparse steps for ingredient count,1,2,11,canada
+canada-honey-grilled-salmon-asparagus,Honey grilled salmon and asparagus,KEEP,cookable,1,3,9,canada
+canada-hot-sweet-curried-squash,Hot and sweet curried squash,KEEP,cookable,1,5,11,canada
+canada-kale-chickpea-curry,Kale and chickpea curry,KEEP,cookable,1,4,12,canada
+canada-lentil-bolognese,Lentil bolognese,KEEP,cookable,1,5,14,canada
+canada-lentil-nuggets,Lentil nuggets,KEEP,cookable,1,3,7,canada
+canada-lip-smacking-bbq-drumsticks,BBQ chicken drumsticks,KEEP,cookable,1,3,12,canada
+canada-lunch-box-tuna-salad-wrap,Tuna salad wraps,KEEP,cookable,1,4,9,canada
+canada-mac-cheese-veggie-twist,Macaroni and cheese with vegetables,KEEP,cookable,1,4,13,canada
+canada-mapo-tofu-chicken,Mapo tofu with chicken,KEEP,cookable,1,5,12,canada
+canada-marvellous-muffins,Sweet zucchini muffins,KEEP,cookable,1,4,14,canada
+canada-mediterranean-tomato-ricotta-pasta,Tomato and ricotta pasta,KEEP,cookable,1,3,12,canada
+canada-mighty-minestrone-soup,Minestrone soup,KEEP,cookable,1,4,6,canada
+canada-miso-ramen-soup-marinated-eggs,Miso ramen soup with marinated eggs,KEEP,cookable,1,9,18,canada
+canada-moose-stew,Moose stew,KEEP,cookable,1,4,12,canada
+canada-moroccan-stew-harira,Harira (Moroccan stew),KEEP,cookable,1,4,12,canada
+canada-muhammara-dip-red-bell-pepper-walnut,Muhammara dip (red bell pepper and walnut),KEEP,cookable,1,6,8,canada
+canada-mujadarrah-lentils-onions-rice,"Mujadarrah (lentils, onions and rice)",KEEP,cookable,1,3,5,canada
+canada-multigrain-congee-shiitake-ginger-scallion,"Multigrain congee with shiitake, ginger and scallion",KEEP,cookable,1,4,11,canada
+canada-mushroom-soup,Mushroom soup,KEEP,cookable,1,6,10,canada
+canada-mushroom-tagine,Mushroom tagine,KEEP,cookable,1,5,21,canada
+canada-no-bake-toasted-oat-granola-bars,No-bake oat granola bars,KEEP,cookable,1,5,6,canada
+canada-oat-pumpkin-no-bake-bites,Oat and pumpkin no-bake bites,KEEP,cookable,1,3,6,canada
+canada-okroshka-cold-summer-soup,Okroshka (cold summer soup),KEEP,cookable,1,3,8,canada
+canada-oodles-soba-noodles-tempeh,Soba noodles with tempeh,KEEP,cookable,1,6,15,canada
+canada-open-face-egg-salad-sandwiches,Open-face egg salad sandwiches,KEEP,cookable,1,3,10,canada
+canada-open-faced-applewiches,Apple sandwiches,KEEP,cookable,1,2,3,canada
+canada-orange-soy-tofu-pockets,Orange tofu pockets,KEEP,cookable,1,4,12,canada
+canada-peach-roasted-chickpeas-halloumi-cheese-salad,"Peach, roasted chickpeas and halloumi cheese salad",KEEP,cookable,1,5,10,canada
+canada-pineapple-ginger-chicken,Pineapple ginger chicken,KEEP,cookable,1,4,9,canada
+canada-pork-apple-skillet-dinner,Pork and apple skillet dinner,KEEP,cookable,1,3,9,canada
+canada-puff-bars,Puff bars,KEEP,cookable,1,6,6,canada
+canada-quinoa-veggie-casserole,Quinoa and vegetable casserole,KEEP,cookable,1,4,11,canada
+canada-red-lentil-mushroom-soup,Red lentil and mushroom soup,KEEP,cookable,1,3,14,canada
+canada-roasted-tomato-pepper-bean-soup,"Roasted tomato, pepper, and bean soup",KEEP,cookable,1,6,10,canada
+canada-savoury-broccoli-cheese-muffins,Savoury broccoli and cheese muffins,KEEP,cookable,1,4,15,canada
+canada-savoury-pear-cheese-scones,Savoury pear and cheese scones,KEEP,cookable,1,4,9,canada
+canada-shakshouka,Shakshouka (poached eggs recipe),KEEP,cookable,1,6,10,canada
+canada-shepherd-s-pie,Turkey and lentil shepherd’s pie,KEEP,cookable,1,6,9,canada
+canada-simple-breakfast-soup,Simple breakfast soup,KEEP,cookable,1,4,10,canada
+canada-sizzlin-sesame-greens,Sesame greens,KEEP,cookable,1,4,8,canada
+canada-slow-cooked-lasagna,Slow-cooked lasagna,KEEP,cookable,1,4,13,canada
+canada-slow-cooker-burrito-bowls,Slow-cooker burrito bowls,KEEP,cookable,1,6,9,canada
+canada-smoked-fish-white-hominy-corn-soup,Smoked fish and white hominy corn soup,KEEP,cookable,1,3,8,canada
+canada-spaghetti-turkey-meatballs,Spaghetti and turkey meatballs,KEEP,cookable,1,12,12,canada
+canada-spiced-butternut-squash-soup,Spiced-up butternut squash soup,KEEP,cookable,1,4,9,canada
+canada-spiced-tofu-lentils-turmeric-rice,Spiced tofu and lentils with turmeric rice,KEEP,cookable,1,6,20,canada
+canada-strawberry-pancakes,Strawberry pancakes,KEEP,cookable,1,4,10,canada
+canada-sweet-potato-curry,Sweet potato curry,KEEP,cookable,1,4,9,canada
+canada-sweet-sour-grapes,Sweet and sour grapes,KEEP,cookable,1,5,2,canada
+canada-tempeh-nuggets,Tempeh nuggets,KEEP,cookable,1,7,14,canada
+canada-terrific-tuna-tomato-salad,Tuna and tomato salad,FIX,sparse steps for ingredient count,1,2,10,canada
+canada-three-sisters-tacos,Three sisters tacos,KEEP,cookable,1,6,12,canada
+canada-toasted-barley-wild-rice-salad,Toasted barley and wild rice salad,KEEP,cookable,1,3,13,canada
+canada-tofu-banh-mi-rice-bowl,Tofu rice bowl,KEEP,cookable,1,7,23,canada
+canada-tofu-berry-sheet-tart,Tofu and berry sheet tart,KEEP,cookable,1,6,7,canada
+canada-tofu-butternut-squash-pasta-shells,Tofu and butternut squash pasta shells,KEEP,cookable,1,9,15,canada
+canada-tofu-masala-curry,Tofu masala curry,KEEP,cookable,1,3,14,canada
+canada-tofu-pasta-primavera,Tofu pasta primavera,KEEP,cookable,1,6,11,canada
+canada-tofu-vegetable-stir-fry,Tofu and vegetable stir fry,KEEP,cookable,1,4,12,canada
+canada-trout-roasted-vegetables-low-bush-cranberry-relish,Trout with roasted vegetables and low bush cranberry relish,KEEP,cookable,1,7,16,canada
+canada-turkey-chili,Turkey chili,KEEP,cookable,1,3,14,canada
+canada-turkey-stir-fry,Turkey stir-fry,KEEP,cookable,1,4,13,canada
+canada-turkey-veggie-stuffed-pita,Turkey and vegetable pita,FIX,sparse steps for ingredient count,1,2,10,canada
+canada-ultimate-mixed-bean-salad,Mixed bean salad,KEEP,cookable,1,3,12,canada
+canada-vegetable-curry,Chickpea and vegetable curry,KEEP,cookable,1,7,12,canada
+canada-vietnamese-inspired-beef-noodle-soup,Pho (beef noodle soup),KEEP,cookable,1,3,16,canada
+canada-west-coast-snapper-burritos,Whitefish burritos,KEEP,cookable,1,5,13,canada
+canada-whole-wheat-flour-tortillas,Whole wheat flour tortillas,KEEP,cookable,1,7,6,canada
+canada-yogurt-bark-berries,Yogurt bark with berries,KEEP,cookable,1,7,5,canada
+canada-zaatar-chicken-sheet-pan-dinner,Za’atar chicken sheet pan dinner,KEEP,cookable,1,5,10,canada
+canada-zesty-bean-dip-chips,Zesty bean dip and baked chips,KEEP,cookable,1,4,11,canada
+cck_000779fd6a423b38d39e43,Greek wine,FIX,missing photo,0,3,1,cck
+cck_0010fd1f7af13f8801e73e,Bonanza Punch,FIX,missing photo,0,6,4,cck
+cck_0029e212d662d32e075c23,Blue Blazer,KEEP,cookable,1,10,7,cck
+cck_00380dc7e782f242bb111c,Agua de Valencia,KEEP,cookable,1,4,4,cck
+cck_00507a15ed336d155c031e,Bénédictine glacée,DELETE,no cooking verbs,0,1,1,cck
+cck_0054da407e7cb62ac0b8b4,Pompier High Ball,DELETE,all-garbage ingredients,0,4,0,cck
+cck_005d65f9e53fc789221415,Tea Punch,FIX,missing photo,0,6,3,cck
+cck_007af519029056fe8b34ac,Painkiller (cocktail),DELETE,empty/fragment instructions,0,1,5,cck
+cck_0091e8400563ec5f11f7ac,Fitzgerald,FIX,weak/short instructions,0,3,4,cck
+cck_0095ba70a5e573085388e1,Amer Picon,FIX,missing photo,0,3,2,cck
+cck_00a870359c4121cce006cd,Ti' Punch,FIX,missing photo,0,3,3,cck
+cck_00a89718002167a902fa97,Bachelor's Rose,DELETE,all-garbage ingredients,1,2,0,cck
+cck_00ba1f0fb8d38eb4b9bd79,Egg Nogg,FIX,missing photo,0,3,3,cck
+cck_00bc47c39328bbf893f4c8,Breakfast martini,KEEP,cookable,1,2,1,cck
+cck_00c0c8d9b7427b236bcefd,Sherry Cobbler,DELETE,all-garbage ingredients,1,1,0,cck
+cck_00d67b41f3a969e429f8e2,Zombie (Modern Spec),FIX,missing photo,0,3,9,cck
+cck_00dcdb69b20b4465b685dd,Creamsicle (cocktail),FIX,missing photo,0,2,5,cck
+cck_00e7f1091f403c95171334,Malaga (wine),FIX,missing photo,0,3,1,cck
+cck_00ee4fc66650028d7376f3,The Laverstoke,KEEP,cookable,1,4,7,cck
+cck_00f0953723c3ddcd802f75,Rhine- Wine Punch,FIX,missing photo,0,2,1,cck
+cck_00fb29ad0db4deafda6abe,Mr. Bali Hai,FIX,missing photo,0,4,6,cck
+cck_011e65153cff7c3e793d04,Zazarac Cocktail,FIX,ingredient parser failure (instructions ok),0,9,0,cck
+cck_01462482d359604688ce0c,Sherry and Bitters,DELETE,all-garbage ingredients,1,1,0,cck
+cck_0155e7fcf2417a661822fe,Strawberry Shivers,KEEP,cookable,1,2,3,cck
+cck_0156c324bf518531b15095,Moscow Mule,KEEP,cookable,1,4,3,cck
+cck_015a91978def4adb8ed1c5,Harvey Wallbanger (cocktail),FIX,missing photo,0,2,3,cck
+cck_01a39c543ecab0495d1151,Gin High Ball,DELETE,all-garbage ingredients,0,4,0,cck
+cck_01acba1641f2a54c094bc0,Pisco Inferno,FIX,missing photo,0,4,5,cck
+cck_01b8753c7c4bb46dad9945,Caribbean Orange Liqueur,KEEP,cookable,1,9,3,cck
+cck_01caa66570aef3352952a4,Spaulding Cocktail,DELETE,all-garbage ingredients,0,4,0,cck
+cck_01e02d9f78d762389b5a11,Glee Club Punch,FIX,missing photo,0,1,3,cck
+cck_01e3ef55d25eedf46f4510,Chicago Fizz,FIX,sparse steps for ingredient count,1,2,6,cck
+cck_01e9a421585313a6b5a692,Rickey (cocktail),FIX,missing photo,0,2,3,cck
+cck_01ecb5e03d990cd706ae7f,Addison Special,KEEP,cookable,1,3,3,cck
+cck_01fa5ab4c9700f96c97cc2,Tequila Old Fashioned,FIX,missing photo,0,3,4,cck
+cck_022416d8b3cc1f111432cf,Crystal Slipper,DELETE,no cooking verbs,0,4,0,cck
+cck_022a5d5dcc85c32ad87f9e,Porter Cup,FIX,missing photo,0,3,5,cck
+cck_022d855d278356517b64b3,Durkee Cocktail,FIX,missing photo,0,9,4,cck
+cck_023579e725961b2a2d4d7e,Applejack Cocktail,DELETE,all-garbage ingredients,0,2,0,cck
+cck_023cf550d854550466b9e2,Manhattan (Modern Spec),FIX,missing photo,0,3,3,cck
+cck_02448f9b537d64c53556f3,Wine in China,KEEP,cookable,1,3,1,cck
+cck_0245cd90df74845942b0d7,Snowball,FIX,ingredient parser failure (instructions ok),0,4,0,cck
+cck_02738d8d3caf7ee1bbb8e5,Tom Collins,FIX,ingredient parser failure (instructions ok),1,7,0,cck

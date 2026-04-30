@@ -86,6 +86,9 @@ interface PantrieApi {
   @DELETE("shopping/{id}")
   suspend fun deleteShopping(@Path("id") id: String): GenericOk
 
+  @POST("shopping/vendor-handoff")
+  suspend fun shoppingVendorHandoff(@Body req: VendorHandoffRequest): GenericOk
+
   @GET("plans")
   suspend fun plans(): PlansResponse
 
@@ -130,6 +133,14 @@ interface PantrieApi {
 
   @GET("me/entitlement")
   suspend fun entitlement(): EntitlementResponse
+
+  // Dev-only — server returns 404 unless ENVIRONMENT=dev. Used by the Settings debug
+  // toggle to flip the calling user's Pro state without going through Play Billing.
+  @POST("me/debug/grant-pro")
+  suspend fun debugGrantPro(): EntitlementResponse
+
+  @POST("me/debug/revoke-pro")
+  suspend fun debugRevokePro(): EntitlementResponse
 
   @GET("scan/status")
   suspend fun scanStatus(): ScanStatusResponse
@@ -214,9 +225,101 @@ interface PantrieApi {
   @POST("submissions/photo")
   suspend fun uploadSubmissionPhoto(@Body req: PhotoUploadRequest): PhotoUploadResponse
 
+  /** Contribute a photo to an EXISTING recipe. If approved, the photo
+   *  becomes the recipe's canonical image and the user gets credit. */
+  @POST("recipes/{id}/contribute-photo")
+  suspend fun contributeRecipePhoto(
+    @Path("id") id: String,
+    @Body req: app.pantrie.network.dto.ContributeRecipePhotoRequest,
+  ): app.pantrie.network.dto.ContributeRecipePhotoResponse
+
   @POST("submissions/recipe")
   suspend fun submitRecipe(@Body req: SubmitRecipeRequest): SubmitRecipeResponse
 
   @GET("submissions/mine")
   suspend fun mySubmissions(): MySubmissionsResponse
+
+  // ---------- Pro Photo-to-Recipe ----------
+  // Returns retrofit2.Response so we can distinguish 422 (extractable:false, body still
+  // valid JSON) from 402 (Pro gate, surface upgrade nudge) without conflating both as
+  // HttpException. ViewModel reads response.code() + response.body()/errorBody().
+  @POST("me/extract-recipe-from-photo")
+  suspend fun extractRecipeFromPhoto(@Body req: ExtractRecipeRequest): retrofit2.Response<ExtractRecipeResponse>
+
+  @POST("me/submit-recipe")
+  suspend fun submitStructuredRecipe(@Body req: StructuredSubmitRequest): StructuredSubmitResponse
+
+  // ---------- Link Import (TikTok/YouTube → recipe) ----------
+  @POST("api/import/links")
+  suspend fun createImportJob(@Body req: app.pantrie.feature.importlinks.CreateImportJobRequest): app.pantrie.feature.importlinks.CreateImportJobResponse
+
+  @GET("api/import/jobs/{id}")
+  suspend fun getImportJob(@Path("id") id: String): app.pantrie.feature.importlinks.ImportJobResponse
+
+  @POST("api/import/links/{id}/submit")
+  suspend fun submitImportedLink(
+    @Path("id") id: String,
+    @Body req: app.pantrie.feature.importlinks.SubmitImportedRequest,
+  ): app.pantrie.feature.importlinks.SubmitImportedResponse
+
+  @POST("api/import/links/{id}/reject")
+  suspend fun rejectImportedLink(@Path("id") id: String): app.pantrie.feature.importlinks.OkResponse
+
+  // ---------- Library: Books → Chapters → Recipes ----------
+  @GET("api/library")
+  suspend fun getLibrary(): app.pantrie.feature.library.LibraryResponse
+
+  @POST("api/library/books")
+  suspend fun createBook(@Body req: app.pantrie.feature.library.CreateBookRequest): app.pantrie.feature.library.Book
+
+  @GET("api/library/books/{id}")
+  suspend fun getBook(@Path("id") id: String): app.pantrie.feature.library.BookDetailResponse
+
+  @PUT("api/library/books/{id}")
+  suspend fun updateBook(
+    @Path("id") id: String,
+    @Body req: app.pantrie.feature.library.UpdateBookRequest,
+  ): app.pantrie.feature.importlinks.OkResponse
+
+  @DELETE("api/library/books/{id}")
+  suspend fun deleteBook(@Path("id") id: String): app.pantrie.feature.importlinks.OkResponse
+
+  @POST("api/library/books/{id}/chapters")
+  suspend fun createChapter(
+    @Path("id") bookId: String,
+    @Body req: app.pantrie.feature.library.CreateChapterRequest,
+  ): app.pantrie.feature.library.Chapter
+
+  @PUT("api/library/books/{bookId}/chapters/{chapterId}")
+  suspend fun updateChapter(
+    @Path("bookId") bookId: String,
+    @Path("chapterId") chapterId: String,
+    @Body req: app.pantrie.feature.library.UpdateChapterRequest,
+  ): app.pantrie.feature.importlinks.OkResponse
+
+  @DELETE("api/library/books/{bookId}/chapters/{chapterId}")
+  suspend fun deleteChapter(
+    @Path("bookId") bookId: String,
+    @Path("chapterId") chapterId: String,
+  ): app.pantrie.feature.importlinks.OkResponse
+
+  @POST("api/library/books/{bookId}/chapters/{chapterId}/recipes")
+  suspend fun addRecipeToChapter(
+    @Path("bookId") bookId: String,
+    @Path("chapterId") chapterId: String,
+    @Body req: app.pantrie.feature.library.AddRecipeRequest,
+  ): app.pantrie.feature.library.AddRecipeResponse
+
+  @DELETE("api/library/books/{bookId}/chapters/{chapterId}/recipes/{recipeId}")
+  suspend fun removeRecipeFromChapter(
+    @Path("bookId") bookId: String,
+    @Path("chapterId") chapterId: String,
+    @Path("recipeId") recipeId: String,
+  ): app.pantrie.feature.importlinks.OkResponse
+
+  @POST("api/library/books/{id}/fork")
+  suspend fun forkBook(@Path("id") id: String): app.pantrie.feature.library.Book
+
+  @POST("api/library/books/{id}/share-token")
+  suspend fun mintBookShareToken(@Path("id") id: String): app.pantrie.feature.library.ShareTokenResponse
 }

@@ -36,6 +36,13 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Share-sheet target: TikTok / YouTube / browser "Share" → Speakeater
+                 routes the URL into the link-import flow. Pro-gated server-side. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
 
         <!-- Preload ML Kit barcode model at install time, not on first use. -->

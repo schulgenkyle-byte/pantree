@@ -1,4 +1,4 @@
-# pan-tree — Beta Test Runbook
+# Brimm — Beta Test Runbook
 
 _see it. save it. savor it._
 
@@ -17,7 +17,7 @@ npm run deploy
 1. Play Console → **Testing → Internal testing → Create new release**
 2. Upload the release AAB (Android Studio: **Build → Generate Signed Bundle**)
 3. Under **Testers**: add tester emails (up to 100) or share the opt-in URL
-4. Testers open the opt-in URL, accept, then install pan-tree from Play Store (no review wait)
+4. Testers open the opt-in URL, accept, then install Brimm from Play Store (no review wait)
 
 ## 3. Admin dashboard
 
@@ -39,7 +39,7 @@ Props are coarse: `recipeId`, `match%`, `route`. No names, no emails, no photos.
 
 ## 6. Tester invite template
 
-> You're in the pan-tree beta! See it. Save it. Savor it. Pantry-first cooking — scan what you have, swipe 10 recipes a night, cook, track waste.
+> You're in the Brimm beta! See it. Save it. Savor it. Pantry-first cooking — scan what you have, swipe 10 recipes a night, cook, track waste.
 >
 > Install: [Play Store opt-in link]
 >

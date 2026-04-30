@@ -18,14 +18,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
+import app.pantrie.ui.theme.BrassBright
+import app.pantrie.ui.theme.Ink
+import app.pantrie.ui.theme.InkFaint
+import app.pantrie.ui.theme.InkSoft
+import app.pantrie.ui.theme.Paper
+import app.pantrie.ui.theme.Paper2
+import app.pantrie.ui.theme.Terracotta
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-private val WallBg = Color(0xFFFFF8EC)
-private val WallInk = Color(0xFF1F1B16)
-private val WallMuted = Color(0xFF7A6F62)
-private val WallAccent = Color(0xFFC9763A)
-private val WallGold = Color(0xFFC9A554)
+// Editorial dark palette — same tokens the rest of the app uses.
+private val WallBg = Paper
+private val WallInk = Ink
+private val WallMuted = InkFaint
+private val WallAccent = Terracotta
+private val WallGold = BrassBright
 
 /**
  * Modal sheet shown when the user hits the daily swipe wall (free tier, swipe 41+).
@@ -83,11 +91,11 @@ fun SwipeWallSheet(
           Modifier.padding(horizontal = 18.dp, vertical = 16.dp),
           verticalAlignment = Alignment.CenterVertically,
         ) {
-          Icon(Icons.Filled.OndemandVideo, contentDescription = null, tint = Color.White)
+          Icon(Icons.Filled.OndemandVideo, contentDescription = null, tint = Ink)
           Spacer(Modifier.width(12.dp))
           Column(Modifier.weight(1f)) {
-            Text("Watch a quick ad", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-            Text("+10 more swipes", color = Color.White.copy(alpha = 0.85f), fontSize = 12.sp)
+            Text("Watch a quick ad", color = Ink, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            Text("+10 more swipes", color = InkSoft, fontSize = 12.sp)
           }
         }
       }
@@ -98,7 +106,7 @@ fun SwipeWallSheet(
       Surface(
         onClick = onGoPro,
         shape = RoundedCornerShape(14.dp),
-        color = Color(0xFF18181B),
+        color = Paper2,
         modifier = Modifier.fillMaxWidth(),
       ) {
         Row(
@@ -108,8 +116,8 @@ fun SwipeWallSheet(
           Icon(Icons.Filled.Star, contentDescription = null, tint = WallGold)
           Spacer(Modifier.width(12.dp))
           Column(Modifier.weight(1f)) {
-            Text("Brimm Pro", color = WallGold, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-            Text("Unlimited swipes · ad-free · vision scan", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+            Text(app.pantrie.Brand.PRO_NAME, color = WallGold, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            Text("Unlimited swipes · ad-free · vision scan", color = InkSoft, fontSize = 12.sp)
           }
         }
       }

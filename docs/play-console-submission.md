@@ -247,5 +247,5 @@ You don't need a new keystore ever. Same `pantree-release.keystore` + same passw
 - **Signed APK (for sideloading on your phone)**: `android/app/build/outputs/apk/release/app-release.apk` (once the background build finishes)
 - **Upload keystore**: `C:\Users\12566\Downloads\pantree-release.keystore`
 - **Keystore password**: `C:\Users\12566\Downloads\PANTREE_KEYSTORE_PW.txt`
-- **Admin API key (for backend dashboard)**: `C:\Users\12566\Downloads\PANTREE_ADMIN_KEY.txt`
+- **Admin API key (for backend dashboard)**: `C:\Users\12566\Downloads\PANTRIE_ADMIN_KEY.txt`
 - **Privacy policy source**: `docs/privacy-policy.md`

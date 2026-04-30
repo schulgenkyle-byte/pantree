@@ -144,10 +144,10 @@ fun ScanScreen(
             else onDone()
           }) { Icon(Icons.Outlined.Close, null) }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Cream),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Paper),
       )
     },
-    containerColor = Cream,
+    containerColor = Paper,
   ) { padding ->
     Box(modifier = Modifier.padding(padding).fillMaxSize()) {
       when (val s = state) {
@@ -201,6 +201,18 @@ fun ScanScreen(
           verticalArrangement = Arrangement.spacedBy(16.dp),
         ) { ScanningView() }
         is ScanUiState.MultiAnalyzing -> MultiAnalyzingView(current = s.current, total = s.total, errors = s.errors)
+        is ScanUiState.ConfirmDedup -> ScanDedupConfirmDialog(
+          items = s.items,
+          onSetAction = vm::setDedupAction,
+          onToggleSkip = vm::toggleDedupSkip,
+          onConfirm = { vm.confirmDedup(initialMode) },
+          onCancel = {
+            capturedPhotos.clear()
+            thumbnails.clear()
+            vm.reset()
+            onDone()
+          },
+        )
         is ScanUiState.Review -> Column(
           modifier = Modifier.fillMaxSize().padding(24.dp),
           verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -264,7 +276,7 @@ private fun MultiCaptureView(
     ) {
       Text("Camera permission needed", style = MaterialTheme.typography.titleLarge, color = Ink, fontWeight = FontWeight.SemiBold)
       Text(
-        "Brimm needs camera access to scan your pantry. Tap Allow when prompted.",
+        "${app.pantrie.Brand.APP_NAME} needs camera access to scan your pantry. Tap Allow when prompted.",
         style = MaterialTheme.typography.bodyMedium, color = InkMuted,
         textAlign = androidx.compose.ui.text.style.TextAlign.Center,
       )
@@ -415,7 +427,7 @@ private fun MultiCaptureView(
       modifier = Modifier
         .fillMaxWidth()
         .weight(0.45f)
-        .background(Cream)
+        .background(Paper)
         .padding(horizontal = 16.dp, vertical = 12.dp),
       verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -623,7 +635,7 @@ private fun ColumnScope.ReviewView(
           .clickable { onToggle(item.id) }
           .alpha(if (item.accept) 1f else 0.4f)
           .border(1.dp, if (item.accept) Ink else InkFaint, RoundedCornerShape(8.dp))
-          .background(Paper, RoundedCornerShape(8.dp))
+          .background(Paper2, RoundedCornerShape(8.dp))
           .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
       ) {
@@ -729,4 +741,321 @@ private fun decodeThumbnail(jpeg: ByteArray, maxDim: Int): android.graphics.Bitm
   while (opts.outWidth / sample > maxDim * 2 || opts.outHeight / sample > maxDim * 2) sample *= 2
   val decodeOpts = android.graphics.BitmapFactory.Options().apply { inSampleSize = sample }
   return android.graphics.BitmapFactory.decodeByteArray(jpeg, 0, jpeg.size, decodeOpts)
+}
+
+// ---------------------------------------------------------------------------
+// Multi-photo dedup confirmation
+// ---------------------------------------------------------------------------
+//
+// Surfaces between scan completion and pantry write whenever the multi-photo
+// scan returns either a cross-photo duplicate (same canonical_slug seen in 2+
+// photos within the batch — typical: a single egg carton seen from two angles)
+// or a pantry-existing collision (the user already has some of this item on
+// hand). One dialog covers both cases. Auto-add items pass through silently.
+
+@Composable
+private fun ScanDedupConfirmDialog(
+  items: List<DedupItem>,
+  onSetAction: (String, DedupAction) -> Unit,
+  onToggleSkip: (String) -> Unit,
+  onConfirm: () -> Unit,
+  onCancel: () -> Unit,
+) {
+  val needsConfirm = items.filter { it.needsConfirm }
+  val autoAdd = items.filter { !it.needsConfirm }
+  val totalCommit = items.count { !it.skip && (it.resolvedAddQty() ?: 0.0) > 0.0 }
+
+  Column(
+    modifier = Modifier.fillMaxSize().background(Paper),
+  ) {
+    Column(
+      modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 20.dp),
+      verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+      Text(
+        "Duplicate items detected",
+        style = MaterialTheme.typography.titleLarge,
+        color = Ink,
+        fontWeight = FontWeight.SemiBold,
+      )
+      Text(
+        "We saw some items more than once. Pick the right counts.",
+        style = MaterialTheme.typography.bodyMedium,
+        color = InkSoft,
+      )
+    }
+    LazyColumn(
+      modifier = Modifier.weight(1f).fillMaxWidth(),
+      contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+      verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+      items(needsConfirm, key = { it.id }) { item ->
+        DedupRow(
+          item = item,
+          onSetAction = { action -> onSetAction(item.id, action) },
+          onToggleSkip = { onToggleSkip(item.id) },
+        )
+      }
+      if (autoAdd.isNotEmpty()) {
+        item {
+          AutoAddSummary(items = autoAdd)
+        }
+      }
+    }
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .background(Paper2)
+        .padding(horizontal = 16.dp, vertical = 14.dp),
+      horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+      OutlinedButton(
+        onClick = onCancel,
+        modifier = Modifier.weight(1f).height(52.dp),
+        shape = RoundedCornerShape(4.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, InkFaint),
+      ) {
+        Text("Cancel scan", color = InkSoft)
+      }
+      Button(
+        onClick = onConfirm,
+        modifier = Modifier.weight(2f).height(52.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Brass),
+        shape = RoundedCornerShape(4.dp),
+        enabled = totalCommit > 0,
+      ) {
+        Text(
+          "Add $totalCommit to pantry",
+          color = Paper,
+          fontWeight = FontWeight.SemiBold,
+        )
+      }
+    }
+  }
+}
+
+@Composable
+private fun DedupRow(
+  item: DedupItem,
+  onSetAction: (DedupAction) -> Unit,
+  onToggleSkip: () -> Unit,
+) {
+  val ctx = LocalContext.current
+  val resId = remember(item.name) { app.pantrie.ui.IngredientImage.forName(ctx, item.name) }
+
+  Column(
+    modifier = Modifier
+      .fillMaxWidth()
+      .background(Paper2, RoundedCornerShape(10.dp))
+      .border(1.dp, InkWhisper, RoundedCornerShape(10.dp))
+      .padding(horizontal = 14.dp, vertical = 12.dp)
+      .alpha(if (item.skip) 0.45f else 1f),
+    verticalArrangement = Arrangement.spacedBy(10.dp),
+  ) {
+    // Header: image + name + skip toggle
+    Row(verticalAlignment = Alignment.CenterVertically) {
+      if (resId != 0) {
+        Image(
+          painter = androidx.compose.ui.res.painterResource(id = resId),
+          contentDescription = null,
+          contentScale = ContentScale.Crop,
+          modifier = Modifier
+            .size(36.dp)
+            .clip(RoundedCornerShape(6.dp)),
+        )
+      } else {
+        Box(
+          modifier = Modifier
+            .size(36.dp)
+            .clip(RoundedCornerShape(6.dp))
+            .background(Brass.copy(alpha = 0.18f)),
+        )
+      }
+      Spacer(Modifier.width(12.dp))
+      Column(modifier = Modifier.weight(1f)) {
+        Text(item.name, style = MaterialTheme.typography.titleMedium, color = Ink, fontWeight = FontWeight.Medium)
+        Text(
+          item.category.replaceFirstChar { it.uppercase() },
+          style = MaterialTheme.typography.labelSmall,
+          color = InkFaint,
+        )
+      }
+      TextButton(onClick = onToggleSkip) {
+        Text(
+          if (item.skip) "Include" else "Skip",
+          color = if (item.skip) Brass else Terracotta,
+          style = MaterialTheme.typography.labelMedium,
+        )
+      }
+    }
+
+    // Detail line: monospace photo-by-photo breakdown
+    val detail = buildDetailLine(item)
+    if (detail.isNotEmpty()) {
+      Text(
+        detail,
+        style = MaterialTheme.typography.bodySmall.copy(
+          fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+        ),
+        color = InkSoft,
+      )
+    }
+
+    if (!item.skip) {
+      // Action selection
+      val opts = optionsFor(item)
+      for (opt in opts) {
+        Row(
+          modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(6.dp))
+            .clickable { onSetAction(opt.action) }
+            .padding(vertical = 6.dp, horizontal = 4.dp),
+          verticalAlignment = Alignment.CenterVertically,
+        ) {
+          RadioButton(
+            selected = item.action == opt.action,
+            onClick = { onSetAction(opt.action) },
+            colors = RadioButtonDefaults.colors(
+              selectedColor = Brass,
+              unselectedColor = InkFaint,
+            ),
+          )
+          Spacer(Modifier.width(6.dp))
+          Column(modifier = Modifier.weight(1f)) {
+            Text(opt.label, style = MaterialTheme.typography.bodyMedium, color = Ink)
+            opt.detail?.let {
+              Text(
+                it,
+                style = MaterialTheme.typography.labelSmall.copy(
+                  fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                ),
+                color = InkFaint,
+              )
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+private data class DedupOption(
+  val action: DedupAction,
+  val label: String,
+  val detail: String? = null,
+)
+
+/** Build the list of radio options shown for an item, given its dup conditions. */
+private fun optionsFor(item: DedupItem): List<DedupOption> {
+  val unit = item.unit?.let { " $it" } ?: ""
+  val opts = mutableListOf<DedupOption>()
+  return when {
+    item.crossPhotoDup && item.existsInPantry -> {
+      // Both: cross-photo + already in pantry
+      val once = item.maxPerPhoto
+      val both = item.sumAcrossPhotos
+      val existing = item.existingPantryQty
+      opts += DedupOption(
+        action = DedupAction.AddToExisting,
+        label = "Add to pantry → total ${formatQty(existing + both)}$unit",
+        detail = "you have ${formatQty(existing)} + scan adds ${formatQty(both)}",
+      )
+      opts += DedupOption(
+        action = DedupAction.CountOnce,
+        label = "Count once, add → total ${formatQty(existing + once)}$unit",
+        detail = "treat both photos as the same ${formatQty(once)}$unit",
+      )
+      opts += DedupOption(
+        action = DedupAction.ReplaceExisting,
+        label = "Replace existing → set to ${formatQty(once)}$unit",
+        detail = "discard pantry's ${formatQty(existing)}$unit",
+      )
+      opts
+    }
+    item.crossPhotoDup -> {
+      val once = item.maxPerPhoto
+      val both = item.sumAcrossPhotos
+      val photoList = item.quantityPerPhoto.entries
+        .joinToString(" + ") { (idx, qty) -> "${formatQty(qty)} in photo ${idx + 1}" }
+      opts += DedupOption(
+        action = DedupAction.CountOnce,
+        label = "Count once (${formatQty(once)}$unit)",
+        detail = "$photoList — likely the same item",
+      )
+      opts += DedupOption(
+        action = DedupAction.CountBoth,
+        label = "Count both (${formatQty(both)}$unit)",
+        detail = "treat each photo as a different item",
+      )
+      opts
+    }
+    item.existsInPantry -> {
+      val scanned = item.sumAcrossPhotos
+      val existing = item.existingPantryQty
+      opts += DedupOption(
+        action = DedupAction.AddToExisting,
+        label = "Make total ${formatQty(existing + scanned)}$unit",
+        detail = "add ${formatQty(scanned)} to existing ${formatQty(existing)}",
+      )
+      opts += DedupOption(
+        action = DedupAction.ReplaceExisting,
+        label = "Replace existing → set to ${formatQty(scanned)}$unit",
+        detail = "discard pantry's ${formatQty(existing)}$unit",
+      )
+      opts
+    }
+    else -> emptyList()   // shouldn't render — needsConfirm would be false
+  }
+}
+
+private fun buildDetailLine(item: DedupItem): String {
+  if (!item.crossPhotoDup && !item.existsInPantry) return ""
+  val parts = mutableListOf<String>()
+  if (item.crossPhotoDup) {
+    val photoNums = item.quantityPerPhoto.keys.sorted().joinToString("+") { (it + 1).toString() }
+    parts += "saw ${formatQty(item.sumAcrossPhotos)} across photos $photoNums"
+  } else if (item.quantityPerPhoto.isNotEmpty()) {
+    val (idx, qty) = item.quantityPerPhoto.entries.first()
+    parts += "saw ${formatQty(qty)} in photo ${idx + 1}"
+  }
+  if (item.existsInPantry) {
+    parts += "pantry has ${formatQty(item.existingPantryQty)}"
+  }
+  return parts.joinToString(" · ")
+}
+
+@Composable
+private fun AutoAddSummary(items: List<DedupItem>) {
+  var expanded by remember { mutableStateOf(false) }
+  Column(
+    modifier = Modifier
+      .fillMaxWidth()
+      .background(Paper2.copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+      .border(1.dp, InkWhisper, RoundedCornerShape(8.dp))
+      .clickable { expanded = !expanded }
+      .padding(horizontal = 14.dp, vertical = 12.dp),
+  ) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+      Text(
+        (if (expanded) "− " else "+ ") + "${items.size} more ${if (items.size == 1) "item" else "items"} will be added as-is",
+        style = MaterialTheme.typography.bodyMedium,
+        color = InkSoft,
+        modifier = Modifier.weight(1f),
+      )
+    }
+    if (expanded) {
+      Spacer(Modifier.height(8.dp))
+      for (item in items) {
+        Text(
+          "· ${item.name} — ${formatQty(item.sumAcrossPhotos)}${item.unit?.let { " $it" } ?: ""}",
+          style = MaterialTheme.typography.bodySmall.copy(
+            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+          ),
+          color = InkFaint,
+          modifier = Modifier.padding(vertical = 1.dp),
+        )
+      }
+    }
+  }
 }

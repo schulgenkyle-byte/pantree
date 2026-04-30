@@ -1,0 +1,382 @@
+// Canonical per-ingredient shelf-life table.
+//
+// Maps a CANONICAL slug (output of canonicalize.js) → days. Numbers reflect
+// "default reasonable home storage" — fridge for fresh items, sealed pantry
+// for shelf-stable. Conservative on the short side, generous on the long side
+// (we'd rather under-warn than over-warn).
+//
+// Adding a new entry:
+//   1. Use the canonical key from canonicalize.js (e.g. 'parmesan', not 'parmesan cheese')
+//   2. Pick days based on the NORMAL way someone stores this at home
+//   3. If the item is shelf-stable (>180 days), it'll be auto-suppressed from
+//      the "Expiring" badge regardless of expires_at — no extra config needed.
+//
+// Anything not listed here falls through to the regex overrides in expiry.js,
+// then to the category default. So missing entries fail gracefully.
+
+const SHELF_DAYS = {
+  // --- Dairy ---
+  'milk': 7,
+  'buttermilk': 14,
+  'heavy cream': 14,
+  'light cream': 10,
+  'half and half': 10,
+  'sour cream': 21,
+  'crème fraîche': 21,
+  'yogurt': 21,
+  'cream cheese': 30,
+  'cottage cheese': 14,
+  'ricotta': 10,
+  'mozzarella': 14,
+  'cheddar': 90,
+  'parmesan': 180,
+  'pecorino': 180,
+  'feta': 30,
+  'goat cheese': 14,
+  'gruyere': 90,
+  'blue cheese': 30,
+  'brie': 14,
+  'swiss cheese': 60,
+  'butter': 60,
+  'eggs': 35,
+  'egg whites': 4,
+  'egg yolks': 2,
+
+  // --- Dairy alternatives ---
+  'almond milk': 10,
+  'oat milk': 10,
+  'soy milk': 10,
+  'coconut milk': 365,
+
+  // --- Protein: poultry ---
+  'chicken breast': 2,
+  'chicken thigh': 2,
+  'whole chicken': 2,
+  'chicken wings': 2,
+  'ground chicken': 2,
+  'rotisserie chicken': 4,
+  'turkey breast': 3,
+  'ground turkey': 2,
+
+  // --- Protein: red meat ---
+  'ground meat': 2,
+  'ground beef': 2,
+  'beef chuck': 4,
+  'steak': 4,
+  'beef tenderloin': 4,
+  'short ribs': 4,
+  'brisket': 4,
+  'pork chop': 4,
+  'pork loin': 4,
+  'pork shoulder': 4,
+  'ground pork': 2,
+  'bacon': 14,
+  'ham': 7,
+  'prosciutto': 60,
+  'sausage': 4,
+  'chorizo': 14,
+  'lamb chops': 4,
+  'ground lamb': 2,
+
+  // --- Protein: seafood ---
+  'shrimp': 2,
+  'salmon': 2,
+  'tuna': 2,
+  'canned tuna': 1095,
+  'cod': 2,
+  'tilapia': 2,
+  'sea bass': 2,
+  'halibut': 2,
+  'scallops': 2,
+  'mussels': 2,
+  'clams': 2,
+  'anchovies': 365,
+  'sardines': 1095,
+
+  // --- Protein: plant ---
+  'tofu': 7,
+  'tempeh': 14,
+  'seitan': 14,
+
+  // --- Produce: alliums ---
+  'scallion': 7,
+  'shallot': 60,
+  'garlic': 60,
+  'onion': 60,
+  'leek': 14,
+
+  // --- Produce: herbs (fresh) ---
+  'cilantro': 7,
+  'parsley': 7,
+  'basil': 5,
+  'thai basil': 5,
+  'mint': 7,
+  'oregano': 7,
+  'thyme': 14,
+  'rosemary': 14,
+  'dill': 7,
+  'chives': 7,
+  'tarragon': 7,
+  'sage': 14,
+
+  // --- Produce: greens ---
+  'arugula': 5,
+  'spinach': 5,
+  'romaine': 7,
+  'bok choy': 7,
+  'napa cabbage': 14,
+  'endive': 7,
+  'kale': 7,
+  'swiss chard': 7,
+  'watercress': 5,
+  'radicchio': 7,
+
+  // --- Produce: vegetables ---
+  'eggplant': 7,
+  'zucchini': 7,
+  'bell pepper': 14,
+  'jalapeno': 14,
+  'serrano': 14,
+  'habanero': 14,
+  'chili pepper': 14,
+  'poblano': 14,
+  'tomato': 7,
+  'cucumber': 7,
+  'mushroom': 7,
+  'portobello': 7,
+  'shiitake': 7,
+  'oyster mushroom': 5,
+  'celery': 14,
+  'carrot': 30,
+  'potato': 60,
+  'sweet potato': 30,
+  'broccoli': 7,
+  'cauliflower': 7,
+  'cabbage': 30,
+  'brussels sprouts': 14,
+  'asparagus': 5,
+  'corn': 5,
+  'peas': 5,
+  'snow pea': 5,
+  'snap peas': 5,
+  'green beans': 7,
+  'edamame': 7,
+  'beet': 30,
+  'turnip': 30,
+  'rutabaga': 30,
+  'parsnip': 30,
+  'radish': 14,
+  'daikon': 14,
+  'ginger': 30,
+  'lemongrass': 14,
+  'galangal': 14,
+  'avocado': 5,
+  'okra': 7,
+  'fennel': 14,
+
+  // --- Fruit ---
+  'lemon': 21,
+  'lime': 21,
+  'orange': 21,
+  'apple': 30,
+  'banana': 5,
+  'strawberry': 5,
+  'blueberry': 7,
+  'raspberry': 4,
+  'blackberry': 4,
+  'mango': 7,
+  'pineapple': 5,
+  'peach': 5,
+  'pear': 7,
+  'grape': 7,
+  'cherry': 7,
+  'pomegranate': 21,
+  'coconut': 365,
+  'raisins': 365,
+  'golden raisins': 365,
+
+  // --- Grains / starches (sealed pantry) ---
+  'all-purpose flour': 365,
+  'bread flour': 365,
+  'whole wheat flour': 180,
+  'self-rising flour': 270,
+  'almond flour': 180,
+  'cornmeal': 365,
+  'cornstarch': 1825,
+  'breadcrumbs': 180,
+  'rice': 1825,
+  'brown rice': 365,
+  'arborio rice': 1825,
+  'pasta': 730,
+  'lasagna noodles': 730,
+  'rice noodles': 730,
+  'egg noodles': 730,
+  'ramen noodles': 365,
+  'soba noodles': 365,
+  'udon noodles': 365,
+  'couscous': 730,
+  'quinoa': 730,
+  'barley': 365,
+  'farro': 365,
+  'oats': 365,
+  'steel cut oats': 365,
+  'bread': 5,
+  'tortilla': 14,
+  'pita': 5,
+  'bagel': 5,
+
+  // --- Legumes (dry) ---
+  'chickpea': 1095,
+  'black beans': 1095,
+  'kidney beans': 1095,
+  'pinto beans': 1095,
+  'cannellini beans': 1095,
+  'lentils': 1095,
+  'split peas': 1095,
+  'black-eyed peas': 1095,
+
+  // --- Nuts/seeds ---
+  'almonds': 365,
+  'walnuts': 180,
+  'pecans': 180,
+  'cashews': 365,
+  'peanuts': 365,
+  'pistachios': 365,
+  'pine nuts': 180,
+  'sesame seeds': 365,
+  'chia seeds': 730,
+  'flax seeds': 365,
+  'sunflower seeds': 365,
+  'peanut butter': 365,
+  'almond butter': 270,
+  'tahini': 365,
+
+  // --- Condiments / sauces ---
+  'soy sauce': 1095,
+  'fish sauce': 1095,
+  'oyster sauce': 730,
+  'hoisin sauce': 730,
+  'worcestershire sauce': 1825,
+  'ketchup': 365,
+  'mustard': 365,
+  'mayonnaise': 90,
+  'sriracha': 1095,
+  'hot sauce': 1095,
+  'bbq sauce': 365,
+  'tomato sauce': 365,
+  'tomato paste': 60,
+  'salsa': 90,
+  'pesto': 14,
+
+  // --- Vinegars ---
+  'apple cider vinegar': 1825,
+  'balsamic vinegar': 1825,
+  'red wine vinegar': 1825,
+  'white wine vinegar': 1825,
+  'rice vinegar': 1825,
+  'white vinegar': 3650,
+  'malt vinegar': 1825,
+
+  // --- Oils ---
+  'olive oil': 730,
+  'vegetable oil': 365,
+  'sesame oil': 365,
+  'coconut oil': 730,
+  'peanut oil': 365,
+
+  // --- Spices ---
+  'salt': 3650,
+  'black pepper': 1460,
+  'white pepper': 1460,
+  'paprika': 1095,
+  'cumin': 1460,
+  'coriander seed': 1460,
+  'cinnamon': 1460,
+  'nutmeg': 1460,
+  'cloves': 1460,
+  'cardamom': 1460,
+  'turmeric': 1460,
+  'ginger powder': 1095,
+  'chili powder': 1095,
+  'cayenne': 1460,
+  'red pepper flakes': 1095,
+  'bay leaves': 1095,
+  'allspice': 1460,
+  'fennel seeds': 1460,
+  'mustard seeds': 1460,
+  'star anise': 1460,
+  'saffron': 1095,
+  'garam masala': 1095,
+  'five spice': 1095,
+  'herbes de provence': 1095,
+  'italian seasoning': 1095,
+  'za\'atar': 1095,
+  'sumac': 1095,
+  'cream of tartar': 1825,
+
+  // --- Baking ---
+  'baking soda': 730,
+  'baking powder': 540,
+  'yeast': 180,
+  'vanilla': 1825,
+  'sugar': 1825,
+  'superfine sugar': 1825,
+  'brown sugar': 730,
+  'powdered sugar': 730,
+  'honey': 3650,
+  'maple syrup': 365,
+  'molasses': 1095,
+  'golden syrup': 1095,
+  'chocolate chips': 730,
+  'cocoa powder': 730,
+  'dark chocolate': 730,
+  'white chocolate': 365,
+
+  // --- Pantry / canned ---
+  'chicken broth': 365,
+  'beef broth': 365,
+  'vegetable broth': 365,
+  'coconut cream': 365,
+  'diced tomatoes': 730,
+  'whole tomatoes': 730,
+  'tomato puree': 730,
+  'pickles': 365,
+  'capers': 365,
+  'olives': 365,
+  'sun-dried tomatoes': 365,
+  'roasted red peppers': 365,
+
+  // --- Beverages (sealed) ---
+  'white wine': 1825,
+  'red wine': 1825,
+  'beer': 180,
+  'sake': 365,
+  'mirin': 1095,
+  'sherry': 1825,
+
+  // --- Misc / global ---
+  'miso': 365,
+  'gochujang': 730,
+  'harissa': 365,
+  'curry paste': 365,
+  'curry powder': 1095,
+  'nori': 730,
+  'wakame': 730,
+  'gelatin': 1095,
+  'cornflakes': 365,
+};
+
+/**
+ * Look up shelf life for a canonical slug. Returns days, or null if the slug
+ * isn't in the table. Caller is responsible for falling through to regex /
+ * category default.
+ *
+ * Lookup is exact-match on the canonical slug. Variants (synonyms) are handled
+ * upstream by canonicalize.js — this table only knows canonical forms.
+ */
+export function lookupShelfDays(canonicalSlug) {
+  if (!canonicalSlug || typeof canonicalSlug !== 'string') return null;
+  return SHELF_DAYS[canonicalSlug] ?? null;
+}
+
+export { SHELF_DAYS };

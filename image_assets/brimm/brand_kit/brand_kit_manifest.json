@@ -1,0 +1,216 @@
+{
+  "generated_at": "2026-04-26T17:10:26.560Z",
+  "model": "imagen-4.0-ultra-generate-001",
+  "items": {
+    "s_pour_martini": {
+      "category": "pour-into-glass",
+      "prompt": "Logo concept: a stylized capital letter S in elegant brass. The bottom curve of the S transforms into a flowing pour of golden liquid that lands in a martini glass with single olive garnish. The S is the focal point, the glass sits at the base. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 970695,
+      "sha": "041eedf64b758ea4"
+    },
+    "s_pour_coupe": {
+      "category": "pour-into-glass",
+      "prompt": "Logo concept: a stylized capital letter S in elegant brass, the lower curve of the S becoming a stream of golden liquid pouring into a vintage coupe cocktail glass. 1920s prohibition era styling. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1025712,
+      "sha": "8fe9043efc7510c7"
+    },
+    "s_pour_rocks": {
+      "category": "pour-into-glass",
+      "prompt": "Logo concept: a stylized capital letter S in elegant brass, the bottom of the S pouring amber whiskey liquid into a heavy rocks glass with a single large ice cube. Whiskey/bourbon aesthetic. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 918259,
+      "sha": "64819051d6db0ab1"
+    },
+    "s_pour_flute": {
+      "category": "pour-into-glass",
+      "prompt": "Logo concept: a stylized capital letter S in elegant brass, the bottom of the S pouring effervescent golden champagne into a vintage flute glass with rising bubbles. Lighter, more celebratory feel. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 886827,
+      "sha": "0b5a5a4be497c735"
+    },
+    "monogram_artdeco": {
+      "category": "monogram",
+      "prompt": "Logo monogram: a geometric art deco capital letter S in brass on a dark velvet background. Sharp angles, vintage 1920s art deco geometry, embossed three-dimensional appearance, premium speakeasy mark. No glass, no other elements, just the letter mark. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1220277,
+      "sha": "fc21bc4afc2c6a1e"
+    },
+    "monogram_waxseal": {
+      "category": "monogram",
+      "prompt": "Logo monogram: a circular wax seal in deep oxblood-and-gold wax, embossed with an ornate capital letter S in the center. Rich texture of dripped wax, brass-toned highlights, sitting on dark wood. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1313133,
+      "sha": "4e41032a55355e61"
+    },
+    "monogram_letterpress": {
+      "category": "monogram",
+      "prompt": "Logo monogram: a capital letter S deeply pressed into thick cream cotton paper using gold foil ink, vintage letterpress technique, visible paper texture and the deboss impression around the letter. The pressed paper sits on dark surface with dramatic side lighting. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1123668,
+      "sha": "699b38960fbec99d"
+    },
+    "wordmark_artdeco": {
+      "category": "wordmark",
+      "prompt": "Wordmark logo: the single word \"Speakeater\" in mixed case, set in a geometric art deco sans-serif typeface, rendered as a brass nameplate on dark wood. Very legible, balanced kerning. No glass, no extra elements. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 955929,
+      "sha": "ca519639880c22e9"
+    },
+    "wordmark_script": {
+      "category": "wordmark",
+      "prompt": "Wordmark logo: the word \"Speakeater\" in flowing copperplate script with elegant flourishes, rendered in gold ink on cream label stock with dark border, like a vintage bourbon bottle label. Legible, no extra letters. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1121750,
+      "sha": "0fb222f1d5a42fdf"
+    },
+    "wordmark_stencil": {
+      "category": "wordmark",
+      "prompt": "Wordmark logo: the word \"SPEAKEATER\" in tall narrow uppercase stencil typeface, rendered as if painted in cream on a dark speakeasy door, slightly weathered. Legible, well kerned. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 926062,
+      "sha": "0e7fa78595e1e268"
+    },
+    "concept_keyS": {
+      "category": "concept",
+      "prompt": "Logo concept: an antique brass speakeasy door key, where the bow (handle end) of the key is shaped into a decorative letter S. The shaft and teeth of the key extend downward. Vintage 1920s speakeasy aesthetic. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 838490,
+      "sha": "0fc21cf722606f06"
+    },
+    "concept_matchbook": {
+      "category": "concept",
+      "prompt": "Logo concept: a vintage matchbook cover sitting closed on dark wood, with the word \"Speakeater\" embossed in gold foil on the cover and a small striking strip visible. Slight wear on edges. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 946294,
+      "sha": "71184e41d9c118df"
+    },
+    "concept_shaker": {
+      "category": "concept",
+      "prompt": "Logo concept: the silhouette of a vintage three-piece cocktail shaker in brass, with an ornate capital letter S engraved into the body of the shaker. Single subject on dark background. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 919830,
+      "sha": "9edaf838137b79a5"
+    },
+    "concept_bowtie": {
+      "category": "concept",
+      "prompt": "Logo concept: a minimalist composition of a brass bow tie with a single olive on a toothpick threaded through it, suggesting a bartender. Negative space and elegance. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 815716,
+      "sha": "9b423f0718c5a51c"
+    },
+    "s_pour_highball": {
+      "category": "pour-into-glass",
+      "prompt": "Logo concept: a stylized capital letter S in elegant brass, the lower curve of the S becoming a flowing pour of golden liquid that lands in a tall highball glass with ice cubes. Tall and slender silhouette. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 976704,
+      "sha": "f82e29ebe5c8da30"
+    },
+    "s_pour_nick_and_nora": {
+      "category": "pour-into-glass",
+      "prompt": "Logo concept: a stylized capital letter S in elegant brass, the lower curve of the S becoming a flowing pour of crystal-clear liquid that lands in a vintage Nick & Nora cocktail glass. The bell-shaped vessel sits at the base, classy 1930s feel. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 904217,
+      "sha": "91526727c8d3f2bf"
+    },
+    "s_pour_julep_cup": {
+      "category": "pour-into-glass",
+      "prompt": "Logo concept: a stylized capital letter S in elegant brass, the bottom of the S pouring a stream of bourbon into a frosty hammered copper julep cup with crushed ice. Kentucky derby aesthetic. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 919004,
+      "sha": "c7f80f9793cb2f37"
+    },
+    "s_pour_snifter": {
+      "category": "pour-into-glass",
+      "prompt": "Logo concept: a stylized capital letter S in elegant brass, the bottom of the S pouring deep amber brandy into a wide-bowled brandy snifter glass cradled in shadow. Sophisticated cigar-lounge feel. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 753407,
+      "sha": "366d01bfc2b8c611"
+    },
+    "monogram_engraved": {
+      "category": "monogram",
+      "prompt": "Logo concept: a single capital letter S, deeply engraved into a sheet of solid brass with visible chisel marks and metallic depth. The engraving catches the warm rim light. No glass, no liquid, just the engraved metal surface. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 1332663,
+      "sha": "13647a8332eb4156"
+    },
+    "monogram_neon_tube": {
+      "category": "monogram",
+      "prompt": "Logo concept: a single capital letter S formed by a glowing amber neon tube, soft halo of warm light around the glass tubing. The neon S floats against a dark wet bar wall. 1940s diner-bar signage feel. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 1319171,
+      "sha": "d94021f3643c4b9e"
+    },
+    "monogram_etched_glass": {
+      "category": "monogram",
+      "prompt": "Logo concept: a single capital letter S etched into thick frosted glass, illuminated from behind so the etched lines glow. The glass panel has subtle bubbles and imperfections suggesting hand-blown craftsmanship. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 895508,
+      "sha": "5b53d367ef4ae8df"
+    },
+    "monogram_artnouveau": {
+      "category": "monogram",
+      "prompt": "Logo concept: a single capital letter S rendered in flowing Art Nouveau style, with organic curves resembling vines or smoke tendrils, executed in polished brass. Whiplash curves and elegant asymmetry, La Belle Epoque feel. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 857960,
+      "sha": "117f49739dc33196"
+    },
+    "wordmark_vertical_stack": {
+      "category": "wordmark",
+      "prompt": "Logo concept: the word SPEAK stacked vertically in tall serif brass capital letters, with the word EATER running horizontally off the bottom right of the E. Each letter is a separate brass plaque mounted to dark wood paneling. The composition is square. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 997254,
+      "sha": "4901079ab78e86b7"
+    },
+    "wordmark_caps_descender": {
+      "category": "wordmark",
+      "prompt": "Logo concept: the word SPEAKEATER in a single horizontal line, all-caps brass serif typography, with the K extending a long decorative descender that curls into a flourish below the baseline. Custom letterforms, hand-drawn quality, prohibition-era signage. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 840542,
+      "sha": "6ef26c124d890c40"
+    },
+    "wordmark_ligature": {
+      "category": "wordmark",
+      "prompt": "Logo concept: the word SPEAKEATER as a single horizontal logotype where the K and E ligate together into a custom joined glyph, all letters polished brass set against deep charcoal. The ligature feels intentional and crafted. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 829674,
+      "sha": "79f286811887e413"
+    },
+    "icon_v4_brass_chip": {
+      "category": "icon",
+      "prompt": "Logo concept: a square app icon: a polished brass casino-style chip embossed with a single S in the center, photographed from a slight angle so the bevel catches warm light. The chip dominates the square frame. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 900479,
+      "sha": "bc5b036f823e12de"
+    },
+    "icon_v4_keyhole_S": {
+      "category": "icon",
+      "prompt": "Logo concept: a square app icon: a vintage brass keyhole escutcheon mounted on a dark mahogany door, the keyhole shape is an S-curve cutout. Speakeasy door reference. The escutcheon dominates the square frame. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 932524,
+      "sha": "1606fccb02e65c68"
+    },
+    "icon_v4_olive_pour": {
+      "category": "icon",
+      "prompt": "Logo concept: a square app icon: a single green olive falling into a pool of ice-clear liquid, splash frozen mid-motion, photographed from above. Top-down view, the splash forms a perfect circle filling the frame. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 1141548,
+      "sha": "2689540b1313a288"
+    },
+    "concept_speakeasy_door": {
+      "category": "concept",
+      "prompt": "Logo concept: an unmarked dark wooden door with a small brass speakeasy peephole slid open. Through the peephole only an amber glow and the silhouette of a bartender are visible. Dramatic chiaroscuro lighting. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 912066,
+      "sha": "724938d215ebfd0c"
+    },
+    "concept_smoke_S": {
+      "category": "concept",
+      "prompt": "Logo concept: a single capital letter S formed entirely from a curl of cigar smoke rising from below, against a dark backlit jazz-club background with a single brass spotlight catching the smoke. Ephemeral and atmospheric. Dark moody speakeasy aesthetic. Deep charcoal black background (#0D0D0E base) with subtle warm amber rim light. Brass and antique gold (#C9A554) accents, no other colors except occasional cream highlight. Photorealistic high contrast product photography rendering, no flat illustration. No text artifacts, no lorem ipsum, no extra letters beyond what is specified. Centered subject, square composition, no border. 1024x1024.",
+      "model": "imagen-4.0-fast-generate-001",
+      "bytes": 817230,
+      "sha": "32d0554fae3a16dd"
+    }
+  }
+}

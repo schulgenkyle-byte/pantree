@@ -200,6 +200,9 @@ fun MixologyScreen(
   onOpenPlan: () -> Unit = {},
   onOpenSearch: () -> Unit = {},
   onOpenPaywall: () -> Unit = {},
+  /** "Photo your pour" tap on the mixology back-card NotesPage. Receives the
+   *  recipe id so the route can pre-fill /recipes/:id/contribute-photo. */
+  onSubmitDrinkPhoto: (String) -> Unit = {},
   vm: MixologyViewModel = hiltViewModel(),
 ) {
   val state by vm.state.collectAsState()
@@ -388,6 +391,7 @@ fun MixologyScreen(
               reviewsByRecipe = vm.reviewsByRecipe.collectAsState().value,
               getNote = vm::getNote,
               setNote = vm::setNote,
+              onSubmitDrinkPhoto = onSubmitDrinkPhoto,
             )
           }
         }
@@ -435,6 +439,7 @@ private fun MixCardStack(
   reviewsByRecipe: Map<String, List<Review>>,
   getNote: (String) -> String,
   setNote: (String, String) -> Unit,
+  onSubmitDrinkPhoto: (String) -> Unit = {},
 ) {
   val visible = cards.take(3)
   Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
@@ -473,6 +478,7 @@ private fun MixCardStack(
           reviewsForThis = reviewsByRecipe[top.id] ?: emptyList(),
           initialNote = getNote(top.id),
           onNoteChange = { setNote(top.id, it) },
+          onSubmitDrinkPhoto = onSubmitDrinkPhoto,
         )
       }
     }
@@ -494,6 +500,7 @@ private fun DraggableMixCard(
   reviewsForThis: List<Review>,
   initialNote: String,
   onNoteChange: (String) -> Unit,
+  onSubmitDrinkPhoto: (String) -> Unit = {},
 ) {
   val density = LocalDensity.current
   var offsetX by remember { mutableFloatStateOf(0f) }
@@ -575,6 +582,7 @@ private fun DraggableMixCard(
           reviewsForThis = reviewsForThis,
           initialNote = initialNote,
           onNoteChange = onNoteChange,
+          onSubmitDrinkPhoto = onSubmitDrinkPhoto,
         )
       }
     }
@@ -1148,6 +1156,7 @@ private fun MixCardBack(
   reviewsForThis: List<Review>,
   initialNote: String,
   onNoteChange: (String) -> Unit,
+  onSubmitDrinkPhoto: (String) -> Unit = {},
 ) {
   val pagerState = rememberPagerState(pageCount = { 4 })
 
@@ -1204,7 +1213,12 @@ private fun MixCardBack(
             LaunchedEffect(recipe.id) { loadReviews() }
             ReviewsPage(reviewsForThis)
           }
-          3 -> NotesPage(recipeId = recipe.id, initialNote = initialNote, onNoteChange = onNoteChange)
+          3 -> NotesPage(
+            recipeId = recipe.id,
+            initialNote = initialNote,
+            onNoteChange = onNoteChange,
+            onSubmitDrinkPhoto = onSubmitDrinkPhoto,
+          )
         }
       }
 
@@ -1461,7 +1475,12 @@ private fun ReviewsPage(reviews: List<Review>) {
 }
 
 @Composable
-private fun NotesPage(recipeId: String, initialNote: String, onNoteChange: (String) -> Unit) {
+private fun NotesPage(
+  recipeId: String,
+  initialNote: String,
+  onNoteChange: (String) -> Unit,
+  onSubmitDrinkPhoto: (String) -> Unit = {},
+) {
   var text by remember(recipeId) { mutableStateOf(initialNote) }
   var shareAsReview by remember(recipeId) { mutableStateOf(false) }
   Column(Modifier.fillMaxSize().padding(20.dp)) {
@@ -1500,7 +1519,7 @@ private fun NotesPage(recipeId: String, initialNote: String, onNoteChange: (Stri
       horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
       Surface(
-        onClick = { /* TODO: launch camera intent → /submissions/photo with content_type=cocktail */ },
+        onClick = { onSubmitDrinkPhoto(recipeId) },
         shape = RoundedCornerShape(10.dp),
         color = Color.Transparent,
         border = androidx.compose.foundation.BorderStroke(1.dp, InkFaint),

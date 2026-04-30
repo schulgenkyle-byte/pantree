@@ -17,9 +17,11 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
 import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.IosShare
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.RadioButtonChecked
 import androidx.compose.material.icons.outlined.RadioButtonUnchecked
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.collectAsState
@@ -32,6 +34,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -40,7 +44,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.pantrie.network.PantrieApi
 import app.pantrie.network.dto.*
-import app.pantrie.ui.IngredientEmoji
+import app.pantrie.ui.AisleImageOrGlyph
+import app.pantrie.ui.IngredientImageOrEmoji
 import app.pantrie.ui.theme.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,6 +62,19 @@ class ShoppingViewModel @Inject constructor(
   val smart = _smart.asStateFlow()
   private val _loading = MutableStateFlow(true)
   val loading = _loading.asStateFlow()
+
+  /** Local-only set of expiring-item ids the user has dismissed or restocked
+   *  this session. Filtered out of the displayed "Use this week" list so the
+   *  same item doesn't sit there forever after the user has acted on it. Not
+   *  persisted — a refresh that pulls fresh server data clears it, which is
+   *  fine since the underlying pantry hasn't changed and the warning was
+   *  acted on, not invalidated. */
+  private val _dismissedExpiring = MutableStateFlow<Set<String>>(emptySet())
+  val dismissedExpiring = _dismissedExpiring.asStateFlow()
+
+  fun dismissExpiring(item: ExpiringItem) {
+    _dismissedExpiring.value = _dismissedExpiring.value + item.id
+  }
 
   init {
     refresh()
@@ -114,6 +132,10 @@ class ShoppingViewModel @Inject constructor(
   }
 
   fun restock(item: ExpiringItem) {
+    // Optimistic dismiss — drop it from "Use this week" immediately so the
+    // user gets feedback before the API round-trip lands. Server refresh
+    // doesn't re-add it because dismissedExpiring is OR'd into the filter.
+    _dismissedExpiring.value = _dismissedExpiring.value + item.id
     viewModelScope.launch {
       runCatching {
         api.addShopping(ShoppingAddRequest(
@@ -122,10 +144,12 @@ class ShoppingViewModel @Inject constructor(
         ))
       }
       refresh()
+      refreshBus.bumpShopping()
     }
   }
 
   fun restockAll(items: List<ExpiringItem>) {
+    _dismissedExpiring.value = _dismissedExpiring.value + items.map { it.id }
     viewModelScope.launch {
       for (item in items) {
         runCatching {
@@ -136,7 +160,37 @@ class ShoppingViewModel @Inject constructor(
         }
       }
       refresh()
+      refreshBus.bumpShopping()
     }
+  }
+
+  /** Build a vendor search URL from the current unchecked shopping list and
+   *  fire the handoff analytics in parallel. Caller (ShoppingScreen) consumes
+   *  the URL and opens it via Intent.ACTION_VIEW. */
+  fun handoffUrl(vendorId: String): String? {
+    val items = _smart.value?.items?.filter { !it.checked }?.map { it.name }?.distinct() ?: emptyList()
+    if (items.isEmpty()) return null
+    // Encode the joined item list as the vendor's search query. Each vendor's
+    // own search infers categories + matches stocked SKUs from raw text.
+    val q = java.net.URLEncoder.encode(items.joinToString(" "), "UTF-8")
+    val url = when (vendorId) {
+      "amazon" -> "https://www.amazon.com/alm/search?almBrandId=QW1hem9uIEZyZXNo&k=$q"
+      "walmart" -> "https://www.walmart.com/search?q=$q"
+      "instacart" -> "https://www.instacart.com/store/search-v3/term?term=$q"
+      else -> return null
+    }
+    // Fire-and-forget capture.
+    val cats = _smart.value?.items?.filter { !it.checked }?.mapNotNull { it.aisle }?.distinct()?.size
+    viewModelScope.launch {
+      runCatching {
+        api.shoppingVendorHandoff(VendorHandoffRequest(
+          vendorId = vendorId,
+          itemCount = items.size,
+          categoryCount = cats,
+        ))
+      }
+    }
+    return url
   }
 
   fun addUnlock(sug: UnlockSuggestion) {
@@ -173,21 +227,25 @@ private val AISLES = listOf(
 )
 
 // Walk-the-store order. Each aisle = colored accordion spine, like Library books.
-private data class AisleMeta(val key: String, val label: String, val emoji: String, val color: Color)
+// Aisle colors stay saturated so the section headers read at a glance even on dark — this is
+// the one place where "category color" wins over editorial monotone. Emoji glyphs were stripped
+// in Phase 2; the AisleImageOrGlyph helper now renders a brass-monochrome lettered placeholder
+// when no PNG exists yet.
+private data class AisleMeta(val key: String, val label: String, val color: Color)
 private val AISLE_WALK_ORDER = listOf(
-  AisleMeta("produce",   "Produce",   "🥬", Color(0xFF7A8450)),  // olive
-  AisleMeta("bakery",    "Bakery",    "🥖", Color(0xFFB58A4D)),  // wheat
-  AisleMeta("deli",      "Deli",      "🧀", Color(0xFFD4A017)),  // amber
-  AisleMeta("protein",   "Protein",   "🥩", Color(0xFFB04A3C)),  // terracotta
-  AisleMeta("dairy",     "Dairy",     "🥛", Color(0xFF6F8FB5)),  // soft blue
-  AisleMeta("frozen",    "Frozen",    "❄",  Color(0xFF4A7BA3)),  // ice blue
-  AisleMeta("grain",     "Grain",     "🌾", Color(0xFF8C6E3F)),  // tan
-  AisleMeta("pantry",    "Pantry",    "🥫", Color(0xFF6E5638)),  // brown
-  AisleMeta("spice",     "Spice",     "🌶", Color(0xFFB55D2F)),  // paprika
-  AisleMeta("condiment", "Condiment", "🍯", Color(0xFFB58F2E)),  // honey
-  AisleMeta("bar",       "Bar",       "🥃", Color(0xFF2F2A22)),  // speakeasy black
-  AisleMeta("beverage",  "Beverage",  "🥤", Color(0xFF5C8A7A)),  // sea
-  AisleMeta("other",     "Other",     "📦", Color(0xFF6A6864)),  // muted ink
+  AisleMeta("produce",   "Produce",   Color(0xFF7A8450)),  // olive
+  AisleMeta("bakery",    "Bakery",    Color(0xFFB58A4D)),  // wheat
+  AisleMeta("deli",      "Deli",      Color(0xFFD4A017)),  // amber
+  AisleMeta("protein",   "Protein",   Color(0xFFB04A3C)),  // terracotta
+  AisleMeta("dairy",     "Dairy",     Color(0xFF6F8FB5)),  // soft blue
+  AisleMeta("frozen",    "Frozen",    Color(0xFF4A7BA3)),  // ice blue
+  AisleMeta("grain",     "Grain",     Color(0xFF8C6E3F)),  // tan
+  AisleMeta("pantry",    "Pantry",    Color(0xFF6E5638)),  // brown
+  AisleMeta("spice",     "Spice",     Color(0xFFB55D2F)),  // paprika
+  AisleMeta("condiment", "Condiment", Color(0xFFB58F2E)),  // honey
+  AisleMeta("bar",       "Bar",       Color(0xFF2F2A22)),  // speakeasy black
+  AisleMeta("beverage",  "Beverage",  Color(0xFF5C8A7A)),  // sea
+  AisleMeta("other",     "Other",     Color(0xFF6A6864)),  // muted ink
 )
 
 private val ExpandedAislesSaver: Saver<MutableState<Set<String>>, ArrayList<String>> = Saver(
@@ -195,10 +253,38 @@ private val ExpandedAislesSaver: Saver<MutableState<Set<String>>, ArrayList<Stri
   restore = { mutableStateOf(it.toSet()) },
 )
 
+/** Builds plain-text shopping list grouped by aisle for the system share sheet.
+ *  Shows unchecked items only — no point sharing things you've already grabbed. */
+private fun buildShoppingShareText(items: List<ShoppingItem>): String {
+  val unchecked = items.filter { !it.checked }
+  if (unchecked.isEmpty()) return ""
+  val byAisle = unchecked.groupBy { it.aisle ?: "other" }
+  val ordered = AISLE_WALK_ORDER.mapNotNull { aisle ->
+    byAisle[aisle.key]?.let { aisle.label to it }
+  } + (byAisle.keys - AISLE_WALK_ORDER.map { it.key }.toSet())
+    .mapNotNull { key -> byAisle[key]?.let { key.replaceFirstChar { c -> c.uppercase() } to it } }
+  return buildString {
+    append("Shopping list\n\n")
+    ordered.forEach { (label, rows) ->
+      append(label.uppercase()).append('\n')
+      rows.forEach { item ->
+        append("  · ")
+        if (item.quantity != null && item.unit != null) append("${item.quantity} ${item.unit} ")
+        else if (item.quantity != null) append("${item.quantity} ")
+        append(item.name).append('\n')
+      }
+      append('\n')
+    }
+    append("via Speakeater")
+  }.trim()
+}
+
 @Composable
 fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
   val smart by vm.smart.collectAsState()
   val loading by vm.loading.collectAsState()
+  // Walkthrough VM — used by the shopping mini-tour to spotlight the Share button.
+  val tourVm: app.pantrie.feature.walkthrough.WalkthroughViewModel = hiltViewModel()
   // All aisles default expanded (matches user expectation when shopping). State survives rotation.
   val expandedAisles = rememberSaveable(saver = ExpandedAislesSaver) {
     mutableStateOf(AISLE_WALK_ORDER.map { it.key }.toSet())
@@ -224,7 +310,7 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
   var moveTarget by remember { mutableStateOf<ShoppingItem?>(null) }
   val s = smart
 
-  Scaffold(containerColor = Cream) { padding ->
+  Scaffold(containerColor = Paper) { padding ->
    Column(Modifier.padding(padding).fillMaxSize()) {
     LazyColumn(
       Modifier.weight(1f).fillMaxWidth(),
@@ -244,6 +330,31 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
               style = MaterialTheme.typography.bodyMedium, color = InkMuted)
           }
           if ((s?.items?.size ?: 0) > 0) {
+            // Share — Android system share sheet with the unchecked items grouped by aisle.
+            // Useful for SMS/email/notes-app handoff to a partner running the actual errand.
+            val ctx = LocalContext.current
+            IconButton(
+              onClick = {
+                val text = buildShoppingShareText(s?.items.orEmpty())
+                if (text.isNotBlank()) {
+                  val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(android.content.Intent.EXTRA_TEXT, text)
+                    putExtra(android.content.Intent.EXTRA_SUBJECT, "Speakeater · shopping list")
+                  }
+                  ctx.startActivity(android.content.Intent.createChooser(intent, "Share shopping list"))
+                }
+              },
+              // Mini-tour: shopping step 2 spotlights the Share button.
+              modifier = Modifier.onGloballyPositioned { coords ->
+                tourVm.reportAnchor(
+                  app.pantrie.feature.walkthrough.TourAnchors.SHOPPING_SHARE_BUTTON,
+                  coords.boundsInWindow(),
+                )
+              },
+            ) {
+              Icon(Icons.Outlined.IosShare, contentDescription = "Share list", tint = Ink)
+            }
             TextButton(onClick = { confirmClearAll = true }) {
               Text("Clear all", color = Terracotta, style = MaterialTheme.typography.labelMedium)
             }
@@ -285,6 +396,47 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
             colors = ButtonDefaults.buttonColors(containerColor = Ink),
             shape = RoundedCornerShape(4.dp),
           ) { Text("Add", color = Paper) }
+        }
+      }
+
+      // Vendor row — greyed-out preview. Real partnership integrations land
+      // when Amazon/Walmart/Instacart deals close; until then we surface the
+      // intent (so users see the roadmap) without the disappointment of
+      // tapping a row that just dumps them on a generic web search.
+      val uncheckedCount = s?.items?.count { !it.checked } ?: 0
+      if (uncheckedCount > 0) {
+        item {
+          Column(Modifier.padding(horizontal = 24.dp).padding(bottom = 18.dp)) {
+            Text(
+              "SEND LIST TO · COMING SOON",
+              style = MaterialTheme.typography.labelSmall,
+              fontWeight = FontWeight.Bold,
+              color = InkMuted.copy(alpha = 0.6f),
+              letterSpacing = 1.5.sp,
+            )
+            Spacer(Modifier.height(8.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+              listOf("Amazon", "Walmart", "Instacart").forEach { name ->
+                OutlinedButton(
+                  onClick = {},
+                  enabled = false,
+                  modifier = Modifier.weight(1f).height(44.dp),
+                  shape = RoundedCornerShape(6.dp),
+                  colors = ButtonDefaults.outlinedButtonColors(
+                    disabledContainerColor = Ink.copy(alpha = 0.04f),
+                    disabledContentColor = Ink.copy(alpha = 0.35f),
+                  ),
+                ) {
+                  Text(
+                    name,
+                    color = Ink.copy(alpha = 0.4f),
+                    style = MaterialTheme.typography.labelMedium,
+                    maxLines = 1,
+                  )
+                }
+              }
+            }
+          }
         }
       }
 
@@ -354,26 +506,29 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
               Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
               verticalAlignment = Alignment.CenterVertically,
             ) {
-              Text(aisleMeta.emoji, fontSize = 20.sp)
+              AisleImageOrGlyph(
+                aisleKey = aisleMeta.key,
+                size = 28.dp,
+              )
               Spacer(Modifier.width(10.dp))
               Text(
                 aisleMeta.label,
                 style = MaterialTheme.typography.titleMedium,
-                color = androidx.compose.ui.graphics.Color.White,
+                color = Ink,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.weight(1f),
               )
               Text(
                 "${list.size}",
                 style = MaterialTheme.typography.labelMedium,
-                color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.8f),
+                color = Ink.copy(alpha = 0.8f),
                 fontWeight = FontWeight.SemiBold,
               )
               Spacer(Modifier.width(8.dp))
               Icon(
                 if (isOpen) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore,
                 contentDescription = if (isOpen) "Collapse" else "Expand",
-                tint = androidx.compose.ui.graphics.Color.White,
+                tint = Ink,
               )
             }
           }
@@ -541,11 +696,8 @@ private fun ShoppingRow(
       tint = if (item.checked) Olive else InkFaint,
     )
     Spacer(Modifier.width(10.dp))
-    val emoji = IngredientEmoji.forName(item.name)
-    if (emoji != null) {
-      Text(emoji, style = MaterialTheme.typography.titleLarge)
-      Spacer(Modifier.width(8.dp))
-    }
+    IngredientImageOrEmoji(name = item.name, size = 28.dp)
+    Spacer(Modifier.width(8.dp))
     Column(Modifier.weight(1f)) {
       Text(
         item.name,
@@ -578,7 +730,7 @@ private fun MoveToAisleSheet(
   onDismiss: () -> Unit,
 ) {
   val current = (item.aisle ?: "other").lowercase()
-  ModalBottomSheet(onDismissRequest = onDismiss, containerColor = Cream) {
+  ModalBottomSheet(onDismissRequest = onDismiss, containerColor = Paper) {
     Column(Modifier.padding(horizontal = 24.dp).padding(bottom = 24.dp)) {
       Text(
         "Move \"${item.name}\" to…",

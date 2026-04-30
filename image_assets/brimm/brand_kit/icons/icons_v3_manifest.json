@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-04-26T18:39:01.635Z",
+  "model": "imagen-4.0-ultra-generate-001",
+  "items": {
+    "v3_pour_straight_down": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. The S and the liquid together fill approximately 80 percent of the frame area, perfectly centered. High edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum. Photorealistic premium rendering quality. Subject: a bold capital letter S in polished brass at the upper portion of the frame. From the bottom curve of the S, a continuous stream of golden amber liquid pours straight down, the stream tapering and widening like an actual fluid pour, ending in a small splash at the bottom edge of the frame. The liquid catches warm light. Solid charcoal black background fills the frame.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 908708,
+      "sha": "e6da369743fed9d3"
+    },
+    "v3_pour_trail_back": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. The S and the liquid together fill approximately 80 percent of the frame area, perfectly centered. High edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum. Photorealistic premium rendering quality. Subject: a bold capital letter S in polished brass with golden amber liquid trailing off the back spine of the letter, like the S was just rapidly stirred through a cocktail and is flinging droplets in motion behind it. Dynamic sense of movement, droplets and a streak of liquid arcing to the right of the S. Solid charcoal black background fills the frame.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 787363,
+      "sha": "43ebaf6afbdfff54"
+    },
+    "v3_pour_splash_ripple": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. The S and the liquid together fill approximately 80 percent of the frame area, perfectly centered. High edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum. Photorealistic premium rendering quality. Subject: a bold capital letter S in polished brass at the top half of the frame. From the bottom curve, golden amber liquid pours down and lands at the bottom of the frame creating concentric ripples and a small splash crown. The pool of liquid covers the bottom third of the frame. Solid charcoal black background fills the rest of the frame, ripples are tinted amber.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 923506,
+      "sha": "210bdcd15ccfcfa9"
+    },
+    "v3_s_morphs_to_liquid": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. The S and the liquid together fill approximately 80 percent of the frame area, perfectly centered. High edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum. Photorealistic premium rendering quality. Subject: a single capital letter S where the top half is rendered as solid polished brass and the bottom half gradually morphs and dissolves into flowing golden amber liquid that pools at the base of the frame. The transition from solid metal to liquid is seamless, the bottom curve of the S literally becoming a wave of liquid. Solid charcoal black background fills the frame.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 917549,
+      "sha": "e2ef0a1a678aaae0"
+    },
+    "v3_pour_into_mini_glass": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. The S and the liquid together fill approximately 80 percent of the frame area, perfectly centered. High edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum. Photorealistic premium rendering quality. Subject: a bold capital letter S in polished brass dominating the upper two-thirds of the frame. From the bottom curve, golden amber liquid pours down into a tiny minimal cocktail glass silhouette positioned at the very bottom edge of the frame, the glass barely larger than the pour itself. The S and pour stream are the focal point, the glass is a small accent. Solid charcoal black background fills the frame.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 752786,
+      "sha": "d6d44bd6c3cef311"
+    }
+  }
+}

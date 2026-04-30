@@ -1,13 +1,17 @@
 package app.pantrie
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.draw.clip
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -17,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -33,10 +39,13 @@ import app.pantrie.feature.beta.BetaFeedbackSheet
 import app.pantrie.feature.beta.CommunityScreen
 import app.pantrie.feature.cook.CookModeScreen
 import app.pantrie.feature.deck.DeckScreen
+import app.pantrie.feature.library.BookDetailScreen
+import app.pantrie.feature.library.LibraryScreen
 import app.pantrie.feature.mealprep.MealPrepScreen
 import app.pantrie.feature.mixology.MixologyScreen
 import app.pantrie.feature.notifications.NotificationScheduler
 import app.pantrie.feature.notifications.RescanWorker
+import app.pantrie.feature.onboarding.AgeGateScreen
 import app.pantrie.feature.onboarding.OnboardingScreen
 import app.pantrie.feature.pantry.PantryScreen
 import app.pantrie.feature.plan.PlanScreen
@@ -44,12 +53,16 @@ import app.pantrie.feature.recipe.RecipeDetailScreen
 import app.pantrie.feature.saved.SavedScreen
 import app.pantrie.feature.search.SearchSheet
 import app.pantrie.feature.submit.MySubmissionsScreen
+import app.pantrie.feature.submit.PhotoToRecipeScreen
 import app.pantrie.feature.submit.SubmitRecipeScreen
 import app.pantrie.feature.scan.ScanMode
 import app.pantrie.feature.scan.ScanScreen
 import app.pantrie.feature.settings.LocalSettingsStore
 import app.pantrie.feature.settings.SettingsScreen
 import app.pantrie.feature.shopping.ShoppingScreen
+import app.pantrie.feature.walkthrough.TourAnchors
+import app.pantrie.feature.walkthrough.WalkthroughOverlay
+import app.pantrie.feature.walkthrough.WalkthroughViewModel
 import app.pantrie.network.PantrieApi
 import app.pantrie.ui.theme.PantrieTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,18 +80,60 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     analytics.track("app_opened")
     NotificationScheduler.schedule(this)
+    // Persist last-app-open for the SwipeRefillWorker's inactivity gate. If the
+    // user opens the app within 12h of the cap-refill fire time, the worker
+    // skips the notification (don't ping people who are already using the app).
+    applicationContext.getSharedPreferences(NotificationScheduler.PREFS, Context.MODE_PRIVATE)
+      .edit()
+      .putLong(app.pantrie.feature.notifications.SwipeRefillWorker.KEY_LAST_APP_OPEN_MS, System.currentTimeMillis())
+      .apply()
 
-    val initialNavTarget = intent?.getStringExtra(RescanWorker.EXTRA_NAV_TARGET)
+    // EXTRA_NAV_TARGET is delivered via PendingIntent from internal WorkManager jobs, but
+    // the MainActivity is exported (LAUNCHER), so any installed app can fire an Intent
+    // with arbitrary extras. Whitelist the route so a malicious app can't force-open
+    // sensitive screens (paywall, scan, settings) for UI-redress / phishing overlay.
+    val rawNavTarget = intent?.getStringExtra(RescanWorker.EXTRA_NAV_TARGET)
+    val rescanDeepLink = rawNavTarget?.takeIf { it in ALLOWED_DEEP_LINK_ROUTES }
+
+    // ACTION_SEND share-sheet target. TikTok / YouTube / browser "Share to
+    // Speakeater" lands here. Pull the first http(s) URL out of EXTRA_TEXT,
+    // validate it points at a supported host, and route into the link-import
+    // flow with the URL pre-filled. Pro gating happens server-side.
+    val sharedImportUrl: String? = if (intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
+      val raw = intent?.getStringExtra(Intent.EXTRA_TEXT).orEmpty()
+      val match = Regex("https?://\\S+").find(raw)?.value
+      match?.takeIf { url ->
+        runCatching {
+          val host = java.net.URI(url).host?.lowercase().orEmpty()
+          host.endsWith("tiktok.com") || host.endsWith("youtube.com") || host == "youtu.be"
+        }.getOrDefault(false)
+      }
+    } else null
+
+    val initialNavTarget = sharedImportUrl?.let {
+      "import_links?prefill=${java.net.URLEncoder.encode(it, "UTF-8")}"
+    } ?: rescanDeepLink
 
     setContent {
       PantrieTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          PantrieNav(
-            analytics = analytics,
-            api = api,
-            localSettings = localSettings,
-            initialDeepLink = initialNavTarget,
-          )
+          // Required by Google Play regulated-goods policy: a global age gate
+          // before any cocktail content can be shown. Persisted in
+          // LocalSettingsStore so the user only confirms once per install.
+          val hasConfirmedAge by localSettings.hasConfirmedAge.collectAsState()
+          if (!hasConfirmedAge) {
+            AgeGateScreen(
+              onConfirmed = { localSettings.setHasConfirmedAge(true) },
+              onDeclined = { finish() },
+            )
+          } else {
+            PantrieNav(
+              analytics = analytics,
+              api = api,
+              localSettings = localSettings,
+              initialDeepLink = initialNavTarget,
+            )
+          }
         }
       }
     }
@@ -87,6 +142,12 @@ class MainActivity : ComponentActivity() {
   override fun onNewIntent(intent: Intent) {
     super.onNewIntent(intent)
     setIntent(intent)
+  }
+
+  companion object {
+    /** Whitelist of routes the rescan/expiring notification PendingIntents may target.
+     *  Anything else from EXTRA_NAV_TARGET is dropped to block intent-redress attacks. */
+    private val ALLOWED_DEEP_LINK_ROUTES = setOf("pantry", "expiring", "shopping", "deck")
   }
 }
 
@@ -106,17 +167,68 @@ fun SensitiveScreen(sensitive: Boolean, content: @Composable () -> Unit) {
   content()
 }
 
-private data class Tab(val route: String, val label: String, val icon: ImageVector)
+// `anchorKey` ties a tab to a tour-step anchor; the NavigationBarItem reports its
+// measured bounds under that key so the WalkthroughOverlay can spotlight the right tab.
+// `iconRes` is a photorealistic PNG drawable from the brimm_nav_* set generated by
+// backend/ingest/generate_brimm_images.cjs. Speakeater is SVG/emoji-free.
+private data class Tab(
+  val route: String,
+  val label: String,
+  val iconRes: Int,
+  val anchorKey: String? = null,
+)
+
+// Boxed-button nav icon. Brass border + dark surface so the photorealistic PNG
+// reads as a tappable affordance, not a floating image. Selected state pumps
+// the border so the active tab is unambiguous. Speakeater is SVG/emoji-free.
+@Composable
+private fun NavIconBox(
+  iconRes: Int,
+  contentDescription: String,
+  selected: Boolean,
+) {
+  val borderColor = if (selected)
+    app.pantrie.ui.theme.BrassBright
+  else
+    app.pantrie.ui.theme.Rule
+  val bgColor = if (selected)
+    app.pantrie.ui.theme.Paper3
+  else
+    app.pantrie.ui.theme.Paper2
+  androidx.compose.foundation.layout.Box(
+    modifier = Modifier
+      .size(48.dp)
+      .clip(androidx.compose.foundation.shape.RoundedCornerShape(10.dp))
+      .background(bgColor)
+      .border(1.dp, borderColor, androidx.compose.foundation.shape.RoundedCornerShape(10.dp))
+      .padding(3.dp),
+    contentAlignment = androidx.compose.ui.Alignment.Center,
+  ) {
+    androidx.compose.foundation.Image(
+      painter = androidx.compose.ui.res.painterResource(iconRes),
+      contentDescription = contentDescription,
+      modifier = Modifier
+        .size(38.dp)
+        .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp)),
+      contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+    )
+  }
+}
 
 // Streamlined bottom nav: Home + Feed + You. Pantry/Shop/Plan live as quick-action
 // buttons on the Home screen to reclaim the half-inch of wasted bottom space.
 private val BASE_TABS = listOf(
-  Tab("deck", "Culinary", Icons.Outlined.SoupKitchen),
-  Tab("community", "Feed", Icons.Outlined.Forum),
-  Tab("settings", "You", Icons.Outlined.Settings),
+  Tab("deck", "Culinary", app.pantrie.R.drawable.brimm_nav_culinary, anchorKey = TourAnchors.NAV_CULINARY),
+  Tab("community", "Feed", app.pantrie.R.drawable.brimm_nav_feed, anchorKey = TourAnchors.NAV_FEED),
+  Tab("settings", "You", app.pantrie.R.drawable.brimm_nav_you, anchorKey = TourAnchors.NAV_YOU),
 )
 
-private val MIXOLOGY_TAB = Tab("mixology", "Mixology", Icons.Outlined.LocalBar)
+private val MIXOLOGY_TAB = Tab(
+  "mixology",
+  "Mixology",
+  app.pantrie.R.drawable.brimm_nav_mixology,
+  anchorKey = TourAnchors.NAV_MIXOLOGY,
+)
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
@@ -168,17 +280,49 @@ fun PantrieNav(
   val expiringCount by appVm.expiringCount.collectAsState()
   val shoppingCount by appVm.shoppingCount.collectAsState()
 
+  // First-launch guided walkthrough — overlays the whole UI when triggered. Gated on
+  // route below so it only fires once the user is past login + onboarding (otherwise
+  // the spotlight references tabs/screens that aren't visible yet).
+  val tourVm: WalkthroughViewModel = hiltViewModel()
+  val tourState by tourVm.uiState.collectAsState()
+  val tourAnchors by tourVm.anchors.collectAsState()
+
+  // Push current route into the tour VM so its RouteIs/RouteIn triggers can auto-advance
+  // when the user taps a highlighted tab/tile and the navigation actually happens. Only
+  // push routes that are tour-eligible (past login/onboarding) so the early auth-flow
+  // navigation doesn't accidentally advance the tour state machine before the overlay
+  // is even rendered. Push null while ineligible so any trigger watching for a stale
+  // pre-tour route doesn't fire on hydrate.
+  LaunchedEffect(currentRoute) {
+    val eligible = currentRoute != null && currentRoute != "login" && currentRoute != "onboarding"
+    tourVm.reportCurrentRoute(if (eligible) currentRoute else null)
+  }
+
+  // Tour-driven navigation: when the tour starts (or replays from Settings) it requests
+  // /deck so step 1's Pantry-tile spotlight has a target to anchor against.
+  LaunchedEffect(Unit) {
+    tourVm.navigationRequests.collect { route ->
+      if (currentRoute != route && currentRoute != "login" && currentRoute != "onboarding") {
+        nav.navigate(route) {
+          launchSingleTop = true
+          popUpTo(nav.graph.startDestinationId) { saveState = true }
+          restoreState = true
+        }
+      }
+    }
+  }
+
   // Draggable feedback icon position — persists across config changes and process death.
   // Offsets are applied relative to the default bottom-right anchor.
   var fbOffsetX by rememberSaveable { mutableFloatStateOf(0f) }
   var fbOffsetY by rememberSaveable { mutableFloatStateOf(0f) }
 
-  // Theme the bottom nav + FAB for Mixology. Default to DARK (modern speakeasy) vibe;
-  // switches to sepia only if we later expose vintageMode globally. MVP: always dark on Mixology.
+  // Theme the bottom nav + FAB for Mixology. Whole app is now dark — Mixology gets a brass
+  // accent on selected items so it still reads distinct from the other tabs.
   val isMixology = currentRoute == "mixology"
-  val darkBg = androidx.compose.ui.graphics.Color(0xFF0D0D0E)
-  val goldAccent = androidx.compose.ui.graphics.Color(0xFFC9A554)
-  val mutedGold = androidx.compose.ui.graphics.Color(0xFF8B8578)
+  val darkBg = app.pantrie.ui.theme.Paper2
+  val goldAccent = app.pantrie.ui.theme.BrassBright
+  val mutedGold = app.pantrie.ui.theme.InkFaint
   val navBg = if (isMixology) darkBg
     else MaterialTheme.colorScheme.surface
   val navItemSelected = if (isMixology) goldAccent
@@ -192,7 +336,19 @@ fun PantrieNav(
       if (showBottomBar) {
         NavigationBar(containerColor = navBg) {
           tabs.forEach { tab ->
+            // Capture in a local so the smart-cast survives into the onGloballyPositioned
+            // lambda below (a property read on `tab` would not smart-cast across the
+            // lambda boundary).
+            val anchorKey = tab.anchorKey
             NavigationBarItem(
+              modifier = if (anchorKey != null) {
+                Modifier.onGloballyPositioned { coords ->
+                  // Report this tab's bounds (in window coords) to the walkthrough
+                  // registry. The overlay reads these to draw the spotlight on the
+                  // exact tab the current step is meant to highlight.
+                  tourVm.reportAnchor(anchorKey, coords.boundsInWindow())
+                }
+              } else Modifier,
               selected = currentRoute == tab.route,
               onClick = {
                 analytics.track("tab_switched", mapOf("to" to tab.route))
@@ -204,23 +360,33 @@ fun PantrieNav(
                 appVm.refresh() // refresh badge whenever user changes tab
               },
               icon = {
-                // Shop badge: count of items on the shopping list. Colored red when
-                // pantry items are expiring (you should also buy replacements soon).
+                // Photorealistic PNG nav icon, framed in a brass-bordered button-box
+                // so each tab reads as a tappable affordance. Speakeater is SVG/emoji-free.
                 if (tab.route == "shopping" && shoppingCount > 0) {
                   val badgeColor = if (expiringCount > 0)
-                    androidx.compose.ui.graphics.Color(0xFFB04A3C)          // Terracotta — something's expiring too
+                    app.pantrie.ui.theme.Terracotta
                   else
-                    androidx.compose.ui.graphics.Color(0xFF7A8450)          // Olive — just a shopping count
+                    app.pantrie.ui.theme.Olive
                   androidx.compose.material3.BadgedBox(
                     badge = {
                       androidx.compose.material3.Badge(
                         containerColor = badgeColor,
-                        contentColor = androidx.compose.ui.graphics.Color.White,
+                        contentColor = app.pantrie.ui.theme.Ink,
                       ) { Text("$shoppingCount") }
                     },
-                  ) { Icon(tab.icon, contentDescription = tab.label) }
+                  ) {
+                    NavIconBox(
+                      iconRes = tab.iconRes,
+                      contentDescription = tab.label,
+                      selected = currentRoute?.startsWith(tab.route) == true,
+                    )
+                  }
                 } else {
-                  Icon(tab.icon, contentDescription = tab.label)
+                  NavIconBox(
+                    iconRes = tab.iconRes,
+                    contentDescription = tab.label,
+                    selected = currentRoute?.startsWith(tab.route) == true,
+                  )
                 }
               },
               label = { Text(tab.label, maxLines = 1, softWrap = false) },
@@ -276,6 +442,7 @@ fun PantrieNav(
           onOpenPlan = { nav.navigate("plan") },
           onOpenSearch = { nav.navigate("search?type=food") },
           onOpenPaywall = { nav.navigate("paywall") },
+          onContributePhoto = { rid -> nav.navigate("recipe/$rid/contribute-photo") },
         )
       }
       composable("mixology") {
@@ -286,6 +453,11 @@ fun PantrieNav(
           onOpenPlan = { nav.navigate("plan") },
           onOpenSearch = { nav.navigate("search?type=cocktail") },
           onOpenPaywall = { nav.navigate("paywall") },
+          // "Photo your pour" → contribute-photo flow (system camera + gallery
+          // + R2 upload + admin review). Replaces the old `submit-photo-recipe`
+          // route which was the Pro recipe-from-photo extractor — wrong screen
+          // for "I made this pour" intent and gallery-only on top of that.
+          onSubmitDrinkPhoto = { rid -> nav.navigate("recipe/$rid/contribute-photo") },
         )
       }
       composable("paywall") {
@@ -314,15 +486,72 @@ fun PantrieNav(
           onBack = { nav.popBackStack() },
           onOpenRecipe = { nav.navigate("recipe/$it") },
           onStartCook = { nav.navigate("cook/$it") },
+          onOpenLibrary = { nav.navigate("library") },
         )
       }
       composable("submit") {
         SubmitRecipeScreen(onBack = { nav.popBackStack() })
       }
+      composable(
+        route = "recipe/{id}/contribute-photo",
+        arguments = listOf(navArgument("id") { type = NavType.StringType }),
+      ) { back ->
+        val rid = back.arguments?.getString("id").orEmpty()
+        app.pantrie.feature.contribute.ContributeRecipePhotoScreen(
+          recipeId = rid,
+          onBack = { nav.popBackStack() },
+        )
+      }
+      composable("submit-photo-recipe") {
+        // Pro-only photo-to-recipe flow. Pro gating handled inside the screen so the
+        // route is reachable from anywhere; the gate decides whether to show the picker
+        // or the ProUpgradeCard.
+        PhotoToRecipeScreen(
+          onBack = { nav.popBackStack() },
+          onSubmitted = {
+            // Pop back to MySubmissions so the user immediately sees the new pending row.
+            nav.popBackStack()
+          },
+        )
+      }
       composable("my_submissions") {
         MySubmissionsScreen(
           onBack = { nav.popBackStack() },
-          onNewSubmission = { nav.navigate("submit") },
+          onNewSubmission = { nav.navigate("submit-photo-recipe") },
+        )
+      }
+      // Library: three-level Books → Chapters → Recipes. Replaces the
+      // saves/submissions surfaces that used to be buried under Settings.
+      composable("library") {
+        LibraryScreen(
+          onBack = { nav.popBackStack() },
+          onOpenBook = { id -> nav.navigate("library/book/$id") },
+        )
+      }
+      composable(
+        route = "library/book/{bookId}",
+        arguments = listOf(androidx.navigation.navArgument("bookId") { type = androidx.navigation.NavType.StringType }),
+      ) { entry ->
+        val bookId = entry.arguments?.getString("bookId") ?: return@composable
+        val ctx = androidx.compose.ui.platform.LocalContext.current
+        // VM at this Composable scope so the export callback can reach it.
+        val libVm: app.pantrie.feature.library.LibraryViewModel = androidx.hilt.navigation.compose.hiltViewModel()
+        BookDetailScreen(
+          bookId = bookId,
+          onBack = { nav.popBackStack() },
+          onOpenRecipe = { rid -> nav.navigate("recipe/$rid") },
+          onExport = { id, fmt ->
+            // Mint a 5-minute share token, then open the URL via system browser.
+            // The token authorizes the export through query param so the browser
+            // (which does not carry our JWT) can still download owner-private
+            // books. Token is HMAC-signed with JWT_SECRET, single-use de facto.
+            val baseUrl = app.pantrie.BuildConfig.API_BASE_URL
+            libVm.exportWithShareToken(id, fmt, baseUrl) { url ->
+              val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
+              try { ctx.startActivity(intent) } catch (_: Throwable) {}
+            }
+          },
+          vm = libVm,
         )
       }
       composable("shopping") { ShoppingScreen() }
@@ -339,6 +568,57 @@ fun PantrieNav(
             nav.navigate("onboarding") { popUpTo("settings") { inclusive = true } }
           },
           onOpenSubmissions = { nav.navigate("my_submissions") },
+          onOpenImportLinks = { nav.navigate("import_links") },
+          onOpenPriceDemo = { nav.navigate("price_demo") },
+        )
+      }
+      // Internal-only mockup screen for the price-comparison + place-order
+      // partner pitch. Wired only in debug builds; the Settings entry that
+      // navigates here is gated on BuildConfig.DEBUG so the route is
+      // unreachable in release.
+      composable("price_demo") {
+        app.pantrie.feature.pricedemo.PriceComparisonMockScreen(
+          onBack = { nav.popBackStack() },
+        )
+      }
+      // TikTok / YouTube link-import flow. Pro-gated server-side (returns 402
+      // with upsell:true if not Pro). The share-intent handler in onCreate
+      // also routes here, pre-filled, so users can share-sheet directly from
+      // TikTok into the import.
+      composable(
+        route = "import_links?prefill={prefill}",
+        arguments = listOf(navArgument("prefill") {
+          type = NavType.StringType
+          nullable = true
+          defaultValue = null
+        }),
+      ) { back ->
+        val prefill = back.arguments?.getString("prefill")?.let {
+          // Decoded back from the URL-encoded form set by the share-intent handler.
+          runCatching { java.net.URLDecoder.decode(it, "UTF-8") }.getOrNull()
+        }
+        app.pantrie.feature.importlinks.ImportLinksScreen(
+          onJobReady = { jobId -> nav.navigate("import_review/$jobId") },
+          onCancel = { nav.popBackStack() },
+          initialUrl = prefill,
+        )
+      }
+      composable(
+        route = "import_review/{jobId}",
+        arguments = listOf(navArgument("jobId") { type = NavType.StringType }),
+      ) { back ->
+        val jobId = back.arguments?.getString("jobId") ?: return@composable
+        app.pantrie.feature.importlinks.ImportReviewScreen(
+          jobId = jobId,
+          // Submitted recipes land in /me/submissions as 'pending' — take the
+          // user there so they immediately see where their parsed data went.
+          // Clears the import stack so back navigates to Settings, not the
+          // empty review screen.
+          onClose = {
+            nav.navigate("my_submissions") {
+              popUpTo("settings") { inclusive = false }
+            }
+          },
         )
       }
       composable("mealprep") { MealPrepScreen(onBack = { nav.popBackStack() }) }
@@ -382,6 +662,23 @@ fun PantrieNav(
           }
         },
     ) { Icon(Icons.Outlined.Feedback, contentDescription = "Feedback") }
+  }
+
+  // First-launch walkthrough overlay — sits on top of everything (including the FAB
+  // and bottom nav). Only renders past login/onboarding so the welcome card shows up
+  // against the real app, not the auth screen.
+  val tourEligibleRoute = currentRoute != null
+    && currentRoute != "login"
+    && currentRoute != "onboarding"
+  if (tourEligibleRoute && tourState.visible) {
+    WalkthroughOverlay(
+      state = tourState,
+      anchors = tourAnchors,
+      onNext = { tourVm.next() },
+      onSkip = { tourVm.skip() },
+      onEnterMiniTour = { tourVm.enterMiniTour(it) },
+      onSelfExplore = { tourVm.selfExplore() },
+    )
   }
   } // end outer Box
 

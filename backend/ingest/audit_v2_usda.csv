@@ -1,0 +1,201 @@
+id,title,verdict,reason,has_photo,step_count,ingredient_count
+myplate-asparagus-mandarin-orange-chicken-and-rice,"Asparagus, Mandarin Orange, Chicken, and Rice",keep,,1,6,8
+myplate-asparagus-with-gremolata-sauce,Asparagus with Gremolata Sauce,keep,,1,9,5
+myplate-au-gratin-potatoes,Au Gratin Potatoes,keep,,1,9,8
+myplate-autumn-vegetable-succotash,Autumn Vegetable Succotash,keep,,1,5,9
+myplate-avocado-and-corn-salsa,Avocado and Corn Salsa,fix,only 2 cooking verb(s),1,3,6
+myplate-avocado-black-bean-taquitos,Avocado Black Bean Taquitos,keep,,1,6,13
+myplate-avocado-breakfast-bruschetta,Avocado Breakfast Bruschetta,keep,,1,5,8
+myplate-avocado-melon-breakfast-smoothie,Avocado Melon Breakfast Smoothie,keep,,1,4,7
+myplate-avocado-pita-pockets,Avocado Pita Pockets,keep,,1,2,5
+myplate-avocado-veggie-bake,Avocado Veggie Bake,keep,,1,7,15
+myplate-baked-apples-and-sweet-potatoes,Baked Apples and Sweet Potatoes,keep,,1,14,8
+myplate-baked-cauliflower-tots,Baked Cauliflower Tots,keep,,1,6,5
+myplate-baked-chicken,Baked Chicken,keep,,1,5,4
+myplate-baked-chicken-nuggets,Baked Chicken Nuggets,fix,no heat step (assumed mix-and-serve),1,5,6
+myplate-baked-chicken-with-vegetables,Baked Chicken with Vegetables,fix,no image,0,7,7
+myplate-baked-fish,Baked Fish,keep,,1,7,7
+myplate-banana-waldorf,Banana Waldorf,fix,no heat step (assumed mix-and-serve),1,3,5
+myplate-barley-jambalaya,Barley Jambalaya,keep,,1,3,14
+myplate-barley-pilaf,Barley Pilaf,keep,,1,5,8
+myplate-basic-custard,Basic Custard,keep,,1,5,4
+myplate-basic-quiche,Basic Quiche,keep,,1,10,8
+myplate-basic-soup-and-sauce-mix,Basic Soup and Sauce Mix,fix,only 2 cooking verb(s); 1 ingredient quantity looks like dropped fraction,1,3,5
+myplate-basic-steamed-collards,Basic Steamed Collards,keep,,1,5,2
+myplate-batido-smoothie,Batido (Smoothie),keep,,1,3,4
+myplate-bean-and-rice-burritos,Bean and Rice Burritos,keep,,1,13,6
+myplate-bean-and-vegetable-salad,Bean and Vegetable Salad,keep,,1,7,10
+myplate-beef-and-bean-chile-verde,Beef and Bean Chile Verde,keep,,1,6,9
+myplate-beef-and-cabbage,Beef and Cabbage,keep,,1,7,8
+myplate-beef-and-vegetable-soup,Beef and Vegetable Soup,keep,,1,5,9
+myplate-beef-and-vegetables,Beef and Vegetables,keep,,1,5,8
+myplate-beef-pot-roast,Beef Pot Roast,keep,,1,9,8
+myplate-beef-potatoes,Beef & Potatoes,keep,,1,9,5
+myplate-beef-stroganoff,Beef Stroganoff,fix,no image,0,7,11
+myplate-beet-white-bean-salad,Beet & White Bean Salad,keep,,1,4,10
+myplate-bell-pepper-and-potato-salad,Bell Pepper and Potato Salad,keep,,1,8,9
+myplate-bell-pepper-and-vidalia-onion-strata-with-fresh-salsa,Bell Pepper and Vidalia Onion Strata with Fresh Salsa,keep,,1,8,13
+myplate-bell-pepper-nachos,Bell Pepper Nachos,keep,,1,5,6
+myplate-berries-with-banana-cream,Berries with Banana Cream,fix,no heat step (assumed mix-and-serve),1,5,6
+myplate-berry-good-dessert,Berry Good Dessert,fix,no image,0,4,3
+myplate-better-baking-mix,Better Baking Mix,fix,no heat step (assumed mix-and-serve),1,5,5
+myplate-black-bean-and-couscous-salad,Black Bean and Couscous Salad,keep,,1,13,10
+myplate-black-bean-and-rice-salad,Black Bean and Rice Salad,keep,,1,4,10
+myplate-caramel-sauce,Caramel Sauce,keep,,1,4,6
+myplate-carrot-cookies,Carrot Cookies,keep,,1,5,11
+myplate-carrots-with-tomatoes-and-macaroni,Carrots with Tomatoes and Macaroni,keep,,1,6,11
+myplate-cauliflower-shells-with-cheese,Cauliflower Shells with Cheese,fix,no image,0,7,8
+myplate-celery-with-apricot-blue-cheese-spread,Celery with Apricot Blue Cheese Spread,keep,,1,5,7
+myplate-chapatis-flatbread,Chapatis Flatbread,keep,,1,9,4
+myplate-cheese-a-roni-bake,Cheese-A-Roni Bake,fix,no image,0,10,7
+myplate-cheese-stuffed-potatoes,Cheese Stuffed Potatoes,keep,,1,11,5
+myplate-cheesy-chicken-broccoli-and-rice-bake,"Cheesy Chicken, Broccoli, and Rice Bake",keep,,1,5,11
+myplate-cherry-melon-grape-salad,"Cherry, Melon, & Grape Salad",keep,,1,3,6
+myplate-cherry-puff-pancake,Cherry Puff Pancake,keep,,1,7,9
+myplate-chicken-and-beans,Chicken and Beans,fix,no image,0,9,8
+myplate-chicken-and-broccoli-bake,Chicken and Broccoli Bake,keep,,1,7,7
+myplate-chicken-and-cranberry-salad,Chicken and Cranberry Salad,keep,,1,3,5
+myplate-chicken-and-dumpling-soup,Chicken and Dumpling Soup,keep,,1,8,14
+myplate-chicken-and-dumplings,Chicken and Dumplings,fix,no image,0,5,10
+myplate-chicken-cacciatore,Chicken Cacciatore,fix,no image,0,8,7
+myplate-chicken-casserole,Chicken Casserole,keep,,1,6,5
+myplate-chicken-club-salad,Chicken Club Salad,fix,no image,0,6,8
+myplate-chicken-mole,Chicken Mole,keep,,1,8,11
+myplate-chicken-noodle-soup,Chicken Noodle Soup,keep,,1,11,8
+myplate-chicken-posole,Chicken Posole,keep,,1,4,13
+myplate-chicken-pot-pie,Chicken Pot Pie,keep,,1,6,6
+myplate-chicken-pozole-soup,Chicken Pozole Soup,keep,,1,7,10
+myplate-chicken-ratatouille,Chicken Ratatouille,keep,,1,5,12
+myplate-chicken-rice-and-fruit-salad,"Chicken, Rice, and Fruit Salad",fix,no image,0,6,11
+myplate-chicken-rice-soup,Chicken & Rice Soup,keep,,1,9,8
+myplate-chicken-salad-and-peach-sandwich,Chicken Salad and Peach Sandwich,fix,only 2 cooking verb(s),1,2,8
+myplate-chicken-salad-with-ramen-noodles,Chicken Salad with Ramen Noodles,keep,,1,6,10
+myplate-chicken-soup-with-chiles,Chicken Soup with Chiles,keep,,1,7,7
+myplate-chicken-spaghetti,Chicken Spaghetti,keep,,1,6,12
+myplate-chicken-stew,Chicken Stew,keep,,1,3,12
+myplate-chicken-stir-fry,Chicken Stir-Fry,keep,,1,5,11
+myplate-chicken-tortilla-casserole,Chicken Tortilla Casserole,keep,,1,8,6
+myplate-chicken-vegetable-soup-with-kale,Chicken Vegetable Soup with Kale,fix,no image,0,5,10
+myplate-chicken-waldorf-salad,Chicken Waldorf Salad,keep,,1,3,9
+myplate-chickpea-dip,Chickpea Dip,keep,,1,3,8
+myplate-chickpeas-and-spinach-saut,Chickpeas and Spinach Sauté,keep,,1,5,11
+myplate-chili-and-spice-seasoning,Chili and Spice Seasoning,fix,only 1 cooking verb(s),1,3,7
+myplate-chili-cheese-hominy,Chili Cheese Hominy,keep,,1,5,8
+myplate-chili-tomato-macaroni,Chili Tomato Macaroni,keep,,1,6,8
+myplate-chilled-blueberry-soup,Chilled Blueberry Soup,fix,no heat step (assumed mix-and-serve),1,4,5
+myplate-chilled-cantaloupe-soup,Chilled Cantaloupe Soup,fix,no heat step (assumed mix-and-serve),1,6,4
+myplate-chocolate-chip-yogurt-cookies,Chocolate Chip Yogurt Cookies,keep,,1,6,9
+myplate-chocolate-peanut-butter-frozen-bars,Chocolate Peanut Butter Frozen Bars,keep,,1,7,4
+myplate-chocolate-squash-cake,Chocolate Squash Cake,keep,,1,6,7
+myplate-cinnamon-raisin-breakfast-mix,Cinnamon-Raisin Breakfast Mix,keep,,1,6,7
+myplate-cinnamon-vanilla-granola,Cinnamon Vanilla Granola,keep,,1,10,7
+myplate-citrus-salad,Citrus Salad,keep,,1,3,10
+myplate-citrus-salmon-fillets,Citrus Salmon Fillets,keep,,1,8,9
+myplate-citrus-tuna-melt,Citrus Tuna Melt,keep,,1,7,13
+myplate-classic-honey-flan,Classic Honey Flan,keep,,1,9,8
+myplate-classic-macaroni-and-cheese,Classic Macaroni and Cheese,keep,,1,9,7
+myplate-cobb-salad-with-pears,Cobb Salad with Pears,keep,,1,4,11
+myplate-coffee-cooler,Coffee Cooler,keep,,1,3,5
+myplate-colorful-quesadillas,Colorful Quesadillas,keep,,1,8,6
+myplate-confetti-bean-salsa,Confetti Bean Salsa,keep,,1,3,3
+myplate-cooked-beans,Cooked Beans,keep,,1,4,2
+myplate-cookie-cutter-appetizers,Cookie Cutter Appetizers,fix,no image,0,10,4
+myplate-corn-and-bean-medley,Corn and Bean Medley,fix,no image,0,6,5
+myplate-corn-and-cucumber-salad,Corn and Cucumber Salad,keep,,1,3,10
+myplate-corn-and-green-chili-salad,Corn and Green Chili Salad,fix,only 2 cooking verb(s),1,3,7
+myplate-corn-and-pepper-cups,Corn and Pepper Cups,fix,no image,0,8,7
+myplate-corn-blueberry-and-wild-rice-salad,"Corn, Blueberry, and Wild Rice Salad",keep,,1,5,12
+myplate-corn-bread,Corn Bread,keep,,1,7,7
+myplate-corn-casserole,Corn Casserole,fix,no image,0,7,5
+myplate-corn-salad-with-fresh-basil-and-lemon,Corn Salad with Fresh Basil and Lemon,keep,,1,6,6
+myplate-corn-soup,Corn Soup,keep,,1,3,9
+myplate-corn-toasties,Corn Toasties,keep,,1,7,9
+myplate-corn-tortillas,Corn Tortillas,keep,,1,5,4
+myplate-cornbread-dressing,Cornbread Dressing,keep,,1,5,9
+myplate-cornmeal-pancakes,Cornmeal Pancakes,fix,no image,0,8,10
+myplate-couscous-with-peas-and-onions,Couscous with Peas and Onions,keep,,1,6,7
+myplate-cowboy-caviar-bean-salsa,Cowboy Caviar (Bean Salsa),fix,no image,0,4,11
+myplate-curried-squash-stew,Curried Squash Stew,keep,,1,4,10
+myplate-curry-vegetable-dip,Curry Vegetable Dip,fix,only 2 cooking verb(s); no image,0,4,7
+myplate-curtido-salvadore-o-cabbage-salad,Curtido Salvadoreño (Cabbage Salad),keep,,1,4,10
+myplate-dave-s-herb-stuffed-mushrooms,Dave’s Herb-Stuffed Mushrooms,keep,,1,10,13
+myplate-delicious-greens,Delicious Greens,keep,,1,6,6
+myplate-delicious-lentil-stew,Delicious Lentil Stew,keep,,1,8,11
+myplate-delicious-oven-french-fries,Delicious Oven French Fries,keep,,1,11,9
+myplate-delicious-tacos,Delicious Tacos,fix,no image; no heat step (assumed mix-and-serve),0,3,8
+myplate-deviled-eggs,Deviled Eggs,keep,,1,9,4
+myplate-dried-bananas,Dried Bananas,fix,no heat step (assumed mix-and-serve),1,4,2
+myplate-dutch-green-beans,Dutch Green Beans,keep,,1,8,5
+myplate-eagle-nest,Eagle Nest,fix,no heat step (assumed mix-and-serve),1,5,3
+myplate-easiest-banana-ice-cream,Easiest Banana Ice Cream,keep,,1,6,3
+myplate-easy-and-healthy-black-bean-soup,Easy and Healthy Black Bean Soup,keep,,1,5,6
+myplate-falafel-with-yogurt-sandwich,Falafel with Yogurt Sandwich,keep,,1,9,16
+myplate-fall-veggie-casserole,Fall Veggie Casserole,keep,,1,7,9
+myplate-farmers-market-gazpacho,Farmers Market Gazpacho,keep,,1,8,12
+myplate-fat-free-apple-crumb-dessert,Fat-Free Apple Crumb Dessert,keep,,1,10,6
+myplate-feather-rolls,Feather Rolls,keep,,1,8,9
+myplate-festive-microwave-baked-apples,Festive Microwave Baked Apples,keep,,1,7,6
+myplate-fiesta-lettuce-wraps-and-pepper-boats,Fiesta Lettuce Wraps and Pepper Boats,keep,,1,7,15
+myplate-fiesta-mix,Fiesta Mix,fix,no heat step (assumed mix-and-serve),1,4,6
+myplate-fiesta-stuffed-avocado,Fiesta Stuffed Avocado,fix,only 2 cooking verb(s),1,3,5
+myplate-fish-tacos,Fish Tacos,keep,,1,6,6
+myplate-fish-with-spinach,Fish with Spinach,keep,,1,4,8
+myplate-flavored-water,Flavored Water,keep,,1,6,3
+myplate-four-layer-casserole,Four Layer Casserole,fix,no image,0,6,6
+myplate-french-salad-dressing,French Salad Dressing,fix,only 2 cooking verb(s),1,4,7
+myplate-french-spinach-frittata,French Spinach Frittata,keep,,1,6,7
+myplate-fresh-fruit-with-cinnamon-yogurt-dip,Fresh Fruit with Cinnamon Yogurt Dip,keep,,1,9,6
+myplate-fresh-tomato-salsa,Fresh Tomato Salsa,keep,,1,3,9
+myplate-fresh-tomato-sauce,Fresh Tomato Sauce,keep,,1,5,11
+myplate-fried-rice,Fried Rice,keep,,1,7,7
+myplate-fried-rice-with-chicken-and-vegetables,Fried Rice with Chicken and Vegetables,keep,,1,9,11
+myplate-frozen-banana-pops,Frozen Banana Pops,keep,,1,4,4
+myplate-frozen-fruit-pops,Frozen Fruit Pops,fix,only 1 cooking verb(s),1,4,3
+myplate-fruit-and-peanut-butter-dip,Fruit and Peanut Butter Dip,keep,,1,6,9
+myplate-fruit-and-yogurt-breakfast-shake,Fruit and Yogurt Breakfast Shake,keep,,1,4,4
+myplate-fruit-cole-slaw,Fruit Cole Slaw,fix,only 2 cooking verb(s); no image,0,3,9
+myplate-fruit-compote,Fruit Compote,keep,,1,7,6
+myplate-fruit-crisp,Fruit Crisp,keep,,1,4,9
+myplate-fruit-feta-salad,Fruit & Feta Salad,keep,,1,2,9
+myplate-full-of-beans-hot-dish,Full of Beans Hot Dish,keep,,1,5,9
+myplate-garden-barley-soup,Garden Barley Soup,keep,,1,5,11
+myplate-garden-frittata,Garden Frittata,keep,,1,6,8
+myplate-garden-orchard-salad,Garden Orchard Salad,fix,no image,0,4,7
+myplate-garden-pasta-salad,Garden Pasta Salad,keep,,1,4,9
+myplate-garden-vegetable-soup,Garden Vegetable Soup,keep,,1,6,10
+myplate-garlic-ginger-ramen-with-beef,Garlic Ginger Ramen with Beef,keep,,1,5,7
+myplate-garlic-stuffed-chicken,Garlic Stuffed Chicken,keep,,1,6,8
+myplate-gazpacho-soup,Gazpacho Soup,fix,no image,0,5,9
+myplate-ginger-bread-mix,Ginger Bread Mix,fix,no heat step (assumed mix-and-serve),1,3,7
+myplate-grandma-s-stuffing,Grandma's Stuffing,keep,,1,7,11
+myplate-granola-bars,Granola Bars,keep,,1,10,6
+myplate-granola-with-oatmeal-coconut-and-pecans,"Granola with Oatmeal, Coconut, and Pecans",keep,,1,3,7
+myplate-grapefruit-spinach-salad,Grapefruit Spinach Salad,fix,no image,0,5,11
+myplate-great-northern-bean-soup,Great Northern Bean Soup,keep,,1,7,9
+myplate-greek-pork-chops,Greek Pork Chops,keep,,1,4,7
+myplate-greek-salad,Greek Salad,keep,,1,3,9
+myplate-greek-salad-with-chicken,Greek Salad with Chicken,keep,,1,5,14
+myplate-green-bean-and-rice-casserole,Green Bean and Rice Casserole,keep,,1,4,6
+myplate-green-onion-omelet,Green Onion Omelet,keep,,1,7,9
+myplate-green-tea-berry-banana-smoothie,Green Tea Berry Banana Smoothie,keep,,1,6,8
+myplate-grilled-asparagus-and-shrimp-quinoa-salad-with-lemon-vinaigr,Grilled Asparagus and Shrimp Quinoa Salad with Lemon Vinaigrette,keep,,1,7,12
+myplate-herbed-spinach-quiche-portabella-caps,Herbed Spinach Quiche Portabella Caps,keep,,1,9,9
+myplate-herbed-vegetables,Herbed Vegetables,keep,,1,5,4
+myplate-homemade-cranberry-sauce,Homemade Cranberry Sauce,keep,,1,5,3
+myplate-homemade-mashed-potatoes,Homemade Mashed Potatoes,keep,,1,8,5
+myplate-homemade-pizza-crust,Homemade Pizza Crust,keep,,1,6,5
+myplate-homemade-ranch-dressing,Homemade Ranch Dressing,keep,,1,6,6
+myplate-homestyle-biscuits,Homestyle Biscuits,keep,,1,6,7
+myplate-honey-lemon-chicken,Honey Lemon Chicken,keep,,1,5,7
+myplate-honey-milk-balls,Honey Milk Balls,keep,,1,8,4
+myplate-honey-mustard-dressing,Honey Mustard Dressing,fix,only 2 cooking verb(s),1,4,6
+myplate-honey-mustard-pork-chops,Honey Mustard Pork Chops,keep,,1,7,4
+myplate-honey-of-a-pumpkin-bar,Honey of a Pumpkin Bar,keep,,1,6,13
+myplate-honeydew-summer-salad-wedges,Honeydew Summer Salad Wedges,fix,no image,0,12,6
+myplate-hooked-on-salmon-sticks,Hooked on Salmon Sticks,fix,no image,0,5,5
+myplate-hoppin-john-sausage-black-eyed-peas-and-rice,"Hoppin' John (Sausage, Black-Eyed Peas, and Rice)",fix,no image,0,6,8
+myplate-julia-s-saut-ed-steamed-collards,Julia’s Sautéed & Steamed Collards,keep,,1,8,5
+myplate-kale-salad-with-yogurt-dressing,Kale Salad with Yogurt Dressing,keep,,1,9,9
+myplate-kibbeh-khamoustah,Kibbeh Khamoustah,keep,,1,12,10
+myplate-layered-black-bean-dip,Layered Black Bean Dip,keep,,1,3,9
+myplate-lemon-pepper-salmon-patties,Lemon Pepper Salmon Patties,keep,,1,4,6

@@ -78,6 +78,10 @@ data class DetectedItem(
   val unit: String? = null,
   val confidence: String? = null,
   @SerialName("matches_existing") val matchesExisting: String? = null,
+  // Canonical slug from backend's `canonicalize()` — used by the multi-photo dedup
+  // confirmation dialog to detect when the same physical item (e.g., one egg carton)
+  // shows up in 2+ photos within a single batch. Falls back to lowercased name if absent.
+  @SerialName("canonical_slug") val canonicalSlug: String? = null,
 )
 
 @Serializable
@@ -132,6 +136,15 @@ data class Recipe(
   // Social signals — TikTok-style counts on the card.
   @SerialName("pan_count") val panCount: Int = 0,
   @SerialName("save_count") val saveCount: Int = 0,
+  // First-cook claim. If null, the recipe is unclaimed: next cooker gets
+  // their name on the card forever, and the photo-less placeholder shows
+  // a "Cook this, get your name on the card" CTA.
+  @SerialName("first_cooked_by_display_name") val firstCookedBy: String? = null,
+  // Server-computed allergen banner driver: "none" | "yellow" | "red".
+  //   yellow → allergen present but every matched allergen has known subs (block w/ workaround)
+  //   red    → at least one matched allergen has no real sub (skip recipe)
+  val allergenStatus: String = "none",
+  val allergenLabels: List<String> = emptyList(),
 ) {
   // Convenience accessors so UI code stays simple
   val prepMin: Int get() = prepMinutes ?: 0
@@ -193,7 +206,14 @@ data class InteractResponse(
 data class UndoCookRequest(val cookUndoId: String)
 
 @Serializable
-data class InteractRequest(val recipeId: String, val status: String, val dismissReason: String? = null)
+data class InteractRequest(
+  val recipeId: String,
+  val status: String,
+  val dismissReason: String? = null,
+  // Optional free-text capturing what the user swapped while cooking. Only set
+  // when status='cooked'. Null/empty = no swaps. Cap mirrors backend's 240-char limit.
+  val substitutesUsed: String? = null,
+)
 
 // Shopping
 @Serializable
@@ -283,6 +303,17 @@ data class ShoppingAddRequest(
 
 @Serializable
 data class ShoppingUpdateRequest(val checked: Boolean? = null, val name: String? = null, val quantity: Double? = null, val aisle: String? = null)
+
+/** Logged when a user taps "Send list to Amazon / Walmart / Instacart." Free
+ *  signal: tells us which vendor users actually pick, average list size,
+ *  category mix. Pure analytics, no PII. */
+@Serializable
+data class VendorHandoffRequest(
+  @SerialName("vendor_id") val vendorId: String,
+  @SerialName("item_count") val itemCount: Int,
+  @SerialName("category_count") val categoryCount: Int? = null,
+  @SerialName("estimated_total_cents") val estimatedTotalCents: Int? = null,
+)
 
 // Plans
 @Serializable
@@ -685,6 +716,18 @@ data class PhotoUploadRequest(val image: String)   // data:image/jpeg;base64,...
 @Serializable
 data class PhotoUploadResponse(val ok: Boolean = true, val url: String = "", val key: String = "")
 
+// Contribute-photo (existing recipe): user submits a photo that, if approved,
+// becomes the recipe's canonical image and earns the contributor photo credit.
+@Serializable
+data class ContributeRecipePhotoRequest(val image: String)   // data:image/jpeg;base64,...
+
+@Serializable
+data class ContributeRecipePhotoResponse(
+  val ok: Boolean = true,
+  val submissionId: String = "",
+  val status: String = "pending",
+)
+
 @Serializable
 data class SubmitIngredient(
   val name: String,
@@ -736,6 +779,64 @@ data class MySubmission(
 
 @Serializable
 data class MySubmissionsResponse(val submissions: List<MySubmission> = emptyList())
+
+// ---------- Pro Photo-to-Recipe ----------
+@Serializable
+data class ExtractRecipeRequest(
+  @SerialName("photo_base64") val photoBase64: String,   // data:image/jpeg;base64,... OR raw base64
+)
+
+@Serializable
+data class ExtractedIngredient(
+  @SerialName("canonical_name") val canonicalName: String,
+  val quantity: Double? = null,
+  val unit: String? = null,
+)
+
+@Serializable
+data class ExtractRecipeResponse(
+  val ok: Boolean = true,
+  val extractable: Boolean = true,
+  val title: String = "",
+  val cuisine: String? = null,
+  @SerialName("content_type") val contentType: String = "food",
+  val servings: Int? = null,
+  @SerialName("time_minutes") val timeMinutes: Int? = null,
+  val ingredients: List<ExtractedIngredient> = emptyList(),
+  val steps: List<String> = emptyList(),
+  // Pro gate / quota error pass-through
+  val error: String? = null,
+  val upsell: Boolean? = null,
+)
+
+@Serializable
+data class StructuredIngredient(
+  @SerialName("canonical_name") val canonicalName: String,
+  val quantity: Double? = null,
+  val unit: String? = null,
+)
+
+@Serializable
+data class StructuredSubmitRequest(
+  val title: String,
+  val cuisine: String? = null,
+  @SerialName("content_type") val contentType: String = "food",
+  val servings: Int? = null,
+  @SerialName("time_minutes") val timeMinutes: Int? = null,
+  val ingredients: List<StructuredIngredient>,
+  val steps: List<String>,
+  val imageUrl: String? = null,
+)
+
+@Serializable
+data class StructuredSubmitResponse(
+  val ok: Boolean = true,
+  val id: String = "",
+  val status: String = "pending",
+  @SerialName("contentType") val contentType: String = "food",
+  val dupOf: DupInfo? = null,
+  val url: String? = null,
+)
 
 // ---------- Saved / Favorites ----------
 @Serializable

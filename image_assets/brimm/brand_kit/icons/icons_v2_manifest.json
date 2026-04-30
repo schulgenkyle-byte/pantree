@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-04-26T18:26:20.661Z",
+  "model": "imagen-4.0-ultra-generate-001",
+  "items": {
+    "v2_crest_knife_glass": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. Subject fills approximately 75 percent of the frame area, perfectly centered, high edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum. Photorealistic premium rendering quality. Subject: a heraldic emblem composition with a brass capital letter S at the center, behind it a chef's knife and a martini cocktail glass crossed in an X pattern (knife angled up-right, glass stem angled up-left) like a coat of arms crest. All elements rendered in polished antique brass and warm gold. Solid charcoal black background fills the entire frame. Premium speakeasy + kitchen brand mark.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 719520,
+      "sha": "16befe9a415b0f75"
+    },
+    "v2_s_blade_to_glass": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. Subject fills approximately 75 percent of the frame area, perfectly centered, high edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum. Photorealistic premium rendering quality. Subject: a single capital letter S where the upper curve is rendered as a sharp curved chef's knife blade catching warm amber light, and the lower curve flows naturally into the bowl of a martini cocktail glass with a tiny olive. The S, knife, and glass form one continuous brass silhouette. Solid charcoal black background fills the entire frame.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 825824,
+      "sha": "fe028ea3c1dfe54d"
+    },
+    "v2_coupe_S_knife": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. Subject fills approximately 75 percent of the frame area, perfectly centered, high edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum. Photorealistic premium rendering quality. Subject: a vintage coupe cocktail glass viewed straight-on filling most of the frame, rendered in polished brass. Inside the bowl of the coupe sits a capital letter S monogram in deep gold, with a small chef's knife laid horizontally across the rim of the glass like a garnish pick. Solid charcoal black background fills the entire frame.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 687096,
+      "sha": "653eb718a820d799"
+    }
+  }
+}

@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.Whatshot
@@ -81,7 +82,7 @@ fun CommunityScreen(
   val loading by vm.loading.collectAsState()
   val toast by vm.toast.collectAsState()
 
-  Scaffold(containerColor = Cream) { padding ->
+  Scaffold(containerColor = Paper) { padding ->
     LazyColumn(
       Modifier.padding(padding).fillMaxSize(),
       contentPadding = PaddingValues(bottom = 24.dp),
@@ -90,7 +91,7 @@ fun CommunityScreen(
         Column(Modifier.padding(horizontal = 24.dp, vertical = 20.dp)) {
           Text("Community", style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Normal)
           Text(
-            "What other Brimm cooks are making — real reviews, real photos.",
+            "What other ${app.pantrie.Brand.APP_NAME} cooks are making — real reviews, real photos.",
             style = MaterialTheme.typography.bodyMedium, color = InkMuted,
           )
         }
@@ -118,7 +119,7 @@ fun CommunityScreen(
           Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 12.dp),
           verticalAlignment = Alignment.CenterVertically,
         ) {
-          Icon(Icons.Outlined.Star, null, tint = Color(0xFFD4A017), modifier = Modifier.size(18.dp))
+          Icon(Icons.Outlined.Star, null, tint = BrassBright, modifier = Modifier.size(18.dp))
           Spacer(Modifier.width(6.dp))
           Text("Reviews", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         }
@@ -199,7 +200,7 @@ private fun ReviewCard(
 
   Card(
     onClick = onOpen,
-    colors = CardDefaults.cardColors(containerColor = Paper),
+    colors = CardDefaults.cardColors(containerColor = Paper2),
     shape = RoundedCornerShape(12.dp),
     modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 6.dp),
   ) {
@@ -234,7 +235,7 @@ private fun ReviewCard(
           repeat(5) { i ->
             Icon(
               Icons.Outlined.Star, null,
-              tint = if (i < rv.ratingPots) Color(0xFFD4A017) else InkFaint,
+              tint = if (i < rv.ratingPots) BrassBright else InkFaint,
               modifier = Modifier.size(14.dp),
             )
           }
@@ -288,7 +289,7 @@ private fun ReviewCard(
       // Recipe ref
       Surface(
         onClick = onOpen,
-        color = Cream,
+        color = Paper2,
         modifier = Modifier.fillMaxWidth(),
       ) {
         Row(
@@ -312,7 +313,12 @@ private fun ReviewCard(
               Text(it, style = MaterialTheme.typography.labelSmall, color = InkMuted)
             }
           }
-          Text("→", color = InkMuted)
+          Icon(
+            Icons.Outlined.ChevronRight,
+            contentDescription = null,
+            tint = InkMuted,
+            modifier = Modifier.size(18.dp),
+          )
         }
       }
     }
@@ -348,7 +354,7 @@ private fun ReportReasonSheet(
 ) {
   ModalBottomSheet(
     onDismissRequest = onDismiss,
-    containerColor = Cream,
+    containerColor = Paper,
     dragHandle = { BottomSheetDefaults.DragHandle(color = InkMuted) },
   ) {
     Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp)) {
@@ -369,7 +375,7 @@ private fun ReportReasonSheet(
         Surface(
           onClick = { onPick(key) },
           shape = RoundedCornerShape(10.dp),
-          color = Paper,
+          color = Paper2,
           modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
         ) {
           Text(

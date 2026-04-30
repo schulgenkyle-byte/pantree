@@ -148,6 +148,20 @@ class CookViewModel @Inject constructor(
     finish(s.recipe)
   }
 
+  /** Update the cook interaction with what the user swapped while cooking.
+   *  Called from FinishedView's "Yes, I swapped" path. Re-fires interact with
+   *  status='cooked', the backend's INSERT OR REPLACE updates the existing row
+   *  in place so cook_count doesn't double-bump (server checks wasCookedBefore). */
+  fun submitSubstitutes(text: String?) {
+    val r = recipe ?: return
+    val cleaned = text?.trim()?.take(240)?.ifEmpty { null }
+    viewModelScope.launch {
+      runCatching {
+        api.interact(InteractRequest(recipeId = r.id, status = "cooked", substitutesUsed = cleaned))
+      }
+    }
+  }
+
   fun setServingScale(scale: Float) {
     val s = _state.value as? CookUiState.Running ?: return
     _state.value = s.copy(servingScale = scale.coerceIn(0.5f, 4f))
@@ -177,7 +191,7 @@ fun CookModeScreen(
 
   LaunchedEffect(recipeId) { vm.load(recipeId) }
 
-  Scaffold(containerColor = Cream) { padding ->
+  Scaffold(containerColor = Paper) { padding ->
     Box(Modifier.padding(padding).fillMaxSize()) {
       when (val s = state) {
         CookUiState.Loading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -194,7 +208,10 @@ fun CookModeScreen(
             Text("Exit", color = Paper)
           }
         }
-        is CookUiState.Finished -> FinishedView(onExit = onExit)
+        is CookUiState.Finished -> FinishedView(
+          onExit = onExit,
+          onSubmitSubstitutes = vm::submitSubstitutes,
+        )
         is CookUiState.Running -> RunningView(
           state = s,
           onExit = onExit,
@@ -346,7 +363,7 @@ private fun RunningView(
     ) {
       FloatingActionButton(
         onClick = onPrev,
-        containerColor = Paper,
+        containerColor = Paper2,
         contentColor = Ink,
         modifier = Modifier.size(64.dp),
       ) { Icon(Icons.Outlined.SkipPrevious, "Previous", modifier = Modifier.size(32.dp)) }
@@ -366,7 +383,7 @@ private fun RunningView(
 
       FloatingActionButton(
         onClick = onNext,
-        containerColor = Paper,
+        containerColor = Paper2,
         contentColor = Ink,
         modifier = Modifier.size(64.dp),
       ) { Icon(Icons.Outlined.SkipNext, "Next", modifier = Modifier.size(32.dp)) }
@@ -375,9 +392,20 @@ private fun RunningView(
 }
 
 @Composable
-private fun FinishedView(onExit: () -> Unit) {
+private fun FinishedView(
+  onExit: () -> Unit,
+  onSubmitSubstitutes: (String?) -> Unit = {},
+) {
+  // Three states for the substitutes question:
+  //   null   = haven't answered yet (Yes / No buttons visible)
+  //   false  = answered "no swaps" (auto-submitted null, ready to exit)
+  //   true   = answered "yes" (text field visible, awaiting Submit)
+  var didSwap by remember { mutableStateOf<Boolean?>(null) }
+  var swapText by remember { mutableStateOf("") }
+  var submitted by remember { mutableStateOf(false) }
+
   Column(
-    Modifier.fillMaxSize().padding(32.dp),
+    Modifier.fillMaxSize().padding(horizontal = 32.dp, vertical = 24.dp),
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
@@ -388,7 +416,89 @@ private fun FinishedView(onExit: () -> Unit) {
       style = MaterialTheme.typography.bodyLarge, color = InkSoft,
       textAlign = TextAlign.Center,
     )
-    Spacer(Modifier.height(32.dp))
+
+    Spacer(Modifier.height(28.dp))
+
+    // The substitutes question. Two-button choice that becomes a free-text
+    // capture if the user picks Yes. The data goes back to the backend on
+    // the same recipe interaction row (substitutes_used column).
+    Surface(
+      shape = RoundedCornerShape(12.dp),
+      color = Paper2,
+      border = androidx.compose.foundation.BorderStroke(1.dp, Rule),
+      modifier = Modifier.fillMaxWidth(),
+    ) {
+      Column(Modifier.padding(20.dp)) {
+        Text(
+          "Did you swap any ingredients?",
+          style = MaterialTheme.typography.titleMedium,
+          fontWeight = FontWeight.SemiBold,
+          color = Ink,
+        )
+        Spacer(Modifier.height(6.dp))
+        Text(
+          "Helps us learn which substitutes actually work.",
+          style = MaterialTheme.typography.bodySmall,
+          color = InkMuted,
+        )
+        Spacer(Modifier.height(14.dp))
+
+        when (didSwap) {
+          null -> Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            OutlinedButton(
+              onClick = {
+                didSwap = false
+                onSubmitSubstitutes(null)
+                submitted = true
+              },
+              modifier = Modifier.weight(1f).height(46.dp),
+              shape = RoundedCornerShape(6.dp),
+            ) { Text("No, cooked as written", color = Ink) }
+            Button(
+              onClick = { didSwap = true },
+              modifier = Modifier.weight(1f).height(46.dp),
+              colors = ButtonDefaults.buttonColors(containerColor = Terracotta),
+              shape = RoundedCornerShape(6.dp),
+            ) { Text("Yes, I swapped", color = Paper, fontWeight = FontWeight.SemiBold) }
+          }
+          true -> if (!submitted) Column {
+            OutlinedTextField(
+              value = swapText,
+              onValueChange = { swapText = it.take(240) },
+              label = { Text("What did you swap? (e.g., olive oil for butter)") },
+              placeholder = { Text("Used X instead of Y because…") },
+              modifier = Modifier.fillMaxWidth().heightIn(min = 96.dp),
+              minLines = 2,
+              maxLines = 4,
+            )
+            Spacer(Modifier.height(10.dp))
+            Button(
+              onClick = {
+                onSubmitSubstitutes(swapText.ifBlank { null })
+                submitted = true
+              },
+              enabled = swapText.isNotBlank(),
+              modifier = Modifier.fillMaxWidth().height(46.dp),
+              colors = ButtonDefaults.buttonColors(containerColor = Terracotta),
+              shape = RoundedCornerShape(6.dp),
+            ) { Text("Submit feedback", color = Paper, fontWeight = FontWeight.SemiBold) }
+          } else Text(
+            "Thanks. We logged it.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = Olive,
+            fontWeight = FontWeight.Medium,
+          )
+          false -> Text(
+            "Got it. Cooked as written.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = InkSoft,
+          )
+        }
+      }
+    }
+
+    Spacer(Modifier.height(20.dp))
+
     Button(
       onClick = onExit,
       modifier = Modifier.fillMaxWidth().height(56.dp),

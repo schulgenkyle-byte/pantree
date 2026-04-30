@@ -1,0 +1,299 @@
+id,title,verdict,reason,has_photo,step_count,ingredient_count,has_alcohol_ingredient
+14858329027b266d602eb5f0,Oyster Cocktail,fix,no photo,false,2,4,false
+34b2bd280ce17ab7970b9bdb,Soda Lemonade,fix,no glass/serving suggestion; no photo,false,1,1,false
+513e1a94c5216090939eaa5b,Cider Nectar,delete,alcohol in mocktail — should be cocktail,false,2,4,true
+5b083b7b1402f49a4f2b744e,Macedoine No. 3,fix,no glass/serving suggestion; no photo,false,1,3,false
+5c4ca701e19d774a205e9f86,Hot Beef-Tea,delete,alcohol in mocktail — should be cocktail,false,1,2,true
+6d1657425ebd0b6d93ae194b,Raspberry Cream Frappe,delete,alcohol in mocktail — should be cocktail,false,5,3,true
+6d8f7625b302ac79bb641f57,Cafe Royal Frappe,delete,alcohol in mocktail — should be cocktail,false,1,2,true
+6de09e9326ebf78927abcc05,Macedoine No. 2,fix,no glass/serving suggestion; no photo,false,1,3,false
+6ff67813dd73bc33fcba88e6,Orangeade,fix,no photo,false,2,1,false
+816f2f716f4a9c7d23f57dd2,Hot Lemonade,fix,no glass/serving suggestion; no photo,false,1,2,false
+869dd09d87e88c0991178006,Clam Cocktail,fix,no photo,false,1,3,false
+8daa7043b093c35cc514d1fe,Phosphate Lemonade,fix,no photo,false,2,2,false
+9502b773dc15696d74ee2666,Macedoine No. 1,fix,no glass/serving suggestion; no photo,false,2,2,false
+a272090e2688d480dbf0a6ad,Plain Lemonade,fix,no photo,false,1,1,false
+a69269b8200798e0272be251,Grenadine Lemonade,fix,no glass/serving suggestion; no photo,false,2,1,false
+a6b0e788ec43e99e1ae4263b,Frappe Beef-Tea,delete,alcohol in mocktail — should be cocktail,false,2,2,true
+cck_0155e7fcf2417a661822fe,Strawberry Shivers,keep,,true,2,3,false
+cck_0397dfb50dbba3c734aca9,Pineapple Juice,fix,no photo,false,7,2,false
+cck_05a0d20b9d3bc91cf155b4,Lemon Sharbat,fix,no glass/serving suggestion; no photo,false,7,6,false
+cck_0630598867842f511b2566,Egg-Nog - Classic Cooked,delete,alcohol in mocktail — should be cocktail,true,10,5,true
+cck_06d5114b0ad15aa1ce357f,Adoyo (Nigerian Ogi Beverage),fix,no glass/serving suggestion; no photo,false,5,5,false
+cck_07ab63e9e41e914f9d6a62,Avocado Coconut Smoothie,fix,no glass/serving suggestion; no photo,false,2,5,false
+cck_07d045c0efa18a96d6d631,Apollinaris' Lemonade,delete,no ingredients,false,6,0,false
+cck_097069a2b6e15d861837dd,Banana Milkshake,fix,no glass/serving suggestion; no photo,false,10,5,false
+cck_0c21b79aef80ca245f03c9,Amaretto sour,fix,instructions too brief; no glass/serving suggestion,true,1,1,false
+cck_101553ffa8f3705d125dcd,Habet Hlawa (Algerian Anise Beverage),fix,no glass/serving suggestion; no photo,false,11,3,false
+cck_10f19cc914ee226307d69c,Thobwa la Mtedza (Malawian Sesame Seed Drink),fix,no glass/serving suggestion; no photo,false,9,4,false
+cck_124c17208f165d908df3f1,Easy Orange Smoothie,fix,no glass/serving suggestion; no photo,false,6,6,false
+cck_13222504fcf4b9b78ec415,Blackstone Nectar,delete,ingredients all undefined/junk,false,6,3,false
+cck_1374e9e77e04a090ebb5ea,Blackberry Sherbet,fix,no glass/serving suggestion; no photo,false,3,3,false
+cck_150da05adafb643e2d2420,Plain Lemonade,fix,no glass/serving suggestion; no photo,false,2,1,false
+cck_16fe84b604f47012ecfb4d,Clam Cocktail,fix,no photo,false,1,3,false
+cck_17c7ed0ecf082e352c1c91,Q.B. Cooler,delete,alcohol in mocktail — should be cocktail,false,4,3,true
+cck_1874bef73fab0629c117b2,Quick Finnish Lemon Mead (Sima),delete,no/empty instructions,false,0,4,false
+cck_1982f6dd377f2fa7cb5a7a,Fruit Flip-Flop,keep,,true,2,2,false
+cck_19c7b171215707cd03c43d,Blood Orange & Rosemary Spritz,delete,alcohol in mocktail — should be cocktail,false,3,4,true
+cck_208bddd6fd8391ad1e9780,Mango Orange Smoothie,delete,instructions don't describe how to combine drink,true,1,2,false
+cck_23488b8ded1d5ceb6a02ad,Egg Lemonade,fix,no photo,false,1,4,false
+cck_2371eb16f13d112f311e08,Virgin Margarita,fix,no photo,false,5,4,false
+cck_254bb2cde019f680a0693e,Currant Sherbet No. 2,fix,no glass/serving suggestion; no photo,false,4,3,false
+cck_2646646b611e9bbb97aab5,Super Foamy Milkshake,fix,no glass/serving suggestion; no photo,false,3,4,false
+cck_26fe5a2b4916bf45222dc9,Orange Scented Hot Chocolate,fix,no glass/serving suggestion,true,11,5,false
+cck_2a6c3622d16b74dea745e1,Limeade,keep,,true,5,4,false
+cck_2b966ed7449037df8c90ab,Pineapple Water Ice,fix,no photo,false,1,2,false
+cck_2c97011cdc0ee1dc6a0a42,Chocolate Monkey,delete,alcohol in mocktail — should be cocktail,true,1,8,true
+cck_2ed1807ae2c6bac996ce8c,Thai Iced Tea,fix,no glass/serving suggestion,true,4,5,false
+cck_2f1569930f054309eb7032,Chocolate martini,fix,no photo,false,3,1,false
+cck_2fe1131f815d554d23df03,Masala Chai,fix,no glass/serving suggestion,true,7,9,false
+cck_30ed4153941d40c16a2e4a,Hot Beef-Tea,delete,alcohol in mocktail — should be cocktail,false,1,2,true
+cck_31d7b059e8b90239c2ffab,Milk and Seltzer,delete,no ingredients,false,3,0,false
+cck_329d94aafbd8558b1f9120,Pomegranate Sherbet,fix,no glass/serving suggestion; no photo,false,3,2,false
+cck_33b1e065e6fa1d1e77a9a4,Raspberry Sherbet,fix,no glass/serving suggestion; no photo,false,1,3,false
+cck_34195841cacbd89d637bec,Egg Nog - Healthy,delete,alcohol in mocktail — should be cocktail,true,5,7,true
+cck_34870f6265c7ef35b314d2,Hot Cocoa,fix,no glass/serving suggestion; no photo,false,5,3,false
+cck_352d7fd72be084a91c2d91,Red Eye (cocktail),delete,instructions don't describe how to combine drink,false,1,2,false
+cck_35d46271574dbce7a9bf35,Lemon Syllabubs,fix,no glass/serving suggestion; no photo,false,3,3,false
+cck_37654520db3d33b3a2d559,Kiwi Papaya Smoothie,delete,instructions don't describe how to combine drink,true,1,2,false
+cck_37c3cdd3bc8e3bfb62a915,Tequila,keep,,true,4,1,false
+cck_37f041ca89648d0bf5aee3,Ipamena,keep,,true,4,5,false
+cck_3874bef2eb3bfb48224d07,Quick Sparkling Lemonade,fix,no photo,false,6,3,false
+cck_3ba26caddb7c519c7cddb1,Lemon Sherbet,fix,no glass/serving suggestion; no photo,false,2,1,false
+cck_3c4425599e6ae8e6c4a63a,Lemon Ice,fix,no glass/serving suggestion; no photo,false,2,1,false
+cck_3e023c5e9d4a2d1300756f,Orange Lemon-Lime Soda Float,fix,no glass/serving suggestion; no photo,false,9,3,false
+cck_3ecea48537e8bc73223aad,Lemon Phosphate,delete,no ingredients,false,3,0,false
+cck_3f1dfa792464729e3cf70b,Banana Strawberry Shake Daiquiri,fix,no glass/serving suggestion,true,1,3,false
+cck_3fc993e983c3b4696c2131,Waldorf Fizz,delete,no ingredients,false,4,0,false
+cck_3feb951024082ae0778b0a,Conclave Punch,delete,ingredients all undefined/junk,false,5,4,false
+cck_40016aed85b1ed9913bbb1,Strawberry And Banana Smoothie,fix,no glass/serving suggestion; no photo,false,10,6,false
+cck_40a7ce20ec7641da27c767,Strawberry Hibiscus Beverage,fix,no photo,false,9,5,false
+cck_40d2f660c4e31f29946c04,Milk Shake,delete,no ingredients,false,2,0,false
+cck_40ff76adddef59fd1dcad6,Sour mix,fix,no photo,false,4,2,false
+cck_41ce7e2f226cca72c407f7,Mint Punch,delete,ingredients all undefined/junk,false,3,3,false
+cck_4222885b44f8e0eb9f0307,Nigerian Tea (Hot Chocolate),fix,no photo,false,3,3,false
+cck_434a318084e7952cd9e183,Soda Lemonade,fix,no glass/serving suggestion; no photo,false,1,1,false
+cck_43b31bfed27eb1f93cb347,Macedoine No. 2,fix,no glass/serving suggestion; no photo,false,1,3,false
+cck_4410b32d2c78a389943fbb,Barraquito,delete,alcohol in mocktail — should be cocktail,false,2,6,true
+cck_453a0bd4f6780a3190ec4a,Grape Sherbet,fix,no glass/serving suggestion; no photo,false,1,1,false
+cck_46bc534b60b542658fa9c5,Flaming volcano,delete,alcohol in mocktail — should be cocktail,false,2,1,true
+cck_46e9c0038def51ce4d3c9e,Rail Splitter,keep,,true,2,3,false
+cck_47f6a571582b05f47b01e1,Orgeat Lemonade,delete,alcohol in mocktail — should be cocktail,false,4,2,true
+cck_4808b47ab4d76c4d8b117b,Lemon Whey,fix,no glass/serving suggestion; no photo,false,2,2,false
+cck_4a346de65bd8ab9ce0ba85,Banana Milk Shake,delete,alcohol in mocktail — should be cocktail,true,2,4,true
+cck_4b72a62b9e20db998e510e,Coke and Drops,keep,,true,2,2,false
+cck_4b7d260a1950fc0a4d8194,Classic Vanilla Milkshake,fix,no glass/serving suggestion; no photo,false,9,5,false
+cck_4c42c26582830cd2f3f8d0,"Brandy Highball is Brandy and Soda, i",delete,no/empty instructions,false,0,0,false
+cck_4f7d736425bd198e5ee45e,Strawberry Milkshake,keep,,true,3,4,false
+cck_4fa0b5f633d2864352c0ba,Macedoine No. 1,fix,no glass/serving suggestion; no photo,false,2,2,false
+cck_503ddc894c8c66c1dcbe6e,Frank's Lemonade,fix,no glass/serving suggestion; no photo,false,2,2,false
+cck_50a6b1f77c58c46e206ce5,Apollinaris Lemonade,delete,ingredients all undefined/junk,false,6,3,false
+cck_51d2533e3fbbceab57fab9,Hot Lemonade,delete,no ingredients,false,2,0,false
+cck_51e123fdce26b61459c8e7,Snakebite (drink),delete,alcohol in mocktail — should be cocktail,false,1,1,true
+cck_51ef2656008ee59f5a96bf,Hibiscus Lemonade,keep,,true,3,4,false
+cck_526ae94561951a55003d35,Lemon Squash,fix,no photo,false,1,2,false
+cck_52d01d846d522bb601ea5d,Sweet Elderflower Kefir,fix,no glass/serving suggestion; no photo,false,6,4,false
+cck_532f83d5be0e242ce1e24a,Fruit for the Day Smoothie,fix,no photo,false,9,4,false
+cck_53b6aafd064d4404842b6f,Orange Ice,fix,no glass/serving suggestion; no photo,false,5,2,false
+cck_55034d69dc6ab04dd5c34f,Sharbat bil Loz,fix,no photo,false,8,4,false
+cck_573c7aee1d5ad231ca6ca1,Fine Lemonade For Parties,delete,no ingredients,false,3,0,false
+cck_57b1a1c43c87dfb0fff1ca,Arctic Punch,delete,ingredients all undefined/junk,false,5,4,false
+cck_58dbe30cfa02d411065249,Seltzer Lemonade,delete,no ingredients,false,1,0,false
+cck_592d1c9aa8fc27e04d578b,Sunny Holiday Punch,delete,alcohol in mocktail — should be cocktail,true,1,6,true
+cck_5963fbb39348a9b874e047,Orange Julius,fix,no glass/serving suggestion; no photo,false,8,6,false
+cck_59d397f37f559a6c39f353,Thai Iced Coffee,keep,,true,5,4,false
+cck_5a0936fbf9451482d39caa,Orangeade,fix,no photo,false,2,1,false
+cck_5a26a9a839a7edb75d6a48,Gambian Baobab Juice (Bouye),fix,no photo,false,8,7,false
+cck_5b5ae437f6a84bf7a752cd,Grape Juice,delete,no ingredients,false,5,0,false
+cck_5bee0992cdcbb078748ba5,John Daly (cocktail),fix,no photo,false,4,1,false
+cck_5bf583f858fdbf172343eb,Cider Nectar,delete,alcohol in mocktail — should be cocktail,false,2,4,true
+cck_5c699f0aefd53715e4d19a,"Shaddock, or Grape Fruit Sherbet",fix,no glass/serving suggestion; no photo,false,6,3,false
+cck_5d74a004d2271f4c319541,Cucumber Cooler,fix,no photo,false,4,4,false
+cck_6120f549482e5f4954dc19,Gibson (cocktail),fix,no photo,false,2,1,false
+cck_63b0ee042ee054c664365b,Seltzer Lemonade,delete,no ingredients,false,6,0,false
+cck_63c3f371c7b03e05be086e,Lassi - Sweet,fix,no glass/serving suggestion,true,2,5,false
+cck_6474b95a3a323d332da1e3,Chocolate Cream Fuff,delete,no ingredients,false,4,0,false
+cck_6565f2885697e3d2962bbe,Claret Lemonade,fix,no glass/serving suggestion,true,2,2,false
+cck_658c1602082530d4329ab3,Melya,keep,,true,8,3,false
+cck_66b7e22b0c221bfcfd6123,Egg Lemonade,fix,no glass/serving suggestion; no photo,false,2,2,false
+cck_69edb3adc1a193f4e797ef,Lekhchef (Algerian Raisin Drink),fix,no glass/serving suggestion; no photo,false,6,6,false
+cck_6ae6793de7922e00aa8d18,Apple Cider Punch,delete,alcohol in mocktail — should be cocktail,true,4,8,true
+cck_6b56593cc65ec2f5f9652e,Quentão,fix,no photo,false,3,1,false
+cck_6c51c119145e1af9373460,Pear and Almond Smoothie (Vegan),fix,no glass/serving suggestion; no photo,false,3,3,false
+cck_6c992ec7a9d5f27b446894,Banana Cantaloupe Smoothie,fix,no glass/serving suggestion,true,1,2,false
+cck_6e5679a4370465749bd852,Lemonade,delete,alcohol in mocktail — should be cocktail,false,4,2,true
+cck_6ea9a5d939e8351f896454,Orange Sherbet No. 1,fix,no glass/serving suggestion; no photo,false,2,2,false
+cck_6eacc6198efc5f66aedd4d,Banana Coffee Frappe,fix,no glass/serving suggestion; no photo,false,7,4,false
+cck_6ec79f088d1acb5c1386c2,Watermelon Smoothie,delete,no/empty instructions,false,0,2,false
+cck_6ed31eb1c43027f7a90b93,Drink for Home,fix,no photo,false,3,2,false
+cck_7276414231e82670909dbb,Prairie Oyster,delete,alcohol in mocktail — should be cocktail,false,4,1,true
+cck_72b2cd74b8ccc6d9e1c8a2,Espresso & Tonic,fix,no photo,false,4,3,false
+cck_730d1b8d0fe479fe35e0c4,Phosphate Lemonade,fix,no photo,false,2,2,false
+cck_736314b6ea3d752762fea5,Lemouroudji,fix,no glass/serving suggestion,true,6,5,false
+cck_73a56394480fa8da087557,Juan Collins (cocktail),delete,alcohol in mocktail — should be cocktail,false,1,1,true
+cck_73eeaa9fbde7846d3ec40a,Rusty nail (cocktail),fix,no photo,false,4,1,false
+cck_7405f1223e3f20e14b297c,Egg Lemonade,delete,no ingredients,true,1,0,false
+cck_74223b916503906c5b7c2c,Horsefeather (cocktail),fix,no photo,false,2,1,false
+cck_74bfd92e0dbf1f2956835b,Ti' punch,fix,no photo,false,4,2,false
+cck_7608ce95c79f8cc670abf9,Plain Lemonade,delete,no ingredients,false,1,0,false
+cck_766cda54d7817826aca69a,Milk punch,delete,alcohol in mocktail — should be cocktail,true,3,2,true
+cck_770185249b1a6c05f32021,Nesquik à la Café,fix,no photo,false,2,4,false
+cck_7a32cebf9f573aa317a1da,Just a Moonmint,keep,,true,2,3,false
+cck_7a5c4f9dd4dde952f0c053,"Peach, Strawberry and Ice Cream Smoothie",fix,no glass/serving suggestion; no photo,false,7,4,false
+cck_7a773ad8f7a2594638f8dd,Castillian Hot Chocolate,keep,,true,7,5,false
+cck_7aa1ec1befaee6c10142cd,Nectar,fix,no glass/serving suggestion; no photo,false,4,3,false
+cck_7aca9d08bd491559496ad6,Frappe Beef-Tea,delete,alcohol in mocktail — should be cocktail,false,2,2,true
+cck_7b52a502bdd4ba7d5b4430,Oyster Cocktail,fix,no photo,false,2,4,false
+cck_7c49dc608a4af6a0ce572e,Date Smoothie,delete,no/empty instructions,false,0,4,false
+cck_7f2c4d0b7f24716727334d,Pine Apple Sherbet,fix,no glass/serving suggestion; no photo,false,4,3,false
+cck_7fbfc39de16587c22698c4,Chocolate Milkshake,fix,no glass/serving suggestion; no photo,false,9,4,false
+cck_7ff0889548f072e9a81100,Lemon Sherbet,fix,no glass/serving suggestion; no photo,false,5,2,false
+cck_80fa1fc663c546bae2c4c3,Peanut Butter Banana Smoothie,fix,no glass/serving suggestion; no photo,false,8,5,false
+cck_818e257f35c49bc6378dea,Pimm's cup,keep,,true,4,2,false
+cck_82c2a10ce844f10c1d749d,Calamansi Juice Drink,fix,no photo,false,9,4,false
+cck_84c6e71540d26791088154,Spiking coffee,keep,,true,2,2,false
+cck_84faf028aaf844c908cd6b,Gluehwein,delete,alcohol in mocktail — should be cocktail,true,4,6,true
+cck_8537fa52560ed78dc452db,Spiced Peach Punch,fix,no glass/serving suggestion,true,7,6,false
+cck_856ab8df318298b8bb4493,Gin and juice (cocktail),fix,no photo,false,4,2,false
+cck_85a1f5b685bb5c54bb33d2,"Gin Highball is a Gin and Soda, with",delete,no/empty instructions,false,0,0,false
+cck_866b9f34854788abbc0de9,Fruit Shake,fix,instructions too brief; no glass/serving suggestion,true,1,5,false
+cck_86a87aef1a4e0eba645e51,Spanish chocolate,keep,,true,3,4,false
+cck_87ec8a36a48a40a1e6867d,Apple Karate,keep,,true,2,2,false
+cck_88a7ed47668147c8253b9d,Strawberry Water Ice,fix,no glass/serving suggestion; no photo,false,2,4,false
+cck_899dee44dfbdf67218e73c,Sweet Carrot Juice,fix,no glass/serving suggestion; no photo,false,8,3,false
+cck_8b968b0080f49ca49fc04a,Orangeade,keep,,true,2,4,false
+cck_8ca4a571c6699988e31a32,Currant Sherbet No. 1,fix,no glass/serving suggestion; no photo,false,1,1,false
+cck_8cba00bc486d1a3a45333c,Watermelon Tajín Fizz,fix,no photo,false,5,5,false
+cck_8d995dbed4aec40db3b1e4,"Lemonade, Hot",fix,no photo,false,1,2,false
+cck_8ec4172f5a5bb46eb9e4c7,Soda Lemonade,delete,no ingredients,false,6,0,false
+cck_8f3a157e96b52804a04851,Spiced Kefir,fix,no glass/serving suggestion; no photo,false,2,6,false
+cck_8fbb4bfa92b1f72e48a62f,Sweet Bananas,keep,,true,2,3,false
+cck_8fe9765fa6cab07cb7fa46,Hot Chocolate to Die for,fix,no glass/serving suggestion,true,2,5,false
+cck_911968fb58bda554f6522d,Centennial Lemonade,fix,no photo,false,2,2,false
+cck_917f137eb836962f6f4423,Microwave Hot Cocoa,keep,,true,4,6,false
+cck_946c84bcd7a607c740882b,Milk Lemonade,fix,no glass/serving suggestion; no photo,false,3,3,false
+cck_9540554c7eec15d6b0d7ee,Cranberry Punch,fix,no glass/serving suggestion,true,4,5,false
+cck_95d73e1d861299db8be960,Cherry Sherbet,fix,no glass/serving suggestion; no photo,false,3,3,false
+cck_96106a96261790f50422f1,Iced Coffee,keep,,true,5,4,false
+cck_96705458cf8279df16103a,Amber moon,delete,alcohol in mocktail — should be cocktail,true,3,1,true
+cck_976f92806ab5416c95329f,Cafe Royal Frappe,delete,alcohol in mocktail — should be cocktail,false,1,2,true
+cck_98f319d7737e9b66d85276,Pimm's cocktail,fix,no photo,false,4,2,false
+cck_9b62f2eccc2672389db29b,Queimada (drink),fix,no photo,false,4,3,false
+cck_9f5be5c6c418e0971817d2,Alice Cocktail,keep,,true,1,4,false
+cck_9fd02af09c917679ee6889,Apple Berry Smoothie,delete,instructions don't describe how to combine drink,true,1,2,false
+cck_9fead084db44beb2643ee9,Algerian Lemonade,fix,no photo,false,7,8,false
+cck_9ff58a0d5319918b321640,Napa Soda Lemonade,fix,no photo,false,1,1,false
+cck_a105bd9ae82e9b005dab33,Yoda Soda,fix,no photo,false,7,3,false
+cck_a2c23433bbd6d3b679e4d9,Virgin Mojito,fix,no photo,false,4,4,false
+cck_a3b0905bf9f67c3c213024,Oral Rehydration Solution,fix,no glass/serving suggestion; no photo,false,3,3,false
+cck_a5adc2ae4416d0f5f6bfa2,Bhine-Wine Lemonade,delete,alcohol in mocktail — should be cocktail,false,1,1,true
+cck_a70dea94667fcbc895db65,Claret Lemonade,delete,no ingredients,true,2,0,false
+cck_aa48d586e649edeb346551,G.O.P.,delete,ingredients all undefined/junk,false,6,2,false
+cck_aadab2e0a91396b3c79169,Xocolatl (Aztec Chocolate Beverage),fix,no photo,false,5,7,false
+cck_ac3ce2935df6c6d8ae84b0,Holloween Punch,keep,,true,5,4,false
+cck_ace69beab1ba4bf9aafd72,Grenadine Lemonade,fix,no glass/serving suggestion; no photo,false,2,1,false
+cck_ae70a93e7b73f47d4d4fc3,Homemade Orange Juice,delete,no/empty instructions,false,0,3,false
+cck_aecd4f6068584c70be7272,French 75 (cocktail),delete,alcohol in mocktail — should be cocktail,false,4,1,true
+cck_b00e4b0c6b8b36f86eb760,Egg Nog #4,delete,alcohol in mocktail — should be cocktail,true,13,11,true
+cck_b294d73b29947515410e55,Blue Lagoon (cocktail),delete,alcohol in mocktail — should be cocktail,false,1,1,true
+cck_b468863e32c9f748ae2ee5,Plain Lemonade,fix,no photo,false,1,1,false
+cck_b65faa7896f6d5e739528a,Frappé,keep,,true,7,3,false
+cck_b6731b72c6b7ed83d717ba,Egg Phosphate,fix,no photo,false,5,2,false
+cck_b69569714ec5d402364bc0,Creamy Delight Smoothie,fix,no glass/serving suggestion; no photo,false,8,8,false
+cck_b79f13ac0174573c408406,Wine Cooler,delete,alcohol in mocktail — should be cocktail,true,3,3,true
+cck_b7aa022fe37b9765319008,Orange Sherbet,fix,no glass/serving suggestion; no photo,false,2,4,false
+cck_b85d6af50ec621ba719cf9,Pysch Vitamin Light,fix,instructions too brief; no glass/serving suggestion,true,1,4,false
+cck_ba37fe603b98e75549c7f9,GG,delete,alcohol in mocktail — should be cocktail,true,3,3,true
+cck_bbf984eb66ccfc0bdc1c1b,Gimlet (cocktail),fix,no photo,false,4,2,false
+cck_bcecf7c66849bc97fcefc2,Pussyfoot Cocktail,delete,no ingredients,false,1,0,false
+cck_bcf0259f4fa3f3ad06876f,Banana Strawberry Shake,fix,no glass/serving suggestion,true,1,5,false
+cck_be73f82051e1cc7f6ead4f,Drinking Chocolate,keep,,true,8,6,false
+cck_befff1916302a1ddfef020,Kill the cold Smoothie,fix,no glass/serving suggestion,true,2,3,false
+cck_c054b6e1396a7dc85f4a48,Cocktails with cachaça,fix,no photo,false,3,1,false
+cck_c0d76497dbd33858c46159,Drink for the Dog Days,fix,no photo,false,1,1,false
+cck_c20133e50ac7060cf4eff0,Seltzer Lemonade,fix,no glass/serving suggestion; no photo,false,1,2,false
+cck_c27e8d38ce02972adfceb5,Macedoine No. 3,fix,no glass/serving suggestion; no photo,false,1,3,false
+cck_c3425fde72d2d6fff8228a,Pomegranate Rose Spritz,fix,no photo,false,3,5,false
+cck_c53a1078c2fa876b7f1ac2,Apello,delete,instructions don't describe how to combine drink,true,2,4,false
+cck_c5508cf93b065e2e4dea93,Lassi Raita,fix,no glass/serving suggestion,true,6,5,false
+cck_c579d79bde46cb0b0877e0,Fruit Cooler,fix,no glass/serving suggestion,true,7,7,false
+cck_c6027f4397d54e4e04b0fa,Boomerang (cocktail),delete,alcohol in mocktail — should be cocktail,false,4,2,true
+cck_c6703f490b7c0d6c37a221,"Lemon, lime and bitters",delete,alcohol in mocktail — should be cocktail,true,4,3,true
+cck_c7766084f032d800e7911e,Lemonade Apollinaris (or Carbonated Water),delete,no ingredients,false,7,0,false
+cck_c88728265e1a8b6032660c,Egg Lemonade,delete,no ingredients,true,5,0,false
+cck_c88ee06ac04c3716fa5bd0,Ranch water,fix,no photo,false,4,1,false
+cck_cae3cc2f833991caff79b5,Beach Tropicana,fix,no glass/serving suggestion; no photo,false,8,6,false
+cck_cb6443e0a2f75717c84dfd,Afterglow,fix,instructions too brief; no glass/serving suggestion,true,2,3,false
+cck_cb79bba918926da7fab08a,Macedoine No. 4,fix,no glass/serving suggestion; no photo,false,1,2,false
+cck_cc4a6d2e70272b660ae643,Orange Sherbet Smoothie,fix,no photo,false,10,6,false
+cck_ceb4a4cc5a6d7fb617b31a,Plain Lemonade,fix,no photo,false,1,1,false
+cck_cfe4cbdfdd29eeb4e036e9,Chocolate Drink,keep,,true,5,3,false
+cck_d0ddd8077bfc2daa7daaa6,Tepache,fix,no photo,false,4,2,false
+cck_d0eeec57b4a92610f1f870,Green Mango and Cumin Drink (Aam Panna),fix,no photo,false,10,6,false
+cck_d24e418fe69dbef2cddfab,Wheat Grass Juice,delete,instructions don't describe how to combine drink,false,1,1,false
+cck_d3207a6b2a0ed35bc1b65e,Egg Phosphate,delete,no ingredients,false,5,0,false
+cck_d3a96440f81caa50618413,Aloha Fruit punch,keep,,true,8,7,false
+cck_d4a9daac7a72180c532c9f,Yoghurt Cooler,keep,,true,4,3,false
+cck_d4ae6ca3d3b6ae2fe9663f,Madras Filter Coffee,fix,no photo,false,6,4,false
+cck_d58cd820a44176d0c1d584,Rabo-de-galo,fix,no photo,false,3,1,false
+cck_d5fe0f3e917064da70046d,Sparkling Lemonade with Fresh Herbs,fix,no glass/serving suggestion; no photo,false,3,4,false
+cck_d6745bc6e102b9430f91d6,Apollinaris Lemonade,delete,no ingredients,false,1,0,false
+cck_d68c88423038ad1ca75290,Hot Lemonade,fix,no glass/serving suggestion; no photo,false,1,2,false
+cck_d7551e490b16df47be3fcb,Egg Lemonade,fix,no photo,false,2,1,false
+cck_d78145288680470e4ff1b5,Mizuwari,delete,alcohol in mocktail — should be cocktail,false,1,1,true
+cck_d9409b57a31942c436fb3c,Caesar (cocktail),delete,instructions don't describe how to combine drink,false,1,2,false
+cck_da27f7c0cbfda035dd31b1,Potato-Almond Milk,fix,no glass/serving suggestion; no photo,false,7,6,false
+cck_da6fa7432c0cda5b22a965,Water Ice,fix,no photo,false,2,2,false
+cck_dc0d7e7a5fba1254aae514,Egg Cream,keep,,true,2,3,false
+cck_dc46e0ad740733653568bb,Wassel,fix,no glass/serving suggestion; no photo,false,11,6,false
+cck_dea1f6575fcf7abeb74e11,Thai Coffee,keep,,true,6,6,false
+cck_dfd7cf70d0ccbf090b8697,Pineapple Gingerale Smoothie,delete,instructions don't describe how to combine drink,true,1,2,false
+cck_e08f9e60c4359632ad3e73,Seedlip Garden 108 & Tonic,delete,alcohol in mocktail — should be cocktail,false,3,2,true
+cck_e1d95dc5c27bb72026ada3,Soda Lemonade,delete,no ingredients,false,1,0,false
+cck_e2ea272a2d9e030ea8d63c,Martini (cocktail),fix,no photo,false,3,1,false
+cck_e43e8c1c8dd5a1f87fde1a,Tomato Tang,keep,,true,2,3,false
+cck_e6b7e8fef581811b5aad27,Lemonade (No. 163),delete,alcohol in mocktail — should be cocktail,false,5,2,true
+cck_e747783006a7912b09bbef,Juan Collins,delete,alcohol in mocktail — should be cocktail,false,1,1,true
+cck_e880a94e49d47fdc4eb02f,Bora Bora,keep,,true,2,4,false
+cck_e911e6cc09589d9fc0d1a3,Lassi - A South Indian Drink,fix,no glass/serving suggestion,true,4,5,false
+cck_eb9333e69afdd8626c554e,Cuban Milk Punch,delete,ingredients all undefined/junk,false,12,6,false
+cck_ed205332e14666211d474a,Orange Sherbet No. 2,fix,no glass/serving suggestion; no photo,false,4,6,false
+cck_ed2ceee1dfa9cd382a99f5,Grape lemon pineapple Smoothie,delete,instructions don't describe how to combine drink,true,1,3,false
+cck_ef09ad36961f78a6c76722,Soda Cocktail,delete,ingredients all undefined/junk,true,2,1,false
+cck_ef4761f7d2bba3e47eef1b,Hlib Tmer (Algerian Date Milk),fix,no photo,false,4,4,false
+cck_ef56723b9ea08930523af4,Lassi - Mango,fix,no glass/serving suggestion,true,2,4,false
+cck_f144048f1fe5f39c892c1d,Chocolate Beverage,keep,,true,6,4,false
+cck_f297cedcca09b7effd8b88,Green Swizzle,fix,no photo,false,4,1,false
+cck_f346680f273574e67db15f,Hypotonic Sports Drink,fix,no glass/serving suggestion; no photo,false,4,3,false
+cck_f5ed0167557623b891a285,Percolator Punch,fix,no glass/serving suggestion; no photo,false,15,8,false
+cck_f72dcd244feb80f5933d48,Lassi Khara,fix,no glass/serving suggestion,true,2,4,false
+cck_f82b475089ae365b10ad36,Lemonade,fix,no glass/serving suggestion; no photo,false,1,3,false
+cck_f994596a83b4fbab61c9e3,Raspberry Cream Frappe,delete,alcohol in mocktail — should be cocktail,false,5,3,true
+cck_f9d7264f310398568cadb0,Hot Lemonade,delete,no ingredients,false,4,0,false
+cck_fd8b486a3f806406c94b1c,Nuked Hot Chocolate,keep,,true,5,4,false
+db8d015253bdfabefc5f4d6e,Macedoine No. 4,fix,no glass/serving suggestion; no photo,false,1,2,false
+df9dd5a6411cb769f0826b70,Egg Phosphate,fix,no photo,false,5,2,false
+e28a2b59ff8d80a89006981a,Lemon Squash,fix,no photo,false,1,2,false
+hf-1109390-fiery-hot-shrimp-cocktail,Fiery-Hot Shrimp Cocktail,fix,no glass/serving suggestion; no photo,false,4,10,false
+hf-150203-gertie-s-cocktail-cake,Gertie'S Cocktail Cake,fix,no glass/serving suggestion; no photo,false,5,10,false
+hf-157507-cocktail-dessert,Cocktail Dessert,fix,no glass/serving suggestion; no photo,false,5,9,false
+hf-1712489-margarita-ole-bars,Margarita Ole Bars,fix,no photo,false,8,10,false
+hf-1790930-margarita-pork-kebabs,Margarita Pork Kebabs,fix,no glass/serving suggestion; no photo,false,8,10,false
+hf-1922974-roasted-shrimp-cocktail,Roasted Shrimp Cocktail,fix,no glass/serving suggestion; no photo,false,8,10,false
+hf-1958494-mojito-marinade,Mojito Marinade,fix,no glass/serving suggestion; no photo,false,7,10,false
+hf-2038460-avocado-cocktail-recipe,Avocado Cocktail Recipe,fix,no glass/serving suggestion; no photo,false,4,10,false
+hf-2044276-spicy-cocktail-nuts,Spicy Cocktail Nuts,fix,no glass/serving suggestion; no photo,false,6,10,false
+hf-204882-fruit-cocktail-torte,Fruit Cocktail Torte,fix,no photo,false,6,9,false
+hf-236374-fruit-cocktail-bars,Fruit Cocktail Bars,fix,no glass/serving suggestion; no photo,false,4,9,false
+hf-319795-cocktail-wieners,Cocktail Wieners,fix,no photo,false,5,10,false
+hf-323050-cocktail-meat-balls-with-sauce,Cocktail Meat Balls With Sauce,fix,no glass/serving suggestion; no photo,false,8,10,false
+hf-326511-choco-moist-cake-fruit-cocktail-cake,Choco-Moist Cake(Fruit Cocktail Cake),fix,no glass/serving suggestion; no photo,false,4,10,false
+hf-433794-easy-stewfort-collins-colorado,"Easy Stewfort Collins, Colorado",fix,no photo,false,6,10,false
+hf-57158-fruit-cocktail-cake,Fruit Cocktail Cake,fix,no glass/serving suggestion; no photo,false,8,10,false
+hf-637607-meatball-cocktails,Meatball Cocktails,fix,no glass/serving suggestion; no photo,false,4,10,false
+hf-773264-moist-chocolate-fruit-cocktail-dessert,Moist Chocolate Fruit Cocktail Dessert,fix,no glass/serving suggestion; no photo,false,4,10,false
+hf-895352-meatballs-in-cocktail-sauce,Meatballs In Cocktail Sauce,fix,no glass/serving suggestion; no photo,false,5,10,false
+hf-901367-fruit-cocktail-cake-vii,Fruit Cocktail Cake Vii,fix,no photo,false,4,10,false
+hf-90618-fruit-cocktail-pudding,Fruit Cocktail Pudding,fix,no glass/serving suggestion; no photo,false,6,9,false
+wb-grapefruit-and-crab-cocktail,Grapefruit and Crab Cocktail,fix,no glass/serving suggestion; no photo,false,4,8,false
+wb-seafood-cocktail-sauce,Seafood Cocktail Sauce,fix,no glass/serving suggestion; no photo,false,5,7,false

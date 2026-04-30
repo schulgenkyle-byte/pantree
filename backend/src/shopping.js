@@ -4,6 +4,7 @@ import {
 } from './util.js';
 import { enforce } from './ratelimit.js';
 import { isStaple } from './ingredient-match.js';
+import { SHELF_STABLE_THRESHOLD_DAYS } from './expiry.js';
 
 const AISLE_ALLOW = new Set(['produce','protein','dairy','grain','pantry','spice','condiment','frozen','beverage','bakery','deli','other']);
 const SOURCE_ALLOW = new Set(['manual','plan','scan','restock','unlock','mealprep','reshop','saved-recipe']);
@@ -42,15 +43,20 @@ export const handleShopping = {
         return (a.created_at || 0) - (b.created_at || 0);
       });
 
-    // 2) Expiring pantry items (<= 3 days)
+    // 2) Expiring pantry items (<= 3 days). Shelf-stable items (salt, oil, flour,
+    //    spices — anything with an original shelf life over ~6 months) never
+    //    surface here regardless of expires_at, because flashing "Expiring!" on
+    //    a 5-year-shelf item is the bug we're fixing.
     const { results: pantry } = await env.DB.prepare(
-      'SELECT id, name, category, quantity, unit, expires_at FROM pantry_item WHERE user_id = ?'
+      'SELECT id, name, category, quantity, unit, expires_at, original_shelf_days FROM pantry_item WHERE user_id = ?'
     ).bind(userId).all();
     const expiringItems = [];
     const pantryNames = new Set();
     for (const p of pantry || []) {
       const nm = String(p.name || '').toLowerCase().trim();
       pantryNames.add(nm);
+      const shelfDays = Number(p.original_shelf_days);
+      if (Number.isFinite(shelfDays) && shelfDays > SHELF_STABLE_THRESHOLD_DAYS) continue;
       if (!p.expires_at) continue;
       const ts = /^\d{10,}$/.test(p.expires_at) ? parseInt(p.expires_at, 10) : Date.parse(p.expires_at);
       if (!Number.isFinite(ts)) continue;
@@ -228,5 +234,38 @@ export const handleShopping = {
     if (!validOpaqueId(id)) return err(400, 'id invalid');
     await env.DB.prepare('DELETE FROM shopping_item WHERE id = ? AND user_id = ?').bind(id, userId).run();
     return json({ ok: true }, 200, request, env);
+  },
+
+  /**
+   * Vendor handoff capture. User taps "Send list to Amazon / Walmart / Instacart"
+   * on the shopping screen — Android opens the deep-link, then POSTs here so we
+   * record which store the user actually picked. Free signal worth more than
+   * the affiliate cents short-term: tells us where ~70% of users actually shop
+   * within the first 2 weeks of beta.
+   *
+   * Body: { vendor_id, item_count, category_count?, estimated_total_cents? }
+   * vendor_id ∈ {'amazon','walmart','instacart'}
+   */
+  async vendorHandoff(request, userId, env) {
+    const rl = await enforce(env, 'write', userId);
+    if (rl) return rl;
+
+    const p = await readJson(request, 2_000);
+    if (p.error) return p.error;
+    const b = p.value || {};
+    const VENDOR_ALLOW = new Set(['amazon', 'walmart', 'instacart']);
+    const vendorId = String(b.vendor_id || '').toLowerCase();
+    if (!VENDOR_ALLOW.has(vendorId)) return err(400, 'vendor_id must be amazon|walmart|instacart');
+    const itemCount = Math.floor(Number(b.item_count));
+    if (!Number.isFinite(itemCount) || itemCount < 0 || itemCount > 500) return err(400, 'item_count invalid');
+    const categoryCount = Number.isFinite(Number(b.category_count)) ? Math.floor(Number(b.category_count)) : null;
+    const estCents = Number.isFinite(Number(b.estimated_total_cents)) ? Math.floor(Number(b.estimated_total_cents)) : null;
+
+    await env.DB.prepare(
+      `INSERT INTO vendor_handoff (user_id, vendor_id, item_count, category_count, estimated_total_cents, created_at)
+       VALUES (?, ?, ?, ?, ?, ?)`
+    ).bind(userId, vendorId, itemCount, categoryCount, estCents, Date.now()).run();
+
+    return json({ ok: true }, 201, request, env);
   },
 };

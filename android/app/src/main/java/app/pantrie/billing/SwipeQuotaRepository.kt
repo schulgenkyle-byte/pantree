@@ -1,10 +1,13 @@
 package app.pantrie.billing
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
+import app.pantrie.feature.notifications.NotificationScheduler
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -28,6 +31,7 @@ import javax.inject.Singleton
 @Singleton
 class SwipeQuotaRepository @Inject constructor(
   private val dataStore: DataStore<Preferences>,
+  @ApplicationContext private val context: Context,
 ) {
   private val _swipesToday = MutableStateFlow(0)
   val swipesToday: StateFlow<Int> = _swipesToday.asStateFlow()
@@ -60,17 +64,41 @@ class SwipeQuotaRepository @Inject constructor(
   suspend fun increment(): Int {
     val today = todayEpochDay()
     var newCount = 0
+    var crossedCap = false
     runCatching {
       dataStore.edit { p ->
         val storedDay = p[KEY_DAY] ?: 0L
         val current = if (storedDay == today) (p[KEY_COUNT] ?: 0) else 0
         newCount = current + 1
+        // crossedCap = true on the *exact* increment that hit the wall, so we
+        // schedule the refill notification once and not on every swipe-after-cap.
+        crossedCap = current < FREE_DAILY_LIMIT && newCount >= FREE_DAILY_LIMIT
         p[KEY_DAY] = today
         p[KEY_COUNT] = newCount
       }
     }
     _swipesToday.value = newCount
+    if (crossedCap) {
+      // Re-engagement notification at next local midnight, gated on >=12h
+      // inactivity at fire time. Won't fire if user keeps swiping or returns
+      // to the app within the window.
+      NotificationScheduler.scheduleSwipeRefill(context)
+    }
     return newCount
+  }
+
+  /** Debug-only: reset today's swipe count to zero. Wired to a Settings button gated on
+   *  BuildConfig.DEBUG so it never ships in release. The local-only architecture means this
+   *  same effect can be achieved by clearing app data — flagged as a known loophole until
+   *  server-side counter is added. */
+  suspend fun resetForTesting() {
+    runCatching {
+      dataStore.edit { p ->
+        p[KEY_DAY] = todayEpochDay()
+        p[KEY_COUNT] = 0
+      }
+    }
+    _swipesToday.value = 0
   }
 
   /** Bonus swipes from rewarded-ad watch. */
@@ -87,7 +115,12 @@ class SwipeQuotaRepository @Inject constructor(
   }
 
   companion object {
-    const val FREE_DAILY_LIMIT = 20
+    // Acquisition mode: bumped to 40 to remove friction during the cold-start
+    // phase. We need users in the app exploring — capping at 20 right after
+    // install is paywall theater when nobody knows what Speakeater is yet.
+    // Drop back to 20 once D7 retention crosses 30% and ad revenue covers the
+    // cost of free-tier API calls. Tracked in CFO weekly brief.
+    const val FREE_DAILY_LIMIT = 40
     const val AD_EVERY_N_SWIPES = 10
     const val REWARDED_BONUS = 10
 

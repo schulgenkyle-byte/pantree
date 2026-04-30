@@ -26,8 +26,8 @@ android {
     applicationId = "app.brimm"
     minSdk = 26
     targetSdk = 35
-    versionCode = 15
-    versionName = "0.1.14"
+    versionCode = 31
+    versionName = "0.1.29"
     vectorDrawables.useSupportLibrary = true
 
     buildConfigField("String", "API_BASE_URL",
@@ -42,8 +42,8 @@ android {
       "\"${project.findProperty("PANTRIE_API_PIN_BACKUP") ?: ""}\"")
     buildConfigField("Long", "CLOUD_PROJECT_NUMBER",
       "${project.findProperty("PANTRIE_CLOUD_PROJECT_NUMBER") ?: "0L"}")
-    buildConfigField("String", "DEV_TOKEN_KEY",
-      "\"${project.findProperty("PANTRIE_DEV_TOKEN_KEY") ?: ""}\"")
+    // DEV_TOKEN_KEY is wired per-buildType below — release ships an empty string so
+    // the APK never carries the dev-token secret, even if local.properties has it.
   }
 
   signingConfigs {
@@ -63,6 +63,10 @@ android {
       isDebuggable = true
       applicationIdSuffix = ".dev"
       versionNameSuffix = "-dev"
+      // Dev-token key only exists in debug builds. Release builds get an empty string,
+      // so the secret never ships in the APK uploaded to Play Store.
+      buildConfigField("String", "DEV_TOKEN_KEY",
+        "\"${localProp("PANTRIE_DEV_TOKEN_KEY") ?: project.findProperty("PANTRIE_DEV_TOKEN_KEY") ?: ""}\"")
     }
     release {
       isDebuggable = false
@@ -73,6 +77,9 @@ android {
       isShrinkResources = false
       signingConfig = signingConfigs.getByName("release")
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+      // Hard-empty in release. Even if a future maintainer wires a property, the
+      // release APK never carries the dev-token secret.
+      buildConfigField("String", "DEV_TOKEN_KEY", "\"\"")
     }
   }
 
@@ -112,6 +119,7 @@ dependencies {
   implementation(libs.androidx.ui.tooling.preview)
   implementation(libs.androidx.material3)
   implementation(libs.androidx.material.icons)
+  implementation(libs.androidx.ui.text.google.fonts)
   implementation(libs.androidx.navigation.compose)
 
   implementation(libs.androidx.room.runtime)

@@ -1,0 +1,601 @@
+id,title,verdict,reason,has_photo,step_count,ingredient_count
+hf-1000007-onion-and-pepper-frittata,Onion And Pepper Frittata,keep,ok,0,4,10
+hf-1000066-sloppy-joes-for-picky-kids,Sloppy Joes For Picky Kids!,fix,1 garbage ingredient(s),0,6,10
+hf-1000173-creamy-country-chicken-and-vegetables,Creamy Country Chicken And Vegetables,keep,ok,0,7,10
+hf-1000277-country-chicken-biscuits,Country Chicken & Biscuits,keep,ok,0,6,10
+hf-1000293-checkerboard-chili,Checkerboard Chili,keep,ok,0,4,10
+hf-1000331-meatballs-with-tomato-with-juice-gravy,Meatballs With Tomato With Juice Gravy,keep,ok,0,5,10
+hf-1000395-sausage-rice-skillet,Sausage & Rice Skillet,keep,ok,0,6,10
+hf-1000481-perfect-christmas-turkey,Perfect Christmas Turkey,keep,ok,0,8,10
+hf-1000516-vegan-lentil-burgers,Vegan Lentil Burgers,keep,ok,0,5,10
+hf-1000528-deluxe-peas,Deluxe Peas,keep,ok,0,4,10
+hf-100054-greek-meatballs,Greek Meatballs,keep,ok,0,5,10
+hf-1000611-maple-cranberry-roasted-pears,Maple-Cranberry Roasted Pears,keep,ok,0,6,10
+hf-1000697-heirloom-chocolate-cake,Heirloom Chocolate Cake,keep,ok,0,6,10
+hf-1000704-santa-maria-tri-tip,Santa Maria Tri-Tip,fix,1 garbage ingredient(s),0,5,10
+hf-1000717-green-onion-quick-bread,Green Onion Quick Bread,keep,ok,0,6,10
+hf-1000751-pumpkin-fruit-cake,Pumpkin Fruit Cake,keep,ok,0,5,10
+hf-1000810-dave-s-swamp-blues-bbq-chicken-oamc,Dave'S Swamp Blues Bbq Chicken Oamc,keep,ok,0,6,10
+hf-1000894-oven-barbecued-pork-chops,Oven-Barbecued Pork Chops,keep,ok,0,5,10
+hf-1001017-garden-salad,Garden Salad,fix,1 garbage ingredient(s),0,4,10
+hf-100114-far-east-celery,Far East Celery,keep,ok,0,5,9
+hf-1001144-mexican-rice-stuffed-poblano-peppers,Mexican Rice Stuffed Poblano Peppers,keep,ok,0,8,10
+hf-1001204-mango-cake,Mango Cake,keep,ok,0,7,10
+hf-1001209-grilled-buffalo-wings-with-a-bite,Grilled Buffalo Wings With A Bite,fix,1 garbage ingredient(s),0,5,10
+hf-1001227-lite-and-creamy-chicken-tortilla-soup,Lite And Creamy Chicken Tortilla Soup,fix,missing cuisine (looks mexican),0,4,10
+hf-1001312-my-favourite-short-ribs,My Favourite Short Ribs,keep,ok,0,6,10
+hf-1001371-healthy-berry-muffins,Healthy Berry Muffins,keep,ok,0,8,10
+hf-1001381-spanish-garlic-chicken,Spanish Garlic Chicken,fix,1 garbage ingredient(s),0,6,10
+hf-1001438-czech-pea-soup-hrachova-polevka,Czech Pea Soup Hrachova Polevka,keep,ok,0,7,10
+hf-100148-peanut-butter-crinkles,Peanut Butter Crinkles,keep,ok,0,4,10
+hf-1001729-raspberry-almond-thumbprint-cookies,Raspberry Almond Thumbprint Cookies,keep,ok,0,8,10
+hf-100189-baked-macaroni-n-cheese,Baked Macaroni 'N Cheese,keep,ok,0,8,10
+hf-1002100-rice-uruguayan,Rice Uruguayan,keep,ok,0,6,10
+hf-1002112-baked-brown-bread,Baked Brown Bread,keep,ok,0,8,10
+hf-1002115-jicama-apple-slaw,Jicama-Apple Slaw,keep,ok,0,4,10
+hf-1002362-coconut-lemon-scones,Coconut Lemon Scones,keep,ok,0,6,10
+hf-1002494-ginger-shrimp-pasta,Ginger Shrimp Pasta,fix,missing cuisine (looks italian),0,7,10
+hf-1002636-baked-zucchini-potato-latkes,Baked Zucchini Potato Latkes,keep,ok,0,5,10
+hf-1002649-honey-puff,Honey Puff,keep,ok,0,4,10
+hf-1002748-irresistible-brownies,Irresistible Brownies,keep,ok,0,4,10
+hf-1002853-root-vegetable-stew,Root Vegetable Stew,keep,ok,0,5,10
+hf-1002875-spinach-lasagna-low-carb,Spinach Lasagna - Low Carb,fix,missing cuisine (looks italian),0,8,10
+hf-1002964-veggie-frittata-with-spinach-and-mushrooms,Veggie Frittata With Spinach And Mushrooms,keep,ok,0,5,10
+hf-10030-grandma-s-chili,Grandma'S Chili,keep,ok,0,5,10
+hf-1003036-almond-coated-basa,Almond Coated Basa,keep,ok,0,6,10
+hf-1003057-garlic-herb-roasted-shrimp,Garlic & Herb Roasted Shrimp,keep,ok,0,6,10
+hf-100308-scotch-cookies,Scotch Cookies,keep,ok,0,4,9
+hf-1003153-bbq-sliced-pork,Bbq Sliced Pork,keep,ok,0,5,10
+hf-1003301-monster-blueberry-muffins,Monster Blueberry Muffins,keep,ok,0,8,10
+hf-1003439-memo-s-molasses-cookies,Memo'S Molasses Cookies,keep,ok,0,5,10
+hf-1003661-mexican-turkey-meatballs-with-creamy-salsa,Mexican Turkey Meatballs With Creamy Salsa,keep,ok,0,8,10
+hf-1003742-groovy-granola,Groovy Granola,keep,ok,0,5,10
+hf-1003782-gingersnaps-soft-chewy,Gingersnaps (Soft & Chewy),keep,ok,0,6,10
+hf-100391-sour-cream-cookies-club-member-laine-shoemake,Sour Cream Cookies(Club Member: Laine Shoemake),keep,ok,0,7,9
+hf-1003996-crock-pot-chicken-a-la-king,Crock Pot Chicken A La King,keep,ok,0,6,10
+hf-1004005-buttermilk-blueberry-breakfast-cake,Buttermilk-Blueberry Breakfast Cake,keep,ok,0,4,10
+hf-1004059-fresh-corn-cakes,Fresh Corn Cakes,keep,ok,0,6,10
+hf-1004065-meatloaf-family-secret-ingredient,Meatloaf - Family Secret Ingredient,keep,ok,0,4,10
+hf-1004216-bison-stew,Bison Stew,keep,ok,0,6,10
+hf-1004238-mccormick-spices-corn-pudding,Mccormick Spices Corn Pudding,keep,ok,0,6,10
+hf-1004252-persian-pomegranate-soup,Persian Pomegranate Soup,keep,ok,0,5,10
+hf-1004390-peanut-butter-mini-chocolate-chip-cookies,Peanut Butter Mini Chocolate Chip Cookies,keep,ok,0,5,10
+hf-1004441-awesome-apple-bread,Awesome Apple Bread,keep,ok,0,7,10
+hf-1004472-lickety-split-cake,Lickety-Split Cake,keep,ok,0,5,10
+hf-1004522-oatmeal-cinnamon-scones-vegan,Oatmeal Cinnamon Scones Vegan,keep,ok,0,8,10
+hf-1004680-roasted-pork-loin,Roasted Pork Loin,keep,ok,0,5,10
+hf-1004719-fresh-blueberry-drop-cookies,Fresh Blueberry Drop Cookies,keep,ok,0,8,10
+hf-1004763-anchovy-pork,Anchovy Pork,keep,ok,0,6,10
+hf-1004800-dipped-chocolate-chip-cookies,Dipped Chocolate Chip Cookies,keep,ok,0,5,10
+hf-1004835-chai-spice-cookies-gluten-free-or-regular,Chai-Spice Cookies -- Gluten-Free Or Regular,keep,ok,0,6,10
+hf-1004929-old-fashioned-spice-cake,Old Fashioned Spice Cake,keep,ok,0,7,10
+hf-1004931-peppermint-puffs,Peppermint Puffs,keep,ok,0,5,10
+hf-1005033-plum-sauce,Plum Sauce,keep,ok,0,6,10
+hf-1005050-pumpkin-pudding,Pumpkin Pudding,keep,ok,0,6,10
+hf-1005072-tuna-fiesta,Tuna Fiesta,keep,ok,0,4,10
+hf-1005074-down-south-sweet-potato-pie,Down South Sweet Potato Pie,keep,ok,0,7,10
+hf-1005084-chicken-with-orange-and-cranberry-sauce,Chicken With Orange And Cranberry Sauce,keep,ok,0,5,10
+hf-1005092-chicken-spaghetti-a-la-grandma-key,Chicken Spaghetti A La Grandma Key,keep,ok,0,8,10
+hf-1005199-flank-steak-with-creamy-mushroom-sauce,Flank Steak With Creamy Mushroom Sauce,keep,ok,0,4,10
+hf-100521-white-cake-fat-free,White Cake(Fat Free),keep,ok,0,6,9
+hf-1005241-banana-cherry-cake,Banana Cherry Cake,keep,ok,0,7,10
+hf-1005247-cornmeal-cherry-scones,Cornmeal Cherry Scones,keep,ok,0,8,10
+hf-1005296-tomato-basil-orzo-soup,Tomato-Basil Orzo Soup,keep,ok,0,4,10
+hf-1005313-golden-cheddar-cheese-scones,Golden Cheddar Cheese Scones,keep,ok,0,6,10
+hf-1005327-leeky-mashed-potatoes,Leeky Mashed Potatoes,keep,ok,0,4,10
+hf-1005335-croissant-bread-pudding-with-chocolate-sauce,Croissant Bread Pudding With Chocolate Sauce,fix,missing cuisine (looks french),0,6,10
+hf-1005347-best-ever-ginger-cookies,Best Ever Ginger Cookies,keep,ok,0,4,10
+hf-1005526-mango-raspberry-cobbler,Mango Raspberry Cobbler,keep,ok,0,5,10
+hf-1005532-ww-mediterranean-chicken,Ww Mediterranean Chicken,keep,ok,0,4,10
+hf-1005572-belgian-raisin-bread-rosynenbrood-for-abm,Belgian Raisin Bread (Rosynenbrood) For Abm,keep,ok,0,4,10
+hf-1005730-south-beach-diet-tiramisu,South Beach Diet Tiramisu,fix,missing cuisine (looks italian),0,6,10
+hf-100575-christmas-fruit-cake-cookies,Christmas Fruit Cake Cookies,keep,ok,0,8,10
+hf-1005751-oatmeal-bran-breakfast-cookies,Oatmeal Bran Breakfast Cookies,keep,ok,0,4,10
+hf-1005896-pastetli-swiss-meat-or-meatlesspie,Pastetli (Swiss Meat Or Meatlesspie),keep,ok,0,8,10
+hf-100594-shrimp-jambalaya,Shrimp Jambalaya,keep,ok,0,7,10
+hf-100597-crunchy-oven-fried-fish,Crunchy Oven-Fried Fish,keep,ok,0,5,10
+hf-1005986-azumaya-pot-stickers,Azumaya Pot Stickers,keep,ok,0,8,10
+hf-1006002-pan-fried-tilapia-from-sandra-lee,Pan Fried Tilapia From Sandra Lee,fix,1 garbage ingredient(s),0,4,10
+hf-1006006-hraimeh-spicy-libyan-fish,Hraimeh (Spicy Libyan Fish),keep,ok,0,4,10
+hf-1006136-vegan-worcestershire-sauce,Vegan Worcestershire Sauce,keep,ok,0,5,10
+hf-1006537-raspberry-bran-muffins,Raspberry Bran Muffins,keep,ok,0,5,10
+hf-1006701-cheese-shrimp-mushroom-quiche,"Cheese, Shrimp & Mushroom Quiche",fix,missing cuisine (looks french),0,5,10
+hf-1006790-chili-con-carne-for-two,Chili Con Carne For Two,fix,1 garbage ingredient(s),0,4,10
+hf-1006797-deanna-s-baked-pork-chops,Deanna'S Baked Pork Chops,keep,ok,0,4,10
+hf-100685-stir-and-store-bran-muffins,Stir And Store Bran Muffins,keep,ok,0,4,10
+hf-1006973-jamaican-coconut-corn-bread,Jamaican Coconut Corn Bread,keep,ok,0,4,10
+hf-1007-antionett-s-soup,Antionett'S Soup,keep,ok,0,6,10
+hf-1007034-paul-lynde-beef-vegetable-stew,Paul Lynde Beef Vegetable Stew,fix,2 garbage ingredient(s),0,4,10
+hf-1007071-maple-kissed-sweet-potato-muffins,Maple-Kissed Sweet Potato Muffins,keep,ok,0,8,10
+hf-1007152-prosciutto-wrapped-asparagus,Prosciutto-Wrapped Asparagus,fix,missing cuisine (looks italian),0,4,10
+hf-1007199-spicy-shoyu-ramen-noodle,Spicy Shoyu Ramen Noodle,fix,missing cuisine (looks japanese),0,4,10
+hf-1007202-whitney-s-seafood-salad,Whitney'S Seafood Salad,keep,ok,0,7,10
+hf-100731-cincinnati-pie,Cincinnati Pie,keep,ok,0,7,9
+hf-1007340-moroccan-style-grilled-chicken-brochettes,Moroccan-Style Grilled Chicken Brochettes,keep,ok,0,5,10
+hf-1007365-asparagus-cheese-triangles,Asparagus Cheese Triangles,keep,ok,0,4,10
+hf-1007410-vegan-banana-cake,Vegan Banana Cake,keep,ok,0,7,10
+hf-1007471-szechuan-cucumber-salad,Szechuan Cucumber Salad,fix,missing cuisine (looks chinese),0,4,10
+hf-1007615-grandmother-s-gingerbread,Grandmother'S Gingerbread,keep,ok,0,4,10
+hf-1007626-long-boy-cheese-burger,Long Boy Cheese Burger,keep,ok,0,4,10
+hf-1007679-simple-chocolate-cupcakes,Simple Chocolate Cupcakes,keep,ok,0,8,10
+hf-1007751-coconut-fudge-cream-pie,Coconut-Fudge Cream Pie,keep,ok,0,8,10
+hf-1007776-sierra-s-granola-bars,Sierra’S Granola Bars,keep,ok,0,8,10
+hf-1007791-paul-s-bread-machine-pizza-dough,Paul'S Bread Machine Pizza Dough,fix,missing cuisine (looks italian),0,7,10
+hf-1007907-greek-baked-fish,Greek Baked Fish,keep,ok,0,4,10
+hf-1008077-mom-s-secret-peanut-butter-cookie-recipe,Mom'S Secret Peanut Butter Cookie Recipe,keep,ok,0,8,10
+hf-1008203-date-filled-pinwheel-cookies,Date-Filled Pinwheel Cookies,keep,ok,0,6,10
+hf-1008233-comice-pears-in-spicy-red-wine,Comice Pears In Spicy Red Wine,keep,ok,0,4,10
+hf-1008264-mom-s-tuna-noodle-casserole,Mom'S Tuna Noodle Casserole,keep,ok,0,4,10
+hf-100855-butter-roll-delicious,Butter Roll Delicious,keep,ok,0,8,10
+hf-1008679-curried-broccoli-soup,Curried Broccoli Soup,keep,ok,0,6,10
+hf-1008789-harvest-pumpkin-squash-soup,Harvest Pumpkin & Squash Soup,keep,ok,0,6,10
+hf-10088-pork-butt-roast,Pork Butt Roast,keep,ok,0,4,9
+hf-100884-skillet-steak-and-rice,Skillet Steak And Rice,keep,ok,0,8,9
+hf-1008857-mini-blueberry-lime-tarts,Mini Blueberry Lime Tarts,keep,ok,0,5,10
+hf-1008890-mixed-berry-cobbler,Mixed Berry Cobbler,keep,ok,0,5,10
+hf-1008914-best-chewy-cocoa-brownies,Best Chewy Cocoa Brownies,keep,ok,0,5,10
+hf-1009013-lemon-blueberry-banana-bread,Lemon Blueberry Banana Bread,keep,ok,0,5,10
+hf-1009036-grilled-chicken-with-cilantro-butter,Grilled Chicken With Cilantro Butter,keep,ok,0,5,10
+hf-1009109-chai-spice-biscotti,Chai Spice Biscotti,keep,ok,0,5,10
+hf-1009110-impossible-tuna-pie,Impossible Tuna Pie,keep,ok,0,8,10
+hf-1009208-lemon-cottage-muffins,Lemon Cottage Muffins,keep,ok,0,8,10
+hf-1009239-little-cheddar-meatloaves,Little Cheddar Meatloaves,keep,ok,0,5,10
+hf-1009532-secret-ingredient-brownie,Secret Ingredient  Brownie,keep,ok,0,5,10
+hf-100975-mexicali-meat-loaves,Mexicali Meat Loaves,keep,ok,0,4,9
+hf-1009781-chicken-quesadillas-low-fat,Chicken Quesadillas - Low Fat,keep,ok,0,5,10
+hf-1010011-burmese-chicken-curry,Burmese Chicken Curry,fix,missing cuisine (looks indian),0,8,10
+hf-1010083-sugar-free-lemon-drizzle-cake,Sugar-Free Lemon Drizzle Cake,keep,ok,0,6,10
+hf-101011-persimmon-pudding,Persimmon Pudding,keep,ok,0,5,10
+hf-1010257-honey-baked-ham-broccoli-souffle,Honey Baked Ham Broccoli Souffle,keep,ok,0,7,10
+hf-10103-hearty-beef-n-potato-casserole,"Hearty Beef ""N"" Potato Casserole",keep,ok,0,6,10
+hf-1010398-peach-salsa,Peach Salsa,keep,ok,0,7,10
+hf-10104-toasted-walnut-madeleines-dessert,Toasted Walnut Madeleines(Dessert),keep,ok,0,4,10
+hf-1010427-pumpkin-and-rice-soup,Pumpkin And Rice Soup,keep,ok,0,5,10
+hf-1010429-old-fashioned-vinegar-rolls,Old-Fashioned Vinegar Rolls,keep,ok,0,6,10
+hf-1010454-hamburger-bar-b-q,Hamburger Bar-B-Q,keep,ok,0,4,10
+hf-1010547-baked-ziti-and-meatball-casserole,Baked Ziti And Meatball Casserole,keep,ok,0,5,10
+hf-1010576-cottage-cheese-meatloaf,Cottage Cheese Meatloaf,keep,ok,0,7,10
+hf-101063-meat-loaf-parmesan,Meat Loaf Parmesan,fix,missing cuisine (looks italian),0,6,10
+hf-1010666-chicken-pizzola,Chicken Pizzola,keep,ok,0,7,10
+hf-1010728-broccoli-bacon-quiche,Broccoli & Bacon Quiche,fix,missing cuisine (looks french),0,4,10
+hf-1010771-spelt-buttermilk-banana-bread,Spelt-Buttermilk Banana Bread,keep,ok,0,4,10
+hf-1010772-thai-chickpea-pizza,Thai Chickpea Pizza,fix,missing cuisine (looks italian),0,8,10
+hf-1010824-jumbo-molasses-cookies,Jumbo Molasses Cookies,keep,ok,0,7,10
+hf-1010914-orange-ginger-tea-loaf,Orange Ginger Tea Loaf,keep,ok,0,8,10
+hf-1010938-horseradish-potato-salad,Horseradish Potato Salad,keep,ok,0,7,10
+hf-101099-zucchini-and-parmesan-casserole,Zucchini And Parmesan Casserole,fix,missing cuisine (looks italian),0,5,9
+hf-1011082-rocky-road-ice-cream,Rocky Road Ice Cream,keep,ok,0,4,10
+hf-1011147-oriental-cauliflower,Oriental Cauliflower,keep,ok,0,5,10
+hf-1011190-pesto-tortellini-soup,Pesto Tortellini Soup,fix,1 garbage ingredient(s); missing cuisine (looks italian),0,7,10
+hf-1011239-simple-and-scrumptious-banana-bread,Simple And Scrumptious Banana Bread,fix,1 garbage ingredient(s),0,5,10
+hf-1011269-o-so-yummy-chocolate-chip-cookies,O So Yummy Chocolate Chip Cookies,keep,ok,0,8,10
+hf-1011339-country-apricot-chicken,Country Apricot Chicken,keep,ok,0,8,10
+hf-1011352-peppi-s-stuffed-mushrooms,Peppi'S Stuffed Mushrooms,keep,ok,0,8,10
+hf-1011403-sweet-potato-and-chorizo-tacos,Sweet Potato And Chorizo Tacos,fix,missing cuisine (looks mexican),0,5,10
+hf-1011442-miso-glazed-cod,Miso-Glazed Cod,fix,missing cuisine (looks japanese),0,5,10
+hf-1011479-mojo-marinated-chicken,Mojo Marinated Chicken,keep,ok,0,4,10
+hf-101157-chocolate-marshmallow-cookies,Chocolate Marshmallow Cookies,keep,ok,0,5,10
+hf-1011673-marbled-chocolate-muffins,Marbled Chocolate Muffins,keep,ok,0,8,10
+hf-1011788-ham-and-squash-casserole,Ham And Squash Casserole,keep,ok,0,6,10
+hf-1011801-vegetarian-mushroom-loaf,Vegetarian Mushroom Loaf,fix,1 garbage ingredient(s),0,6,10
+hf-1011816-chocolate-cherry-brownies,Chocolate Cherry Brownies,keep,ok,0,8,10
+hf-1011839-yummy-and-easy-raisin-muffins,Yummy And Easy Raisin Muffins,keep,ok,0,6,10
+hf-1011852-sweet-and-spicy-vegetable-curry,Sweet And Spicy Vegetable Curry,fix,missing cuisine (looks indian),0,6,10
+hf-1011855-cheeto-crusted-chicken-with-flaming-hot-spaetzle,Cheeto-Crusted Chicken With Flaming Hot Spaetzle,keep,ok,0,7,10
+hf-101191-diabetic-spice-cookies,Diabetic Spice Cookies,keep,ok,0,6,10
+hf-1011913-italian-wedding-soup,Italian Wedding Soup,fix,1 garbage ingredient(s),0,6,10
+hf-1011944-almost-instant-tomato-soup,Almost-Instant Tomato Soup,keep,ok,0,5,10
+hf-1012004-strawberry-slump,Strawberry Slump,keep,ok,0,8,10
+hf-1012215-strawberry-swirl-cheesecake,Strawberry Swirl Cheesecake,keep,ok,0,7,10
+hf-1012225-butter-pecan-rum-cake,Butter Pecan Rum Cake,keep,ok,0,7,10
+hf-101223-squash-stuffed-chicken,Squash Stuffed Chicken,keep,ok,0,5,10
+hf-1012291-nee-s-angel-cornbread,Nee'S Angel Cornbread,keep,ok,0,5,10
+hf-1012339-jumbo-chocolate-chip-cookie,Jumbo Chocolate Chip Cookie,keep,ok,0,7,10
+hf-1012371-rissani-s-chewy-chocolate-chip-oatmeal-cookies,Rissani'S Chewy Chocolate Chip Oatmeal Cookies,keep,ok,0,4,10
+hf-1012515-savory-spiced-shortbread-bites,Savory Spiced Shortbread Bites,keep,ok,0,5,10
+hf-1012541-biscuit-topped-chicken-and-broccoli-casserole,Biscuit Topped Chicken And Broccoli Casserole,keep,ok,0,6,10
+hf-1012653-key-lime-cheesecake-bars,Key Lime Cheesecake Bars,keep,ok,0,4,10
+hf-1012670-herbed-fresh-tomato-soup,Herbed Fresh Tomato Soup,fix,1 garbage ingredient(s),0,8,10
+hf-101274-easy-meat-loaf,Easy Meat Loaf,keep,ok,0,4,10
+hf-101280-old-time-bread-pudding,Old Time Bread Pudding,keep,ok,0,5,10
+hf-1012858-lentil-soup-with-cauliflower-and-bacon,Lentil Soup With Cauliflower And Bacon,keep,ok,0,7,10
+hf-1013092-heavenly-potatoes,Heavenly Potatoes,fix,1 garbage ingredient(s),0,8,10
+hf-1013107-mussels-in-green-sauce-madrid-appetizer,Mussels In Green Sauce Madrid Appetizer,keep,ok,0,7,10
+hf-1013127-pappasito-s-pinto-bean-soup,Pappasito'S Pinto Bean Soup,keep,ok,0,4,10
+hf-1013131-old-fashioned-southern-butter-rolls,Old-Fashioned Southern Butter Rolls,keep,ok,0,5,10
+hf-1013162-jd-s-anything-goes-sauce,Jd'S Anything Goes Sauce,keep,ok,0,4,10
+hf-1013165-veggie-burger-mix,Veggie Burger Mix,keep,ok,0,8,10
+hf-1013168-harvest-sweet-potato-pecan-pie-tarts,Harvest Sweet Potato Pecan Pie Tarts,keep,ok,0,4,10
+hf-1013210-skillet-goulash,Skillet Goulash,keep,ok,0,5,10
+hf-1013295-light-blueberry-dessert,Light Blueberry Dessert,keep,ok,0,4,10
+hf-1013428-grilled-chicken-with-moroccan-spices,Grilled Chicken With Moroccan Spices,keep,ok,0,4,10
+hf-1013484-new-england-crock-pot-roast,New England Crock Pot Roast,fix,2 garbage ingredient(s),0,8,10
+hf-1013514-jerk-rib-eye,Jerk Rib Eye,keep,ok,0,5,10
+hf-1013625-orange-banana-nut-bread,Orange Banana Nut Bread,keep,ok,0,7,10
+hf-1013656-taco-seasoning-mix-gluten-free,"Taco Seasoning Mix, Gluten Free",fix,missing cuisine (looks mexican),0,5,10
+hf-1013686-vegan-banana-muffins,Vegan Banana Muffins,keep,ok,0,6,10
+hf-1013695-chocolate-chewy-brownies,Chocolate Chewy Brownies,keep,ok,0,6,10
+hf-1013738-szechuan-asparagus,Szechuan Asparagus,fix,missing cuisine (looks chinese),0,4,10
+hf-1013840-vanilla-spice-slice-and-bake-cookies,Vanilla Spice Slice And Bake Cookies,keep,ok,0,5,10
+hf-101385-cheddar-squash-bake,Cheddar Squash Bake,keep,ok,0,6,9
+hf-1013855-mild-red-chile-dressing,Mild Red Chile Dressing,fix,1 garbage ingredient(s),0,7,10
+hf-1014179-hot-pizza-sub-sandwich,Hot Pizza Sub Sandwich,fix,missing cuisine (looks italian),0,6,10
+hf-1014361-crock-pot-taco-chicken,Crock Pot Taco Chicken,fix,missing cuisine (looks mexican),0,4,10
+hf-101437-pay-day-bars,Pay Day Bars,keep,ok,0,4,10
+hf-1014698-apple-cherry-brie-appetizer,Apple Cherry Brie Appetizer,keep,ok,0,6,10
+hf-1014727-chicken-reuben-casserole,Chicken Reuben Casserole,keep,ok,0,4,10
+hf-1014732-pizza-hut-cavatini,Pizza Hut Cavatini,fix,missing cuisine (looks italian),0,5,10
+hf-1014899-crispy-chicken-drumsticks,Crispy Chicken Drumsticks,keep,ok,0,6,10
+hf-1014941-the-only-chocolate-chip-cookie,The Only Chocolate Chip Cookie,keep,ok,0,7,10
+hf-1014988-coconut-oatmeal-raisin-cookies,Coconut Oatmeal Raisin Cookies,keep,ok,0,8,10
+hf-1015108-erika-s-amazing-noodle-kugel,Erika'S Amazing Noodle Kugel,keep,ok,0,8,10
+hf-1015162-cuban-style-pork-roast-crock-pot,Cuban Style Pork Roast (Crock Pot),keep,ok,0,5,10
+hf-1015405-ultimate-pecan-pie,Ultimate Pecan Pie,fix,1 garbage ingredient(s),0,6,10
+hf-1015545-delicious-lemon-bread,Delicious Lemon Bread,keep,ok,0,4,10
+hf-1015552-blueberry-banana-bread,Blueberry Banana Bread,keep,ok,0,4,10
+hf-1015590-bacon-wrapped-little-loaves,Bacon-Wrapped Little Loaves,keep,ok,0,7,10
+hf-1015691-super-easy-pork-chili,Super Easy Pork Chili,keep,ok,0,4,10
+hf-1015750-pinto-beans-for-burritos,Pinto Beans For Burritos,keep,ok,0,4,10
+hf-1015876-steak-casserole,Steak Casserole,keep,ok,0,6,10
+hf-1015929-classic-new-york-style-cherry-cheesecake,Classic New York Style Cherry Cheesecake,keep,ok,0,5,10
+hf-1016051-chocolate-covered-strawberry-cookies,Chocolate Covered Strawberry Cookies,keep,ok,0,7,10
+hf-1016087-antipasto-mushrooms,Antipasto Mushrooms,keep,ok,0,4,10
+hf-1016095-tofu-house-chocolate-chip-cookies,Tofu House Chocolate Chip Cookies,keep,ok,0,8,10
+hf-1016108-cracker-snack-mix,Cracker Snack Mix,keep,ok,0,7,10
+hf-1016171-warm-chicken-and-pasta-salad,Warm Chicken And Pasta Salad,fix,missing cuisine (looks italian),0,8,10
+hf-1016182-double-chocolate-diabetic-cookies,Double Chocolate Diabetic Cookies,keep,ok,0,7,10
+hf-1016266-banana-oatmeal-chocolate-muffins,Banana Oatmeal Chocolate Muffins,keep,ok,0,7,10
+hf-1016362-pistachio-cake,Pistachio Cake,keep,ok,0,7,10
+hf-1016427-chicken-broth,Chicken Broth,keep,ok,0,5,10
+hf-1016432-traditional-cornbread-dressing,Traditional Cornbread Dressing,fix,1 garbage ingredient(s),0,8,10
+hf-101647-pizza-snack,Pizza Snack,fix,missing cuisine (looks italian),0,5,9
+hf-1016478-maple-syrup-upside-down-cake,Maple Syrup Upside-Down Cake,keep,ok,0,6,10
+hf-1016526-crunchy-apple-and-banana-crumble,Crunchy Apple And Banana Crumble,keep,ok,0,7,10
+hf-1016613-apple-cinnamon-oatmeal,Apple Cinnamon Oatmeal,keep,ok,0,4,10
+hf-1016677-butternut-squash-and-baby-kale-pasta,Butternut Squash And Baby Kale Pasta,fix,missing cuisine (looks italian),0,5,10
+hf-1016701-japanese-beef-and-vegetables-rolls,Japanese Beef And Vegetables Rolls,keep,ok,0,5,10
+hf-101671-gourmet-carrots,Gourmet Carrots,keep,ok,0,4,9
+hf-1016780-meat-and-potato-patties,Meat And Potato Patties,keep,ok,0,5,10
+hf-1016837-cinnamon-raisin-beer-bread-gluten-free,Cinnamon Raisin Beer Bread (Gluten-Free),keep,ok,0,7,10
+hf-1016869-super-moist-banana-bread,Super Moist Banana Bread,keep,ok,0,5,10
+hf-1016889-eggs-piperade,Eggs Piperade,keep,ok,0,7,10
+hf-101696-white-chilli,White Chilli,keep,ok,0,7,9
+hf-101698-diet-zucchini-bread,Diet Zucchini Bread,keep,ok,0,4,9
+hf-1017061-rich-four-layer-chocolate-cake,Rich Four Layer Chocolate Cake,keep,ok,0,5,10
+hf-1017268-simple-banana-apple-bread,Simple Banana-Apple Bread,keep,ok,0,5,10
+hf-1017341-banana-spinach-salad,Banana Spinach Salad,keep,ok,0,6,10
+hf-101746-swedish-cheese-cake,Swedish Cheese Cake,keep,ok,0,7,9
+hf-1017636-oh-so-good-oatmeal-raisin-cookies,Oh-So-Good Oatmeal Raisin Cookies,keep,ok,0,8,10
+hf-1017644-peppery-beef-tenderloin,Peppery Beef Tenderloin,keep,ok,0,5,10
+hf-1017698-stuffed-green-peppers-with-corn,Stuffed Green Peppers With Corn,keep,ok,0,6,10
+hf-1017757-sugar-free-raisin-bran-muffins,Sugar Free Raisin Bran Muffins,keep,ok,0,7,10
+hf-101777-tamales-de-dulce-sweet-tamales,Tamales De Dulce(Sweet Tamales),keep,ok,0,6,10
+hf-1017791-spanish-oven-baked-roast-chicken,Spanish Oven Baked Roast Chicken,keep,ok,0,8,10
+hf-1017843-long-island-iced-tea,Long Island Iced Tea,keep,ok,0,7,10
+hf-1017845-nammurah-harisseh,Nammurah (Harisseh),keep,ok,0,5,10
+hf-1018001-brie-stuffed-chicken-breasts-with-maple-glaze,Brie-Stuffed Chicken Breasts With Maple Glaze,keep,ok,0,5,10
+hf-1018270-millet-dressing,Millet Dressing,keep,ok,0,7,10
+hf-1018353-v-s-almond-joy-ee-brownies,V'S Almond Joy--Ee Brownies,keep,ok,0,6,10
+hf-1018432-spicy-black-bean-soup,Spicy Black Bean Soup,keep,ok,0,5,10
+hf-1018437-magic-mushrooms,Magic Mushrooms,fix,1 garbage ingredient(s),0,4,10
+hf-10186-apple-nut-cake-1,Apple Nut Cake #1,keep,ok,0,6,10
+hf-1018764-cheesy-black-beans-rice,Cheesy Black Beans & Rice,keep,ok,0,5,10
+hf-1018776-grandma-s-crumb-cake-cupcakes-or-cake,Grandma'S Crumb Cake Cupcakes (Or Cake),keep,ok,0,8,10
+hf-1018814-lite-pumpkin-bread,Lite Pumpkin Bread,keep,ok,0,6,10
+hf-1018909-slow-cooker-pork-carnitas,Slow Cooker Pork Carnitas,keep,ok,0,5,10
+hf-1018944-shrimp-red-pepper-penne,Shrimp & Red Pepper Penne,keep,ok,0,7,10
+hf-1019034-spicy-sweet-marinara-sauce,Spicy?  Sweet?  Marinara Sauce,keep,ok,0,6,10
+hf-1019055-hajar-s-eggplant-aubergine-braniya-salad,Hajar'S Eggplant (Aubergine) Braniya Salad,keep,ok,0,6,10
+hf-1019085-ground-beef-noodle-soup,Ground Beef Noodle Soup,keep,ok,0,5,10
+hf-1019095-martha-s-chewy-molasses-spice-cookies,Martha'S Chewy Molasses Spice Cookies,keep,ok,0,8,10
+hf-1019132-coconut-flour-banana-bread-gaps,Coconut Flour Banana Bread (Gaps),keep,ok,0,5,10
+hf-1019187-low-cal-molasses-cookies,Low-Cal Molasses Cookies,keep,ok,0,7,10
+hf-1019475-cowboy-beans-rice,Cowboy Beans & Rice,keep,ok,0,5,10
+hf-1019709-chocolate-velvet-cake,Chocolate Velvet  Cake,keep,ok,0,6,10
+hf-1019807-korean-lamb-chops,Korean Lamb Chops,keep,ok,0,6,10
+hf-1019833-marinated-grilled-steaks,Marinated Grilled Steaks,fix,1 garbage ingredient(s),0,7,10
+hf-1019874-roast-pork-tenderloin,Roast Pork Tenderloin,keep,ok,0,8,10
+hf-1020043-curry-chicken-celebration,Curry Chicken Celebration,fix,1 garbage ingredient(s); missing cuisine (looks indian),0,4,10
+hf-1020066-gluten-free-chocolate-fudge-cookies,Gluten Free Chocolate Fudge Cookies,keep,ok,0,7,10
+hf-1020106-cookies-by-george,Cookies By George,keep,ok,0,5,10
+hf-1020178-stuffed-onion-bacon-bombs,Stuffed Onion Bacon Bombs,fix,1 garbage ingredient(s),0,6,10
+hf-102028-caramel-popcorn,Caramel Popcorn,keep,ok,0,5,9
+hf-1020326-faye-s-baked-crispy-chicken,Faye'S Baked Crispy Chicken,fix,1 garbage ingredient(s),0,7,10
+hf-1020486-chinese-braised-chicken-and-chestnuts,Chinese Braised Chicken And Chestnuts,keep,ok,0,4,10
+hf-1020515-spicy-pecans-texas-style,Spicy Pecans - Texas Style,keep,ok,0,8,10
+hf-1020908-stove-top-chicken-bbq,Stove-Top Chicken Bbq,keep,ok,0,4,10
+hf-1020937-baja-authentic-carne-asada,Baja Authentic Carne Asada,keep,ok,0,5,10
+hf-1021048-the-original-half-moon-cookies,"The ""Original Half Moon Cookies""",keep,ok,0,5,10
+hf-102105-green-bean-supreme,Green Bean Supreme,keep,ok,0,4,9
+hf-1021079-shanghai-bbq-sauce,Shanghai Bbq Sauce,keep,ok,0,6,10
+hf-1021128-all-american-chicken-and-vegetable-dinner,All American Chicken And Vegetable Dinner,keep,ok,0,5,10
+hf-1021151-lusty-cherry-plum-jam,Lusty Cherry Plum Jam,keep,ok,0,6,10
+hf-1021215-spinach-and-artichoke-casserole,Spinach And Artichoke Casserole,keep,ok,0,5,10
+hf-1021226-raspberry-cream-cheese-pie,Raspberry Cream Cheese Pie,keep,ok,0,4,10
+hf-102154-creamed-hamburger,Creamed Hamburger,keep,ok,0,7,10
+hf-1021548-hot-pizza-subs,Hot Pizza Subs,fix,missing cuisine (looks italian),0,8,10
+hf-1021731-easy-homestyle-banana-bread,Easy Homestyle Banana Bread,keep,ok,0,8,10
+hf-1021744-mark-s-whisky-and-onion-jam,Mark'S Whisky And Onion Jam,keep,ok,0,4,10
+hf-102176-gourmet-zucchini,Gourmet Zucchini,keep,ok,0,5,9
+hf-1021777-vegan-blackberry-cobbler,Vegan Blackberry Cobbler,keep,ok,0,8,10
+hf-1022050-carrot-cake-cappuccino,Carrot Cake Cappuccino,keep,ok,0,5,10
+hf-1022125-apricot-cornmeal-and-sage-cookies,"Apricot, Cornmeal And Sage Cookies",keep,ok,0,7,10
+hf-1022150-skillet-cranberry-chicken,Skillet Cranberry Chicken,keep,ok,0,5,10
+hf-102224-delicious-swiss-steak,Delicious Swiss Steak,keep,ok,0,6,10
+hf-1022339-green-tomato-breakfast-cake-or-plum,Green Tomato Breakfast Cake (Or Plum),keep,ok,0,4,10
+hf-1022355-corn-chowder-crock-pot,Corn Chowder (Crock Pot),keep,ok,0,4,10
+hf-1022419-hawaiian-ginger-beets,Hawaiian Ginger Beets,keep,ok,0,5,10
+hf-1022441-maria-luisa-salvadoran-layer-cake,Maria Luisa (Salvadoran Layer Cake),keep,ok,0,7,10
+hf-1022489-chicken-mushrooms-greek-style,Chicken & Mushrooms (Greek Style),keep,ok,0,6,10
+hf-1022764-heavenly-cornbread,Heavenly Cornbread,keep,ok,0,4,10
+hf-1022794-fast-easy-chicken-noodle-soup,Fast & Easy Chicken Noodle Soup,fix,1 garbage ingredient(s),0,4,10
+hf-1022834-red-cabbage-german-style,Red Cabbage (German Style),fix,1 garbage ingredient(s),0,6,10
+hf-1022943-chicken-cheese-soup,Chicken Cheese Soup,keep,ok,0,4,10
+hf-1023174-edamame-quinoa-and-shiitake-mushroom-salad,"Edamame, Quinoa, And Shiitake Mushroom Salad",keep,ok,0,4,10
+hf-1023206-crisp-spice-cookies-diabetic,Crisp Spice Cookies (Diabetic),keep,ok,0,8,10
+hf-1023290-strawberry-surprise-cake,Strawberry Surprise Cake,keep,ok,0,6,10
+hf-1023304-whole-wheat-french-toast-vegan,Whole Wheat French Toast (Vegan),keep,ok,0,7,10
+hf-1023402-hot-black-bean-and-corn-dip,Hot Black Bean And Corn Dip,keep,ok,0,6,10
+hf-1023411-double-chocolate-marshmallow-brownies,Double Chocolate Marshmallow Brownies,keep,ok,0,8,10
+hf-1023451-black-bean-chimichanga-s,Black Bean Chimichanga'S,fix,missing cuisine (looks mexican),0,6,10
+hf-1023495-leftover-bratwurst-scramble,Leftover Bratwurst Scramble,keep,ok,0,6,10
+hf-1023503-reduced-fat-chocolate-cheesecake,Reduced-Fat Chocolate Cheesecake,keep,ok,0,7,10
+hf-1023518-e-emma-s-parve-chocolate-chip-cookies,E'Emma'S Parve Chocolate Chip Cookies,keep,ok,0,5,10
+hf-1023531-golden-chocolate-cake,Golden Chocolate Cake,keep,ok,0,8,10
+hf-1023570-fudgy-mocha-brownies,Fudgy Mocha Brownies,keep,ok,0,5,10
+hf-1023649-crockpot-orange-chicken,Crockpot Orange Chicken,keep,ok,0,7,10
+hf-1023654-japanese-seafood-stew,Japanese Seafood Stew,keep,ok,0,5,10
+hf-1023854-blueberry-apricot-muffins,Blueberry Apricot Muffins,keep,ok,0,8,10
+hf-1023952-almond-breakfast-bread,Almond Breakfast Bread,keep,ok,0,5,10
+hf-1024000-tre-s-spinach-and-feta-cheese-quiche,Tre'S Spinach And Feta Cheese Quiche,fix,missing cuisine (looks french),0,5,10
+hf-1024020-bakewell-tarts,Bakewell Tarts,keep,ok,0,6,10
+hf-1024033-tex-mex-spaghetti,Tex Mex Spaghetti,keep,ok,0,6,10
+hf-1024307-blue-cheese-meatballs,Blue Cheese Meatballs,keep,ok,0,5,10
+hf-1024316-horseradish-glazed-grilled-chicken-wings,Horseradish Glazed Grilled Chicken Wings,keep,ok,0,4,10
+hf-102438-mexican-hominygroves-texas,"Mexican Hominygroves, Texas",keep,ok,0,7,10
+hf-1024400-boomer-sooner-sassy-baked-beans,Boomer Sooner Sassy Baked Beans,keep,ok,0,4,10
+hf-102444-oyster-corn-bread-dressing,Oyster Corn Bread Dressing,keep,ok,0,4,9
+hf-1024450-baked-beans-and-pineapple,Baked Beans And Pineapple,keep,ok,0,4,10
+hf-1024471-curried-beef-with-potatoes-and-peas,Curried Beef With Potatoes And Peas,fix,1 garbage ingredient(s),0,8,10
+hf-1024475-tomato-basil-mushroom-pasta-sauce,Tomato Basil Mushroom Pasta Sauce,fix,missing cuisine (looks italian),0,4,10
+hf-1024621-another-tasty-marinara-sauce,Another Tasty Marinara Sauce,keep,ok,0,4,10
+hf-1024633-oven-hash,Oven Hash,keep,ok,0,5,10
+hf-1024794-cheese-crowns,Cheese Crowns,keep,ok,0,6,10
+hf-1024852-tex-mex-summer-squash-casserole,Tex-Mex Summer Squash Casserole,keep,ok,0,6,10
+hf-1024870-tequila-honey-glazed-chicken-with-jalapeno,Tequila Honey Glazed Chicken With Jalapeno,keep,ok,0,5,10
+hf-1025054-sugar-cookies-light-crisp,Sugar Cookies (Light & Crisp),keep,ok,0,8,10
+hf-1025268-winter-solstice-soup,Winter Solstice Soup,keep,ok,0,4,10
+hf-1025299-crock-pot-chocolate-zucchini-nut-bread,Crock Pot Chocolate Zucchini Nut Bread,keep,ok,0,4,10
+hf-102534-chicken-crescent-squares,Chicken Crescent Squares,keep,ok,0,6,10
+hf-1025532-big-blueberry-muffins,Big Blueberry Muffins,keep,ok,0,8,10
+hf-1025732-vegan-chocolate-chip-oatmeal-cookies,Vegan Chocolate Chip Oatmeal Cookies,keep,ok,0,5,10
+hf-102581-harlequin-baked-beans,Harlequin Baked Beans,keep,ok,0,5,10
+hf-1025955-home-canned-vegetable-soup,Home Canned Vegetable Soup,keep,ok,0,5,10
+hf-1025971-big-batch-oatmeal-chocolate-chip-cookies,Big Batch Oatmeal Chocolate Chip Cookies,keep,ok,0,5,10
+hf-1026022-grandma-s-fried-oysters,Grandma'S Fried Oysters,keep,ok,0,5,10
+hf-1026038-coffee-walnut-muffins,Coffee Walnut Muffins,keep,ok,0,4,10
+hf-1026128-melt-in-your-mouth-chocolate-drop-cookies,Melt-In -Your-Mouth Chocolate Drop Cookies,keep,ok,0,6,10
+hf-1026134-cranberry-couscous-salad,Cranberry Couscous Salad,keep,ok,0,4,10
+hf-1026187-zucchini-parmesan-muffins,Zucchini Parmesan Muffins,fix,missing cuisine (looks italian),0,7,10
+hf-1026261-simply-elegant-steak,Simply Elegant Steak,keep,ok,0,7,10
+hf-1026284-all-vegetable-pad-thai,All-Vegetable Pad Thai,fix,missing cuisine (looks thai),0,4,10
+hf-1026320-crispy-rice-drop-cookies,Crispy Rice Drop Cookies,keep,ok,0,7,10
+hf-102633-date-nut-cake,Date Nut Cake,keep,ok,0,7,10
+hf-102640-chicken-or-turkey-a-la-king,Chicken Or Turkey A La King,keep,ok,0,6,10
+hf-1026523-lemon-garlic-chicken,Lemon Garlic Chicken,keep,ok,0,4,10
+hf-102661-better-oven-baked-barbecued-spareribs,Better Oven Baked Barbecued Spareribs,keep,ok,0,5,9
+hf-1026633-vegetarian-spanish-tortilla,Vegetarian Spanish Tortilla,fix,missing cuisine (looks mexican),0,6,10
+hf-1026702-salami-and-ricotta-pizzas,Salami And Ricotta Pizzas,keep,ok,0,7,10
+hf-1026712-chocolate-macadamia-muffins,Chocolate Macadamia Muffins,keep,ok,0,7,10
+hf-1026874-chicken-walnut-saute-stir-fry,Chicken Walnut Saute (Stir Fry),fix,1 garbage ingredient(s); missing cuisine (looks chinese),0,5,10
+hf-1026876-cheese-souffle-with-scallions-and-chives,Cheese Souffle With Scallions And Chives,fix,1 garbage ingredient(s),0,5,10
+hf-102695-nut-tarts,Nut Tarts,keep,ok,0,6,9
+hf-1026983-rabbit-pate,Rabbit Pate,keep,ok,0,4,10
+hf-1026986-jumbo-oatmeal-chocolate-chip-cookies,Jumbo Oatmeal Chocolate Chip Cookies,keep,ok,0,6,10
+hf-1026994-lemon-lemony-pecan-cookies,Lemon Lemony Pecan Cookies,keep,ok,0,4,10
+hf-1027092-parmesan-herb-muffins,Parmesan Herb Muffins,fix,missing cuisine (looks italian),0,8,10
+hf-1027247-pickled-pork-hocks,Pickled Pork Hocks,keep,ok,0,6,10
+hf-1027316-japanese-style-cheesecake,Japanese Style Cheesecake,keep,ok,0,7,10
+hf-1027349-scd-gluten-free-shepherds-pie,Scd Gluten Free Shepherds Pie,keep,ok,0,7,10
+hf-1027388-rich-rice-pudding-cake,Rich Rice Pudding Cake,keep,ok,0,5,10
+hf-1027417-lemon-garlic-lentil-soup,Lemon Garlic Lentil Soup,fix,1 garbage ingredient(s),0,5,10
+hf-1027492-bread-machine-turtle-bread,Bread Machine Turtle Bread,keep,ok,0,5,10
+hf-1027566-spinach-and-feta-puff-pie,Spinach And Feta Puff Pie,keep,ok,0,6,10
+hf-1027676-creamy-zucchini-casserole,Creamy Zucchini Casserole,keep,ok,0,7,10
+hf-102777-church-supper-sloppy-joes,Church Supper Sloppy Joes,keep,ok,0,5,10
+hf-1027799-black-forest-cheesecake-bars,Black Forest Cheesecake Bars,keep,ok,0,7,10
+hf-1027874-chewy-oatmeal-and-m-m-cookies,Chewy Oatmeal And M&M Cookies,keep,ok,0,8,10
+hf-1027940-mini-maple-syrup-pancake-cookies,Mini Maple Syrup Pancake Cookies,keep,ok,0,8,10
+hf-1028177-crockpot-pumpkin-bread,Crockpot Pumpkin Bread,keep,ok,0,6,10
+hf-1028202-caramelized-mushroom-and-onion-dip,Caramelized Mushroom And Onion Dip,keep,ok,0,8,10
+hf-1028206-fresh-corn-and-sausage-chowder,Fresh Corn And Sausage Chowder,keep,ok,0,8,10
+hf-102825-chewy-oatmeal-bars,Chewy Oatmeal Bars,keep,ok,0,6,10
+hf-1028293-gina-s-oatmeal-caramelita-s,Gina'S Oatmeal Caramelita'S,keep,ok,0,8,10
+hf-102831-macaroni-beef,Macaroni Beef,keep,ok,0,4,10
+hf-102835-oyster-soup-servings-8,Oyster Soup(Servings:  8),keep,ok,0,5,10
+hf-1028355-barmbrack-or-barm-brack,Barmbrack Or Barm Brack,keep,ok,0,6,10
+hf-1028368-chicken-in-tomato-sauce,Chicken In Tomato Sauce,keep,ok,0,5,10
+hf-1028400-tassajara-peach-kuchen,Tassajara Peach Kuchen,keep,ok,0,7,10
+hf-1028432-chiang-mai-chicken-curry,Chiang Mai Chicken Curry,fix,missing cuisine (looks indian),0,5,10
+hf-1028496-oatmeal-toffee-milk-chocolate-chip-cookies,Oatmeal Toffee Milk Chocolate Chip Cookies,keep,ok,0,6,10
+hf-102853-cajun-ribs,Cajun Ribs,keep,ok,0,6,10
+hf-1028800-spinach-and-chickpea-curry,Spinach And Chickpea Curry,fix,missing cuisine (looks indian),0,5,10
+hf-102898-broccoli-and-rice-bake,Broccoli And Rice Bake,keep,ok,0,6,9
+hf-1029023-super-soft-snickerdoodle-cookies,Super Soft Snickerdoodle Cookies,keep,ok,0,6,10
+hf-1029077-buttery-baked-chicken,Buttery Baked Chicken,keep,ok,0,7,10
+hf-1029213-kid-s-chili,Kid'S Chili,keep,ok,0,5,10
+hf-1029218-royal-velvet-chicken-soup,Royal Velvet Chicken Soup,keep,ok,0,5,10
+hf-102924-low-fat-banana-snack-cake,Low-Fat Banana Snack Cake,keep,ok,0,7,10
+hf-1029241-pizza-infused-oil,Pizza Infused Oil,fix,missing cuisine (looks italian),0,4,10
+hf-102934-johnny-mazette,Johnny Mazette,keep,ok,0,5,10
+hf-102937-neiman-s-cookie-recipe,Neiman'S Cookie Recipe,keep,ok,0,6,9
+hf-1029436-low-fat-banana-chocolate-chip-muffins,Low Fat Banana Chocolate Chip Muffins,keep,ok,0,7,10
+hf-1029472-sweet-n-tangy-barbecue-sauce,Sweet -N-Tangy Barbecue Sauce,keep,ok,0,5,10
+hf-1029491-creole-stuffing,Creole  Stuffing,keep,ok,0,4,10
+hf-1029611-bourbon-chocolate-cake-with-praline-frosting,Bourbon-Chocolate Cake With Praline Frosting,keep,ok,0,6,10
+hf-1029658-hershey-s-hotel-chocolate-cream-pie,Hershey'S Hotel Chocolate Cream Pie,keep,ok,0,5,10
+hf-1029659-turkey-sausage-and-sweet-potato-stew,Turkey Sausage And Sweet Potato Stew,keep,ok,0,4,10
+hf-102969-fruit-tart,Fruit Tart,keep,ok,0,7,9
+hf-1029706-crispy-cheese-cauliflower,Crispy Cheese Cauliflower,keep,ok,0,8,10
+hf-1029739-layered-ground-beef-casserole,Layered Ground Beef Casserole,keep,ok,0,6,10
+hf-1029746-peanut-butter-m-m-brownies,Peanut Butter M&M Brownies,keep,ok,0,5,10
+hf-1029810-splenda-banana-bran-muffins,Splenda Banana Bran Muffins,keep,ok,0,8,10
+hf-1029868-coffee-granola-bars,Coffee Granola Bars,keep,ok,0,4,10
+hf-1029870-triple-chocolate-stout-beer-brownies,Triple Chocolate Stout Beer Brownies,keep,ok,0,4,10
+hf-1029934-cheesecake-nibblers,Cheesecake Nibblers,keep,ok,0,8,10
+hf-10300-hungry-boy-casserole,Hungry Boy Casserole,keep,ok,0,4,10
+hf-1030109-delicious-ginger-molasses-cookies,Delicious Ginger Molasses Cookies,keep,ok,0,5,10
+hf-103016-scalloped-chicken,Scalloped Chicken,keep,ok,0,7,10
+hf-1030205-pasta-bake-with-goats-cheese,Pasta Bake With Goats' Cheese,fix,missing cuisine (looks italian),0,5,10
+hf-103045-buttermilk-pie,Buttermilk Pie,keep,ok,0,7,9
+hf-1030675-publix-perfect-panko-chicken-with-hummus,Publix Perfect Panko Chicken With Hummus,fix,missing cuisine (looks middle eastern),0,4,10
+hf-1030679-steamed-pumpkin-cake,Steamed Pumpkin Cake,keep,ok,0,6,10
+hf-1030693-rock-cakes,Rock Cakes,keep,ok,0,5,10
+hf-1030720-jekyll-island-shrimp,Jekyll Island Shrimp,fix,1 garbage ingredient(s),0,6,10
+hf-1030853-oma-s-gingersnaps,Oma'S Gingersnaps,keep,ok,0,5,10
+hf-1030909-spanish-casserole,Spanish Casserole,keep,ok,0,8,10
+hf-103097-plum-quick-bread,Plum Quick Bread,keep,ok,0,6,9
+hf-1031014-bacon-and-cilantro-breakfast-muffins,Bacon And Cilantro Breakfast Muffins,keep,ok,0,6,10
+hf-1031168-asparagus-carbonara,Asparagus Carbonara,fix,2 garbage ingredient(s); missing cuisine (looks italian),0,7,10
+hf-1031392-mushroom-and-crabmeat-white-wine-sauce,Mushroom And Crabmeat White Wine Sauce,keep,ok,0,5,10
+hf-1031444-escalloped-apples,Escalloped Apples,keep,ok,0,8,10
+hf-1031628-spinach-salad-with-orange-vinaigrette,Spinach Salad With Orange Vinaigrette,fix,1 garbage ingredient(s),0,4,10
+hf-1031817-peach-and-apple-compote,Peach And Apple Compote,keep,ok,0,5,10
+hf-1031830-linda-s-mexican-veggie-pizza,Linda'S Mexican Veggie Pizza,fix,missing cuisine (looks italian),0,8,10
+hf-1031881-marinated-pork-chops,Marinated Pork Chops,fix,2 garbage ingredient(s),0,6,10
+hf-103193-heath-brickle-blonde-brownies,Heath Brickle Blonde Brownies,keep,ok,0,8,9
+hf-1031995-the-best-gluten-free-biscuits,The Best Gluten Free Biscuits,keep,ok,0,8,10
+hf-1032270-spinach-and-feta-muffins,Spinach And Feta Muffins,keep,ok,0,8,10
+hf-1032282-herbed-beef-in-salt-crust,Herbed Beef In Salt Crust,keep,ok,0,6,10
+hf-103242-just-plain-pot-roast,Just Plain Pot Roast,keep,ok,0,5,9
+hf-1032494-mock-baby-ruth-bars,Mock Baby Ruth Bars,keep,ok,0,8,10
+hf-1032558-cereal-applesauce-muffins,Cereal Applesauce Muffins,keep,ok,0,4,10
+hf-103259-beef-choufleur,Beef Choufleur,keep,ok,0,7,10
+hf-103263-prune-bread,Prune Bread,keep,ok,0,4,10
+hf-1032672-meaty-crock-pot-lasagna,Meaty Crock Pot Lasagna,fix,missing cuisine (looks italian),0,5,10
+hf-1032892-scandinavian-rice-pudding,Scandinavian Rice Pudding,keep,ok,0,4,10
+hf-1033048-layered-cuban-dip,Layered Cuban Dip,keep,ok,0,7,10
+hf-1033052-stuffed-peppers-ww,Stuffed Peppers (Ww),keep,ok,0,6,10
+hf-1033147-jewel-s-ground-beef-casserole,Jewel'S Ground Beef Casserole,keep,ok,0,8,10
+hf-1033188-coffee-pecan-slice,Coffee Pecan Slice,keep,ok,0,4,10
+hf-1033226-easy-creamy-chicken-pasta,Easy Creamy Chicken Pasta,fix,missing cuisine (looks italian),0,8,10
+hf-1033277-date-drop-cookies,Date Drop Cookies,keep,ok,0,5,10
+hf-1033312-new-orleans-dirty-rice,New Orleans Dirty Rice,keep,ok,0,5,10
+hf-103332-herb-crusted-beef-roast,Herb Crusted Beef Roast,keep,ok,0,8,9
+hf-1033342-nutella-lava-cookies,Nutella Lava Cookies,keep,ok,0,6,10
+hf-1033366-sausage-and-cheese-potato-casserole,Sausage And Cheese Potato Casserole,keep,ok,0,6,10
+hf-1033390-faux-cabbage-rolls,Faux Cabbage Rolls,keep,ok,0,8,10
+hf-1033429-maple-syrup-bars,Maple Syrup Bars,keep,ok,0,6,10
+hf-1033503-gale-gand-s-buttermilk-pancakes,Gale Gand'S Buttermilk Pancakes,keep,ok,0,6,10
+hf-1033650-chocolate-beer-cake,Chocolate Beer Cake,keep,ok,0,5,10
+hf-103396-chocolate-butterscotch-chip-cookies,Chocolate Butterscotch Chip Cookies,keep,ok,0,7,10
+hf-1033981-diabetic-fresh-apple-cake,Diabetic Fresh Apple Cake,keep,ok,0,4,10
+hf-1034003-kahlua-espresso-brownies,Kahlua Espresso Brownies,keep,ok,0,4,10
+hf-1034009-sweet-and-sour-lamb-egurdouce,Sweet And Sour Lamb (Egurdouce),keep,ok,0,6,10
+hf-1034067-chocolate-chiffon-cupcakes,Chocolate Chiffon Cupcakes,keep,ok,0,6,10
+hf-1034121-spanakopita-spinach-pie-muffins,Spanakopita (Spinach Pie) Muffins,fix,missing cuisine (looks middle eastern),0,7,10
+hf-103427-strawberry-pretzel-salad,Strawberry Pretzel Salad,keep,ok,0,5,10
+hf-1034544-praline-mashed-sweet-potatoes,Praline Mashed Sweet Potatoes,keep,ok,0,4,10
+hf-1034804-bourbon-peach-cobbler-tyler-florence,Bourbon Peach Cobbler - Tyler Florence,keep,ok,0,4,10
+hf-1034823-president-roosevelt-s-birthday-cake,President Roosevelt'S Birthday Cake,keep,ok,0,8,10
+hf-1034827-best-blueberry-buttermilk-waffles,Best Blueberry Buttermilk Waffles,keep,ok,0,5,10
+hf-1034886-ask-for-more-chicken,Ask For More Chicken,keep,ok,0,6,10
+hf-1034899-hearty-italian-soup,Hearty Italian Soup,keep,ok,0,4,10
+hf-1034978-fennel-and-white-bean-salad,Fennel And White Bean Salad,keep,ok,0,4,10
+hf-1034990-pepper-jack-crab-soup,Pepper Jack Crab Soup,keep,ok,0,7,10
+hf-1035002-banana-walnut-coconut-flour-muffins-paleo,Banana Walnut Coconut Flour Muffins (Paleo),keep,ok,0,8,10
+hf-1035023-heritage-chicken,Heritage Chicken,keep,ok,0,6,10
+hf-1035114-oatmeal-sugar-cookies,Oatmeal Sugar Cookies,keep,ok,0,7,10
+hf-1035204-mini-maple-pecan-tarts,Mini Maple Pecan Tarts,keep,ok,0,6,10
+hf-1035327-microwave-salmon-fillet-en-papillote,Microwave Salmon Fillet En Papillote,keep,ok,0,4,10
+hf-1035438-bran-cereal-cookies,Bran Cereal Cookies,keep,ok,0,5,10
+hf-1035453-meatballs-for-stocking-up-freezer,Meatballs For Stocking Up Freezer,keep,ok,0,8,10
+hf-1035576-asian-style-oven-baked-duck-legs,Asian Style Oven Baked Duck Legs,keep,ok,0,6,10
+hf-1035636-easy-southern-baked-beans,Easy Southern Baked Beans,keep,ok,0,7,10
+hf-1035693-penne-with-chicken-and-gorgonzola-cheese,Penne With Chicken And Gorgonzola Cheese,keep,ok,0,5,10
+hf-1035696-jalapeno-pepper-jelly-chicken,Jalapeno Pepper Jelly Chicken,fix,1 garbage ingredient(s),0,7,10
+hf-1035773-grilled-herbed-salmon,Grilled Herbed Salmon,keep,ok,0,7,10
+hf-1035783-pinot-noir-cake,Pinot Noir Cake,keep,ok,0,6,10
+hf-1035807-scrambled-pancakes-germany,Scrambled Pancakes (Germany),keep,ok,0,6,10
+hf-1035818-curry-and-garbanzo-bean-soup,Curry And Garbanzo Bean Soup,fix,missing cuisine (looks indian),0,5,10
+hf-1035882-creamy-chicken-enchiladas,Creamy Chicken Enchiladas,keep,ok,0,6,10
+hf-1035939-andrea-s-pecan-divines,Andrea'S Pecan Divines,keep,ok,0,4,10
+hf-103594-orange-blossoms,Orange Blossoms,keep,ok,0,4,10
+hf-1035965-lemon-almond-sour-cream-pound-cake,Lemon Almond Sour Cream Pound Cake,keep,ok,0,7,10
+hf-1035966-gingered-shrimp-with-corn-broccoli,Gingered Shrimp With Corn & Broccoli,keep,ok,0,8,10
+hf-1035975-strawberry-jello-salad,Strawberry Jello Salad,keep,ok,0,5,10
+hf-1035995-sharon-s-ono-barbecue-beef,Sharon'S Ono Barbecue Beef,keep,ok,0,8,10
+hf-1036000-chicken-with-crispy-panko-coating,Chicken With Crispy Panko Coating,keep,ok,0,8,10
+hf-1036017-ema-datshi-bhutan,Ema Datshi (Bhutan),keep,ok,0,6,10
+hf-1036031-tyler-florence-s-pulled-pork,Tyler Florence'S Pulled Pork,fix,1 garbage ingredient(s),0,5,10
+hf-1036238-pumpkin-molasses-muffins,Pumpkin Molasses Muffins,keep,ok,0,4,10
+hf-1036261-creamy-tuna-pasta-salad,Creamy Tuna Pasta Salad,fix,missing cuisine (looks italian),0,5,10
+hf-1036268-hot-dried-beef-spread,Hot Dried Beef Spread,keep,ok,0,7,10
+hf-1036294-cajun-peppered-cabbage,Cajun Peppered Cabbage,keep,ok,0,4,10
+hf-1036398-quick-pozole-de-pollo,Quick Pozole De Pollo,fix,missing cuisine (looks mexican),0,8,10
+hf-103640-favorite-chicken-hot-dish,Favorite Chicken Hot Dish,keep,ok,0,5,9
+hf-1036411-nana-nut-bread,Nana-Nut Bread,keep,ok,0,6,10
+hf-1036490-radish-gazpacho,Radish Gazpacho,keep,ok,0,4,10
+hf-1036498-yellow-indian-curry,Yellow Indian Curry,fix,missing cuisine (looks indian),0,5,10
+hf-1036559-dark-chocolate-protein-bars,Dark Chocolate Protein Bars,keep,ok,0,4,10
+hf-1036606-apple-snickerdoodles,Apple Snickerdoodles,keep,ok,0,7,10
+hf-10367-double-cheese-meat-loaf,Double Cheese Meat Loaf,keep,ok,0,5,9
+hf-1036857-cheesy-zucchini-sausage-soup,Cheesy Zucchini Sausage Soup,keep,ok,0,4,10
+hf-1037064-special-k-cereal-snaps,Special K Cereal Snaps,keep,ok,0,6,10
+hf-1037096-chicken-noodle-and-creamy-corn-soup,Chicken Noodle And Creamy Corn Soup,keep,ok,0,5,10
+hf-103716-aronowitz-fruitcake,Aronowitz Fruitcake,keep,ok,0,6,10
+hf-1037177-creamed-cabbage-with-walnuts,Creamed Cabbage With Walnuts,keep,ok,0,8,10
+hf-1037281-pork-stir-fry-with-ramen-noodles,Pork Stir-Fry With Ramen Noodles,fix,missing cuisine (looks japanese),0,4,10
+hf-1037315-forbidden-city-chicken,Forbidden City Chicken,keep,ok,0,4,10
+hf-1037668-butterscotch-crisp-cookies,Butterscotch Crisp Cookies,keep,ok,0,8,10
+hf-1037720-alabama-catfish-stew,Alabama Catfish Stew,keep,ok,0,4,10
+hf-1037735-fluffy-chocolate-orange-cookies,Fluffy Chocolate Orange Cookies,keep,ok,0,5,10
+hf-1037770-english-garden-salad,English Garden Salad,keep,ok,0,6,10
+hf-1037783-quick-buttermilk-cinnamon-bread,Quick Buttermilk Cinnamon Bread,keep,ok,0,5,10
+hf-103789-beans-n-rice-that-fill-you-up,Beans-N-Rice That Fill You Up,keep,ok,0,6,10
+hf-1038005-awesome-peanut-butter-cookies,Awesome Peanut Butter Cookies!,keep,ok,0,8,10
+hf-1038060-pollo-asado,Pollo Asado,keep,ok,0,6,10
+hf-10381-geneva-s-coffee-bars,Geneva'S Coffee Bars,keep,ok,0,6,10
+hf-1038180-chocolate-cobbler,Chocolate Cobbler,keep,ok,0,6,10
+hf-1038192-six-layer-casserole,Six Layer Casserole,keep,ok,0,4,10
+hf-1038251-baked-oatmeal,Baked Oatmeal,keep,ok,0,4,10
+hf-1038310-turkey-mole,Turkey Mole,fix,missing cuisine (looks mexican),0,7,10
+hf-1038503-steak-in-garlic-wine-sauce,Steak In Garlic Wine Sauce,keep,ok,0,5,10
+hf-1038605-garlic-herb-orzo-and-rice-pliaf,"Garlic, Herb, Orzo And Rice Pliaf",keep,ok,0,6,10
+hf-1038657-shrimp-provencal-over-rice,Shrimp Provencal Over Rice,keep,ok,0,6,10
+hf-1038679-reduced-cal-splenda-banana-bread,Reduced Cal Splenda Banana Bread,keep,ok,0,7,10
+hf-103870-shortbread-bars,Shortbread Bars,keep,ok,0,5,9
+hf-1038713-chicken-curry-with-artichoke,Chicken Curry With Artichoke,fix,missing cuisine (looks indian),0,6,10
+hf-1038735-yummy-broccoli-kugel,Yummy Broccoli Kugel,keep,ok,0,5,10
+hf-1039001-savory-sweet-potato-hash,Savory Sweet Potato Hash,keep,ok,0,4,10
+hf-1039055-charlie-brown-cookies,Charlie Brown Cookies,keep,ok,0,7,10
+hf-1039088-my-favorite-chicken-casserole,My Favorite Chicken Casserole,keep,ok,0,7,10
+hf-1039116-nassau-peas-and-rice,Nassau Peas And Rice,keep,ok,0,4,10
+hf-1039144-poor-man-s-hungarian-goulash,Poor Man'S Hungarian Goulash,keep,ok,0,5,10
+hf-1039162-ultra-moist-cheese-cupcakes,Ultra Moist Cheese Cupcakes,keep,ok,0,8,10
+hf-103919-pretzel-dessert,Pretzel Dessert,keep,ok,0,8,9
+hf-1039218-the-best-blueberry-muffins,The Best Blueberry Muffins,keep,ok,0,6,10
+hf-103922-cheesy-beef-pie,Cheesy Beef Pie,keep,ok,0,4,10
+hf-1039234-cornish-loaf,Cornish Loaf,keep,ok,0,6,10
+hf-1039267-avocado-tuna-cakes,Avocado Tuna Cakes,keep,ok,0,5,10
+hf-103933-new-england-cranberry-bread,New England Cranberry Bread,keep,ok,0,8,10
+hf-1039332-super-peanut-butter-brownies,Super! Peanut Butter Brownies,keep,ok,0,7,10
+hf-103934-peaches-n-cream-cobbler,Peaches 'N Cream Cobbler,keep,ok,0,8,9
+hf-1039380-croatian-zagorje-potato-soup,Croatian Zagorje Potato Soup,keep,ok,0,8,10
+hf-1039382-golden-loaf-cake,Golden Loaf Cake,keep,ok,0,5,10
+hf-1039385-granola-blueberry-muffins,Granola Blueberry Muffins,keep,ok,0,8,10
+hf-1039388-pork-chops-french-fried-onions,Pork Chops & French Fried Onions,keep,ok,0,4,10
+hf-1039395-orange-cranberry-scones,Orange-Cranberry Scones,keep,ok,0,8,10
+hf-1039414-bananas-tchoupitoulas,Bananas Tchoupitoulas,keep,ok,0,5,10
+hf-1039439-nana-s-thanksgiving-dressing,Nana'S Thanksgiving Dressing,keep,ok,0,5,10
+hf-1039574-vegan-baked-beans,Vegan Baked Beans,keep,ok,0,7,10
+hf-103958-stuffed-cabbage-in-tomato-sauce,Stuffed Cabbage In Tomato Sauce,keep,ok,0,7,10
+hf-1039618-alabama-chicken,Alabama Chicken,keep,ok,0,8,10
+hf-103971-zucchini-mushroom-bake,Zucchini Mushroom Bake,keep,ok,0,7,10
+hf-1039722-super-simple-cranberry-coconut-scones,Super Simple Cranberry Coconut Scones,keep,ok,0,6,10
+hf-1039740-spicy-shrimp-saute,Spicy Shrimp Saute,keep,ok,0,5,10
+hf-1039757-aromatic-spiced-coffee-rub-for-meat,Aromatic Spiced Coffee Rub For Meat,keep,ok,0,5,10
+hf-103978-boiled-oatmeal-cookies,Boiled Oatmeal Cookies,keep,ok,0,6,10
+hf-1039784-split-pea-soup-for-freezer,Split Pea Soup For Freezer,keep,ok,0,4,10
+hf-1039828-slow-cooker-apple-bean-bake,Slow Cooker Apple Bean Bake,keep,ok,0,4,10
+hf-1039846-simple-apple-cake,Simple Apple Cake,keep,ok,0,7,10

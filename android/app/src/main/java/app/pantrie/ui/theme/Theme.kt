@@ -1,67 +1,58 @@
 package app.pantrie.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
-// Warm editorial palette
-val Cream = Color(0xFFF5EFE4)
-val CreamAlt = Color(0xFFEDE5D5)
-val Paper = Color(0xFFFAF6ED)
-val Beige = Color(0xFFD9CFB8)
-val Terracotta = Color(0xFFB5634A)
-val TerracottaDeep = Color(0xFF975240)
-val Olive = Color(0xFF7A8664)
-val Ink = Color(0xFF2B2621)
-val InkSoft = Color(0xFF5A5148)
-val InkMuted = Color(0xFF8F877C)
-val InkFaint = Color(0xFFBDB5A8)
+/**
+ * Speakeater theme entry point. Mirrors the editorial dark palette + serif-stack
+ * typography defined by speakeater-site/index.html.
+ *
+ * Currently dark-only. The site has no light mode and the brand identity (vintage
+ * speakeasy, low-light bar room) doesn't translate to light surfaces, so the
+ * `darkTheme` parameter is intentionally absent until/unless we ever ship one.
+ *
+ * Color tokens live in Color.kt. Typography lives in Type.kt. This file is the wiring.
+ *
+ * Bootlegger mode in MixologyScreen.kt overrides locally with its own Sepia/SepiaInk —
+ * MaterialTheme references inside those composables still pick up these values, so the
+ * Bootlegger code paths actively force-override per-component. See the Phase 1 brief.
+ */
 
-private val LightColors = lightColorScheme(
-  primary = Ink,
+private val SpeakeaterDarkColors = darkColorScheme(
+  primary = BrassBright,
   onPrimary = Paper,
+  primaryContainer = Brass,
+  onPrimaryContainer = Ink,
   secondary = Terracotta,
-  onSecondary = Paper,
+  onSecondary = Ink,
+  secondaryContainer = BrassDeep,
+  onSecondaryContainer = Ink,
   tertiary = Olive,
-  background = Cream,
+  onTertiary = Ink,
+  background = Paper,
   onBackground = Ink,
-  surface = Paper,
+  surface = Paper2,
   onSurface = Ink,
-  surfaceVariant = CreamAlt,
+  surfaceVariant = Paper3,
   onSurfaceVariant = InkSoft,
-  outline = InkFaint,
-  error = TerracottaDeep,
-)
-
-private val DarkColors = darkColorScheme(
-  primary = Paper,
-  onPrimary = Ink,
-  background = Ink,
-  surface = InkSoft,
-)
-
-private val Typography = Typography(
-  displayLarge = TextStyle(fontSize = 40.sp, fontWeight = FontWeight.Normal, letterSpacing = (-0.8).sp),
-  displayMedium = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Normal, letterSpacing = (-0.6).sp),
-  headlineLarge = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Medium),
-  headlineMedium = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Medium),
-  titleLarge = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.SemiBold),
-  titleMedium = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.SemiBold),
-  bodyLarge = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Normal),
-  bodyMedium = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Normal),
-  labelLarge = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp),
-  labelMedium = TextStyle(fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp),
+  surfaceTint = Brass,
+  inverseSurface = Ink,
+  inverseOnSurface = Paper,
+  outline = Rule,
+  outlineVariant = InkWhisper,
+  error = Terracotta,
+  onError = Paper,
+  errorContainer = TerracottaDeep,
+  onErrorContainer = Ink,
+  scrim = Paper,
 )
 
 @Composable
-fun PantrieTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun PantrieTheme(content: @Composable () -> Unit) {
   MaterialTheme(
-    colorScheme = if (darkTheme) DarkColors else LightColors,
-    typography = Typography,
+    colorScheme = SpeakeaterDarkColors,
+    typography = SpeakeaterTypography,
     content = content,
   )
 }

@@ -7,50 +7,371 @@ import { enforce } from './ratelimit.js';
 const CACHE_TTL = 7 * 86400;
 
 // Seeded high-confidence subs. { from: [{to, ratio, notes}] }
+//
+// Coverage targets all FDA top-9 allergens plus common gluten/sulfite/celery/
+// mustard sensitivities. For an ingredient to land here it needs a sub that
+// works in at least 80% of cooking contexts (baking carve-outs called out
+// in notes). When in doubt, lean toward MORE entries — the user wants a
+// path forward, even imperfect, more than a "no sub" dead-end.
 const SEED = {
+  // ============================================================
+  // DAIRY — milk + cream + butter + cheese family
+  // ============================================================
   'buttermilk': [
     { to: 'milk + 1 tbsp lemon juice or vinegar per cup', ratio: '1:1', notes: 'stir, rest 5 min' },
     { to: 'plain yogurt thinned with water', ratio: '3:1 yogurt:water', notes: '' },
+    { to: 'plant milk + 1 tbsp lemon juice', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'kefir', ratio: '1:1', notes: 'tangier' },
   ],
   'heavy cream': [
-    { to: 'whole milk + butter', ratio: '3/4 cup milk + 1/4 cup melted butter', notes: 'will not whip' },
+    { to: 'coconut cream (full-fat, chilled)', ratio: '1:1', notes: 'dairy-free; whips when cold' },
+    { to: 'whole milk + melted butter', ratio: '3/4 cup milk + 1/4 cup butter', notes: 'will not whip' },
     { to: 'evaporated milk', ratio: '1:1', notes: '' },
+    { to: 'cashew cream (1 cup soaked cashews + 3/4 cup water blended)', ratio: '1:1', notes: 'dairy-free, neutral' },
+  ],
+  'whipping cream': [
+    { to: 'cold full-fat coconut cream', ratio: '1:1', notes: 'whip ice-cold' },
+    { to: 'aquafaba + cream of tartar', ratio: '3 tbsp aquafaba per egg-white worth', notes: 'vegan' },
+  ],
+  'half-and-half': [
+    { to: 'whole milk + heavy cream', ratio: '1/2 cup each', notes: '' },
+    { to: 'evaporated milk', ratio: '1:1', notes: '' },
+    { to: 'oat milk + 1 tsp oil', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'cream': [
+    { to: 'coconut cream', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'cashew cream', ratio: '1:1', notes: 'dairy-free, neutral' },
+    { to: 'milk + butter', ratio: '3:1', notes: '' },
   ],
   'sour cream': [
     { to: 'plain greek yogurt', ratio: '1:1', notes: 'tangier' },
+    { to: 'cashew cream + lemon', ratio: '1:1 + 1 tsp lemon', notes: 'dairy-free' },
+    { to: 'coconut cream + lemon', ratio: '1:1 + 1 tsp lemon', notes: 'dairy-free' },
     { to: 'buttermilk', ratio: '1:1', notes: 'thinner' },
   ],
   'butter': [
-    { to: 'olive oil', ratio: '3:4', notes: 'not for baking' },
-    { to: 'coconut oil', ratio: '1:1', notes: '' },
+    { to: 'vegan butter (Miyoko\'s, Earth Balance)', ratio: '1:1', notes: 'dairy-free, bakes well' },
+    { to: 'olive oil', ratio: '3:4', notes: 'not for baking pastries' },
+    { to: 'coconut oil', ratio: '1:1', notes: 'solid at room temp; bakes well' },
+    { to: 'avocado oil', ratio: '3:4', notes: 'neutral, sautéing' },
+    { to: 'mashed avocado (baking)', ratio: '1:1', notes: 'green tint, moist' },
     { to: 'applesauce (baking)', ratio: '1:1', notes: 'cuts fat; sweeter' },
+    { to: 'ghee', ratio: '1:1', notes: 'still dairy but lactose-free' },
   ],
+  'unsalted butter': [
+    { to: 'salted butter (reduce added salt)', ratio: '1:1', notes: 'cut salt by 1/4 tsp per stick' },
+    { to: 'vegan butter', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'coconut oil', ratio: '1:1', notes: 'baking' },
+  ],
+  'salted butter': [
+    { to: 'unsalted butter + pinch salt', ratio: '1:1 + 1/4 tsp salt per stick', notes: '' },
+    { to: 'vegan butter', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'ghee': [
+    { to: 'clarified butter', ratio: '1:1', notes: '' },
+    { to: 'coconut oil', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'avocado oil', ratio: '1:1', notes: 'neutral' },
+  ],
+  'milk': [
+    { to: 'oat milk', ratio: '1:1', notes: 'closest texture, mildly sweet' },
+    { to: 'almond milk', ratio: '1:1', notes: 'thinner, slight nuttiness' },
+    { to: 'soy milk', ratio: '1:1', notes: 'high protein, bakes well' },
+    { to: 'coconut milk (carton, not canned)', ratio: '1:1', notes: 'mild coconut note' },
+    { to: 'cashew milk', ratio: '1:1', notes: 'creamy, neutral' },
+    { to: 'rice milk', ratio: '1:1', notes: 'thinner, sweeter' },
+  ],
+  'whole milk': [
+    { to: 'oat milk', ratio: '1:1', notes: 'best texture match' },
+    { to: 'soy milk', ratio: '1:1', notes: 'high protein, bakes well' },
+    { to: '2% milk + 1 tbsp half-and-half per cup', ratio: '1:1', notes: 'richer than 2%' },
+  ],
+  '2% milk': [
+    { to: 'whole milk diluted with water', ratio: '7:1 milk:water', notes: '' },
+    { to: 'oat milk', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'skim milk': [
+    { to: 'unsweetened almond milk', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'whole milk + water', ratio: '1:1', notes: 'rough match' },
+  ],
+  'evaporated milk': [
+    { to: 'coconut cream', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'whole milk simmered to half', ratio: '2 cups → 1 cup', notes: '' },
+    { to: 'heavy cream', ratio: '1:1', notes: '' },
+  ],
+  'condensed milk': [
+    { to: 'coconut cream + sugar simmered', ratio: '1 can = 1.5 cups cream + 3/4 cup sugar', notes: 'dairy-free' },
+    { to: 'evaporated milk + sugar', ratio: '1 can evap + 1.25 cups sugar', notes: '' },
+  ],
+  'sweetened condensed milk': [
+    { to: 'coconut sweetened condensed', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'evaporated milk + sugar simmered', ratio: '', notes: '' },
+  ],
+  'yogurt': [
+    { to: 'coconut yogurt', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'soy yogurt', ratio: '1:1', notes: 'dairy-free, high protein' },
+    { to: 'almond yogurt', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'sour cream', ratio: '1:1', notes: 'similar tang' },
+    { to: 'buttermilk', ratio: '1:1', notes: 'thinner' },
+  ],
+  'greek yogurt': [
+    { to: 'strained regular yogurt', ratio: '2:1 yogurt → greek', notes: 'cheesecloth, 30 min' },
+    { to: 'coconut yogurt (thick)', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'silken tofu blended + lemon', ratio: '1:1 + 1 tsp lemon', notes: 'dairy-free' },
+    { to: 'sour cream', ratio: '1:1', notes: 'higher fat' },
+  ],
+  'cheese': [
+    { to: 'nutritional yeast', ratio: '2 tbsp per 1/4 cup cheese', notes: 'cheesy umami; not melty' },
+    { to: 'vegan cheese (Daiya, Violife, Miyoko\'s)', ratio: '1:1', notes: 'dairy-free, melts' },
+    { to: 'cashew cheese', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'cheddar': [
+    { to: 'vegan cheddar (Violife, Daiya)', ratio: '1:1', notes: 'dairy-free, melts' },
+    { to: 'colby', ratio: '1:1', notes: 'milder' },
+    { to: 'monterey jack + 1 tsp paprika', ratio: '1:1', notes: 'mimic color + bite' },
+  ],
+  'mozzarella': [
+    { to: 'vegan mozzarella (Miyoko\'s, Violife)', ratio: '1:1', notes: 'dairy-free, melts' },
+    { to: 'provolone', ratio: '1:1', notes: 'sharper' },
+    { to: 'fresh white cheddar', ratio: '1:1', notes: 'tangier' },
+  ],
+  'parmesan': [
+    { to: 'pecorino romano', ratio: '1:1', notes: 'saltier; still dairy' },
+    { to: 'grana padano', ratio: '1:1', notes: 'still dairy' },
+    { to: 'nutritional yeast + salt', ratio: '2 tbsp + pinch salt = 1/4 cup parm', notes: 'dairy-free' },
+    { to: 'vegan parmesan (Violife)', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'ricotta': [
+    { to: 'cashew ricotta (1 cup soaked cashews + lemon + salt blended)', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'tofu ricotta (firm tofu mashed + lemon + nutritional yeast)', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'cottage cheese (drained, blended)', ratio: '1:1', notes: '' },
+  ],
+  'cottage cheese': [
+    { to: 'ricotta', ratio: '1:1', notes: '' },
+    { to: 'mashed firm tofu + lemon', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'cream cheese': [
+    { to: 'vegan cream cheese (Kite Hill, Miyoko\'s, Tofutti)', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'cashew cream cheese (cashews + lemon + salt blended)', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'mascarpone', ratio: '1:1', notes: 'richer' },
+    { to: 'silken tofu blended + lemon', ratio: '1:1', notes: 'dairy-free, lighter' },
+  ],
+  'feta': [
+    { to: 'vegan feta (Violife, Follow Your Heart)', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'tofu marinated in brine (lemon + olive oil + oregano)', ratio: '1:1', notes: 'dairy-free, 1hr marinate' },
+    { to: 'goat cheese', ratio: '1:1', notes: 'creamier; still dairy' },
+  ],
+  'goat cheese': [
+    { to: 'feta', ratio: '1:1', notes: 'saltier' },
+    { to: 'cashew cheese + lemon', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'gouda': [
+    { to: 'vegan gouda (Violife)', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'edam', ratio: '1:1', notes: 'milder' },
+  ],
+  'brie': [
+    { to: 'vegan brie (Kite Hill, Miyoko\'s)', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'camembert', ratio: '1:1', notes: 'similar' },
+  ],
+  'burrata': [
+    { to: 'fresh mozzarella', ratio: '1:1', notes: 'less creamy' },
+    { to: 'vegan burrata (Miyoko\'s)', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'mascarpone': [
+    { to: 'cream cheese + heavy cream', ratio: '8 oz CC + 1/4 cup cream', notes: '' },
+    { to: 'cashew cream + lemon', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'vegan mascarpone (Kite Hill)', ratio: '1:1', notes: 'dairy-free' },
+  ],
+  'whipped cream': [
+    { to: 'whipped coconut cream', ratio: '1:1', notes: 'dairy-free; chill 8hr first' },
+    { to: 'aquafaba whipped + sugar', ratio: '3 tbsp aquafaba per cup cream', notes: 'vegan' },
+  ],
+  'ice cream': [
+    { to: 'coconut ice cream', ratio: '1:1', notes: 'dairy-free' },
+    { to: 'oat-milk ice cream', ratio: '1:1', notes: 'dairy-free, creamiest plant base' },
+    { to: 'frozen banana blended', ratio: '1:1', notes: 'nice cream — instant' },
+  ],
+
+  // ============================================================
+  // EGGS
+  // ============================================================
   'eggs': [
-    { to: 'flax egg (1 tbsp ground flax + 3 tbsp water)', ratio: '1 egg = 1 flax egg', notes: 'baking only' },
-    { to: 'mashed banana', ratio: '1 egg = 1/4 cup', notes: 'adds sweetness' },
+    { to: 'flax egg (1 tbsp ground flax + 3 tbsp water)', ratio: '1 egg = 1 flax egg', notes: 'baking; rest 5 min' },
+    { to: 'chia egg (1 tbsp chia + 3 tbsp water)', ratio: '1 egg = 1 chia egg', notes: 'baking; rest 5 min' },
+    { to: 'mashed banana', ratio: '1 egg = 1/4 cup', notes: 'adds sweetness; quick breads' },
+    { to: 'applesauce', ratio: '1 egg = 1/4 cup', notes: 'cakes, muffins' },
+    { to: 'silken tofu blended', ratio: '1 egg = 1/4 cup', notes: 'rich baked goods, custards' },
+    { to: 'aquafaba (chickpea liquid)', ratio: '1 egg = 3 tbsp', notes: 'whips, meringues, mousse' },
+    { to: 'commercial egg replacer (Bob\'s, JustEgg)', ratio: 'per package', notes: 'most versatile' },
+  ],
+  'egg whites': [
+    { to: 'aquafaba', ratio: '1 white = 3 tbsp', notes: 'whips identically' },
+    { to: 'commercial egg-white replacer', ratio: 'per package', notes: '' },
+  ],
+  'egg yolks': [
+    { to: 'silken tofu blended', ratio: '1 yolk = 1/4 cup', notes: 'rich custards' },
+    { to: 'aquafaba + 1 tsp oil', ratio: '1 yolk = 1 tbsp aquafaba + 1 tsp oil', notes: '' },
+    { to: 'commercial egg-yolk replacer', ratio: 'per package', notes: '' },
+  ],
+
+  // ============================================================
+  // SUGAR + SWEETENERS
+  // ============================================================
+  'sugar': [
+    { to: 'brown sugar', ratio: '1:1', notes: 'molasses flavor' },
+    { to: 'maple syrup', ratio: '1 cup = 3/4 cup', notes: 'reduce liquid by 1/4 cup' },
+    { to: 'honey', ratio: '1 cup = 3/4 cup', notes: 'reduce liquid' },
+    { to: 'coconut sugar', ratio: '1:1', notes: 'lower glycemic' },
   ],
   'white sugar': [
     { to: 'brown sugar', ratio: '1:1', notes: 'adds molasses flavor' },
     { to: 'honey', ratio: '1 cup = 3/4 cup', notes: 'reduce liquid by 1/4 cup' },
     { to: 'maple syrup', ratio: '1 cup = 3/4 cup', notes: 'reduce liquid' },
+    { to: 'coconut sugar', ratio: '1:1', notes: 'caramel notes' },
+    { to: 'date sugar', ratio: '1:1', notes: 'whole-food option' },
   ],
   'brown sugar': [
     { to: 'white sugar + 1 tbsp molasses per cup', ratio: '1:1', notes: '' },
+    { to: 'coconut sugar', ratio: '1:1', notes: '' },
+    { to: 'maple sugar', ratio: '1:1', notes: 'pricier' },
+  ],
+  'powdered sugar': [
+    { to: 'sugar blended fine + 1 tbsp cornstarch per cup', ratio: '1:1', notes: 'food processor 2 min' },
+  ],
+  'corn syrup': [
+    { to: 'maple syrup', ratio: '1:1', notes: 'corn-free' },
+    { to: 'honey', ratio: '1:1', notes: 'corn-free' },
+    { to: 'agave', ratio: '1:1', notes: 'corn-free, neutral' },
+    { to: 'simple syrup (sugar + water 1:1)', ratio: '1:1', notes: '' },
+  ],
+  'high-fructose corn syrup': [
+    { to: 'maple syrup', ratio: '1:1', notes: '' },
+    { to: 'honey', ratio: '1:1', notes: '' },
+  ],
+  'molasses': [
+    { to: 'maple syrup + 1 tsp brown sugar per tbsp', ratio: '1:1', notes: 'sulfite-free' },
+    { to: 'date syrup', ratio: '1:1', notes: '' },
+    { to: 'dark corn syrup', ratio: '1:1', notes: 'lighter' },
+  ],
+
+  // ============================================================
+  // FLOUR + GLUTEN-FREE
+  // ============================================================
+  'flour': [
+    { to: 'gluten-free 1:1 flour blend (Bob\'s Red Mill, King Arthur)', ratio: '1:1', notes: 'gluten-free; bakes well' },
+    { to: 'whole wheat flour', ratio: '1:1', notes: 'denser; still wheat' },
+    { to: 'oat flour', ratio: '1:1', notes: 'gluten-free; certified gf' },
+    { to: 'almond flour', ratio: '3:4 (use less)', notes: 'gluten-free; nuttier; reduce liquid' },
+    { to: 'rice flour', ratio: '1:1', notes: 'gluten-free; lighter' },
+    { to: 'sorghum flour', ratio: '1:1', notes: 'gluten-free; mild' },
+    { to: 'cassava flour', ratio: '1:1', notes: 'gluten-free, nut-free, grain-free' },
+  ],
+  'all-purpose flour': [
+    { to: 'gluten-free 1:1 flour blend', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'whole wheat flour', ratio: '1:1', notes: 'denser; still wheat' },
+    { to: 'oat flour', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'almond flour', ratio: '3:4', notes: 'gluten-free; reduce liquid' },
+    { to: 'cassava flour', ratio: '1:1', notes: 'gluten-free, grain-free' },
   ],
   'flour (all-purpose)': [
-    { to: 'whole wheat flour', ratio: '1:1', notes: 'denser result' },
+    { to: 'whole wheat flour', ratio: '1:1', notes: 'denser result; still wheat' },
     { to: 'oat flour', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'gluten-free 1:1 blend', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'almond flour', ratio: '3:4', notes: 'gluten-free; nut-based' },
+  ],
+  'whole wheat flour': [
+    { to: 'all-purpose flour', ratio: '1:1', notes: 'lighter; still wheat' },
+    { to: 'spelt flour', ratio: '1:1', notes: 'still gluten' },
+    { to: 'oat flour + ap flour', ratio: '1:1', notes: 'gluten-free option mid-blend' },
+  ],
+  'bread flour': [
+    { to: 'all-purpose flour + 1 tsp vital wheat gluten per cup', ratio: '1:1', notes: 'still gluten' },
+    { to: 'all-purpose flour', ratio: '1:1', notes: 'less chewy' },
+  ],
+  'cake flour': [
+    { to: 'all-purpose flour + 2 tbsp cornstarch per cup', ratio: '7/8 cup AP + 2 tbsp cornstarch = 1 cup cake', notes: 'sift 3x' },
   ],
   'cornstarch': [
-    { to: 'all-purpose flour', ratio: '1 tbsp cornstarch = 2 tbsp flour', notes: '' },
-    { to: 'arrowroot', ratio: '1:1', notes: '' },
+    { to: 'arrowroot powder', ratio: '1:1', notes: 'corn-free' },
+    { to: 'tapioca starch', ratio: '1:1', notes: 'corn-free' },
+    { to: 'potato starch', ratio: '1:1', notes: 'corn-free' },
+    { to: 'all-purpose flour', ratio: '1 tbsp cornstarch = 2 tbsp flour', notes: 'still gluten' },
+    { to: 'rice flour', ratio: '1:1', notes: 'corn-free, gluten-free' },
+  ],
+  'cornmeal': [
+    { to: 'polenta', ratio: '1:1', notes: 'still corn' },
+    { to: 'millet flour', ratio: '1:1', notes: 'corn-free' },
+    { to: 'rice flour', ratio: '1:1', notes: 'corn-free; less texture' },
+    { to: 'fine semolina', ratio: '1:1', notes: 'corn-free; still wheat' },
+  ],
+  'breadcrumbs': [
+    { to: 'gluten-free breadcrumbs', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'rolled oats (pulsed)', ratio: '1:1', notes: 'gluten-free if certified' },
+    { to: 'crushed crackers', ratio: '1:1', notes: '' },
+    { to: 'crushed cornflakes', ratio: '1:1', notes: 'gluten-free; corn' },
+    { to: 'almond flour', ratio: '1:1', notes: 'gluten-free; nut' },
+    { to: 'crushed pork rinds', ratio: '1:1', notes: 'gf, low-carb, savory only' },
+  ],
+  'panko': [
+    { to: 'gluten-free panko', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'crushed cornflakes', ratio: '1:1', notes: 'gluten-free; crispier' },
+    { to: 'crushed rice cereal', ratio: '1:1', notes: 'gluten-free' },
+  ],
+  'pasta': [
+    { to: 'rice pasta', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'chickpea pasta (Banza)', ratio: '1:1', notes: 'gluten-free, high protein' },
+    { to: 'lentil pasta', ratio: '1:1', notes: 'gluten-free, high protein' },
+    { to: 'zucchini noodles', ratio: '1:1', notes: 'gluten-free, low-carb' },
+    { to: 'spaghetti squash', ratio: '1 squash = 4 servings', notes: 'gluten-free' },
+  ],
+  'noodles': [
+    { to: 'rice noodles', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'shirataki noodles', ratio: '1:1', notes: 'gluten-free, low-cal' },
+    { to: 'gluten-free pasta', ratio: '1:1', notes: '' },
+  ],
+  'couscous': [
+    { to: 'quinoa', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'rice (cooked)', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'millet', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'cauliflower rice', ratio: '1:1', notes: 'gluten-free, low-carb' },
+  ],
+  'bread': [
+    { to: 'gluten-free bread (Canyon Bakehouse, Schar)', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'lettuce wraps', ratio: '1 wrap per slice', notes: 'gf, low-carb' },
+    { to: 'corn tortillas', ratio: '1:1', notes: 'gf' },
+    { to: 'rice cakes', ratio: '1:1', notes: 'gf' },
+    { to: 'sweet potato slices (toasted)', ratio: '1 slice per bread slice', notes: 'gf, paleo' },
+  ],
+  'tortilla': [
+    { to: 'corn tortilla', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'cassava tortilla (Siete)', ratio: '1:1', notes: 'gluten-free, grain-free' },
+    { to: 'almond flour tortilla', ratio: '1:1', notes: 'gluten-free; nut' },
+    { to: 'lettuce wrap', ratio: '1 leaf per tortilla', notes: 'gf, low-carb' },
+  ],
+  'semolina': [
+    { to: 'fine cornmeal', ratio: '1:1', notes: 'gluten-free; still corn' },
+    { to: 'rice flour', ratio: '1:1', notes: 'gf, corn-free' },
+  ],
+  'bulgur': [
+    { to: 'quinoa', ratio: '1:1', notes: 'gluten-free' },
+    { to: 'cracked wheat (still gluten)', ratio: '1:1', notes: '' },
+    { to: 'farro', ratio: '1:1', notes: 'still gluten' },
   ],
   'baking powder': [
     { to: '1/4 tsp baking soda + 1/2 tsp cream of tartar', ratio: 'per 1 tsp baking powder', notes: '' },
+    { to: 'baking soda + buttermilk', ratio: '1/4 tsp soda + 1/2 cup buttermilk replaces 1 tsp powder', notes: 'reduce other liquid' },
   ],
   'baking soda': [
-    { to: 'baking powder', ratio: '1 tsp soda = 3 tsp powder', notes: 'results differ' },
+    { to: 'baking powder', ratio: '1 tsp soda = 3 tsp powder', notes: 'results differ slightly' },
+    { to: 'self-rising flour', ratio: 'per package; cut other leavening', notes: '' },
   ],
+  'yeast (active dry)': [
+    { to: 'instant yeast', ratio: '1 tsp active = 3/4 tsp instant', notes: 'no proof needed' },
+    { to: 'sourdough starter', ratio: '1 cup ripe starter = 2 tsp yeast', notes: 'reduce flour 1/2 cup + liquid 1/2 cup' },
+  ],
+
+  // ============================================================
+  // SPICES + AROMATICS
+  // ============================================================
   'cumin': [
     { to: 'chili powder', ratio: '1:1', notes: 'spicier' },
     { to: 'coriander + smoked paprika', ratio: '1:1 blend', notes: '' },
@@ -67,9 +388,58 @@ const SEED = {
   'fresh ginger': [
     { to: 'ground ginger', ratio: '1 tbsp fresh = 1/4 tsp ground', notes: '' },
   ],
+  // ============================================================
+  // SOY
+  // ============================================================
   'soy sauce': [
-    { to: 'tamari (gluten-free)', ratio: '1:1', notes: '' },
-    { to: 'coconut aminos', ratio: '1:1', notes: 'less salty, sweeter' },
+    { to: 'tamari (gluten-free; still soy)', ratio: '1:1', notes: '' },
+    { to: 'coconut aminos', ratio: '1:1', notes: 'soy-free, gf, sweeter' },
+    { to: 'liquid aminos', ratio: '1:1', notes: 'still soy unless coconut variety' },
+    { to: 'maggi seasoning', ratio: '1:1', notes: 'wheat-based; check label' },
+    { to: 'worcestershire + water', ratio: '1:1 thinned', notes: 'savory, less salty' },
+  ],
+  'tamari': [
+    { to: 'coconut aminos', ratio: '1:1', notes: 'soy-free' },
+    { to: 'soy sauce', ratio: '1:1', notes: 'has gluten' },
+    { to: 'liquid aminos', ratio: '1:1', notes: '' },
+  ],
+  'tofu': [
+    { to: 'paneer (firm; still dairy)', ratio: '1:1', notes: 'soy-free' },
+    { to: 'chickpeas', ratio: '1:1 by volume', notes: 'soy-free' },
+    { to: 'seitan (still gluten)', ratio: '1:1', notes: 'soy-free, chewier' },
+    { to: 'tempeh', ratio: '1:1', notes: 'still soy' },
+    { to: 'extra-firm scrambled eggs', ratio: '1:1', notes: 'soy-free' },
+  ],
+  'firm tofu': [
+    { to: 'paneer', ratio: '1:1', notes: 'soy-free, still dairy' },
+    { to: 'seitan', ratio: '1:1', notes: 'soy-free; gluten' },
+    { to: 'pressed cottage cheese', ratio: '1:1', notes: 'soy-free, dairy' },
+  ],
+  'silken tofu': [
+    { to: 'greek yogurt', ratio: '1:1', notes: 'soy-free, dairy' },
+    { to: 'cashew cream', ratio: '1:1', notes: 'soy-free, dairy-free; nut' },
+    { to: 'avocado (smooth desserts)', ratio: '1:1', notes: 'soy-free' },
+  ],
+  'tempeh': [
+    { to: 'seitan', ratio: '1:1', notes: 'soy-free; gluten' },
+    { to: 'chickpeas + walnuts (crumbled)', ratio: '1:1', notes: 'soy-free; nut' },
+    { to: 'extra-firm tofu pressed', ratio: '1:1', notes: 'still soy' },
+    { to: 'mushrooms + lentils crumbled', ratio: '1:1', notes: 'soy-free, nut-free' },
+  ],
+  'edamame': [
+    { to: 'green peas', ratio: '1:1', notes: 'soy-free' },
+    { to: 'fava beans', ratio: '1:1', notes: 'soy-free' },
+    { to: 'lima beans', ratio: '1:1', notes: 'soy-free' },
+  ],
+  'miso': [
+    { to: 'chickpea miso', ratio: '1:1', notes: 'soy-free' },
+    { to: 'salt + nutritional yeast', ratio: '1 tbsp miso = 1/2 tsp salt + 1 tsp NY', notes: 'soy-free' },
+    { to: 'tahini + soy sauce + lemon', ratio: '1 tbsp = 1 tsp each', notes: 'still soy/sesame' },
+  ],
+  'soy milk': [
+    { to: 'oat milk', ratio: '1:1', notes: 'soy-free' },
+    { to: 'almond milk', ratio: '1:1', notes: 'soy-free; nut' },
+    { to: 'coconut milk (carton)', ratio: '1:1', notes: 'soy-free' },
   ],
   'worcestershire sauce': [
     { to: 'soy sauce + vinegar + dash hot sauce', ratio: '2:1:dash', notes: '' },
@@ -100,17 +470,289 @@ const SEED = {
   'fresh herbs': [
     { to: 'dried herbs', ratio: '1 tbsp fresh = 1 tsp dried', notes: '' },
   ],
-  'breadcrumbs': [
-    { to: 'rolled oats (pulsed)', ratio: '1:1', notes: '' },
-    { to: 'crushed crackers', ratio: '1:1', notes: '' },
+  // ============================================================
+  // NUTS + SEEDS
+  // ============================================================
+  'almonds': [
+    { to: 'sunflower seeds', ratio: '1:1', notes: 'nut-free' },
+    { to: 'pumpkin seeds (pepitas)', ratio: '1:1', notes: 'nut-free' },
+    { to: 'roasted chickpeas', ratio: '1:1', notes: 'nut-free, crunchy' },
+    { to: 'cashews', ratio: '1:1', notes: 'still tree nut' },
   ],
+  'walnuts': [
+    { to: 'pecans', ratio: '1:1', notes: 'still tree nut' },
+    { to: 'sunflower seeds (toasted)', ratio: '1:1', notes: 'nut-free' },
+    { to: 'pumpkin seeds (toasted)', ratio: '1:1', notes: 'nut-free' },
+    { to: 'hemp hearts', ratio: '1:1', notes: 'nut-free, soft' },
+    { to: 'rolled oats toasted', ratio: '1:1', notes: 'nut-free' },
+  ],
+  'pecans': [
+    { to: 'walnuts', ratio: '1:1', notes: 'still tree nut' },
+    { to: 'sunflower seeds toasted', ratio: '1:1', notes: 'nut-free' },
+    { to: 'pumpkin seeds toasted', ratio: '1:1', notes: 'nut-free' },
+  ],
+  'cashews': [
+    { to: 'macadamia nuts', ratio: '1:1', notes: 'still tree nut' },
+    { to: 'sunflower seeds (soaked)', ratio: '1:1', notes: 'nut-free; cashew-cream substitute' },
+    { to: 'silken tofu (for cream)', ratio: '1:1', notes: 'nut-free; soy' },
+  ],
+  'pine nuts': [
+    { to: 'sunflower seeds (toasted)', ratio: '1:1', notes: 'nut-free; cheaper' },
+    { to: 'walnuts toasted', ratio: '1:1', notes: 'still tree nut' },
+    { to: 'pumpkin seeds', ratio: '1:1', notes: 'nut-free' },
+  ],
+  'pistachios': [
+    { to: 'pumpkin seeds', ratio: '1:1', notes: 'nut-free; green color' },
+    { to: 'almonds', ratio: '1:1', notes: 'still tree nut' },
+  ],
+  'hazelnuts': [
+    { to: 'almonds', ratio: '1:1', notes: 'still tree nut' },
+    { to: 'sunflower seeds', ratio: '1:1', notes: 'nut-free' },
+  ],
+  'peanuts': [
+    { to: 'roasted chickpeas', ratio: '1:1', notes: 'nut-free, peanut-free' },
+    { to: 'sunflower seeds roasted', ratio: '1:1', notes: 'nut-free, peanut-free' },
+    { to: 'pumpkin seeds roasted', ratio: '1:1', notes: 'nut-free, peanut-free' },
+  ],
+  'peanut butter': [
+    { to: 'sunflower seed butter (SunButter)', ratio: '1:1', notes: 'nut-free, peanut-free' },
+    { to: 'almond butter', ratio: '1:1', notes: 'still tree nut' },
+    { to: 'wow butter (soy)', ratio: '1:1', notes: 'peanut-free; soy' },
+    { to: 'tahini', ratio: '1:1', notes: 'peanut-free; sesame' },
+    { to: 'pumpkin seed butter', ratio: '1:1', notes: 'nut/seed-free of common allergens' },
+  ],
+  'almond butter': [
+    { to: 'sunflower seed butter', ratio: '1:1', notes: 'nut-free' },
+    { to: 'cashew butter', ratio: '1:1', notes: 'still tree nut' },
+    { to: 'tahini', ratio: '1:1', notes: 'nut-free; sesame' },
+  ],
+  'almond flour': [
+    { to: 'sunflower seed flour', ratio: '1:1', notes: 'nut-free; may turn green w/ baking soda — add 1 tsp lemon' },
+    { to: 'oat flour', ratio: '1:1', notes: 'nut-free; gluten-free if certified' },
+    { to: 'cassava flour', ratio: '1:1', notes: 'nut-free, grain-free' },
+    { to: 'all-purpose flour', ratio: '4:3', notes: 'wheat; reduce vs almond' },
+  ],
+  'sesame seeds': [
+    { to: 'poppy seeds', ratio: '1:1', notes: 'sesame-free' },
+    { to: 'hemp hearts', ratio: '1:1', notes: 'sesame-free' },
+    { to: 'sunflower seeds (toasted, chopped)', ratio: '1:1', notes: 'sesame-free' },
+    { to: 'flax seeds (toasted)', ratio: '1:1', notes: 'sesame-free' },
+  ],
+  'sesame oil': [
+    { to: 'toasted walnut oil', ratio: '1:1', notes: 'sesame-free; tree nut' },
+    { to: 'neutral oil + dash soy sauce', ratio: '1:1', notes: 'sesame-free; close-not-exact' },
+    { to: 'peanut oil + 1/4 tsp ground cumin', ratio: '1:1', notes: 'sesame-free; peanut' },
+  ],
+  'tahini': [
+    { to: 'sunflower seed butter', ratio: '1:1', notes: 'sesame-free, nut-free' },
+    { to: 'cashew butter', ratio: '1:1', notes: 'sesame-free; tree nut' },
+    { to: 'almond butter', ratio: '1:1', notes: 'sesame-free; tree nut' },
+    { to: 'pumpkin seed butter', ratio: '1:1', notes: 'sesame-free, nut-free' },
+  ],
+
+  // ============================================================
+  // FISH + SHELLFISH
+  // ============================================================
+  'shrimp': [
+    { to: 'king oyster mushroom (sliced rounds)', ratio: '1:1 by volume', notes: 'shellfish-free, vegan' },
+    { to: 'hearts of palm chunks', ratio: '1:1', notes: 'shellfish-free, vegan' },
+    { to: 'vegan shrimp (Sophie\'s Kitchen)', ratio: '1:1', notes: 'shellfish-free' },
+    { to: 'firm tofu cubed + Old Bay', ratio: '1:1', notes: 'shellfish-free; soy' },
+    { to: 'chicken breast diced', ratio: '1:1', notes: 'shellfish-free; not vegan' },
+  ],
+  'crab': [
+    { to: 'hearts of palm shredded', ratio: '1:1', notes: 'shellfish-free, vegan' },
+    { to: 'jackfruit shredded', ratio: '1:1', notes: 'shellfish-free, vegan' },
+    { to: 'vegan crab cakes (Good Catch, Gardein)', ratio: '1:1', notes: 'shellfish-free' },
+    { to: 'imitation crab (surimi — usually pollock fish)', ratio: '1:1', notes: 'shellfish-free; still fish' },
+  ],
+  'lobster': [
+    { to: 'monkfish ("poor man\'s lobster")', ratio: '1:1', notes: 'shellfish-free; still fish' },
+    { to: 'hearts of palm', ratio: '1:1', notes: 'shellfish-free, vegan' },
+    { to: 'vegan lobster (Be Leaf, Sophie\'s Kitchen)', ratio: '1:1', notes: 'shellfish-free' },
+  ],
+  'scallops': [
+    { to: 'king oyster mushroom rounds (1.5" thick, seared)', ratio: '1:1', notes: 'shellfish-free, vegan' },
+    { to: 'cauliflower stem rounds (seared)', ratio: '1:1', notes: 'shellfish-free, vegan' },
+  ],
+  'salmon': [
+    { to: 'arctic char', ratio: '1:1', notes: 'still fish; very similar' },
+    { to: 'trout', ratio: '1:1', notes: 'still fish' },
+    { to: 'smoked tofu', ratio: '1:1', notes: 'fish-free; soy' },
+    { to: 'carrot lox (marinated carrot)', ratio: '1:1', notes: 'fish-free, vegan' },
+    { to: 'marinated watermelon', ratio: '1:1', notes: 'fish-free, vegan, raw apps' },
+  ],
+  'tuna': [
+    { to: 'mashed chickpeas + lemon + celery + mayo', ratio: '1 can = 1 cup chickpeas', notes: 'fish-free, vegan' },
+    { to: 'jackfruit (young, drained)', ratio: '1:1', notes: 'fish-free, vegan' },
+    { to: 'vegan tuna (Good Catch)', ratio: '1:1', notes: 'fish-free' },
+    { to: 'chicken (canned or shredded)', ratio: '1:1', notes: 'fish-free; not vegan' },
+  ],
+  'cod': [
+    { to: 'haddock or pollock', ratio: '1:1', notes: 'still fish' },
+    { to: 'tilapia', ratio: '1:1', notes: 'still fish; milder' },
+    { to: 'firm tofu (battered)', ratio: '1:1', notes: 'fish-free; soy' },
+    { to: 'hearts of palm', ratio: '1:1', notes: 'fish-free, vegan' },
+  ],
+  'anchovy': [
+    { to: 'capers (mashed)', ratio: '1 fillet = 1 tsp capers', notes: 'fish-free, vegan' },
+    { to: 'soy sauce + miso (drop)', ratio: '1 fillet = 1/2 tsp soy + 1/4 tsp miso', notes: 'fish-free; soy' },
+    { to: 'umeboshi paste', ratio: '1 fillet = 1/2 tsp', notes: 'fish-free, vegan' },
+  ],
+  'fish sauce': [
+    { to: 'soy sauce + lime', ratio: '3 tbsp soy + 1 tbsp lime = 1/4 cup fish sauce', notes: 'fish-free; soy' },
+    { to: 'vegan fish sauce (Ocean\'s Halo)', ratio: '1:1', notes: 'fish-free' },
+    { to: 'mushroom soy sauce', ratio: '1:1', notes: 'fish-free; soy' },
+  ],
+  'oysters': [
+    { to: 'king oyster mushrooms', ratio: '1:1', notes: 'mollusc-free, vegan' },
+    { to: 'soft tofu chunks + nori', ratio: '1:1', notes: 'mollusc-free; soy' },
+  ],
+  'mussels': [
+    { to: 'hearts of palm', ratio: '1:1', notes: 'mollusc-free, vegan' },
+    { to: 'oyster mushroom clusters', ratio: '1:1', notes: 'mollusc-free, vegan' },
+  ],
+  'clams': [
+    { to: 'oyster mushrooms', ratio: '1:1', notes: 'mollusc-free, vegan' },
+    { to: 'hearts of palm', ratio: '1:1', notes: 'mollusc-free, vegan' },
+  ],
+  'squid': [
+    { to: 'hearts of palm', ratio: '1:1', notes: 'mollusc-free, vegan' },
+    { to: 'king oyster mushroom (sliced into rings)', ratio: '1:1', notes: 'mollusc-free, vegan' },
+  ],
+
+  // ============================================================
+  // MUSTARD
+  // ============================================================
+  'mustard': [
+    { to: 'horseradish + mayo', ratio: '1 tsp HR + 1 tbsp mayo = 1 tbsp mustard', notes: 'mustard-free' },
+    { to: 'wasabi + mayo', ratio: '1 tsp wasabi + 1 tbsp mayo', notes: 'mustard-free; spicier' },
+    { to: 'turmeric + vinegar + salt', ratio: '1/2 tsp + 1 tbsp + pinch', notes: 'mustard-free; mimics color' },
+  ],
+  'dijon': [
+    { to: 'horseradish + mayo + lemon', ratio: '1 tsp HR + 1 tbsp mayo + drop lemon', notes: 'mustard-free' },
+    { to: 'yellow mustard', ratio: '1:1', notes: 'still mustard; milder' },
+  ],
+  'whole grain mustard': [
+    { to: 'dijon + capers (chopped)', ratio: '1:1 + 1 tsp capers', notes: 'still mustard; texture' },
+    { to: 'horseradish cream', ratio: '1:1', notes: 'mustard-free' },
+  ],
+
+  // ============================================================
+  // CELERY
+  // ============================================================
+  'celery': [
+    { to: 'fennel stalks', ratio: '1:1', notes: 'celery-free; mild anise' },
+    { to: 'bok choy stems', ratio: '1:1', notes: 'celery-free' },
+    { to: 'jicama (julienne)', ratio: '1:1', notes: 'celery-free; sweeter, no flavor' },
+    { to: 'green bell pepper diced', ratio: '1:1', notes: 'celery-free' },
+    { to: 'zucchini diced', ratio: '1:1', notes: 'celery-free; less crunch' },
+  ],
+  'celery salt': [
+    { to: 'salt + dried lovage or parsley', ratio: '1 tsp salt + 1/4 tsp lovage', notes: 'celery-free' },
+    { to: 'plain salt', ratio: '1:1', notes: 'celery-free; loses celery note' },
+  ],
+  'celery seed': [
+    { to: 'caraway seed', ratio: '1:1', notes: 'celery-free' },
+    { to: 'dill seed', ratio: '1:1', notes: 'celery-free' },
+  ],
+
+  // ============================================================
+  // SULFITES
+  // ============================================================
+  'red wine': [
+    { to: 'beef broth + 1 tbsp red wine vinegar', ratio: '1:1 broth + splash vinegar', notes: 'sulfite-free if low-sulfite vinegar' },
+    { to: 'pomegranate juice + balsamic', ratio: '3:1', notes: 'sulfite-free option; check labels' },
+    { to: 'cranberry juice + vinegar', ratio: '3:1', notes: 'sulfite-free if 100% juice' },
+  ],
+  'white wine': [
+    { to: 'chicken broth + 1 tbsp lemon juice', ratio: '1:1 broth + splash', notes: 'sulfite-free' },
+    { to: 'apple cider + vinegar', ratio: '3:1', notes: 'sulfite-free' },
+    { to: 'white grape juice + vinegar', ratio: '3:1', notes: 'sulfite-free if specified' },
+  ],
+  'dried apricot': [
+    { to: 'fresh apricot', ratio: '1 dried = 2 fresh', notes: 'sulfite-free' },
+    { to: 'sun-dried (sulfite-free) apricots', ratio: '1:1', notes: 'darker color' },
+    { to: 'dried peaches', ratio: '1:1', notes: 'check sulfite-free label' },
+  ],
+
+  // ============================================================
+  // BREADCRUMB-STYLE FALLBACKS
+  // ============================================================
   'buttermilk powder': [
     { to: 'powdered milk + cream of tartar', ratio: 'per package', notes: '' },
+  ],
+  // === "No real swap" foundationals — return honest empty + note instead of 404 ===
+  // These are ingredients users frequently search for when they're out, but a true
+  // substitute either doesn't exist (salt, water) or is technique-specific.
+  // Returning a clear "no good swap" reads as honest, vs the previous 404 which
+  // looked like a server bug.
+  'salt': [
+    { to: 'reduce or omit', ratio: 'taste as you cook', notes: 'no real swap. Soy sauce or miso adds umami, not salinity.' },
+  ],
+  'kosher salt': [
+    { to: 'sea salt or table salt (use less)', ratio: '1 kosher = 0.75 table', notes: 'finer crystals salt more per spoon' },
+  ],
+  'sea salt': [
+    { to: 'kosher salt', ratio: '1:1', notes: '' },
+    { to: 'table salt', ratio: '1 sea = 0.75 table', notes: '' },
+  ],
+  'black pepper': [
+    { to: 'white pepper', ratio: '1:1', notes: 'milder, used in cream sauces' },
+    { to: 'reduce or omit', ratio: '', notes: 'no real swap for the bite' },
+  ],
+  'water': [
+    { to: 'use as called for', ratio: '', notes: 'no swap. If for pasta, milk works for risotto-style' },
+  ],
+  'olive oil': [
+    { to: 'avocado oil', ratio: '1:1', notes: 'higher smoke point' },
+    { to: 'butter (melted)', ratio: '1:1', notes: 'richer, lower smoke point' },
+    { to: 'vegetable oil', ratio: '1:1', notes: 'neutral, no flavor' },
+  ],
+  'vegetable oil': [
+    { to: 'canola oil', ratio: '1:1', notes: '' },
+    { to: 'avocado oil', ratio: '1:1', notes: 'pricier, higher smoke point' },
+  ],
+  'milk': [
+    { to: 'oat milk', ratio: '1:1', notes: 'closest texture' },
+    { to: 'almond milk', ratio: '1:1', notes: 'thinner' },
+    { to: 'water + 1 tbsp butter per cup', ratio: '1:1', notes: 'baking only' },
+  ],
+  'onion': [
+    { to: 'shallot', ratio: '1 onion = 3 shallots', notes: 'milder, sweeter' },
+    { to: 'leek (white part)', ratio: '1:1', notes: '' },
+    { to: 'onion powder', ratio: '1 medium onion = 1 tbsp powder', notes: 'no texture' },
+  ],
+  'garlic': [
+    { to: 'garlic powder', ratio: '1 clove = 1/8 tsp', notes: '' },
+    { to: 'shallot', ratio: '1 clove = 1/2 shallot', notes: 'softer' },
   ],
 };
 
 function normalize(name) {
   return String(name || '').toLowerCase().replace(/[.,()]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+/** Pre-built keyword index over SEED. Each key (e.g., 'milk', 'cheddar') maps
+ *  to the SEED entry name. Lets us answer "does any ingredient text on this
+ *  recipe have a sub?" with O(1) substring scans against the recipe text.
+ *  Built once at module load. */
+const SEED_KEYS = Object.keys(SEED).map(k => normalize(k));
+
+/** True if the given ingredient text has at least one known substitute in
+ *  the SEED table. Substring-aware so "all-purpose flour" matches the
+ *  "flour (all-purpose)" entry, "fresh whole milk" matches "milk", etc.
+ *  Used by recipes.js to decide allergen banner color (red vs yellow). */
+export function hasSubsFor(ingredientText) {
+  const t = normalize(ingredientText);
+  if (!t) return false;
+  if (SEED[t]) return true;
+  // Token-level membership — handles "1 cup whole milk" against key "milk".
+  for (const key of SEED_KEYS) {
+    if (key.length < 3) continue; // skip 'cb' / 'pb' style noise if any
+    if (t.includes(key)) return true;
+  }
+  return false;
 }
 
 async function aiFallback(env, ingredient) {
@@ -182,12 +824,25 @@ export const handleSubstitutions = {
       }
     }
 
-    // AI fallback under scan-tier rate limit (per-user, expensive)
-    const aiRl = await enforce(env, 'scan', userId);
+    // AI fallback under read-tier rate limit. Substitutions are pure-text Claude
+    // calls (~$0.001 each), nowhere near the $0.005 vision-scan cost — they should
+    // NOT consume the user's fridge-scan quota. Read tier (120/min) is the right cap.
+    const aiRl = await enforce(env, 'read', userId);
     if (aiRl) return aiRl;
 
     const subs = await aiFallback(env, key);
-    if (!subs?.length) return err(404, 'no substitutions found');
+    // Return ok:true with empty subs + honest note instead of 404. A 404 reads
+    // as "the server broke", an empty result with explanation reads as "this
+    // ingredient genuinely has no good swap, here's why."
+    if (!subs?.length) {
+      return json({
+        ok: true,
+        ingredient: key,
+        subs: [],
+        source: 'ai_empty',
+        note: `No reliable substitute for ${key}. Reduce, omit, or check the original recipe for a workaround.`,
+      }, 200, request, env);
+    }
 
     if (env.RATE_LIMIT_KV) {
       await env.RATE_LIMIT_KV.put(cacheKey, JSON.stringify(subs), { expirationTtl: CACHE_TTL });

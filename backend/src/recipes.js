@@ -7,8 +7,61 @@ import { matches, computeMaxServings, buildPantryIndex, indexMatch, isStaple } f
 import { canonicalize } from './canonicalize.js';
 import { estimatePriceUsd } from './expiry.js';
 import { getPreferencesFor, getTasteProfileCached, prefHash } from './preferences.js';
+import { addRecipeToStandardBook } from './library.js';
+import { hasSubsFor } from './substitutions.js';
 
 const INTERACTION_STATUS = new Set(['saved', 'planned', 'cooked', 'dismissed']);
+
+/**
+ * Compute the start-of-day timestamp for the user's LOCAL timezone, not UTC.
+ *
+ * Why this matters: the swipe quota resets daily. If we use UTC midnight, a US user
+ * sees their swipes "reset" at 7pm local — and inversely, "midnight local" arrives
+ * with the prior day's swipes still counted, leaving them locked out for hours.
+ *
+ * Source of TZ:
+ *   1. `request.cf.timezone` — Cloudflare auto-attaches IANA name (e.g. "America/Chicago")
+ *      via geo-IP. Available on every Worker request without extra config.
+ *   2. Fallback to UTC if missing (Workers tests, weird ISPs).
+ *
+ * Returns { dayStartMs, dayKey } — dayStartMs for SQL `created_at >= ?` queries,
+ * dayKey for cache keys (string, "YYYY-MM-DD" format).
+ */
+function userLocalDay(request, nowMs = Date.now()) {
+  const tz = request?.cf?.timezone || 'UTC';
+  let dayKey;
+  try {
+    // 'en-CA' formats as YYYY-MM-DD which is parseable + sortable.
+    dayKey = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date(nowMs));
+  } catch {
+    // Bad TZ string — fall back to UTC.
+    dayKey = new Date(nowMs).toISOString().slice(0, 10);
+  }
+  // Reconstruct the day-start ms by parsing the YYYY-MM-DD as a date in tz.
+  // Trick: format the same instant for "00:00" of that day and parse the offset.
+  let dayStartMs;
+  try {
+    // Get the UTC offset for this TZ at this instant via Intl. Hour part of tz=UTC is
+    // the absolute hour; we compute offset by comparing the formatted hour with UTC.
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: tz, hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+    });
+    const parts = Object.fromEntries(fmt.formatToParts(new Date(nowMs)).map(p => [p.type, p.value]));
+    // Local "now" if read as UTC components — subtract from real UTC to get the offset.
+    const asIfUtc = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour % 24, +parts.minute, +parts.second);
+    const offsetMs = asIfUtc - nowMs;  // positive for east-of-UTC, negative for west
+    // Day start in UTC ms = midnight in local TZ
+    const [y, m, d] = dayKey.split('-').map(Number);
+    const localMidnightAsUtc = Date.UTC(y, m - 1, d, 0, 0, 0);
+    dayStartMs = localMidnightAsUtc - offsetMs;
+  } catch {
+    // Fallback: floor to UTC day.
+    dayStartMs = Math.floor(nowMs / 86400_000) * 86400_000;
+  }
+  return { dayStartMs, dayKey };
+}
 
 export const handleRecipes = {
   async deck(userId, env, request) {
@@ -37,8 +90,9 @@ export const handleRecipes = {
     // handlers). Keying also by prefsKey so a preferences update invalidates the cache,
     // mealFilter so filtered decks cache independently, and contentType so the
     // Mixology deck does not collide with the food deck.
-    const day = Math.floor(Date.now() / 86400_000);
-    const cacheKey = `deck:${userId}:${prefsKey}:${day}:${mealFilter || 'all'}:${contentType}:${requirePhoto ? 'p' : 'np'}`;
+    // Day key is the user's LOCAL day so the cache also resets at local midnight.
+    const { dayStartMs, dayKey } = userLocalDay(request);
+    const cacheKey = `deck:${userId}:${prefsKey}:${dayKey}:${mealFilter || 'all'}:${contentType}:${requirePhoto ? 'p' : 'np'}`;
     if (env.RATE_LIMIT_KV) {
       const cached = await env.RATE_LIMIT_KV.get(cacheKey);
       if (cached) {
@@ -51,10 +105,8 @@ export const handleRecipes = {
 
     // Daily swipe budget — counted from D1 interaction rows (source of truth).
     // Quota is per-content-bucket: food deck and Mixology deck (cocktail+mocktail) each
-    // get their own 20/day. Otherwise burning through 20 food swipes leaves Mixology
-    // empty for the rest of the day, which surprised testers.
-    const dayKey = `swipe:${userId}:${day}`; // kept for backward-compat in interact() legacy writes
-    const dayStartMs = day * 86400_000;
+    // get their own 20/day. dayStartMs above is local-midnight, so the quota rolls over
+    // when the USER's clock hits midnight, not at UTC midnight.
     const isMixologyBucket = contentType === 'cocktail' || contentType === 'mocktail';
     const bucketTypes = isMixologyBucket ? ['cocktail', 'mocktail'] : ['food'];
     const placeholders = bucketTypes.map(() => '?').join(',');
@@ -75,7 +127,7 @@ export const handleRecipes = {
     const tier = isDev ? 'dev' : (ent ? (ent.sku === 'pantrie_pro_annual' ? 'pro_annual' : 'pro_monthly') : 'free');
     const dailyCap = isDev ? 9999 : (tier === 'free' ? 20 : 9999);
     const remaining = Math.max(0, dailyCap - used);
-    const resetAt = (day + 1) * 86400_000;
+    const resetAt = dayStartMs + 86400_000;  // next local midnight
 
     if (remaining === 0) {
       const bucketLabel = isMixologyBucket ? 'cocktails' : 'recipes';
@@ -183,7 +235,8 @@ export const handleRecipes = {
     // an extra fetch. Columns coalesced in the payload below; untouched for food.
     const { results: recipes } = await env.DB.prepare(
       `SELECT id, title, cuisine, description, skill_level, prep_minutes, cook_minutes, servings, avg_rating, total_ratings, cook_count, image_url, photo_credit, photo_license, photo_source_url, attribution,
-              content_type, is_historic, is_alcoholic, glass_type, method, garnish, abv_percent, original_text, modernized_text, contributor_name, contributor_story, source_year, source_book, source_region
+              content_type, is_historic, is_alcoholic, glass_type, method, garnish, abv_percent, original_text, modernized_text, contributor_name, contributor_story, source_year, source_book, source_region,
+              first_cooked_by_user_id, first_cooked_by_display_name
          FROM recipe ${whereSql} ORDER BY RANDOM() LIMIT 75`
     ).bind(...whereBindings).all();
 
@@ -209,7 +262,45 @@ export const handleRecipes = {
     // Pre-compute palate lookups once per request.
     const prefCuisines  = new Set((prefs?.cuisines  || []).map(s => String(s).toLowerCase()));
     const prefAvoid     = new Set((prefs?.avoid     || []).map(s => String(s).toLowerCase()));
-    const prefAllergens = new Set((prefs?.allergens || []).map(s => String(s).toLowerCase()));
+    // Allergens get expanded into their actual ingredient keywords so the deck
+    // score knows that "dairy" means "milk + cheese + butter + …". Mirror of
+    // ALLERGEN_KEYWORDS in the Android RecipeDetailScreen — same keys, same
+    // values, kept in sync by hand. Without this expansion, the substring
+    // check below was a no-op (no recipe has "dairy" in an ingredient name).
+    const ALLERGEN_KEYWORDS = {
+      'peanuts': ['peanut', 'groundnut'],
+      'tree nuts': ['almond', 'walnut', 'pecan', 'cashew', 'hazelnut', 'pistachio', 'macadamia', 'brazil nut', 'pine nut', 'chestnut'],
+      'shellfish': ['shrimp', 'prawn', 'lobster', 'crab', 'crayfish', 'langoustine'],
+      'molluscs': ['oyster', 'mussel', 'clam', 'scallop', 'squid', 'calamari', 'octopus', 'snail'],
+      'fish': ['fish', 'salmon', 'tuna', 'cod', 'tilapia', 'haddock', 'trout', 'anchovy', 'sardine', 'bass', 'mackerel', 'halibut', 'snapper', 'swordfish'],
+      'eggs': ['egg', 'yolk', 'albumen', 'mayonnaise', 'mayo'],
+      'dairy': ['milk', 'butter', 'cheese', 'cream', 'yogurt', 'yoghurt', 'ricotta', 'parmesan', 'mozzarella', 'ghee', 'buttermilk', 'kefir', 'whey', 'casein', 'lactose', 'cheddar', 'feta', 'gouda', 'brie', 'burrata'],
+      'soy': ['soy', 'soybean', 'tofu', 'tempeh', 'edamame', 'miso', 'tamari'],
+      'wheat': ['wheat', 'flour', 'bread', 'pasta', 'couscous', 'bulgur', 'semolina', 'spelt', 'farro', 'noodle'],
+      'gluten': ['wheat', 'barley', 'rye', 'flour', 'bread', 'pasta', 'couscous', 'bulgur', 'semolina', 'spelt', 'malt', 'farro', 'seitan', 'noodle'],
+      'sesame': ['sesame', 'tahini'],
+      'mustard': ['mustard'],
+      'sulfites': ['sulfite', 'wine', 'dried apricot', 'molasses', 'champagne'],
+      'corn': ['corn', 'cornstarch', 'polenta', 'hominy', 'masa', 'tortilla', 'popcorn'],
+      'celery': ['celery'],
+    };
+    const prefAllergens = [];
+    // Per-allergen labeled list — preserves which top-level allergen ('dairy',
+    // 'wheat', etc.) each keyword belongs to, so the per-recipe banner color
+    // logic can ask "are ALL matched allergens substitutable?"
+    const prefAllergensByLabel = [];
+    for (const raw of prefs?.allergens || []) {
+      const key = String(raw).toLowerCase();
+      const expanded = ALLERGEN_KEYWORDS[key] || [key];
+      for (const k of expanded) prefAllergens.push(k);
+      prefAllergensByLabel.push({ label: key, keywords: expanded });
+    }
+    // Allergen banner status is now data-driven: we ask the SEED substitutions
+    // table directly via hasSubsFor() per matched ingredient. If at least one
+    // matched ingredient has a sub on file, it's YELLOW (block w/ workaround).
+    // If NONE do, it's RED (skip recipe). The previous hardcoded label set
+    // was wrong — "dairy" obviously has subs (almond/oat/soy milk, vegan
+    // butter, nutritional yeast, cashew cream...), it's per-ingredient.
     const tasteCuisineMap = new Map();
     const tasteIngMap = new Map();
     for (const c of taste?.topCuisines    || []) tasteCuisineMap.set((c.name || '').toLowerCase(), c.score || 0);
@@ -311,6 +402,32 @@ export const handleRecipes = {
       const expiringWeight = 0.35;
       const matchWeight    = 1.0 - expiringWeight - tasteWeight - noveltyWeight;   // ~0.35
 
+      // ---- Allergen status (none|yellow|red) ----
+      // Per-ingredient sub lookup against the SEED table. For each matched
+      // allergen we capture the FIRST hit ingredient (e.g., dairy hit "milk"
+      // and "butter" — capture both); if any hit ingredient has known subs,
+      // status is yellow (workable). Only red when EVERY hit ingredient has
+      // zero subs in seed AND zero structural workarounds.
+      let allergenStatus = 'none';
+      const matchedAllergenLabels = [];
+      const matchedIngredients = [];
+      for (const { label, keywords } of prefAllergensByLabel) {
+        let hit = false;
+        for (const ing of ingLowerList) {
+          if (keywords.some(k => k && ing.includes(k))) {
+            hit = true;
+            matchedIngredients.push(ing);
+          }
+        }
+        if (hit) matchedAllergenLabels.push(label);
+      }
+      if (matchedAllergenLabels.length > 0) {
+        // Yellow if ANY matched ingredient on this recipe has a sub on file.
+        // Red only when zero of the matched ingredients have a workable swap.
+        const anyHasSubs = matchedIngredients.some(ing => hasSubsFor(ing));
+        allergenStatus = anyHasSubs ? 'yellow' : 'red';
+      }
+
       // Final blended score (0..100 range). Keep small legacy kickers for ties.
       const blended =
         expiringScore * expiringWeight
@@ -357,6 +474,15 @@ export const handleRecipes = {
           source_year: r.source_year ?? null,
           source_book: r.source_book || null,
           source_region: r.source_region || null,
+          // First-cook claim: surfaces "First cooked by X" badge on the card,
+          // and gates the photo-less placeholder CTA. If null, the recipe is
+          // unclaimed and the next cooker gets their name on it forever.
+          first_cooked_by_display_name: r.first_cooked_by_display_name || null,
+          // Allergen banner driver. 'none' | 'yellow' | 'red'.
+          //   yellow: subs exist (block but workable)
+          //   red:    no subs (skip recipe)
+          allergenStatus,
+          allergenLabels: matchedAllergenLabels,
           ingredients: ingList.map((i, idx) => ({
             name: i.name, quantity: i.quantity, unit: i.unit, aisle: i.aisle,
             have: haveFlags[idx],
@@ -723,10 +849,12 @@ export const handleRecipes = {
 
     const p = await readJson(request, 4_000);
     if (p.error) return p.error;
-    const { recipeId, status, dismissReason } = p.value;
+    const { recipeId, status, dismissReason, substitutesUsed } = p.value;
     if (!validOpaqueId(recipeId)) return err(400, 'recipeId invalid');
     if (!INTERACTION_STATUS.has(status)) return err(400, 'status invalid');
     if (!validStringOrNull(dismissReason, { max: 120 })) return err(400, 'dismissReason: <=120 chars');
+    // Substitutes only meaningful on a cook event. Cap at 240 chars to avoid prose dumps.
+    if (!validStringOrNull(substitutesUsed, { max: 240 })) return err(400, 'substitutesUsed: <=240 chars');
 
     const recipe = await env.DB.prepare('SELECT id FROM recipe WHERE id = ?').bind(recipeId).first();
     if (!recipe) return err(404, 'recipe not found');
@@ -738,8 +866,32 @@ export const handleRecipes = {
     const wasCookedBefore = prior?.status === 'cooked';
 
     await env.DB.prepare(
-      'INSERT OR REPLACE INTO interaction (id, user_id, recipe_id, status, dismiss_reason, created_at) VALUES (?, ?, ?, ?, ?, ?)'
-    ).bind(uid(), userId, recipeId, status, dismissReason || null, Date.now()).run();
+      'INSERT OR REPLACE INTO interaction (id, user_id, recipe_id, status, dismiss_reason, substitutes_used, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    ).bind(uid(), userId, recipeId, status, dismissReason || null, substitutesUsed || null, Date.now()).run();
+
+    // Adaptive learning: log a taste signal for every meaningful interaction.
+    // Weights skew positive on cooked (the strongest "I liked this enough to
+    // execute it" signal), neutral-positive on saved, negative on dismissed.
+    // Substitute use is its own signal (later: train on "what you swap" to
+    // predict ingredient aversions). Consumed=null = not yet rolled into the
+    // user_taste vector by the nightly compactor.
+    {
+      const signalWeight = ({
+        cooked: 3.0, saved: 1.0, planned: 0.5, dismissed: -1.0,
+      })[status] ?? 0;
+      if (signalWeight !== 0) {
+        await env.DB.prepare(
+          `INSERT INTO user_taste_signal (user_id, recipe_id, signal_kind, weight, created_at)
+           VALUES (?, ?, ?, ?, ?)`
+        ).bind(userId, recipeId, status, signalWeight, Date.now()).run();
+      }
+      if (substitutesUsed) {
+        await env.DB.prepare(
+          `INSERT INTO user_taste_signal (user_id, recipe_id, signal_kind, weight, created_at)
+           VALUES (?, ?, 'swap', 0.5, ?)`
+        ).bind(userId, recipeId, Date.now()).run();
+      }
+    }
 
     // Bust the deck cache — next /recipes/deck must exclude this recipe.
     // Key is `deck:<userId>:<prefHash>:<day>`; we don't know prefHash cheaply, so we look it up.
@@ -757,6 +909,23 @@ export const handleRecipes = {
     let cookUndoId = null;
     if (status === 'cooked' && !wasCookedBefore) {
       await env.DB.prepare('UPDATE recipe SET cook_count = COALESCE(cook_count, 0) + 1 WHERE id = ?').bind(recipeId).run();
+
+      // First-cook claim: if no user has ever cooked this recipe, the cooker's
+      // name lands on the card forever. Atomically claim — UPDATE with WHERE
+      // first_cooked_by_user_id IS NULL means concurrent cooks of the same
+      // unclaimed recipe race correctly (only one update succeeds).
+      const cookerRow = await env.DB.prepare(
+        'SELECT display_name, email FROM user WHERE id = ?'
+      ).bind(userId).first();
+      const displayName = (cookerRow?.display_name || cookerRow?.email?.split('@')?.[0] || 'A Speakeater').slice(0, 60);
+      await env.DB.prepare(
+        `UPDATE recipe
+            SET first_cooked_by_user_id = ?,
+                first_cooked_by_display_name = ?,
+                first_cooked_at = ?
+          WHERE id = ?
+            AND first_cooked_by_user_id IS NULL`
+      ).bind(userId, displayName, Date.now(), recipeId).run();
 
       // Deduct matching pantry quantities. Store the inverse so we can undo.
       const { results: pantryRows } = await env.DB.prepare(
@@ -795,8 +964,7 @@ export const handleRecipes = {
     let remaining = null;
     let dailyCap = null;
     if (status === 'saved' || status === 'dismissed') {
-      const day = Math.floor(Date.now() / 86400_000);
-      const dayStartMs = day * 86400_000;
+      const { dayStartMs } = userLocalDay(request);
       // Per-bucket quota (food vs cocktail/mocktail) — match the deck endpoint logic
       // so the `remaining` field returned to the client is accurate per content type.
       const recipeRow = await env.DB.prepare('SELECT content_type FROM recipe WHERE id = ?').bind(recipeId).first();
@@ -860,6 +1028,12 @@ export const handleRecipes = {
         ).run();
         addedToShopping++;
       }
+    }
+
+    // Auto-add to the user's Saved Book (standard Library book). Idempotent
+    // and non-fatal — Library is a best-effort enrichment, not a blocker.
+    if (status === 'saved') {
+      await addRecipeToStandardBook(env, userId, 'saved', recipeId);
     }
 
     return json({ ok: true, remaining, dailyCap, addedToShopping, cookUndoId }, 200, request, env);

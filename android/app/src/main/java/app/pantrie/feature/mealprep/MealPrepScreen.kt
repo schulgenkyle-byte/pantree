@@ -44,7 +44,7 @@ fun MealPrepScreen(
   }
 
   Scaffold(
-    containerColor = Cream,
+    containerColor = Paper,
     topBar = {
       TopAppBar(
         title = { Text("Meal Prep", fontWeight = FontWeight.SemiBold) },
@@ -53,7 +53,7 @@ fun MealPrepScreen(
             Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back")
           }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Cream, titleContentColor = Ink),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Paper, titleContentColor = Ink),
       )
     },
     snackbarHost = { SnackbarHost(snackbarHost) },
@@ -150,7 +150,7 @@ private fun InputCard(
   onCalories: (Int) -> Unit, onProtein: (Int) -> Unit, onServings: (Int) -> Unit,
   onRecipes: (Int) -> Unit, onWeeks: (Int) -> Unit,
 ) {
-  Surface(shape = RoundedCornerShape(12.dp), color = Paper, modifier = Modifier.fillMaxWidth()) {
+  Surface(shape = RoundedCornerShape(12.dp), color = Paper2, modifier = Modifier.fillMaxWidth()) {
     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
       Text("Your targets", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
       NumberField("Daily calories (kcal)", calories, 1200, 4500, onCalories)
@@ -189,7 +189,7 @@ private fun NumberField(label: String, value: Int, min: Int, max: Int, onChange:
 private fun WeekCard(w: MealPrepWeek, previewOnly: Boolean = false) {
   Surface(
     shape = RoundedCornerShape(12.dp),
-    color = Paper,
+    color = Paper2,
     modifier = Modifier.fillMaxWidth(),
   ) {
     Column(Modifier.padding(16.dp)) {
@@ -229,7 +229,7 @@ private fun WeekCard(w: MealPrepWeek, previewOnly: Boolean = false) {
 private fun RecipeRow(r: MealPrepRecipe) {
   Surface(
     shape = RoundedCornerShape(8.dp),
-    color = CreamAlt,
+    color = Paper2,
     modifier = Modifier.fillMaxWidth(),
   ) {
     Row(
@@ -290,7 +290,7 @@ private fun ShoppingListHeader(count: Int, onAddAll: (() -> Unit)?) {
 private fun ShoppingRow(item: MealPrepShoppingItem) {
   Surface(
     shape = RoundedCornerShape(6.dp),
-    color = Paper,
+    color = Paper2,
     modifier = Modifier.fillMaxWidth(),
   ) {
     Row(
@@ -333,7 +333,7 @@ private fun PaywallCard(message: String) {
       Spacer(Modifier.width(10.dp))
       Column(Modifier.weight(1f)) {
         Text(
-          "Brimm Pro",
+          app.pantrie.Brand.PRO_NAME,
           style = MaterialTheme.typography.titleMedium,
           fontWeight = FontWeight.SemiBold, color = Terracotta,
         )

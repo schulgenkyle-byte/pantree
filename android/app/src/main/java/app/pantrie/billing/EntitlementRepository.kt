@@ -27,7 +27,7 @@ import javax.inject.Singleton
 private val Context.entitlementDataStore: DataStore<Preferences> by preferencesDataStore(name = "entitlement")
 
 /**
- * Single source of truth for "is this user a Brimm Pro subscriber?"
+ * Single source of truth for "is this user a Speakeater Pro subscriber?"
  *
  * Strategy: cache last-known entitlement in DataStore so the app boots offline knowing the user's
  * Pro status (no flicker on cold start). Refresh from the server whenever called and on user
@@ -74,6 +74,25 @@ class EntitlementRepository @Inject constructor(
     _isPro.value = true
     runCatching {
       dataStore.edit { it[KEY_IS_PRO] = true }
+    }
+  }
+
+  /** Dev-only: ask the server to grant Pro to the calling user, then refresh.
+   *  Server endpoint is gated on ENVIRONMENT=dev — returns 404 in production. */
+  suspend fun debugGrantPro() {
+    runCatching {
+      val resp = api.debugGrantPro()
+      _isPro.value = resp.active
+      dataStore.edit { it[KEY_IS_PRO] = resp.active }
+    }
+  }
+
+  /** Dev-only counterpart to [debugGrantPro]. Removes the entitlement row. */
+  suspend fun debugRevokePro() {
+    runCatching {
+      val resp = api.debugRevokePro()
+      _isPro.value = resp.active
+      dataStore.edit { it[KEY_IS_PRO] = resp.active }
     }
   }
 

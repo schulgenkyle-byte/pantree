@@ -53,12 +53,13 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// Mixology palette mirrors what MixologyScreen uses; keep in sync if those constants move.
-private val ModernBg = Color(0xFF0D0D0E)
-private val ModernCard = Color(0xFF18181B)
-private val ModernInk = Color(0xFFE8E3D9)
-private val ModernGold = Color(0xFFC9A554)
-private val ModernInkMuted = Color(0xFF8B8578)
+// Mixology and food modes both run on the editorial dark palette now — keeping the local
+// aliases (Modern*) so the existing call sites read the same. Brass for accent, Paper for bg.
+private val ModernBg = Paper
+private val ModernCard = Paper2
+private val ModernInk = Ink
+private val ModernGold = BrassBright
+private val ModernInkMuted = InkFaint
 
 sealed interface SearchUiState {
   data object Idle : SearchUiState
@@ -155,13 +156,14 @@ fun SearchSheet(
   onPick: (String) -> Unit,
   vm: SearchViewModel = hiltViewModel(),
 ) {
-  // Cocktail mode = dark speakeasy; food mode = warm cream. Single switch governs theme.
+  // Whole app is dark editorial. Cocktail mode keeps brass accent; food mode swaps in
+  // Terracotta for accent so the two modes still feel distinct without changing background.
   val cocktailMode = contentType == "cocktail"
-  val bg = if (cocktailMode) ModernBg else Cream
-  val ink = if (cocktailMode) ModernInk else Ink
+  val bg = Paper
+  val ink = Ink
   val accent = if (cocktailMode) ModernGold else Terracotta
-  val muted = if (cocktailMode) ModernInkMuted else InkMuted
-  val cardBg = if (cocktailMode) ModernCard else Paper
+  val muted = InkFaint
+  val cardBg = Paper2
 
   LaunchedEffect(contentType) { vm.setContentType(contentType) }
 
@@ -347,7 +349,7 @@ private fun ErrorState(message: String, ink: Color, muted: Color, accent: Color,
       Text(message, style = MaterialTheme.typography.bodySmall, color = muted)
       Spacer(Modifier.height(16.dp))
       Button(onClick = onRetry, colors = ButtonDefaults.buttonColors(containerColor = accent)) {
-        Text("Retry", color = Color.White)
+        Text("Retry", color = Paper)
       }
     }
   }
@@ -408,7 +410,7 @@ private fun SearchTile(
           .fillMaxWidth()
           .aspectRatio(1f)
           .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-          .background(if (cocktailMode) Color(0xFF222226) else CreamAlt),
+          .background(Paper3),
         contentAlignment = Alignment.Center,
       ) {
         if (!hit.imageUrl.isNullOrBlank()) {
@@ -419,12 +421,24 @@ private fun SearchTile(
             modifier = Modifier.fillMaxSize(),
           )
         } else {
-          // Tile-without-image placeholder: cuisine emoji over a tinted square. Cheap visual
-          // anchor so a no-photo tile doesn't read as broken.
-          Text(
-            placeholderGlyph(hit),
-            fontSize = 44.sp,
-          )
+          // Tile-without-image placeholder: photorealistic cuisine/glass image when available,
+          // emoji glyph otherwise. Cheap visual anchor so a no-photo tile doesn't read as broken.
+          val fallback = placeholderGlyph(hit)
+          if (hit.contentType == "cocktail") {
+            app.pantrie.ui.GlassImageOrGlyph(
+              glassType = hit.glassType,
+              fallbackGlyph = fallback,
+              size = 96.dp,
+              emojiFontSize = 44.sp,
+            )
+          } else {
+            app.pantrie.ui.CuisineImageOrGlyph(
+              cuisine = hit.cuisine,
+              fallbackGlyph = fallback,
+              size = 96.dp,
+              emojiFontSize = 44.sp,
+            )
+          }
         }
       }
       Column(Modifier.padding(horizontal = 10.dp, vertical = 8.dp)) {
@@ -500,26 +514,10 @@ private fun AlcoholChip(
   }
 }
 
-private fun placeholderGlyph(hit: SearchHit): String {
-  if (hit.contentType == "cocktail") {
-    return when (hit.glassType?.lowercase()) {
-      "rocks", "old fashioned", "lowball", "shot" -> "🥃"
-      "flute", "champagne" -> "🍾"
-      "highball", "collins" -> "🥤"
-      else -> "🍸"
-    }
-  }
-  return when (hit.cuisine?.lowercase()) {
-    "italian" -> "🍝"
-    "mexican" -> "🌮"
-    "japanese" -> "🍣"
-    "chinese" -> "🥡"
-    "indian" -> "🍛"
-    "thai" -> "🍜"
-    "french" -> "🥐"
-    "american" -> "🍔"
-    "mediterranean", "greek" -> "🥗"
-    "korean" -> "🍱"
-    else -> "🍽"
-  }
-}
+/**
+ * Phase 2: emoji glyphs eliminated. The new BrandImage placeholders render brass-monochrome
+ * letter tiles, so a fallback string is no longer needed. Function kept (returning empty)
+ * so the call sites compile without churn — Phase 4 cleanup can drop the param entirely.
+ */
+@Suppress("UNUSED_PARAMETER")
+private fun placeholderGlyph(hit: SearchHit): String = ""

@@ -3,11 +3,16 @@
 package app.pantrie.feature.deck
 
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,7 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
@@ -28,6 +35,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material.icons.outlined.SoupKitchen
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.collectAsState
@@ -49,6 +57,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,7 +76,7 @@ import app.pantrie.network.dto.Ingredient
 import app.pantrie.network.dto.InteractRequest
 import app.pantrie.network.dto.Recipe
 import app.pantrie.network.dto.UndoCookRequest
-import app.pantrie.ui.IngredientEmoji
+import app.pantrie.ui.IngredientImageOrEmoji
 import app.pantrie.ui.theme.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,34 +94,14 @@ sealed interface SwipeOutcomeEvent {
   data object Wall : SwipeOutcomeEvent
 }
 
-/** Soft background tints per cuisine — gives each card visual character. */
-// Cuisine-specific card tints. Distinct enough to read at a glance, still editorial (no neon).
-// Palette keyed to each cuisine's visual vocabulary: olive/sage for Italian, warm adobe for Mexican,
-// turmeric for Indian, plum for Japanese, etc.
-private val CUISINE_TINTS: Map<String, Color> = mapOf(
-  "american" to Color(0xFFEED9CB),        // cream peach
-  "italian" to Color(0xFFD4DCB6),         // basil/sage
-  "mexican" to Color(0xFFECC4A8),         // warm adobe
-  "thai" to Color(0xFFBFDCB5),            // lime/mint
-  "chinese" to Color(0xFFEACB95),         // wheat/gold
-  "japanese" to Color(0xFFE5C9D2),        // soft plum
-  "indian" to Color(0xFFE8C58A),          // turmeric
-  "french" to Color(0xFFD6C7E0),          // dusty lavender
-  "mediterranean" to Color(0xFFB9D4DB),   // aegean blue
-  "korean" to Color(0xFFE0B9B0),          // rose clay
-  "middle eastern" to Color(0xFFE0CF9C),  // saffron
-  "moroccan" to Color(0xFFE3AE7F),        // spice orange
-  "spanish" to Color(0xFFE0A78B),         // paprika
-  "greek" to Color(0xFFB8D2D3),           // white-blue
-  "british" to Color(0xFFD0CCBB),         // oat
-  "vietnamese" to Color(0xFFC7DDB8),      // herb green
-  "caribbean" to Color(0xFFEBC88A),       // mango
-)
-
-private fun tintFor(cuisine: String?): Color {
-  if (cuisine.isNullOrBlank()) return Paper
-  return CUISINE_TINTS[cuisine.trim().lowercase()] ?: Paper
-}
+/**
+ * All Tonight cards now sit on the editorial dark surface (Paper2). The previous palette of
+ * pastel cuisine tints was the loudest "Phase 1 isn't fully dark yet" tell on the home screen,
+ * so the per-cuisine differentiation moved to the photo + text. tintFor() is preserved as a
+ * single-color helper in case Phase 3 wants to re-introduce tonal accents on the depth cards.
+ */
+@Suppress("UNUSED_PARAMETER")
+private fun tintFor(cuisine: String?): Color = Paper2
 
 data class ToastState(val message: String, val undoId: String? = null, val undoAction: (() -> Unit)? = null)
 
@@ -122,7 +112,13 @@ class DeckViewModel @Inject constructor(
   private val refreshBus: app.pantrie.feature.app.RefreshBus,
   private val quota: app.pantrie.billing.SwipeQuotaRepository,
   private val entitlement: app.pantrie.billing.EntitlementRepository,
+  private val localSettings: app.pantrie.feature.settings.LocalSettingsStore,
 ) : ViewModel() {
+
+  /** Animation toggles, hoisted from LocalSettingsStore so DeckScreen can read
+   *  without injecting another dependency at the screen level. */
+  val libraryAnimEnabled = localSettings.libraryAnimEnabled
+  val ingredientFallEnabled = localSettings.ingredientFallEnabled
 
   /** Pro users skip all quota gating. */
   val isPro = entitlement.isPro
@@ -158,6 +154,13 @@ class DeckViewModel @Inject constructor(
   private val _error = MutableStateFlow<String?>(null)
   val error = _error.asStateFlow()
 
+  /** User's allergens. Loaded once and reused for every card. Drives the
+   *  edge-to-edge banner across the top of the swipe card. Empty until the
+   *  first prefs fetch completes; the banner only renders when both
+   *  allergens AND a matching ingredient are present. */
+  private val _userAllergens = MutableStateFlow<List<String>>(emptyList())
+  val userAllergens = _userAllergens.asStateFlow()
+
   // Declared BEFORE init{} — Kotlin initializes fields in declaration order, and init{}
   // calls refresh() which reads these. Moving them below the init block caused a NPE
   // crash on Tonight-tab open (late-init of StateFlow read during construction).
@@ -168,13 +171,46 @@ class DeckViewModel @Inject constructor(
   val filter = _filter.asStateFlow()
 
   private val _refreshing = MutableStateFlow(false)
+  // Counter that increments on every successful save. Drives the "sucked into
+  // Library" overlay animation in DeckScreen. Value itself is meaningless;
+  // changing it triggers the animation.
+  private val _saveCelebration = MutableStateFlow(0)
+  val saveCelebration = _saveCelebration.asStateFlow()
+
+  // Pellets-fly-to-Shop celebration. tick bumps per save with missing ingredients;
+  // names is the (capped) list of missing ingredient labels rendered as falling
+  // chips that arc into the Shop tile.
+  data class ShoppingFall(val tick: Int, val names: List<String>)
+  private val _shoppingFall = MutableStateFlow(ShoppingFall(0, emptyList()))
+  val shoppingFall = _shoppingFall.asStateFlow()
+
   val refreshing = _refreshing.asStateFlow()
+
+  /**
+   * Timestamp of the last in-deck optimistic pantry add. The pantry refresh-bus
+   * collector below skips refresh() if this is recent — otherwise the server
+   * refetch races our optimistic state update and overwrites the chip we just
+   * removed (it visually pops back for a frame). Pantry-tab additions still
+   * refresh the deck normally.
+   */
+  private var lastOptimisticAddMs = 0L
 
   init {
     refresh()
-    // Re-fetch the deck whenever the pantry changes (new scan, manual add, clear, etc.).
+    // Load user allergens once. Cheap call, drives the banner across all
+    // deck cards. We re-fetch on refreshBus.pantry too in case the user
+    // edited prefs in another tab; not strictly necessary today since
+    // SettingsViewModel doesn't broadcast on save, but cheap insurance.
     viewModelScope.launch {
-      refreshBus.pantry.collect { refresh() }
+      runCatching { api.getPreferences() }
+        .onSuccess { _userAllergens.value = it.allergens }
+    }
+    viewModelScope.launch {
+      refreshBus.pantry.collect {
+        if (System.currentTimeMillis() - lastOptimisticAddMs > 5000) {
+          refresh()
+        }
+      }
     }
   }
 
@@ -192,7 +228,6 @@ class DeckViewModel @Inject constructor(
 
   fun refresh() {
     viewModelScope.launch {
-      val t0 = System.currentTimeMillis()
       _error.value = null
       _refreshing.value = true
       val advFlag = if (_adventurous.value) 1 else null
@@ -200,7 +235,17 @@ class DeckViewModel @Inject constructor(
       // Audit (2026-04-25) showed 94% of HuggingFace recipes have no image; without
       // this guard the deck is mostly photoless garbage. Mixology has its own client-side
       // photo guard for Mixologist mode (Bootlegger vintage cards intentionally photoless).
-      runCatching { api.deck(adventurous = advFlag, filter = _filter.value, requirePhoto = 1) }
+      //
+      // One-shot auto-retry so a transient flake (cold-start race against the auth-refresh
+      // interceptor, brief network blip) doesn't leave the user looking at "Couldn't load"
+      // until they manually tap Retry. Second call after a 1.2s pause gives the refresh
+      // interceptor time to swap a fresh access token onto the queue.
+      val first = runCatching { api.deck(adventurous = advFlag, filter = _filter.value, requirePhoto = 1) }
+      val finalResult = if (first.isFailure) {
+        kotlinx.coroutines.delay(1200)
+        runCatching { api.deck(adventurous = advFlag, filter = _filter.value, requirePhoto = 1) }
+      } else first
+      finalResult
         .onSuccess { resp ->
           _state.value = resp
         }
@@ -213,14 +258,22 @@ class DeckViewModel @Inject constructor(
 
   /** User taps a missing ingredient on the card — assumption: scanner missed it. Add to pantry + optimistically mark as "have" on this card. */
   fun addToPantry(recipe: Recipe, ing: Ingredient) {
-    // Optimistic update — flip the `have` flag on this ingredient in the rendered deck so it
-    // disappears from the missing-ingredients panel immediately.
-    _state.value = _state.value?.let { s ->
+    // Snapshot for rollback — if the API call fails, restore exactly what was there
+    // so the chip + match% don't visually lie about a failed add.
+    val previousState = _state.value
+    lastOptimisticAddMs = System.currentTimeMillis()
+    _state.value = previousState?.let { s ->
       s.copy(deck = s.deck.map { r ->
         if (r.id != recipe.id) r
-        else r.copy(ingredients = r.ingredients.map { i ->
-          if (i.name == ing.name) i.copy(have = true) else i
-        })
+        else {
+          val updatedIngredients = r.ingredients.map { i ->
+            if (i.name == ing.name) i.copy(have = true) else i
+          }
+          val haveCount = updatedIngredients.count { it.have }
+          val newMatchPercent = if (updatedIngredients.isEmpty()) 0
+            else (haveCount * 100) / updatedIngredients.size
+          r.copy(ingredients = updatedIngredients, pantryMatchPercent = newMatchPercent)
+        }
       })
     }
     analytics.track("pantry_quick_add_from_deck", mapOf("recipeId" to recipe.id, "name" to ing.name))
@@ -231,9 +284,24 @@ class DeckViewModel @Inject constructor(
         ))
       }.onSuccess {
         refreshBus.bumpPantry()
-        _toast.value = ToastState("Added ${ing.name} to pantry")
-      }.onFailure {
-        _toast.value = ToastState("Couldn't add — try again")
+        // No toast on success — chip vanishing + match% climbing + +1 float animation
+        // already convey the action. Toasts on every action become noise.
+      }.onFailure { e ->
+        // Roll back optimistic update so UI matches reality on failure.
+        _state.value = previousState
+        val raw = e.message.orEmpty()
+        val msg = when {
+          // 402 = real paywall (we don't actually gate pantry adds on free tier yet,
+          // but keep this branch for when we do).
+          raw.contains("402") || raw.contains("payment", ignoreCase = true) ->
+            "Pantry full on free tier. Go ${app.pantrie.Brand.PRO_NAME} for unlimited."
+          // 429 = transient rate limit. Tell the user it'll work in a moment.
+          raw.contains("429") || raw.contains("rate limit", ignoreCase = true) ->
+            "Slow down a sec — try again in a moment."
+          raw.contains("401") -> "Sign-in expired. Reopen the app."
+          else -> "Couldn't add — try again"
+        }
+        _toast.value = ToastState(msg)
       }
     }
   }
@@ -244,14 +312,33 @@ class DeckViewModel @Inject constructor(
       s.copy(deck = s.deck.filter { it.id != r.id }, remaining = (s.remaining - 1).coerceAtLeast(0))
     }
     analytics.track("recipe_saved", mapOf("recipeId" to r.id, "match" to r.pantryMatchPercent))
+    refreshBus.bumpRecipeSaved()
     trackSwipeAndEmit()
+    // Trigger the "sucked into Library" overlay animation so the user has a
+    // visual answer to "where did this just go." Bumping a counter (rather
+    // than emitting a SharedFlow event) keeps it cheap and lets repeated rapid
+    // saves stack the same animation pipeline.
+    _saveCelebration.value = _saveCelebration.value + 1
+    // Missing-ingredient pellets fly out of the card and arc into the Shop
+    // tile. We compute "missing" optimistically from the recipe's ingredient
+    // have-flags (server already filtered against pantry) so the animation
+    // fires the same instant the card flies, no waiting on the API round-trip.
+    val missing = r.ingredients
+      .filter { ing -> ing.have != true }
+      .map { it.name.trim() }
+      .filter { it.isNotEmpty() }
+      .distinct()
+      .take(6)
+    if (missing.isNotEmpty()) {
+      _shoppingFall.value = ShoppingFall(_shoppingFall.value.tick + 1, missing)
+    }
     viewModelScope.launch {
       val resp = runCatching { api.interact(InteractRequest(recipeId = r.id, status = "saved")) }.getOrNull()
       val added = resp?.addedToShopping ?: 0
       if (added > 0) refreshBus.bumpShopping()
-      _toast.value = ToastState(
-        message = if (added > 0) "Saved · $added ingredient${if (added == 1) "" else "s"} added to Shop" else "Saved",
-      )
+      // No "Saved" toast. The library-suck capsule + ingredients-fall chips
+      // already give a visceral answer to "where did this go." A redundant
+      // text banner reads as tacky and competes with the brass animation.
       // Reconcile remaining count with server (may differ slightly if another device ate tokens)
       resp?.remaining?.let { srv ->
         _state.value = _state.value?.copy(remaining = srv)
@@ -267,7 +354,7 @@ class DeckViewModel @Inject constructor(
     trackSwipeAndEmit()
     viewModelScope.launch {
       val resp = runCatching { api.interact(InteractRequest(recipeId = r.id, status = "dismissed")) }.getOrNull()
-      _toast.value = ToastState("Skipped")
+      // No "Skipped" toast — the card animating away is the feedback.
       resp?.remaining?.let { srv -> _state.value = _state.value?.copy(remaining = srv) }
     }
   }
@@ -283,9 +370,9 @@ class DeckViewModel @Inject constructor(
           undoId = resp.cookUndoId,
           undoAction = { undoCook(resp.cookUndoId) },
         )
-      } else {
-        _toast.value = ToastState("Marked cooked")
       }
+      // (No fallback "Marked cooked" toast — cooked card vanishing is the feedback.
+      // The undoable toast above ONLY fires when there's a real undo affordance to surface.)
     }
   }
 
@@ -310,12 +397,17 @@ fun DeckScreen(
   onOpenPlan: () -> Unit = {},
   onOpenSearch: () -> Unit = {},
   onOpenPaywall: () -> Unit = {},
+  onContributePhoto: (String) -> Unit = {},
   vm: DeckViewModel = hiltViewModel(),
 ) {
   val state by vm.state.collectAsState()
   val toast by vm.toast.collectAsState()
   val error by vm.error.collectAsState()
   val s = state
+
+  // Walkthrough VM — used to report the Pantry quick-action tile's bounds so the
+  // first-launch tour can spotlight it (step 1: "open your pantry").
+  val tourVm: app.pantrie.feature.walkthrough.WalkthroughViewModel = hiltViewModel()
 
   // ===== Ad / quota plumbing =====
   // We observe one-shot swipe events from the VM and either fire an interstitial or pop the wall.
@@ -361,7 +453,7 @@ fun DeckScreen(
   val lifecycle = LocalLifecycleOwner.current.lifecycle
   val _unused = lifecycle // keep import usage — pantry-triggered refresh wiring lives on the VM
 
-  Scaffold(containerColor = Cream) { padding ->
+  Scaffold(containerColor = Paper) { padding ->
     Box(Modifier.padding(padding).fillMaxSize()) {
       Column(Modifier.fillMaxSize()) {
         // Compact banner: Adventurous icon (left) • collapsible filter pill (center) • Cookbook icon (right).
@@ -387,14 +479,12 @@ fun DeckScreen(
           verticalAlignment = Alignment.CenterVertically,
           horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-          IconButton(onClick = vm::toggleAdventurous, modifier = Modifier.size(40.dp)) {
-            Icon(
-              Icons.Filled.Restaurant,
-              contentDescription = "Adventurous",
-              tint = if (isAdventurous) Olive else InkMuted,
-              modifier = Modifier.size(22.dp),
-            )
-          }
+          NavPngIconButton(
+            iconRes = app.pantrie.R.drawable.brimm_nav_adventurous,
+            contentDescription = "Adventurous",
+            highlighted = isAdventurous,
+            onClick = vm::toggleAdventurous,
+          )
           // Collapsible filter pill — shows current selection; tap to expand chip row below.
           Surface(
             shape = RoundedCornerShape(20.dp),
@@ -423,21 +513,67 @@ fun DeckScreen(
               )
             }
           }
-          IconButton(onClick = onOpenSearch, modifier = Modifier.size(40.dp)) {
-            Icon(
-              Icons.Outlined.Search,
-              contentDescription = "Search recipes",
-              tint = InkMuted,
-              modifier = Modifier.size(22.dp),
-            )
+          NavPngIconButton(
+            iconRes = app.pantrie.R.drawable.brimm_nav_search,
+            contentDescription = "Search recipes",
+            highlighted = false,
+            onClick = onOpenSearch,
+          )
+          // Library icon with a "+1 new" terracotta badge that pops on every
+          // save. The badge auto-dismisses after 2.5s so it doesn't linger.
+          // Also reports its bounds so the LibrarySuckOverlay can fly the
+          // brass capsule to the exact center of this icon instead of a
+          // hard-coded top-right corner.
+          val libraryCelebrationTick by vm.saveCelebration.collectAsState()
+          var libraryBadgeVisible by remember { mutableStateOf(false) }
+          var libraryNewCount by remember { mutableStateOf(0) }
+          LaunchedEffect(libraryCelebrationTick) {
+            if (libraryCelebrationTick > 0) {
+              libraryNewCount += 1
+              libraryBadgeVisible = true
+              kotlinx.coroutines.delay(2500)
+              libraryBadgeVisible = false
+              libraryNewCount = 0
+            }
           }
-          IconButton(onClick = onOpenSaved, modifier = Modifier.size(40.dp)) {
-            Icon(
-              Icons.Outlined.SoupKitchen,
+          Box(
+            modifier = Modifier.onGloballyPositioned { coords ->
+              tourVm.reportAnchor(
+                "deck_library_icon",
+                coords.boundsInWindow(),
+              )
+            },
+          ) {
+            NavPngIconButton(
+              iconRes = app.pantrie.R.drawable.brimm_nav_library,
               contentDescription = "Library",
-              tint = Terracotta,
-              modifier = Modifier.size(22.dp),
+              highlighted = true,
+              onClick = onOpenSaved,
             )
+            if (libraryBadgeVisible) {
+              Surface(
+                modifier = Modifier
+                  .align(Alignment.TopEnd)
+                  .offset(x = (-2).dp, y = 2.dp)
+                  .defaultMinSize(minWidth = 18.dp, minHeight = 18.dp),
+                shape = RoundedCornerShape(9.dp),
+                color = Terracotta,
+                shadowElevation = 4.dp,
+                border = androidx.compose.foundation.BorderStroke(1.5.dp, Paper),
+              ) {
+                Box(
+                  modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp),
+                  contentAlignment = Alignment.Center,
+                ) {
+                  Text(
+                    text = "+$libraryNewCount",
+                    color = Paper,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.labelSmall,
+                  )
+                }
+              }
+            }
           }
         }
 
@@ -465,7 +601,7 @@ fun DeckScreen(
                   selectedContainerColor = Olive.copy(alpha = 0.25f),
                   selectedLabelColor = Olive,
                   selectedLeadingIconColor = Olive,
-                  containerColor = Paper,
+                  containerColor = Paper2,
                   labelColor = Ink,
                 ),
               )
@@ -497,14 +633,19 @@ fun DeckScreen(
             s.deck.isEmpty() -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
               EmptyDeckMessage()
             }
-            else -> CardStack(
-              cards = s.deck,
-              onSave = vm::save,
-              onDismiss = vm::dismiss,
-              onOpen = onOpenRecipe,
-              onCook = { r -> vm.markCooked(r); onStartCook(r.id) },
-              onAddToPantry = vm::addToPantry,
-            )
+            else -> {
+              val allergens by vm.userAllergens.collectAsState()
+              CardStack(
+                cards = s.deck,
+                onSave = vm::save,
+                onDismiss = vm::dismiss,
+                onOpen = onOpenRecipe,
+                onCook = { r -> vm.markCooked(r); onStartCook(r.id) },
+                onAddToPantry = vm::addToPantry,
+                onContributePhoto = onContributePhoto,
+                userAllergens = allergens,
+              )
+            }
           }
 
           // Loading overlay — shown when re-fetching the deck (e.g. filter changed) over an existing deck.
@@ -513,12 +654,13 @@ fun DeckScreen(
             Box(
               Modifier
                 .fillMaxSize()
-                .background(Cream.copy(alpha = 0.5f)),
+                .background(Paper.copy(alpha = 0.6f)),
               contentAlignment = Alignment.Center,
             ) {
               CircularProgressIndicator(color = Ink)
             }
           }
+
         }
 
         // Quick actions — Pantry / Shop / Plan row that replaces the cluttered bottom nav tabs.
@@ -530,25 +672,94 @@ fun DeckScreen(
           horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
           QuickActionButton(
-            icon = Icons.Outlined.Kitchen,
+            iconRes = app.pantrie.R.drawable.brimm_nav_pantry,
             label = "Pantry",
             onClick = onOpenPantry,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+              .weight(1f)
+              // Walkthrough step 1 spotlights this tile. Report bounds for the overlay.
+              .onGloballyPositioned { coords ->
+                tourVm.reportAnchor(
+                  app.pantrie.feature.walkthrough.TourAnchors.DECK_PANTRY_TILE,
+                  coords.boundsInWindow(),
+                )
+              },
           )
+          // Shop tile + count badge. Shows the unchecked-item count from
+          // AppStateViewModel.shoppingCount in the top-right corner. Wrapping
+          // the QuickActionButton in a Box lets the badge float over the tile
+          // without affecting the tile's own layout/weight calculation.
+          val appVmForBadge: app.pantrie.feature.app.AppStateViewModel = hiltViewModel()
+          val shoppingCount by appVmForBadge.shoppingCount.collectAsState()
+          Box(modifier = Modifier.weight(1f)) {
+            QuickActionButton(
+              iconRes = app.pantrie.R.drawable.brimm_nav_shop,
+              label = "Shop",
+              onClick = onOpenShopping,
+              modifier = Modifier
+                .fillMaxWidth()
+                // Shopping mini-tour step 1 spotlights this tile.
+                .onGloballyPositioned { coords ->
+                  tourVm.reportAnchor(
+                    app.pantrie.feature.walkthrough.TourAnchors.DECK_SHOPPING_TILE,
+                    coords.boundsInWindow(),
+                  )
+                },
+            )
+            if (shoppingCount > 0) {
+              Surface(
+                modifier = Modifier
+                  .align(Alignment.TopEnd)
+                  .offset(x = (-6).dp, y = 6.dp)
+                  .defaultMinSize(minWidth = 22.dp, minHeight = 22.dp),
+                shape = RoundedCornerShape(11.dp),
+                color = Terracotta,
+                shadowElevation = 2.dp,
+              ) {
+                Box(
+                  modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                  contentAlignment = Alignment.Center,
+                ) {
+                  Text(
+                    text = if (shoppingCount > 99) "99+" else shoppingCount.toString(),
+                    color = Paper,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.labelSmall,
+                  )
+                }
+              }
+            }
+          }
           QuickActionButton(
-            icon = Icons.Outlined.ShoppingCart,
-            label = "Shop",
-            onClick = onOpenShopping,
-            modifier = Modifier.weight(1f),
-          )
-          QuickActionButton(
-            icon = Icons.Outlined.CalendarMonth,
+            iconRes = app.pantrie.R.drawable.brimm_nav_plan,
             label = "Plan",
             onClick = onOpenPlan,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+              .weight(1f)
+              // Plan mini-tour step 1 spotlights this tile.
+              .onGloballyPositioned { coords ->
+                tourVm.reportAnchor(
+                  app.pantrie.feature.walkthrough.TourAnchors.DECK_PLAN_TILE,
+                  coords.boundsInWindow(),
+                )
+              },
           )
         }
       }
+
+      // Save celebrations — placed at the OUTER Box level so they can travel
+      // the full screen height. Order matters: Shopping pellets are drawn
+      // FIRST so the Library capsule paints ON TOP. Each is gated on a
+      // user-facing toggle in Settings > Features so a motion-sensitive user
+      // can turn either off without losing the rest of the app.
+      val libraryAnimEnabled by vm.libraryAnimEnabled.collectAsState()
+      val ingredientFallEnabled by vm.ingredientFallEnabled.collectAsState()
+
+      val shopFall by vm.shoppingFall.collectAsState()
+      ShoppingFallOverlay(tick = shopFall.tick, names = shopFall.names, enabled = ingredientFallEnabled)
+
+      val celebrationTick by vm.saveCelebration.collectAsState()
+      LibrarySuckOverlay(tick = celebrationTick, enabled = libraryAnimEnabled)
 
       // Toast overlay
       toast?.let { t ->
@@ -563,7 +774,9 @@ fun DeckScreen(
               Text(t.message, color = Paper, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
               if (t.undoId != null && t.undoAction != null) {
                 TextButton(onClick = { t.undoAction.invoke() }) {
-                  Text("Undo", color = Color(0xFFF5E9E2), fontWeight = FontWeight.SemiBold)
+                  // Toast is the one inverse-surface block in the dark theme; Brass reads
+                  // as the accent action on the off-white bg.
+                  Text("Undo", color = Brass, fontWeight = FontWeight.SemiBold)
                 }
               }
             }
@@ -582,6 +795,8 @@ private fun CardStack(
   onOpen: (String) -> Unit,
   onCook: (Recipe) -> Unit,
   onAddToPantry: (Recipe, Ingredient) -> Unit = { _, _ -> },
+  onContributePhoto: (String) -> Unit = {},
+  userAllergens: List<String> = emptyList(),
 ) {
   val visible = cards.take(3)
 
@@ -613,6 +828,8 @@ private fun CardStack(
           onOpen = { onOpen(top.id) },
           onCook = { onCook(top) },
           onAddToPantry = { ing -> onAddToPantry(top, ing) },
+          onContributePhoto = onContributePhoto,
+          userAllergens = userAllergens,
         )
       }
     }
@@ -627,7 +844,10 @@ private fun DraggableCard(
   onOpen: () -> Unit,
   onCook: () -> Unit,
   onAddToPantry: (Ingredient) -> Unit = {},
+  onContributePhoto: (String) -> Unit = {},
+  userAllergens: List<String> = emptyList(),
 ) {
+  val tourVm: app.pantrie.feature.walkthrough.WalkthroughViewModel = hiltViewModel()
   val density = LocalDensity.current
   var offsetX by remember { mutableStateOf(0f) }
   var offsetY by remember { mutableStateOf(0f) }
@@ -658,6 +878,13 @@ private fun DraggableCard(
     Modifier
       .fillMaxWidth()
       .fillMaxHeight()
+      // Report bounds for the tour's "swipe this card" spotlight (main tour step 4).
+      .onGloballyPositioned { coords ->
+        tourVm.reportAnchor(
+          app.pantrie.feature.walkthrough.TourAnchors.DECK_CARD_AREA,
+          coords.boundsInWindow(),
+        )
+      }
       .offset { IntOffset(animatedOffsetX.roundToInt(), offsetY.roundToInt()) }
       .rotate(rotation)
       .graphicsLayer { rotationY = rotationYAnim; cameraDistance = 12f * density.density }
@@ -686,6 +913,8 @@ private fun DraggableCard(
         skipProgress = skipOverlay,
         onFlip = { flipped = true },
         onAddToPantry = onAddToPantry,
+        onContributePhoto = { id -> onContributePhoto(id) },
+        userAllergens = userAllergens,
       )
     } else {
       Box(Modifier.fillMaxSize().graphicsLayer { rotationY = 180f }) {
@@ -737,6 +966,8 @@ private fun CardFront(
   skipProgress: Float,
   onFlip: () -> Unit,
   onAddToPantry: (Ingredient) -> Unit = {},
+  onContributePhoto: (String) -> Unit = {},
+  userAllergens: List<String> = emptyList(),
 ) {
   val bg = tintFor(recipe.cuisine)
   val hasImage = !recipe.imageUrl.isNullOrBlank()
@@ -747,6 +978,18 @@ private fun CardFront(
     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
   ) {
     Column(Modifier.fillMaxSize()) {
+
+      // Edge-to-edge allergen banner. Server tells us status per recipe so the
+      // client doesn't need to know which allergens have substitutes.
+      //   "red"    → at least one matched allergen has no real sub → SKIP
+      //   "yellow" → every matched allergen has a known sub → block w/ workaround
+      //   "none"   → no allergen → no banner
+      if (recipe.allergenStatus == "red" || recipe.allergenStatus == "yellow") {
+        DeckAllergenBanner(
+          status = recipe.allergenStatus,
+          labels = recipe.allergenLabels,
+        )
+      }
       // IMAGE — fills ALL remaining vertical space via weight(1f). Text blocks below have intrinsic
       // heights, so image grows to eat everything else. No scroll, no dead space.
       if (hasImage) {
@@ -760,8 +1003,105 @@ private fun CardFront(
             .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
         )
       } else {
-        // No photo: keep the top feeling intentional with a tinted band proportional to the card.
-        Spacer(Modifier.weight(1f))
+        // No photo placeholder. Two stacked CTAs:
+        //   1. First-cook claim ("Cook this first · Your name. Forever.")
+        //   2. First-photo claim ("Take the first photo · Yours forever if approved.")
+        // Both are real value props: cook = top-of-card credit; photo = the recipe's
+        // canonical image. Stacked because either action is independently valuable
+        // and a user might do one without the other. .clickable on the photo CTA
+        // is OK alongside the parent swipe — quick taps register, drags pass through.
+        Box(
+          Modifier
+            .fillMaxWidth()
+            .weight(1f)
+            .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+            .background(bg.copy(alpha = 0.55f)),
+          contentAlignment = Alignment.Center,
+        ) {
+          Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = 18.dp),
+          ) {
+            // Block 1 — first-cook claim. No tap target; user claims by Cook-Mode finish.
+            Icon(
+              imageVector = Icons.Outlined.LocalFireDepartment,
+              contentDescription = null,
+              tint = Ink.copy(alpha = 0.85f),
+              modifier = Modifier.size(48.dp),
+            )
+            Spacer(Modifier.height(10.dp))
+            if (recipe.firstCookedBy.isNullOrBlank()) {
+              Text(
+                "Cook this first",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = Ink,
+              )
+              Spacer(Modifier.height(2.dp))
+              Text(
+                "Your name on the card. Forever.",
+                style = MaterialTheme.typography.bodySmall,
+                color = Ink.copy(alpha = 0.78f),
+              )
+            } else {
+              Text(
+                "FIRST COOKED BY",
+                style = MaterialTheme.typography.labelSmall,
+                color = Ink.copy(alpha = 0.65f),
+                letterSpacing = 1.5.sp,
+              )
+              Spacer(Modifier.height(2.dp))
+              Text(
+                recipe.firstCookedBy,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = BrassBright,
+              )
+            }
+
+            Spacer(Modifier.height(20.dp))
+            HorizontalDivider(
+              modifier = Modifier.fillMaxWidth(0.4f),
+              color = Ink.copy(alpha = 0.2f),
+            )
+            Spacer(Modifier.height(20.dp))
+
+            // Block 2 — first-photo claim. Tappable surface.
+            // Routes to recipe/<id>/photo-contribute, which opens the system camera.
+            // Approved photo becomes the canonical image and the user gets photo credit.
+            androidx.compose.material3.Surface(
+              shape = RoundedCornerShape(28.dp),
+              color = Ink,
+              modifier = Modifier.clickable { onContributePhoto(recipe.id) },
+            ) {
+              Row(
+                Modifier.padding(horizontal = 18.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+              ) {
+                Icon(
+                  imageVector = Icons.Outlined.CameraAlt,
+                  contentDescription = null,
+                  tint = BrassBright,
+                  modifier = Modifier.size(22.dp),
+                )
+                Spacer(Modifier.width(10.dp))
+                Text(
+                  "Take the first photo",
+                  style = MaterialTheme.typography.labelLarge,
+                  fontWeight = FontWeight.SemiBold,
+                  color = androidx.compose.ui.graphics.Color(0xFFF5EFE4),
+                )
+              }
+            }
+            Spacer(Modifier.height(8.dp))
+            Text(
+              "Yours forever if approved.",
+              style = MaterialTheme.typography.labelSmall,
+              color = Ink.copy(alpha = 0.7f),
+              fontStyle = FontStyle.Italic,
+            )
+          }
+        }
       }
 
       // Text block — compact, fits all info. Fixed heights mean the image absorbs all extra space.
@@ -782,7 +1122,7 @@ private fun CardFront(
             text = "${recipe.pantryMatchPercent}%",
             bg = when {
               recipe.pantryMatchPercent >= 80 -> Olive
-              recipe.pantryMatchPercent >= 50 -> Color(0xFFD4A017)
+              recipe.pantryMatchPercent >= 50 -> BrassBright
               recipe.pantryMatchPercent > 0 -> Ink.copy(alpha = 0.45f)
               else -> InkFaint
             },
@@ -864,7 +1204,7 @@ private fun CardFront(
             StatCell(
               icon = Icons.Outlined.Star,
               value = "%.1f".format(recipe.rating) + (if (recipe.ratingCount > 0) " (${recipe.ratingCount})" else ""),
-              iconTint = Color(0xFFD4A017),
+              iconTint = BrassBright,
             )
           }
         }
@@ -878,12 +1218,53 @@ private fun CardFront(
             verticalArrangement = Arrangement.spacedBy(4.dp),
           ) {
             missing.forEach { ing ->
-              Surface(
-                onClick = { onAddToPantry(ing) },
-                shape = RoundedCornerShape(14.dp),
-                color = Paper.copy(alpha = 0.8f),
-                border = androidx.compose.foundation.BorderStroke(1.dp, InkFaint),
-              ) {
+              // Local "+1" float animation — runs for ~500ms before the chip vanishes via
+              // the optimistic state update. Visual confirmation that "you added that" without
+              // a popup toast cluttering the screen.
+              var bumping by remember(ing.name) { mutableStateOf(false) }
+              androidx.compose.runtime.LaunchedEffect(bumping) {
+                if (bumping) {
+                  // Let the +1 animation play before the chip disappears.
+                  kotlinx.coroutines.delay(220)
+                  onAddToPantry(ing)
+                }
+              }
+              val plusAlpha by androidx.compose.animation.core.animateFloatAsState(
+                targetValue = if (bumping) 0f else 1f,
+                animationSpec = tween(500, easing = FastOutSlowInEasing),
+                label = "plus-alpha",
+              )
+              val plusOffsetY by androidx.compose.animation.core.animateFloatAsState(
+                targetValue = if (bumping) -36f else 0f,
+                animationSpec = tween(500, easing = FastOutSlowInEasing),
+                label = "plus-offset",
+              )
+              Box {
+                Surface(
+                  modifier = Modifier.pointerInput(ing.name) {
+                    awaitEachGesture {
+                      val down = awaitFirstDown(requireUnconsumed = false)
+                      down.consume()
+                      var fired = false
+                      while (true) {
+                        val event = awaitPointerEvent()
+                        event.changes.forEach { it.consume() }
+                        if (event.changes.all { !it.pressed }) {
+                          if (!fired) {
+                            fired = true
+                            // Trigger the +1 float; LaunchedEffect above schedules the
+                            // actual onAddToPantry call after the animation kicks off.
+                            bumping = true
+                          }
+                          break
+                        }
+                      }
+                    }
+                  },
+                  shape = RoundedCornerShape(14.dp),
+                  color = Paper3,
+                  border = androidx.compose.foundation.BorderStroke(1.dp, Rule),
+                ) {
                 Row(
                   Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                   verticalAlignment = Alignment.CenterVertically,
@@ -894,6 +1275,20 @@ private fun CardFront(
                     ing.name.take(24),
                     style = MaterialTheme.typography.labelSmall,
                     color = Ink, maxLines = 1,
+                  )
+                }
+              }
+                // The floating "+1" rises out of the chip on tap, fading as it goes.
+                if (bumping) {
+                  Text(
+                    "+1",
+                    color = BrassBright,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier
+                      .align(Alignment.TopCenter)
+                      .offset { IntOffset(0, plusOffsetY.roundToInt()) }
+                      .alpha(plusAlpha),
                   )
                 }
               }
@@ -928,7 +1323,16 @@ private fun CardBack(
     shape = RoundedCornerShape(16.dp),
     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
   ) {
-    Column(Modifier.fillMaxSize().padding(24.dp)) {
+    // Recipes with long ingredient lists or many steps used to overflow off the
+    // bottom of the card and the Cook / Save buttons became unreachable. The
+    // verticalScroll modifier lets the user scroll through the back-of-card
+    // content while the card itself stays fixed.
+    Column(
+      Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())
+        .padding(24.dp),
+    ) {
       Text(recipe.title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = Ink)
       Spacer(Modifier.height(12.dp))
 
@@ -951,10 +1355,12 @@ private fun CardBack(
       // REAL reviews only. If none, show an honest empty state — no fake "4.5 ★ from N users".
       if (recipe.ratingCount > 0 && recipe.rating > 0) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-          Icon(Icons.Outlined.Star, null, tint = Color(0xFFD4A017), modifier = Modifier.size(14.dp))
+          Icon(Icons.Outlined.Star, null, tint = BrassBright, modifier = Modifier.size(14.dp))
           Spacer(Modifier.width(4.dp))
           Text(
-            "%.1f average · ${recipe.ratingCount} review${if (recipe.ratingCount == 1) "" else "s"}",
+            // String template doesn't resolve %.1f on its own — must call .format() explicitly,
+            // otherwise the placeholder ships to the user as the literal "%.1f average ..." string.
+            "${"%.1f".format(recipe.rating)} average · ${recipe.ratingCount} review${if (recipe.ratingCount == 1) "" else "s"}",
             style = MaterialTheme.typography.bodyMedium, color = Ink,
           )
         }
@@ -995,11 +1401,12 @@ private fun IngredientLine(ing: Ingredient) {
   Row(verticalAlignment = Alignment.CenterVertically) {
     Box(Modifier.size(8.dp).background(if (ing.have) Olive else InkFaint, CircleShape))
     Spacer(Modifier.width(8.dp))
-    val emoji = IngredientEmoji.forName(ing.name)
-    if (emoji != null) {
-      Text(emoji, style = MaterialTheme.typography.bodyLarge)
-      Spacer(Modifier.width(6.dp))
-    }
+    IngredientImageOrEmoji(
+      name = ing.name,
+      size = 20.dp,
+      emojiStyle = MaterialTheme.typography.bodyLarge,
+    )
+    Spacer(Modifier.width(6.dp))
     Text(
       listOfNotNull(
         ing.quantity?.takeIf { it > 0.0 }?.let { q -> if (q == q.toInt().toDouble()) q.toInt().toString() else "%.1f".format(q) },
@@ -1018,6 +1425,54 @@ private fun StatCell(icon: androidx.compose.ui.graphics.vector.ImageVector, valu
     Icon(icon, null, tint = iconTint, modifier = Modifier.size(14.dp))
     Spacer(Modifier.width(4.dp))
     Text(value, style = MaterialTheme.typography.labelMedium, color = InkSoft, fontWeight = FontWeight.Medium)
+  }
+}
+
+/** Edge-to-edge allergen banner for the deck card. Sits above the image
+ *  on the front of the card. Tri-state:
+ *    red    → at least one matched allergen has no real substitute → skip
+ *    yellow → all matched allergens have known subs → can work around
+ *    (none) → no banner; status="none" rendered as nothing
+ *
+ *  Compact (~36dp) so it doesn't eat the image. Long-press ingredients on
+ *  the detail screen for sub options — the deck card is too small for subs
+ *  inline. Server computes status; client just renders. */
+@Composable
+private fun DeckAllergenBanner(status: String, labels: List<String>) {
+  val red = Color(0xFFC54B3C)
+  val amber = Color(0xFFD4A04A)   // BrassBright — on-brand "warning, workable"
+  val ink = Color(0xFF2B2621)
+  val isRed = status == "red"
+  val bg = if (isRed) red else amber
+  // Red text white-on-red for max contrast; yellow ink-on-brass to keep
+  // the speakeasy palette clean (white on brass looks washed out).
+  val fg = if (isRed) Color.White else ink
+  val labelText = labels.joinToString(" · ") { it.uppercase() }
+  val prefix = if (isRed) "Allergen, no swap" else "Allergen, sub available"
+  Surface(
+    color = bg,
+    modifier = Modifier.fillMaxWidth(),
+  ) {
+    Row(
+      Modifier.padding(horizontal = 14.dp, vertical = 9.dp),
+      verticalAlignment = Alignment.CenterVertically,
+    ) {
+      Icon(
+        imageVector = Icons.Outlined.Warning,
+        contentDescription = null,
+        tint = fg,
+        modifier = Modifier.size(16.dp),
+      )
+      Spacer(Modifier.width(10.dp))
+      Text(
+        if (labelText.isNotBlank()) "$prefix · $labelText" else prefix,
+        style = MaterialTheme.typography.labelMedium,
+        fontWeight = FontWeight.Bold,
+        color = fg,
+        letterSpacing = 1.0.sp,
+        maxLines = 2,
+      )
+    }
   }
 }
 
@@ -1049,23 +1504,28 @@ private fun EmptyDeckMessage() {
 
 @Composable
 private fun UpsellCard(message: String, tier: String, onOpenPaywall: () -> Unit) {
-  Surface(shape = RoundedCornerShape(12.dp), color = Paper) {
-    Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-      Text("That's your 10 for today.", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-      Spacer(Modifier.height(8.dp))
-      Text(
-        message,
-        style = MaterialTheme.typography.bodyMedium, color = InkMuted,
-        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-      )
-      if (tier == "free") {
-        Spacer(Modifier.height(16.dp))
-        Button(
-          onClick = onOpenPaywall,
-          colors = ButtonDefaults.buttonColors(containerColor = Ink),
-          shape = RoundedCornerShape(4.dp),
-        ) { Text("Brimm Pro · unlimited swipes", color = Paper) }
+  // Free users: the empty-deck state is the highest-intent moment for a Pro upsell — they
+  // burned through their daily allowance, so swap the old single-line button for the full
+  // ProUpgradeCard with all 3 tiers visible inline. Pro / past-paywall users keep the plain
+  // "come back tomorrow" message since they have no upgrade left to do.
+  Column(
+    Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+    horizontalAlignment = Alignment.CenterHorizontally,
+  ) {
+    Surface(shape = RoundedCornerShape(12.dp), color = Paper2) {
+      Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text("That's your 10 for today.", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+        Spacer(Modifier.height(8.dp))
+        Text(
+          message,
+          style = MaterialTheme.typography.bodyMedium, color = InkMuted,
+          textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+        )
       }
+    }
+    if (tier == "free") {
+      Spacer(Modifier.height(16.dp))
+      app.pantrie.billing.ProUpgradeCard(vintageMode = false)
     }
   }
 }
@@ -1086,7 +1546,7 @@ private fun firstStepDescription(r: Recipe): String? {
 
 @Composable
 private fun QuickActionButton(
-  icon: androidx.compose.ui.graphics.vector.ImageVector,
+  iconRes: Int,
   label: String,
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
@@ -1094,23 +1554,337 @@ private fun QuickActionButton(
   Surface(
     onClick = onClick,
     shape = RoundedCornerShape(12.dp),
-    color = Paper,
-    border = androidx.compose.foundation.BorderStroke(1.dp, InkFaint),
-    modifier = modifier.height(56.dp),
+    color = Paper2,
+    border = androidx.compose.foundation.BorderStroke(1.dp, Rule),
+    modifier = modifier.height(68.dp),
   ) {
     Row(
-      Modifier.fillMaxSize().padding(horizontal = 12.dp),
+      Modifier.fillMaxSize().padding(horizontal = 8.dp),
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.Center,
     ) {
-      Icon(icon, contentDescription = null, tint = Ink, modifier = Modifier.size(20.dp))
+      Image(
+        painter = painterResource(iconRes),
+        contentDescription = null,
+        modifier = Modifier
+          .size(42.dp)
+          .clip(RoundedCornerShape(8.dp)),
+        contentScale = ContentScale.Crop,
+      )
       Spacer(Modifier.width(8.dp))
       Text(
         label,
         style = MaterialTheme.typography.labelLarge,
         color = Ink,
         fontWeight = FontWeight.SemiBold,
+        maxLines = 1,
+        softWrap = false,
       )
+    }
+  }
+}
+
+// Boxed PNG icon button — replaces IconButton+Icon for top-row affordances. Brass
+// border + dark surface so the photorealistic asset reads as a tappable square,
+// not a floating image. `highlighted` lifts the border to BrassBright for active
+// states (e.g., Adventurous toggle on, Library affordance).
+@Composable
+private fun NavPngIconButton(
+  iconRes: Int,
+  contentDescription: String,
+  highlighted: Boolean,
+  onClick: () -> Unit,
+) {
+  val borderCol = if (highlighted) BrassBright else Rule
+  val bgCol = if (highlighted) Paper3 else Paper2
+  Box(
+    modifier = Modifier
+      .size(50.dp)
+      .clip(RoundedCornerShape(10.dp))
+      .background(bgCol)
+      .border(1.dp, borderCol, RoundedCornerShape(10.dp))
+      .clickable(onClick = onClick)
+      .padding(4.dp),
+    contentAlignment = Alignment.Center,
+  ) {
+    Image(
+      painter = painterResource(iconRes),
+      contentDescription = contentDescription,
+      modifier = Modifier
+        .size(40.dp)
+        .clip(RoundedCornerShape(8.dp)),
+      contentScale = ContentScale.Crop,
+    )
+  }
+}
+
+
+/**
+ * "Sucked into Library" celebration. Triggered when DeckViewModel.saveCelebration
+ * counter increments. Shows a single-shot 700ms animation: brass capsule with
+ * a checkmark + "Saved → Library" appears at card center, scales down 1.0 → 0.4
+ * while sliding to the bottom-center of the screen, fading out at the end.
+ *
+ * Visual answer to "where did this just go" — gives the user a directional
+ * cue that the recipe went into their saved/Library area, which on the bottom
+ * nav lives behind the middle (Feed) tab.
+ *
+ * No-op on the very first composition (tick = 0). Each subsequent change to
+ * tick fires the animation. We ignore the actual value, only the change.
+ */
+@Composable
+private fun LibrarySuckOverlay(tick: Int, enabled: Boolean = true) {
+  if (tick == 0) return
+  // Replay guard. The StateFlow tick value persists across navigation, so
+  // when the user leaves and returns to the deck the overlay would re-mount,
+  // see a non-zero tick, and replay the last save's animation. Tracking the
+  // consumed tick blocks that: only fresh increments after mount animate.
+  var lastConsumed by remember { mutableStateOf(tick) }
+  // User's toggle in Settings > Features. When off, mark this tick consumed
+  // so a future re-enable doesn't replay backlog.
+  if (!enabled) {
+    lastConsumed = tick
+    return
+  }
+  if (tick == lastConsumed) return
+  // Read the reported bounds of the Library icon (top-right of the deck
+  // header). We aim the brass capsule there so the user sees a clear path:
+  // card center → Library icon, where the +1 badge lights up.
+  val anchorRegistry = androidx.hilt.navigation.compose.hiltViewModel<app.pantrie.feature.walkthrough.WalkthroughViewModel>().anchors
+  val anchors by anchorRegistry.collectAsState()
+  val libraryBounds = anchors["deck_library_icon"]
+
+  // Two-phase animation, total 1500ms:
+  //   pop  (0..200ms)  — brass capsule scales 0 → 1.15 → 1.0 at card center,
+  //                      grabbing the eye after the swipe-exit completes
+  //   suck (200..1500ms) — capsule travels from card center to bottom-nav
+  //                        region, scaling 1.0 → 0.35, fading at the tail
+  //
+  // Delaying 200ms before the suck means the user's eye is back on the deck
+  // by the time the brass starts moving. Previously the capsule fired at the
+  // same instant the card flew off-screen and got lost in peripheral motion.
+  val progress = remember { androidx.compose.animation.core.Animatable(0f) }
+  LaunchedEffect(tick) {
+    progress.snapTo(0f)
+    progress.animateTo(
+      targetValue = 1f,
+      animationSpec = androidx.compose.animation.core.tween(
+        durationMillis = 1500,
+        easing = androidx.compose.animation.core.LinearEasing,
+      ),
+    )
+    // Mark this tick as fully shown. Next recomposition with the same value
+    // will hit the early-return at the top, so the animation doesn't replay
+    // when the user navigates away and back.
+    lastConsumed = tick
+  }
+
+  val p = progress.value
+  if (p >= 1f) return
+
+  // Phase A: pop in (first 13% of timeline).
+  // Phase B: suck (remaining 87% of timeline).
+  val popPhase = (p / 0.13f).coerceIn(0f, 1f)
+  val suckPhase = ((p - 0.13f) / 0.87f).coerceIn(0f, 1f)
+
+  // Pop scale — 0 → 1.15 → 1.0 with a small overshoot for "magnetic snap" feel.
+  val popScale = when {
+    popPhase < 0.6f -> popPhase / 0.6f * 1.15f
+    else -> 1.15f - ((popPhase - 0.6f) / 0.4f) * 0.15f
+  }
+
+  // Suck-phase eased travel + shrink. Easing is the standard fast-out-slow-in
+  // applied to the suck phase only so the pop feels snappy and the suck feels
+  // gravitational.
+  val easedSuck = androidx.compose.animation.core.FastOutSlowInEasing.transform(suckPhase)
+  val travelScale = 1f - 0.65f * easedSuck
+  val finalScale = popScale * travelScale
+  val alpha = if (suckPhase < 0.85f) 1f else (1f - (suckPhase - 0.85f) / 0.15f)
+
+  Box(modifier = Modifier.fillMaxSize()) {
+    androidx.compose.foundation.layout.BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+      val w = maxWidth
+      val h = maxHeight
+      val density = LocalDensity.current
+      val startX = w / 2f
+      val startY = h * 0.40f                 // visually center of the card area
+
+      // Destination: the dead center of the Library icon at the top-right of
+      // the deck header. If the icon hasn't reported its bounds yet (rare
+      // pre-layout state), fall back to a top-right corner.
+      val (endX, endY) = if (libraryBounds != null) {
+        val cx = with(density) { libraryBounds.center.x.toDp() }
+        val cy = with(density) { libraryBounds.center.y.toDp() }
+        cx to cy
+      } else {
+        (w - 32.dp) to 64.dp
+      }
+      val curX = androidx.compose.ui.unit.lerp(startX, endX, easedSuck)
+      val curY = androidx.compose.ui.unit.lerp(startY, endY, easedSuck)
+
+      Box(
+        modifier = Modifier
+          .offset(x = curX - 96.dp, y = curY - 28.dp)
+          .graphicsLayer {
+            scaleX = finalScale
+            scaleY = finalScale
+            this.alpha = alpha
+          },
+      ) {
+        // Inverse palette vs the pellets — DARK Ink body with BRASS text and
+        // bookmark icon, plus a brass border ring. Cannot be confused with
+        // the bright-brass falling chips. Reads as a single weighty object
+        // sliding down vs the swarm of small chips going to Shop.
+        Surface(
+          shape = RoundedCornerShape(28.dp),
+          color = Ink,
+          shadowElevation = 16.dp,
+          border = androidx.compose.foundation.BorderStroke(2.dp, BrassBright),
+        ) {
+          Row(
+            Modifier.padding(horizontal = 22.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+          ) {
+            Icon(
+              imageVector = Icons.Outlined.Bookmark,
+              contentDescription = null,
+              tint = BrassBright,
+              modifier = Modifier.size(22.dp),
+            )
+            Spacer(Modifier.width(10.dp))
+            Text(
+              "Saved → Library",
+              style = MaterialTheme.typography.titleMedium,
+              fontWeight = FontWeight.Bold,
+              color = BrassBright,
+            )
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Missing-ingredients celebration. Each saved recipe with un-pantried ingredients
+ * spawns up to 6 brass chips at card center; each chip arcs down to the Shop
+ * tile (bottom-center of the deck where the Shop quick-action button sits) on
+ * a staggered timeline. Visually answers "where did the missing stuff just go."
+ *
+ * Reads its trigger from DeckViewModel.shoppingFall.tick. Names list is the
+ * truncated label set, max 6 chips. tick=0 = idle, no render.
+ */
+@Composable
+private fun ShoppingFallOverlay(tick: Int, names: List<String>, enabled: Boolean = true) {
+  if (tick == 0 || names.isEmpty()) return
+  // Replay guard — same pattern as LibrarySuckOverlay. Without it the pellets
+  // re-cascade every time the user returns to the deck because the StateFlow
+  // value persists across composition. Initialize to current tick so first
+  // mount is a no-op; subsequent fresh increments fire the cascade.
+  var lastConsumed by remember { mutableStateOf(tick) }
+  if (!enabled) {
+    lastConsumed = tick
+    return
+  }
+  if (tick == lastConsumed) return
+
+  // Per-pellet animatables, capped at the actual list size. We re-create them
+  // each tick so a rapid second save resets the animation cleanly.
+  val animatables = remember(tick) {
+    names.map { androidx.compose.animation.core.Animatable(0f) }
+  }
+  LaunchedEffect(tick) {
+    animatables.forEachIndexed { i, anim ->
+      launch {
+        // Stagger the start of each pellet by 140ms (was 80) and slow each
+        // pellet to 1100ms (was 750) so the cascade is unmistakable. Total
+        // animation now spans ~1.7s for 6 pellets instead of ~1.2s.
+        kotlinx.coroutines.delay(i * 140L)
+        anim.snapTo(0f)
+        anim.animateTo(
+          targetValue = 1f,
+          animationSpec = androidx.compose.animation.core.tween(
+            durationMillis = 1100,
+            easing = androidx.compose.animation.core.FastOutSlowInEasing,
+          ),
+        )
+      }
+    }
+  }
+
+  // Skip rendering when every pellet finished. Prevents a permanent invisible
+  // overlay (which would block touches if zIndex were higher).
+  val allDone = animatables.all { it.value >= 1f }
+  if (allDone) {
+    // Mark this tick consumed so navigating back doesn't replay the cascade.
+    lastConsumed = tick
+    return
+  }
+
+  androidx.compose.foundation.layout.BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+    val w = maxWidth
+    val h = maxHeight
+    // Card center as start; Shop tile sits middle-bottom of deck (Pantry/Shop/Plan).
+    val startX = w / 2f
+    val startY = h * 0.30f
+    val endX = w / 2f
+    // Pellets land near the very bottom of the screen so they visually exit
+    // the deck content and "fall into" the bottom-nav region. Previously
+    // they stopped 36dp above the bottom and looked like they were falling
+    // into nothing.
+    val endY = h - 4.dp
+
+    names.forEachIndexed { i, name ->
+      val p = animatables.getOrNull(i)?.value ?: 0f
+      if (p <= 0f || p >= 1f) return@forEachIndexed
+      // Lateral jitter so chips don't stack on a single column. Spreads chips
+      // ±60dp around start, all converging onto the Shop tile.
+      val lateralOffsetDp = (((i % 3) - 1) * 60 + (i / 3) * 16).dp
+      val curX = androidx.compose.ui.unit.lerp(startX + lateralOffsetDp, endX, p)
+      // Parabolic Y: pellet rises slightly before falling toward the Shop tile,
+      // giving the visceral "out of the card and down" feel.
+      val arcLiftDp = (-32 * 4f * p * (1f - p)).dp
+      val curY = androidx.compose.ui.unit.lerp(startY, endY, p) + arcLiftDp
+      val scale = 1f - 0.35f * p
+      val alpha = if (p < 0.85f) 1f else (1f - (p - 0.85f) / 0.15f)
+
+      Box(
+        modifier = Modifier
+          .offset(x = curX - 60.dp, y = curY - 14.dp)
+          .graphicsLayer {
+            scaleX = scale
+            scaleY = scale
+            this.alpha = alpha
+          },
+      ) {
+        Surface(
+          shape = RoundedCornerShape(14.dp),
+          color = BrassBright,
+          shadowElevation = 4.dp,
+        ) {
+          Row(
+            Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+          ) {
+            Icon(
+              imageVector = Icons.Outlined.ShoppingCart,
+              contentDescription = null,
+              tint = Ink,
+              modifier = Modifier.size(12.dp),
+            )
+            Spacer(Modifier.width(4.dp))
+            Text(
+              name.take(18),
+              style = MaterialTheme.typography.labelSmall,
+              fontWeight = FontWeight.SemiBold,
+              color = Ink,
+              maxLines = 1,
+              softWrap = false,
+            )
+          }
+        }
+      }
     }
   }
 }

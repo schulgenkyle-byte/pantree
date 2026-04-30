@@ -2,7 +2,10 @@ package app.pantrie.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.pantrie.billing.EntitlementRepository
+import app.pantrie.billing.SwipeQuotaRepository
 import app.pantrie.feature.beta.Analytics
+import app.pantrie.feature.walkthrough.TourRepository
 import app.pantrie.network.PantrieApi
 import app.pantrie.network.dto.PreferencesDto
 import app.pantrie.network.dto.PutPreferencesRequest
@@ -32,7 +35,26 @@ class SettingsViewModel @Inject constructor(
   private val api: PantrieApi,
   private val analytics: Analytics,
   private val localSettings: LocalSettingsStore,
+  private val tourRepo: TourRepository,
+  private val swipeQuota: SwipeQuotaRepository,
+  private val entitlement: EntitlementRepository,
 ) : ViewModel() {
+
+  /** Live Pro state for the debug Settings toggle. */
+  val isPro = entitlement.isPro
+
+  /** Debug-only: reset today's swipe count to zero so the Tonight deck refills.
+   *  Wired to a Settings button visible only on BuildConfig.DEBUG. */
+  fun resetSwipeQuotaForTesting() {
+    viewModelScope.launch { swipeQuota.resetForTesting() }
+  }
+
+  /** Debug-only: flip Pro on/off via the dev-gated server endpoint + local cache. */
+  fun debugTogglePro(grant: Boolean) {
+    viewModelScope.launch {
+      if (grant) entitlement.debugGrantPro() else entitlement.debugRevokePro()
+    }
+  }
   private val _state = MutableStateFlow(SettingsState())
   val state = _state.asStateFlow()
 
@@ -42,6 +64,20 @@ class SettingsViewModel @Inject constructor(
   fun setShowMixology(on: Boolean) {
     localSettings.setShowMixology(on)
     analytics.track("mixology_toggle", mapOf("on" to on))
+  }
+
+  /** Animation toggles in the new Features section. */
+  val libraryAnimEnabled = localSettings.libraryAnimEnabled
+  val ingredientFallEnabled = localSettings.ingredientFallEnabled
+
+  fun setLibraryAnimEnabled(on: Boolean) {
+    localSettings.setLibraryAnimEnabled(on)
+    analytics.track("library_anim_toggle", mapOf("on" to on))
+  }
+
+  fun setIngredientFallEnabled(on: Boolean) {
+    localSettings.setIngredientFallEnabled(on)
+    analytics.track("ingredient_fall_toggle", mapOf("on" to on))
   }
 
   init { load() }
@@ -130,6 +166,17 @@ class SettingsViewModel @Inject constructor(
       runCatching { api.putPreferences(req) }
       onDone()
     }
+  }
+
+  /**
+   * Reset the first-launch tour flag so the walkthrough overlay re-triggers on the
+   * next eligible screen render. Settings calls this from the "Show app tour again"
+   * row; the actual UI re-show is owned by [WalkthroughViewModel] which listens to
+   * [TourRepository.completed] and flips visibility itself.
+   */
+  fun replayTour() {
+    analytics.track("tour_replay_requested")
+    viewModelScope.launch { tourRepo.reset() }
   }
 
   /** Helper to preview stored prefs without UI. */

@@ -97,6 +97,38 @@ export const handleUsers = {
     await env.DB.prepare('DELETE FROM session WHERE user_id = ?').bind(userId).run();
     if (authPayload?.jti) await revokeJti(env, authPayload.jti, authPayload.exp);
 
+    // R2 SWEEP: collect every photo URL this user owns BEFORE we drop the rows that
+    // reference them (otherwise we lose the keys). Public-bucket photos linger forever
+    // unless we explicitly delete them — GDPR/CCPA right-to-erasure.
+    const photoKeys = new Set();
+    const publicBase = (env.PHOTOS_PUBLIC_BASE || '').replace(/\/$/, '');
+    const collectFromUrl = (raw) => {
+      if (!raw || typeof raw !== 'string') return;
+      // Trust the per-user prefix — we only ever wrote keys under submissions/<userId>/
+      // so a key extracted from a URL we own is safe to delete.
+      if (publicBase && raw.startsWith(publicBase + '/')) {
+        photoKeys.add(raw.slice(publicBase.length + 1));
+      }
+    };
+    try {
+      const subs = await env.DB.prepare('SELECT image_url FROM recipe_submission WHERE user_id = ?').bind(userId).all();
+      for (const r of subs?.results || []) collectFromUrl(r.image_url);
+    } catch { /* table may not exist yet on fresh deploy */ }
+    try {
+      const reviewPhotos = await env.DB.prepare(
+        'SELECT photo_url FROM review_photo rp JOIN review r ON rp.review_id = r.id WHERE r.user_id = ?'
+      ).bind(userId).all();
+      for (const r of reviewPhotos?.results || []) collectFromUrl(r.photo_url);
+    } catch { /* schema may differ — fail-open, photos can be reaped manually */ }
+
+    if (env.PHOTOS_BUCKET && photoKeys.size > 0) {
+      // R2 has a delete-many API but the bindings vary by runtime. Loop with catch — one
+      // bad key shouldn't block the user-delete; the row drop is the primary erasure.
+      for (const k of photoKeys) {
+        await env.PHOTOS_BUCKET.delete(k).catch((e) => console.warn('R2 delete failed', k, e?.message));
+      }
+    }
+
     // Then cascade user data. Schema defines ON DELETE CASCADE for FK-bound tables;
     // we still explicitly delete for safety in case FKs aren't enforced.
     const tables = [
@@ -112,6 +144,7 @@ export const handleUsers = {
       'block',
       'scan_history',
       'entitlement',
+      'recipe_submission',
     ];
     for (const t of tables) {
       await env.DB.prepare(`DELETE FROM ${t} WHERE user_id = ?`).bind(userId).run().catch(() => {});
@@ -119,6 +152,31 @@ export const handleUsers = {
     // Also follows where this user is the target
     await env.DB.prepare('DELETE FROM follow WHERE followed_user_id = ?').bind(userId).run().catch(() => {});
     await env.DB.prepare('DELETE FROM block WHERE blocked_user_id = ?').bind(userId).run().catch(() => {});
+
+    // Library cascade — explicit delete in dependency order. FKs declare ON DELETE
+    // CASCADE but the rest of this function intentionally doesn't trust FKs (see
+    // comment around line 132). GDPR right-to-erasure: every Library Book the user
+    // owned, including public/unlisted ones that surfaced on speakeater.com/b/<id>,
+    // is destroyed — recipe references on community forks survive only as orphan
+    // copies in the forker's library, not as anything traceable to this account.
+    await env.DB.prepare(
+      `DELETE FROM chapter_recipe WHERE chapter_id IN (
+         SELECT c.id FROM chapter c JOIN book b ON b.id = c.book_id
+         WHERE b.library_user_id = ?
+       )`
+    ).bind(userId).run().catch(() => {});
+    await env.DB.prepare(
+      `DELETE FROM book_export_log WHERE book_id IN (
+         SELECT id FROM book WHERE library_user_id = ?
+       )`
+    ).bind(userId).run().catch(() => {});
+    await env.DB.prepare(
+      `DELETE FROM chapter WHERE book_id IN (
+         SELECT id FROM book WHERE library_user_id = ?
+       )`
+    ).bind(userId).run().catch(() => {});
+    await env.DB.prepare('DELETE FROM book WHERE library_user_id = ?').bind(userId).run().catch(() => {});
+    await env.DB.prepare('DELETE FROM library WHERE user_id = ?').bind(userId).run().catch(() => {});
 
     await env.DB.prepare('DELETE FROM user WHERE id = ?').bind(userId).run();
     return json({ ok: true, deleted: true }, 200, request, env);

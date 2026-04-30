@@ -19,6 +19,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,7 +30,7 @@ import app.pantrie.data.entities.PantryDao
 import app.pantrie.data.entities.PantryItemEntity
 import app.pantrie.feature.savings.SavingsCard
 import app.pantrie.network.PantrieApi
-import app.pantrie.ui.IngredientEmoji
+import app.pantrie.ui.IngredientImageOrEmoji
 import app.pantrie.network.dto.HomeStats
 import app.pantrie.network.dto.PantryAddRequest
 import app.pantrie.network.dto.PantryBulkRequest
@@ -227,7 +229,7 @@ private fun expiryFor(expiresAt: String?): ExpiryInfo {
   return when {
     days < 0 -> ExpiryInfo(days, "Expired", Terracotta)
     days <= 2 -> ExpiryInfo(days, if (days == 0) "Today" else "${days}d left", Terracotta)
-    days <= 5 -> ExpiryInfo(days, "${days}d left", Color(0xFFD4A017))
+    days <= 5 -> ExpiryInfo(days, "${days}d left", BrassBright)
     else -> ExpiryInfo(days, "${days}d", Olive)
   }
 }
@@ -248,11 +250,15 @@ fun PantryScreen(
   val syncMsg by vm.syncMessage.collectAsState()
   val sortedItems = remember(items) { sortByExpiry(items) }
 
+  // Walkthrough VM — used to report the "Snap your shelves" button bounds so the
+  // first-launch tour can spotlight it (step 2: "scan what you have").
+  val tourVm: app.pantrie.feature.walkthrough.WalkthroughViewModel = hiltViewModel()
+
   syncMsg?.let { msg ->
     LaunchedEffect(msg) { kotlinx.coroutines.delay(3000); vm.clearSyncMessage() }
   }
 
-  Scaffold(containerColor = Cream) { padding ->
+  Scaffold(containerColor = Paper) { padding ->
     LazyColumn(
       modifier = Modifier.padding(padding).fillMaxSize(),
       contentPadding = PaddingValues(horizontal = 24.dp, vertical = 20.dp),
@@ -273,7 +279,7 @@ fun PantryScreen(
       }
       // Expiring nudge
       home?.expiringNudge?.takeIf { it.show }?.let { nudge ->
-        item { NudgeCard(message = nudge.message, tint = Color(0xFFD4A017), onAction = null, actionText = null) }
+        item { NudgeCard(message = nudge.message, tint = BrassBright, onAction = null, actionText = null) }
       }
 
       item { SavingsCard() }
@@ -281,7 +287,16 @@ fun PantryScreen(
       item {
         Button(
           onClick = onScan,
-          modifier = Modifier.fillMaxWidth().height(56.dp),
+          modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            // Walkthrough step 2 spotlights this button. Report bounds for the overlay.
+            .onGloballyPositioned { coords ->
+              tourVm.reportAnchor(
+                app.pantrie.feature.walkthrough.TourAnchors.PANTRY_SCAN_BUTTON,
+                coords.boundsInWindow(),
+              )
+            },
           colors = ButtonDefaults.buttonColors(containerColor = Ink),
           shape = RoundedCornerShape(4.dp),
         ) {
@@ -427,11 +442,8 @@ private fun PantryRow(
       )
       Spacer(Modifier.width(10.dp))
     }
-    val emoji = IngredientEmoji.forName(item.name)
-    if (emoji != null) {
-      Text(emoji, style = MaterialTheme.typography.titleLarge)
-      Spacer(Modifier.width(10.dp))
-    }
+    IngredientImageOrEmoji(name = item.name, size = 28.dp)
+    Spacer(Modifier.width(10.dp))
     Column(modifier = Modifier.weight(1f)) {
       Text(item.name,
         style = MaterialTheme.typography.titleMedium, color = Ink, fontWeight = FontWeight.Medium)

@@ -1,0 +1,301 @@
+id,title,verdict,reason,has_photo,step_count,ingredient_count,source_prefix
+wb-1-2-3-4-cake,1-2-3-4 Cake,KEEP,cookable,1,11,4,wb
+wb-20-ingredient-brownies,20-Ingredient Brownies,FIX,missing photo,0,7,7,wb
+wb-20-minute-beef-stroganoff,20-Minute Beef Stroganoff,FIX,missing photo,0,9,12,wb
+wb-40-cloves-in-a-roast-chicken,40 Cloves in a Roast Chicken,FIX,missing photo,0,8,7,wb
+wb-8-desserts-in-1-pan,8 Desserts in 1 Pan,FIX,missing photo,0,7,9,wb
+wb-a-nice-cup-of-tea,A Nice Cup of Tea,DELETE,empty/fragment instructions,1,0,3,wb
+wb-aadun-nigerian-corn-flour-with-palm-oil,Aadun (Nigerian Corn Flour with Palm Oil),FIX,missing photo,0,3,4,wb
+wb-abacha-mmiri-soaked-cassava-flakes,Abacha Mmiri (Soaked Cassava Flakes),FIX,missing photo,0,6,5,wb
+wb-abuk-abuk-sweet-steamed-sago-dumplings,Abuk-abuk (Sweet Steamed Sago Dumplings),FIX,missing photo,0,10,6,wb
+wb-abula-nigerian-three-stews,Abula (Nigerian Three Stews),FIX,missing photo,0,5,7,wb
+wb-accra-cassava-cameroonian-cassava-fritters,Accra Cassava (Cameroonian Cassava Fritters),FIX,missing photo,0,7,3,wb
+wb-acevichada-sauce,Acevichada Sauce,FIX,missing photo,0,4,12,wb
+wb-acid-drops,Acid Drops,FIX,50% garbage ingredients,0,6,2,wb
+wb-acorn-crusted-salmon,Acorn Crusted Salmon,FIX,missing photo,0,3,3,wb
+wb-acorn-squash-with-orange-marmalade,Acorn Squash with Orange Marmalade,FIX,missing photo,0,9,4,wb
+wb-adobo-chicken-philippine,Adobo Chicken (Philippine),FIX,50% garbage ingredients,1,7,6,wb
+wb-adobo-sauce,Adobo Sauce,FIX,43% garbage ingredients,1,2,7,wb
+wb-adoyo-nigerian-ogi-beverage,Adoyo (Nigerian Ogi Beverage),DELETE,empty/fragment instructions,0,0,0,wb
+wb-adult-macaroni-and-cheese,Adult Macaroni and Cheese,FIX,63% garbage ingredients,0,4,8,wb
+wb-affogato,Affogato,KEEP,cookable,1,1,2,wb
+wb-afghan-bread,Afghan Bread,FIX,ingredient parser failure (instructions ok),1,6,0,wb
+wb-african-cabbage-stew,African Cabbage Stew,KEEP,cookable,1,6,13,wb
+wb-african-salad-ii,African Salad II,FIX,missing photo,0,9,16,wb
+wb-agar-jelly,Agar Jelly,FIX,33% garbage ingredients,1,7,3,wb
+wb-agbalumo-smoothie,Agbalumo Smoothie,FIX,missing photo,0,5,3,wb
+wb-agbugbu-nigerian-pigeon-pea-and-yam-porridge,Agbugbu (Nigerian Pigeon Pea and Yam Porridge),DELETE,empty/fragment instructions,0,0,6,wb
+wb-agedashi-tofu,Agedashi Tofu,KEEP,cookable,1,8,3,wb
+wb-ager-soup,Ager Soup,FIX,missing photo,0,6,9,wb
+wb-agnolotti-pasta-soup-agnolotti-in-brodo,Agnolotti Pasta Soup (Agnolotti in Brodo),FIX,missing photo,0,5,4,wb
+wb-air-fried-zucchini,Air Fried Zucchini,KEEP,cookable,1,4,5,wb
+wb-aj-de-gallina-peruvian-chili-chicken,Ají de Gallina (Peruvian Chili Chicken),FIX,missing photo,0,7,9,wb
+wb-akabenz-rwandan-fried-chicken,Akabenz (Rwandan Fried Chicken),FIX,missing photo,0,7,9,wb
+wb-akamu-nigerian-pudding,Akamu (Nigerian Pudding),FIX,missing photo,0,6,4,wb
+wb-akarange-rwandan-tomato-sauce,Akarange (Rwandan Tomato Sauce),FIX,missing photo,0,8,12,wb
+wb-akarubi-rwandan-grilled-banana,Akarubi (Rwandan Grilled Banana),FIX,missing photo,0,6,4,wb
+wb-alabama-white-sauce,Alabama White Sauce,FIX,missing photo,0,2,8,wb
+wb-albanian-fried-meatballs,Albanian Fried Meatballs,FIX,missing photo,0,5,11,wb
+wb-albanian-meat-with-walnuts,Albanian Meat with Walnuts,FIX,missing photo,0,6,6,wb
+wb-albanian-mixed-vegetables,Albanian Mixed Vegetables,FIX,missing photo,0,5,7,wb
+wb-albanian-stewed-fig-pudding,Albanian Stewed Fig Pudding,FIX,missing photo,0,4,2,wb
+wb-albanian-vegetable-pie,Albanian Vegetable Pie,FIX,40% garbage ingredients,0,5,5,wb
+wb-ale-mustard-and-winter-vegetable-pie,"Ale, Mustard and Winter Vegetable Pie",FIX,missing photo,0,4,4,wb
+wb-alfajores-latin-american-sandwich-cookies,Alfajores (Latin American Sandwich Cookies),FIX,30% garbage ingredients,0,6,10,wb
+wb-alfredo-sauce,Alfredo Sauce,KEEP,cookable,1,6,2,wb
+wb-algerian-baghrir,Algerian Baghrir,KEEP,cookable,1,9,7,wb
+wb-algerian-chakhchoukha-vegetable-and-flatbread-stew,Algerian Chakhchoukha (Vegetable and Flatbread Stew),FIX,missing photo,0,8,13,wb
+wb-algerian-coca,Algerian Coca,FIX,missing photo,0,4,4,wb
+wb-algerian-lemonade,Algerian Lemonade,DELETE,empty/fragment instructions,0,0,8,wb
+wb-algerian-mint-tea,Algerian Mint Tea,FIX,missing photo,0,6,4,wb
+wb-alicha-wot-mild-ethiopian-stew,Alicha Wot (Mild Ethiopian Stew),FIX,missing photo,0,10,12,wb
+wb-alkubus-nigerian-steamed-bread,Alkubus (Nigerian Steamed Bread),KEEP,cookable,1,8,6,wb
+wb-almond-cake,Almond Cake,FIX,40% garbage ingredients,1,9,5,wb
+wb-almond-cowitch-matcha-smoothie,Almond-Cowitch Matcha Smoothie,FIX,33% garbage ingredients,0,4,3,wb
+wb-almond-fudge-brownies,Almond Fudge Brownies,FIX,38% garbage ingredients,0,9,8,wb
+wb-almond-gambols,Almond Gambols,FIX,missing photo,0,4,6,wb
+wb-almond-milk-i,Almond Milk I,KEEP,cookable,1,4,2,wb
+wb-almond-milk-ii,Almond Milk II,FIX,missing photo,0,5,2,wb
+wb-almond-pancakes,Almond Pancakes,KEEP,cookable,1,19,16,wb
+wb-almond-toffee-blondies,Almond Toffee Blondies,FIX,38% garbage ingredients,0,6,8,wb
+wb-aloo-tikki-spiced-potato-patties,Aloo Tikki (Spiced Potato Patties),KEEP,cookable,1,5,6,wb
+wb-alsatian-chicken-fricass-e,Alsatian Chicken Fricassée,FIX,missing photo,0,8,8,wb
+wb-alsatian-fish-stew-matelote-de-poissons-d-alsace,Alsatian Fish Stew (Matelote de poissons d'Alsace),FIX,missing photo,0,11,16,wb
+wb-alsatian-fresh-noodles-nouilles-fra-ches-l-alsacienne,Alsatian Fresh Noodles (Nouilles fraîches à l'Alsacienne),FIX,missing photo,0,10,4,wb
+wb-amala-g-d-nigerian-plantain-fufu,Amala Ọgẹdẹ (Nigerian Plantain Fufu),FIX,missing photo,0,4,2,wb
+wb-amala-yoruba-yam-swallow,Amala (Yoruba Yam Swallow),KEEP,cookable,1,5,2,wb
+wb-ambrosia-fruit-salad,Ambrosia Fruit Salad,KEEP,cookable,1,4,7,wb
+wb-american-alfredo-sauce,American Alfredo Sauce,FIX,missing photo,0,7,5,wb
+wb-american-marinara-sauce-i,American Marinara Sauce I,FIX,missing photo,0,13,8,wb
+wb-american-marinara-sauce-ii,American Marinara Sauce II,FIX,missing photo,0,7,12,wb
+wb-american-potato-salad-i,American Potato Salad I,FIX,missing photo,0,11,8,wb
+wb-american-potato-salad-ii,American Potato Salad II,FIX,missing photo,0,5,10,wb
+wb-anchovy-herb-salsa-verde,Anchovy Herb Salsa Verde,FIX,missing photo,0,2,6,wb
+wb-ancient-roman-pancakes-ova-sfongia-ex-lacte,Ancient Roman Pancakes (Ova Sfongia Ex Lacte),FIX,missing photo,0,3,7,wb
+wb-angels-on-horseback-bacon-wrapped-oysters,Angels on Horseback (Bacon-wrapped Oysters),FIX,missing photo,0,4,6,wb
+wb-anise-bread-penia,Anise Bread (Penia),FIX,missing photo,0,17,2,wb
+wb-ants-on-a-log,Ants on a Log,FIX,missing photo,0,3,3,wb
+wb-anzac-biscuits-i,Anzac Biscuits I,KEEP,cookable,1,4,8,wb
+wb-anzac-biscuits-ii,Anzac Biscuits II,FIX,missing photo,0,8,8,wb
+wb-appam-fermented-rice-pancake,Appam (Fermented Rice Pancake),DELETE,empty/fragment instructions,0,0,8,wb
+wb-apple-and-almond-cake,Apple and Almond Cake,KEEP,cookable,1,9,7,wb
+wb-apple-bars,Apple Bars,FIX,missing photo,0,4,12,wb
+wb-apple-bbq-sauce,Apple BBQ Sauce,FIX,missing photo,0,3,5,wb
+wb-apple-brown-betty,Apple Brown Betty,FIX,missing photo,0,6,6,wb
+wb-apple-bundt-cake,Apple Bundt Cake,DELETE,empty/fragment instructions,0,0,11,wb
+wb-apple-cake,Apple Cake,KEEP,cookable,1,7,6,wb
+wb-apple-cobbler,Apple Cobbler,KEEP,cookable,1,2,3,wb
+wb-apple-crisp-i,Apple Crisp I,FIX,60% garbage ingredients,1,11,5,wb
+wb-apple-crisp-ii,Apple Crisp II,FIX,missing photo,0,4,7,wb
+wb-apple-crisp-iii,Apple Crisp III,FIX,missing photo,0,6,13,wb
+wb-apple-crusted-ham,Apple Crusted Ham,FIX,missing photo,0,5,4,wb
+wb-apple-fritters,Apple Fritters,KEEP,cookable,1,4,7,wb
+wb-apple-glazed-pork-chops,Apple Glazed Pork Chops,FIX,missing photo,0,4,5,wb
+wb-apple-jelly,Apple Jelly,KEEP,cookable,1,4,3,wb
+wb-apple-parsnip-soup,Apple Parsnip Soup,DELETE,empty/fragment instructions,0,0,2,wb
+wb-apple-pear-crumble,Apple-Pear Crumble,FIX,missing photo,0,6,4,wb
+wb-apple-pie-i,Apple Pie I,KEEP,cookable,1,25,11,wb
+wb-apple-pie-ii,Apple Pie II,FIX,missing photo,0,16,14,wb
+wb-apple-potato-bread,Apple Potato Bread,FIX,ingredient parser failure (instructions ok),0,7,0,wb
+wb-apple-pudding,Apple Pudding,FIX,missing photo,0,5,8,wb
+wb-apple-raisin-oat-muffins,Apple Raisin Oat Muffins,FIX,missing photo,0,10,10,wb
+wb-apple-streusel-muffins,Apple Streusel Muffins,FIX,missing photo,0,2,3,wb
+wb-apple-stuffed-pork-chops,Apple Stuffed Pork Chops,FIX,missing photo,0,6,6,wb
+wb-apple-stuffed-pork-loin,Apple Stuffed Pork Loin,FIX,missing photo,0,4,5,wb
+wb-apple-stuffing,Apple Stuffing,FIX,missing photo,0,3,10,wb
+wb-apple-tapioca,Apple Tapioca,DELETE,empty/fragment instructions,1,0,8,wb
+wb-apple-with-mustard-and-goat-cheese,Apple with Mustard and Goat Cheese,FIX,missing photo,0,7,4,wb
+wb-applesauce-cake,Applesauce Cake,FIX,missing photo,0,7,9,wb
+wb-applewood-bacon,Applewood Bacon,FIX,missing photo,0,9,6,wb
+wb-apricot-chicken-salad,Apricot Chicken Salad,FIX,missing photo,0,3,6,wb
+wb-apricot-wine,Apricot Wine,FIX,missing photo,0,7,10,wb
+wb-arambasici-croatian-sour-cabbage-rolls,Arambasici (Croatian Sour Cabbage Rolls),FIX,missing photo,0,12,17,wb
+wb-arancini-italian-fried-rice-balls,Arancini (Italian Fried Rice Balls),FIX,missing photo,0,2,4,wb
+wb-arisa-malaysian-blended-chicken,Arisa (Malaysian Blended Chicken),FIX,missing photo,0,11,12,wb
+wb-arisa-pitha-fried-indian-sweet-rice-pastry,Arisa Pitha (Fried Indian Sweet Rice Pastry),FIX,missing photo,0,4,5,wb
+wb-arjoli-maltese-herbed-bread-dip,Arjoli (Maltese Herbed Bread Dip),FIX,missing photo,0,5,10,wb
+wb-arroz-con-gandules-puerto-rican-rice-and-pigeon-peas,Arroz con Gandules (Puerto Rican Rice and Pigeon Peas),FIX,missing photo,0,3,6,wb
+wb-arroz-con-maiz-rice-with-corn,Arroz con Maiz (Rice with Corn),FIX,missing photo,0,3,7,wb
+wb-arroz-con-pollo-rice-and-chicken,Arroz con Pollo (Rice and Chicken),FIX,missing photo,0,14,7,wb
+wb-arroz-negro-valencian-squid-rice,Arroz Negro (Valencian Squid Rice),DELETE,single step on complex dish,0,1,8,wb
+wb-artichoke-dip-with-parmesan,Artichoke Dip with Parmesan,FIX,missing photo,0,17,14,wb
+wb-ashoka-halwa-mung-bean-pudding,Ashoka Halwa (Mung Bean Pudding),FIX,missing photo,0,8,7,wb
+wb-ashwe-soup,Ashwe Soup,FIX,missing photo,0,5,7,wb
+wb-asian-barbecue-ribs,Asian Barbecue Ribs,FIX,missing photo,0,6,7,wb
+wb-asian-grilled-duck-breasts,Asian Grilled Duck Breasts,FIX,83% garbage ingredients,0,7,6,wb
+wb-asian-grilled-salmon,Asian Grilled Salmon,FIX,missing photo,0,6,12,wb
+wb-asian-inspired-chicken-salad,Asian-Inspired Chicken Salad,FIX,missing photo,0,7,9,wb
+wb-asida-bil-zibda-libyan-semolina-pudding,Asida bil Zibda (Libyan Semolina Pudding),FIX,missing photo,0,8,7,wb
+wb-asida-sudanese-porridge,Asida (Sudanese Porridge),FIX,missing photo,0,6,6,wb
+wb-asondo-nigerian-dried-sweet-potatoes,Asondo (Nigerian Dried Sweet Potatoes),FIX,missing photo,0,3,2,wb
+wb-asparagus-frittata,Asparagus Frittata,FIX,missing photo,0,16,15,wb
+wb-asparagus-soup,Asparagus Soup,FIX,missing photo,0,7,6,wb
+wb-asparagus-with-sesame-seeds-and-soy-sauce,Asparagus with Sesame Seeds and Soy Sauce,FIX,missing photo,0,9,5,wb
+wb-asun-goat-in-pepper-sauce,Asun (Goat in Pepper Sauce),FIX,missing photo,0,9,8,wb
+wb-ata-ekuru-ekuru-sauce,Ata Ekuru (Ekuru Sauce),FIX,missing photo,0,4,11,wb
+wb-atama-soup,Atama Soup,FIX,missing photo,0,8,12,wb
+wb-atkilt-wat-ethiopian-cabbage-and-potato-stew,Atkilt Wat (Ethiopian Cabbage and Potato Stew),FIX,missing photo,0,9,13,wb
+wb-atkins-friendly-chocolate-mousse,Atkins-Friendly Chocolate Mousse,FIX,ingredient parser failure (instructions ok),0,4,0,wb
+wb-atkins-friendly-mock-tiramisu,Atkins-Friendly Mock Tiramisu,FIX,missing photo,0,3,5,wb
+wb-atomic-fudge-cake,Atomic Fudge Cake,FIX,missing photo,0,5,7,wb
+wb-atropellado-de-coco-coconut-and-sweet-potato-dessert,Atropellado de Coco (Coconut and Sweet Potato Dessert),FIX,missing photo,0,5,5,wb
+wb-atyever-soup,Atyever Soup,FIX,missing photo,0,4,7,wb
+wb-au-jus-sandwich,Au Jus Sandwich,KEEP,cookable,1,3,4,wb
+wb-aubergine-and-onion-vegetable-pie,Aubergine and Onion Vegetable Pie,FIX,missing photo,0,3,3,wb
+wb-austrian-apricot-dumplings-marillenkn-del,Austrian Apricot Dumplings (Marillenknödel),FIX,missing photo,0,9,10,wb
+wb-austrian-meatloaf-faschierter-braten,Austrian Meatloaf (Faschierter Braten),FIX,missing photo,0,7,12,wb
+wb-austrian-napkin-dumpling-serviettenkn-del,Austrian Napkin Dumpling (Serviettenknödel),FIX,missing photo,0,8,5,wb
+wb-avocado-coconut-smoothie,Avocado Coconut Smoothie,FIX,missing photo,0,2,5,wb
+wb-avocado-relish,Avocado Relish,FIX,missing photo,0,3,4,wb
+wb-awaze-tibs-spicy-ethiopian-meat-stir-fry,Awaze Tibs (Spicy Ethiopian Meat Stir-Fry),FIX,missing photo,0,9,13,wb
+wb-awug,Awug,FIX,missing photo,0,7,4,wb
+wb-ayam-goreng-mentega-fried-chicken-in-sweet-butter-sauce,Ayam Goreng Mentega (Fried Chicken in Sweet Butter Sauce),DELETE,empty/fragment instructions,0,0,0,wb
+wb-ayamase-jollof-rice,Ayamase Jollof Rice,FIX,missing photo,0,8,14,wb
+wb-ayib-ethiopian-fresh-cheese,Ayib (Ethiopian Fresh Cheese),FIX,missing photo,0,11,2,wb
+wb-ayran-turkish-yogurt-drink,Ayran (Turkish Yogurt Drink),KEEP,cookable,1,2,3,wb
+wb-azteca-aztec-inspired-bean-soup,Azteca (Aztec-inspired Bean Soup),FIX,weak/short instructions,0,3,4,wb
+wb-b-arnaise-sauce,Béarnaise Sauce,FIX,missing photo,0,4,7,wb
+wb-b-b-a,Bò bía,FIX,missing photo,0,6,11,wb
+wb-b-chamel-sauce-basic,Béchamel Sauce (Basic),FIX,missing photo,0,7,6,wb
+wb-b-chamel-sauce-beeton,Béchamel Sauce (Beeton),FIX,missing photo,0,5,7,wb
+wb-b-chamel-sauce-louisiannaise,Béchamel Sauce (Louisiannaise),FIX,missing photo,0,6,7,wb
+wb-b-nh-ch-ng,Bánh chưng,KEEP,cookable,1,17,8,wb
+wb-b-te-noire-flourless-chocolate-cake,Bête Noire (Flourless Chocolate Cake),FIX,missing photo,0,8,4,wb
+wb-baba-ganoush,Baba Ganoush,DELETE,empty/fragment instructions,1,0,7,wb
+wb-babi-panggang-sauce,Babi Panggang Sauce,KEEP,cookable,1,3,7,wb
+wb-baby-back-ribs,Baby Back Ribs,FIX,missing photo,0,2,11,wb
+wb-bachelor-fish-stew,Bachelor Fish Stew,FIX,missing photo,0,3,7,wb
+wb-backyard-barbecue-ribs,Backyard Barbecue Ribs,FIX,missing photo,0,6,13,wb
+wb-backyard-bbq-chicken,Backyard BBQ Chicken,FIX,missing photo,0,5,11,wb
+wb-bacon-and-cheese-puffs,Bacon and Cheese Puffs,FIX,ingredient parser failure (instructions ok),0,4,0,wb
+wb-bacon-and-egg-pie,Bacon and Egg Pie,KEEP,cookable,1,6,5,wb
+wb-bacon-and-egg-stuffed-tomatoes,Bacon and Egg Stuffed Tomatoes,FIX,missing photo,0,8,11,wb
+wb-bacon-cheese-omelet,Bacon Cheese Omelet,FIX,missing photo,0,11,4,wb
+wb-bacon-wrapped-scallops,Bacon-Wrapped Scallops,KEEP,cookable,1,8,5,wb
+wb-bagel-toast,Bagel Toast,KEEP,cookable,1,12,5,wb
+wb-baingan-bartha-south-indian-eggplant-with-chili-ii,Baingan Bartha (South Indian Eggplant with Chili) II,FIX,missing photo,0,6,11,wb
+wb-baingan-bartha-south-indian-eggplant-with-coconut-and-chili-,Baingan Bartha (South Indian Eggplant with Coconut and Chili) I,KEEP,cookable,1,6,6,wb
+wb-baked-beans,Baked Beans,KEEP,cookable,1,6,4,wb
+wb-baked-brie-in-puff-pastry,Baked Brie in Puff Pastry,FIX,missing photo,0,4,5,wb
+wb-baked-brunch-omelet,Baked Brunch Omelet,FIX,missing photo,0,4,9,wb
+wb-baked-cabbage-and-bacon,Baked Cabbage and Bacon,FIX,missing photo,0,5,8,wb
+wb-baked-chicken-breasts,Baked Chicken Breasts,FIX,missing photo,0,3,5,wb
+wb-baked-chicken-with-onions-sumac-and-allspice-musakhan,"Baked Chicken with Onions, Sumac and Allspice (Musakhan)",FIX,missing photo,0,9,10,wb
+wb-baked-custard,Baked Custard,DELETE,empty/fragment instructions,1,0,1,wb
+wb-baked-eggplant,Baked Eggplant,KEEP,cookable,1,11,11,wb
+wb-baked-lamb-and-yogurt,Baked Lamb and Yogurt,FIX,missing photo,0,4,3,wb
+wb-baked-leeks,Baked Leeks,FIX,missing photo,0,7,7,wb
+wb-baked-lemon-thyme-halibut,Baked Lemon Thyme Halibut,FIX,missing photo,0,5,6,wb
+wb-baked-oatmeal,Baked Oatmeal,FIX,missing photo,0,3,5,wb
+wb-baked-penne,Baked Penne,KEEP,cookable,1,7,8,wb
+wb-baked-pork-chops,Baked Pork Chops,KEEP,cookable,1,5,4,wb
+wb-baked-potato-halves,Baked Potato Halves,FIX,missing photo,0,6,3,wb
+wb-baked-potatoes,Baked Potatoes,KEEP,cookable,1,13,4,wb
+wb-baked-sweet-potatoes,Baked Sweet Potatoes,FIX,missing photo,0,4,1,wb
+wb-baked-tilapia-with-white-wine,Baked Tilapia with White Wine,FIX,missing photo,0,5,10,wb
+wb-baked-ziti,Baked Ziti,KEEP,cookable,1,6,9,wb
+wb-baking-powder-biscuits,Baking Powder Biscuits,FIX,missing photo,0,10,1,wb
+wb-baklava-ii,Baklava II,FIX,ingredient parser failure (instructions ok),0,13,4,wb
+wb-baklava-with-pistachio-nuts,Baklava with Pistachio Nuts,KEEP,cookable,1,9,5,wb
+wb-balangu-nigerian-spiced-ram-meat,Balangu (Nigerian Spiced Ram Meat),FIX,missing photo,0,5,8,wb
+wb-baloney-sandwich,Baloney Sandwich,FIX,missing photo,0,2,3,wb
+wb-balsamic-dressing,Balsamic Dressing,FIX,missing photo,0,3,5,wb
+wb-balsamic-glaze,Balsamic Glaze,FIX,missing photo,0,8,7,wb
+wb-balsamic-marinade,Balsamic Marinade,FIX,missing photo,0,3,3,wb
+wb-balsamic-steak-and-brie-paninis,Balsamic Steak and Brie Paninis,FIX,missing photo,0,6,7,wb
+wb-balsamic-vinaigrette-salad-dressing,Balsamic Vinaigrette Salad Dressing,FIX,missing photo,0,2,4,wb
+wb-banana-and-pear-cake-vegan,Banana and Pear Cake (Vegan),FIX,missing photo,0,6,7,wb
+wb-banana-bread-ii,Banana Bread II,FIX,missing photo,0,9,1,wb
+wb-banana-bread-with-walnuts,Banana Bread with Walnuts,FIX,missing photo,0,8,9,wb
+wb-banana-cake,Banana Cake,FIX,missing photo,0,10,11,wb
+wb-banana-caramel-dessert,Banana Caramel Dessert,FIX,missing photo,0,5,6,wb
+wb-banana-chip-muffins,Banana Chip Muffins,FIX,63% garbage ingredients,1,5,8,wb
+wb-banana-chocolate-bread-pudding,Banana Chocolate Bread Pudding,FIX,missing photo,0,15,12,wb
+wb-banana-chocolate-chip-muffins,Banana Chocolate Chip Muffins,FIX,missing photo,0,12,11,wb
+wb-banana-coffee-frappe,Banana Coffee Frappe,FIX,missing photo,0,3,4,wb
+wb-banana-cream-crunch-pie,Banana Cream-Crunch Pie,FIX,missing photo,0,9,6,wb
+wb-banana-cream-i,Banana Cream I,FIX,missing photo,0,4,3,wb
+wb-banana-cream-ii,Banana Cream II,FIX,missing photo,0,5,4,wb
+wb-banana-cream-pie-i,Banana Cream Pie I,FIX,missing photo,0,17,15,wb
+wb-banana-cream-pie-ii,Banana Cream Pie II,FIX,missing photo,0,11,9,wb
+wb-banana-curry,Banana Curry,FIX,missing photo,0,5,9,wb
+wb-banana-milkshake,Banana Milkshake,FIX,missing photo,0,2,5,wb
+wb-banana-nut-muffins,Banana Nut Muffins,KEEP,cookable,1,6,14,wb
+wb-banana-nutmeg-pancakes,Banana Nutmeg Pancakes,FIX,missing photo,0,20,17,wb
+wb-banana-pancakes,Banana Pancakes,FIX,missing photo,0,11,4,wb
+wb-banana-pecan-bread,Banana Pecan Bread,FIX,missing photo,0,7,9,wb
+wb-banana-pudding,Banana Pudding,FIX,missing photo,0,5,7,wb
+wb-banana-roll-with-cream-cheese-filling,Banana Roll with Cream Cheese Filling,FIX,missing photo,0,13,9,wb
+wb-banana-spirulina-pancakes,Banana Spirulina Pancakes,FIX,missing photo,0,10,7,wb
+wb-banana-split-i,Banana Split I,FIX,missing photo,0,4,6,wb
+wb-banana-split-ii,Banana Split II,FIX,missing photo,0,6,6,wb
+wb-banga-rice,Banga Rice,FIX,missing photo,0,6,10,wb
+wb-banga-soup,Banga Soup,FIX,missing photo,0,6,9,wb
+wb-bangers-and-mash,Bangers and Mash,FIX,missing photo,0,6,5,wb
+wb-bangladesh-curry,Bangladesh Curry,FIX,missing photo,0,9,18,wb
+wb-banoffee-pie,Banoffee Pie,KEEP,cookable,1,3,3,wb
+wb-barbecue-beef-brisket-sandwiches,Barbecue Beef Brisket Sandwiches,FIX,missing photo,0,5,7,wb
+wb-barbecue-chicken-rub,Barbecue Chicken Rub,FIX,86% garbage ingredients,0,2,7,wb
+wb-barbecue-fried-rice,Barbecue Fried Rice,FIX,missing photo,0,4,13,wb
+wb-barbecue-meatloaf,Barbecue Meatloaf,FIX,missing photo,0,10,16,wb
+wb-barbecue-potato-chips,Barbecue Potato Chips,FIX,missing photo,0,4,3,wb
+wb-barbecue-prime-rib,Barbecue Prime Rib,FIX,missing photo,0,6,4,wb
+wb-barbecue-ribs,Barbecue Ribs,FIX,missing photo,0,6,8,wb
+wb-barbecue-rub,Barbecue Rub,FIX,71% garbage ingredients,0,2,7,wb
+wb-barbecue-sauce-i,Barbecue Sauce I,FIX,40% garbage ingredients,1,2,5,wb
+wb-barbecue-sauce-ii,Barbecue Sauce II,FIX,missing photo,0,2,2,wb
+wb-barbecue-sauce-kansas-city-style,Barbecue Sauce (Kansas City-style),FIX,33% garbage ingredients,0,6,3,wb
+wb-barbecue-sauce-sweet,Barbecue Sauce (Sweet),FIX,missing photo,0,4,11,wb
+wb-barbecue-wings,Barbecue Wings,FIX,missing photo,0,4,8,wb
+wb-barbecued-spare-ribs,Barbecued Spare Ribs,KEEP,cookable,1,7,10,wb
+wb-basbousa-egyptian-semolina-cake,Basbousa (Egyptian Semolina Cake),FIX,missing photo,0,11,8,wb
+wb-basic-chai,Basic Chai,FIX,missing photo,0,5,5,wb
+wb-basic-cobbler,Basic Cobbler,FIX,missing photo,0,10,12,wb
+wb-basic-french-macarons,Basic French Macarons,FIX,missing photo,0,10,5,wb
+wb-basic-indian-tomato-gravy,Basic Indian Tomato Gravy,KEEP,cookable,1,12,14,wb
+wb-basic-lasagna,Basic Lasagna,FIX,missing photo,0,6,6,wb
+wb-basic-mayonnaise,Basic Mayonnaise,FIX,missing photo,0,15,10,wb
+wb-basic-mulling-spice,Basic Mulling Spice,FIX,50% garbage ingredients,0,4,4,wb
+wb-basic-omelet,Basic Omelet,KEEP,cookable,1,25,2,wb
+wb-basic-pizza-crust,Basic Pizza Crust,FIX,missing photo,0,16,5,wb
+wb-basic-pizza-sauce,Basic Pizza Sauce,FIX,missing photo,0,3,2,wb
+wb-basic-scones,Basic Scones,FIX,33% garbage ingredients,0,15,3,wb
+wb-basic-scrambled-eggs,Basic Scrambled Eggs,FIX,missing photo,0,9,5,wb
+wb-basic-vinaigrette,Basic Vinaigrette,FIX,missing photo,0,4,5,wb
+wb-basic-whipped-cream,Basic Whipped Cream,FIX,missing photo,0,5,1,wb
+wb-basin-ki-kadi-sindhi-chickpea-flour-curry,Basin Ki Kadi (Sindhi Chickpea Flour Curry),FIX,missing photo,0,5,11,wb
+wb-bassi-salt-senegalese-couscous-with-meat-and-vegetables,Bassi-Salté (Senegalese Couscous with Meat and Vegetables),FIX,missing photo,0,8,14,wb
+wb-basted-egg,Basted Egg,FIX,missing photo,0,4,3,wb
+wb-bazeen-bil-lahm-libyan-meat-bazeen,Bazeen bil Lahm (Libyan Meat Bazeen),FIX,missing photo,0,11,16,wb
+wb-bbq-pork-fried-rice,BBQ Pork Fried Rice,FIX,missing photo,0,3,6,wb
+wb-beach-tropicana,Beach Tropicana,FIX,weak/short instructions,0,2,5,wb
+wb-bean-and-bacon-bake,Bean and Bacon Bake,FIX,40% garbage ingredients,0,9,5,wb
+wb-bean-and-green-chili-soup,Bean and Green Chili Soup,FIX,missing photo,0,7,4,wb
+wb-bean-and-rice-bake,Bean and Rice Bake,FIX,missing photo,0,10,11,wb
+wb-bean-balls,Bean Balls,FIX,missing photo,0,9,10,wb
+wb-bean-chili,Bean Chili,FIX,missing photo,0,4,12,wb
+wb-bean-jahni-soup,Bean Jahni Soup,FIX,missing photo,0,3,8,wb
+wb-bean-semolina-burger,Bean-Semolina Burger,FIX,missing photo,0,6,7,wb
+wb-bean-soup-vegetarian,Bean Soup (Vegetarian),FIX,missing photo,0,12,8,wb
+wb-bean-spelt-oat-spread,Bean Spelt Oat Spread,FIX,missing photo,0,3,11,wb
+wb-beanburger,Beanburger,FIX,missing photo,0,7,7,wb
+wb-beans-and-rice,Beans and Rice,KEEP,cookable,1,5,14,wb
+wb-beef-and-barley-stew,Beef and Barley Stew,FIX,missing photo,0,7,17,wb
+wb-beef-and-gizzard-sauce,Beef and Gizzard Sauce,FIX,missing photo,0,6,18,wb
+wb-beef-and-guinness-casserole,Beef and Guinness Casserole,FIX,missing photo,0,8,15,wb
+wb-beef-and-mushroom-burger,Beef and Mushroom Burger,FIX,missing photo,0,9,6,wb
+wb-beef-and-vegetable-kabobs,Beef and Vegetable Kabobs,FIX,missing photo,0,3,13,wb
+wb-beef-burgers-with-chipotle-mayo,Beef Burgers with Chipotle Mayo,FIX,missing photo,0,4,4,wb
+wb-beef-burgers-with-onion,Beef Burgers with Onion,FIX,missing photo,0,5,7,wb
+wb-beef-carpaccio-i,Beef Carpaccio I,FIX,missing photo,0,6,7,wb
+wb-beef-carpaccio-ii,Beef Carpaccio II,FIX,missing photo,0,4,7,wb
+wb-beef-croquettes,Beef Croquettes,FIX,missing photo,0,10,9,wb
+wb-beef-curry,Beef Curry,FIX,missing photo,0,13,10,wb
+wb-beef-fajitas,Beef Fajitas,FIX,missing photo,0,8,7,wb
+wb-beef-gravy-soup,Beef Gravy Soup,FIX,missing photo,0,4,5,wb
+wb-beef-heart-kabobs-anticuchos,Beef Heart Kabobs (Anticuchos),KEEP,cookable,1,4,9,wb
+wb-beef-jerky,Beef Jerky,FIX,missing photo,0,4,5,wb
+wb-beef-muchomo-ugandan-beef-skewers,Beef Muchomo (Ugandan Beef Skewers),FIX,missing photo,0,7,9,wb
+wb-beef-pasties,Beef Pasties,FIX,missing photo,0,11,10,wb
+wb-beef-skewers-with-baguette-slices,Beef Skewers with Baguette Slices,FIX,missing photo,0,10,12,wb
+wb-beef-stew-i,Beef Stew I,KEEP,cookable,1,11,10,wb

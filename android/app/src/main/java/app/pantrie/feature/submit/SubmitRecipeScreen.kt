@@ -256,7 +256,7 @@ fun SubmitRecipeScreen(
   }
 
   Scaffold(
-    containerColor = Cream,
+    containerColor = Paper,
     topBar = {
       TopAppBar(
         title = { Text("Submit a recipe", fontWeight = FontWeight.Normal) },
@@ -265,7 +265,7 @@ fun SubmitRecipeScreen(
             Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back")
           }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Cream),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Paper),
       )
     },
   ) { padding ->
@@ -396,7 +396,7 @@ private fun PhotoCard(photoUrl: String?, uploading: Boolean, onPick: () -> Unit,
   Surface(
     onClick = { if (photoUrl == null && !uploading) onPick() },
     shape = RoundedCornerShape(12.dp),
-    color = Paper,
+    color = Paper2,
     modifier = Modifier.fillMaxWidth().height(200.dp),
   ) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -483,7 +483,7 @@ private fun StepRow(index: Int, text: String, onChange: (String) -> Unit, onRemo
 
 @Composable
 private fun SubmittedScreen(dupTitle: String?, onBack: () -> Unit) {
-  Scaffold(containerColor = Cream) { padding ->
+  Scaffold(containerColor = Paper) { padding ->
     Column(
       Modifier.padding(padding).fillMaxSize().padding(32.dp),
       horizontalAlignment = Alignment.CenterHorizontally,

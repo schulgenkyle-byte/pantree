@@ -30,7 +30,7 @@ bucket_name = "pan-tree"
 [vars]
 ENVIRONMENT = "dev"                                   # staging — enables /auth/dev-token + relaxes prod-only config checks
 GOOGLE_CLIENT_ID = "551337065169-ndra9iucotdmg1f4e8chcojfipo8k59q.apps.googleusercontent.com,551337065169-9hdrtlbv44oi0mc4jcd4oadhct8r6je2.apps.googleusercontent.com,551337065169-0tbr9ko8nbpvh59tnhngco9t72sd5svo.apps.googleusercontent.com,551337065169-hq7ic6nls0vjs4j5100vsdt9ob4frbmf.apps.googleusercontent.com"
-ALLOWED_ORIGIN = "https://brimmapp.com,https://www.brimmapp.com,https://pantrie.app,https://www.pantrie.app"
+ALLOWED_ORIGIN = "https://speakeater.com,https://www.speakeater.com,https://brimmapp.com,https://www.brimmapp.com,https://pantrie.app,https://www.pantrie.app,http://localhost:5003,http://localhost:3001"
 PLAY_PACKAGE_NAME = "app.brimm"
 PLAY_INTEGRITY_PROJECT = "REPLACE_WITH_YOUR_CLOUD_PROJECT_NUMBER"
 # RTDN audience MUST match the Pub/Sub push-subscription audience you configured in Play Console.
@@ -51,6 +51,8 @@ PHOTOS_PUBLIC_BASE = "https://pub-65a8f8e3232e458b87e6e0fe67312158.r2.dev"
 #   SEED_KEY                    -- only set when ingesting catalog (dev/staging); rotate after
 #   ADMIN_KEY                   -- admin dashboard + feedback triage key (set for beta; required by /admin/*)
 #   BETA_DISCORD_WEBHOOK        -- Discord webhook URL to mirror beta feedback (optional but recommended)
+#   PARSER_BOX_URL              -- https URL of the Oracle Cloud parser box (e.g. https://parser.brimmapp.com)
+#   BRIMM_PARSER_SHARED_SECRET  -- HMAC secret shared with the parser box; rotate quarterly
 #   # Optional ops:
 #   # SENTRY_DSN, etc.
 

@@ -25,6 +25,8 @@
     </base-config>
 
     <domain-config cleartextTrafficPermitted="false">
+        <!-- speakeater.com = current brand; brimmapp.com kept for legacy users + 301 redirects -->
+        <domain includeSubdomains="true">speakeater.com</domain>
         <domain includeSubdomains="true">brimmapp.com</domain>
         <domain includeSubdomains="true">workers.dev</domain>
         <trust-anchors>

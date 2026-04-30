@@ -28,11 +28,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private val ProGold = Color(0xFFC9A554)
-private val ProBg = Color(0xFF0D0D0E)
-private val ProCard = Color(0xFF18181B)
-private val ProInk = Color(0xFFE8E3D9)
-private val ProMuted = Color(0xFF8B8578)
+// Pro paywall maps onto the editorial dark palette — keeps the speakeasy-bar feel that the
+// Mixology card already has. Local aliases preserved so the older code below reads naturally.
+private val ProGold = BrassBright
+private val ProBg = Paper
+private val ProCard = Paper2
+private val ProInk = Ink
+private val ProMuted = InkFaint
 
 data class PriceTier(
   val sku: String,
@@ -43,7 +45,13 @@ data class PriceTier(
   val highlight: Boolean = false,
 )
 
-private val TIERS = listOf(
+/**
+ * Single source of truth for the three Pro tiers. Imported by ProUpgradeCard.kt so the
+ * inline membership card never drifts from the full paywall. If you change a price here,
+ * also bump the matching SKU price in Play Console — the strings are display-only and
+ * do NOT control billing (Play returns its own price; this is just the pre-purchase preview).
+ */
+internal val TIERS = listOf(
   PriceTier(
     sku = "brimm_pro_monthly",
     title = "Monthly",
@@ -142,7 +150,7 @@ fun PaywallScreen(
       }
 
       Spacer(Modifier.height(16.dp))
-      Text("Brimm Pro", color = ProGold, fontSize = 32.sp, fontWeight = FontWeight.Bold)
+      Text(app.pantrie.Brand.PRO_NAME, color = ProGold, fontSize = 32.sp, fontWeight = FontWeight.Bold)
       Spacer(Modifier.height(4.dp))
       Text(
         "Unlock everything. Cancel anytime.",
@@ -210,7 +218,7 @@ fun PaywallScreen(
         shape = RoundedCornerShape(14.dp),
       ) {
         when {
-          isPro -> Text("You're already Pro 🎉", fontWeight = FontWeight.Bold)
+          isPro -> Text("You're already Pro", fontWeight = FontWeight.Bold)
           purchasing -> CircularProgressIndicator(color = ProBg, modifier = Modifier.size(20.dp))
           else -> Text("Continue", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
@@ -220,7 +228,7 @@ fun PaywallScreen(
       val ev = purchaseEvent
       if (ev is PurchaseEvent.Error) {
         Spacer(Modifier.height(6.dp))
-        Text(ev.message, color = Color(0xFFE07060), fontSize = 12.sp)
+        Text(ev.message, color = Terracotta, fontSize = 12.sp)
       } else if (ev is PurchaseEvent.Cancelled) {
         Spacer(Modifier.height(6.dp))
         Text("Purchase cancelled.", color = ProMuted, fontSize = 12.sp)
@@ -328,6 +336,6 @@ class PaywallViewModel @Inject constructor(
   /** Surface an error when the Continue button can't resolve the host Activity from
    * LocalContext (rare — usually the ContextWrapper-walk in PaywallScreen handles it). */
   fun surfaceActivityError() {
-    billing.surfaceError("Couldn't open the purchase sheet — close Brimm and reopen, then try again.")
+    billing.surfaceError("Couldn't open the purchase sheet — close ${app.pantrie.Brand.APP_NAME} and reopen, then try again.")
   }
 }

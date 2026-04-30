@@ -1,0 +1,1230 @@
+{
+  "generated_at": "2026-04-26T15:58:06.476Z",
+  "model": "imagen-4.0-ultra-generate-001",
+  "items": {
+    "tomato": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single ripe red tomato",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single ripe red tomato.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1043648,
+      "sha": "5c6f58ab6b89952a"
+    },
+    "onion": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single yellow onion with papery skin",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single yellow onion with papery skin.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1017964,
+      "sha": "b960b910b9cce149"
+    },
+    "garlic": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a head of fresh garlic, cloves loose",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a head of fresh garlic, cloves loose.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1097527,
+      "sha": "06e51837669d3de1"
+    },
+    "potato": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a russet potato, dirt-flecked",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a russet potato, dirt-flecked.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1283222,
+      "sha": "777502e861ef5607"
+    },
+    "sweet_potato": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a sweet potato, deep orange flesh visible",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a sweet potato, deep orange flesh visible.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1118749,
+      "sha": "b35f43883e9d1c4a"
+    },
+    "carrot": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single fresh carrot with green tops",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single fresh carrot with green tops.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1095850,
+      "sha": "08f0d95e8a31e644"
+    },
+    "cucumber": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single fresh cucumber",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single fresh cucumber.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1099311,
+      "sha": "78917ef6ae7157f0"
+    },
+    "chili": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a fresh red chili pepper",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a fresh red chili pepper.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 917344,
+      "sha": "46cd493b4a6c8063"
+    },
+    "bell_pepper": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a glossy red bell pepper",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a glossy red bell pepper.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 927594,
+      "sha": "861cc3e0331309d0"
+    },
+    "broccoli": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a head of fresh green broccoli",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a head of fresh green broccoli.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1385468,
+      "sha": "ecd6abadb3e7e80e"
+    },
+    "leafy_greens": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a bunch of fresh leafy greens, kale or spinach",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a bunch of fresh leafy greens, kale or spinach.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1330831,
+      "sha": "fd7305702d574b26"
+    },
+    "eggplant": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a glossy purple eggplant",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a glossy purple eggplant.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 991563,
+      "sha": "b661c4e994a32e49"
+    },
+    "corn": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "an ear of yellow corn, husk partly peeled",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: an ear of yellow corn, husk partly peeled.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1136495,
+      "sha": "ff566bd686749eab"
+    },
+    "avocado": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a halved avocado showing the pit",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a halved avocado showing the pit.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1383910,
+      "sha": "32a82a5a4e1eafac"
+    },
+    "mushroom": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a cluster of fresh brown mushrooms",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a cluster of fresh brown mushrooms.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1252365,
+      "sha": "876b11be185597ce"
+    },
+    "lemon": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single bright yellow lemon",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single bright yellow lemon.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1154497,
+      "sha": "8300ef7c65108aca"
+    },
+    "lime": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single fresh green lime",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single fresh green lime.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1266590,
+      "sha": "a064e0ff26517c99"
+    },
+    "orange": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single fresh orange",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single fresh orange.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1403459,
+      "sha": "8c31c28e61099d38"
+    },
+    "apple": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single red apple",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single red apple.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1143858,
+      "sha": "7023903c7508ab94"
+    },
+    "banana": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single yellow banana",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single yellow banana.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1018991,
+      "sha": "e7fb8c431758b9b5"
+    },
+    "grape": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bunch of dark purple grapes",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bunch of dark purple grapes.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1076711,
+      "sha": "c2ea633c945564b6"
+    },
+    "strawberry": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a fresh red strawberry",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a fresh red strawberry.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1190660,
+      "sha": "ca06c916a6285def"
+    },
+    "berries": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small handful of fresh blueberries",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small handful of fresh blueberries.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1073779,
+      "sha": "cee2f8959160552d"
+    },
+    "peach": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single ripe peach",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single ripe peach.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1366648,
+      "sha": "b554e23183e9684d"
+    },
+    "pear": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single fresh pear",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single fresh pear.",
+      "model": "imagen-4.0-ultra-generate-001",
+      "bytes": 1129907,
+      "sha": "f5570d0e55708bb3"
+    },
+    "cherry": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "two fresh red cherries with stems",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: two fresh red cherries with stems.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1043137,
+      "sha": "cfa00d62c7d0a100"
+    },
+    "pineapple": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small fresh pineapple",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small fresh pineapple.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1255230,
+      "sha": "637b5fc1b0ccabb3"
+    },
+    "watermelon": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a slice of fresh watermelon",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a slice of fresh watermelon.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1201202,
+      "sha": "694fc4df1bb8e0cc"
+    },
+    "melon": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a halved cantaloupe melon",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a halved cantaloupe melon.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1326941,
+      "sha": "da083eadc33d7d52"
+    },
+    "mango": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a ripe orange-yellow mango",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a ripe orange-yellow mango.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1140193,
+      "sha": "954fe85a7d95932f"
+    },
+    "kiwi": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a halved kiwi fruit showing green flesh",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a halved kiwi fruit showing green flesh.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1464253,
+      "sha": "0e168916c6042567"
+    },
+    "coconut": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a halved fresh coconut",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a halved fresh coconut.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1193182,
+      "sha": "4eb0253586711a73"
+    },
+    "olive": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bowl of black and green olives",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bowl of black and green olives.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1064199,
+      "sha": "1da28f1351e79731"
+    },
+    "pea": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small handful of fresh green peas in pods",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small handful of fresh green peas in pods.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1094136,
+      "sha": "a59695353c59146c"
+    },
+    "ginger": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a knobbly ginger root",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a knobbly ginger root.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1258596,
+      "sha": "02ccb464ea17b57d"
+    },
+    "herbs": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bouquet of fresh basil and thyme",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bouquet of fresh basil and thyme.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1232956,
+      "sha": "dae9394141cd49cb"
+    },
+    "chicken": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a roasted chicken leg, golden brown",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a roasted chicken leg, golden brown.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1171847,
+      "sha": "476fcfe72cb703e3"
+    },
+    "turkey": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a sliced roasted turkey breast",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a sliced roasted turkey breast.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1342445,
+      "sha": "c1f9a578cb296652"
+    },
+    "dumpling": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "three steamed pork dumplings",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: three steamed pork dumplings.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 953184,
+      "sha": "24d265044661cf00"
+    },
+    "oatmeal": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bowl of warm oatmeal",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bowl of warm oatmeal.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 963889,
+      "sha": "7c76dacb3c2ca8c6"
+    },
+    "beans": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bowl of dried beans",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bowl of dried beans.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1239002,
+      "sha": "8dcd74b94856b1ce"
+    },
+    "fish": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a fresh raw salmon fillet",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a fresh raw salmon fillet.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1296023,
+      "sha": "17eaa358f6c8623f"
+    },
+    "egg": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single brown egg",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single brown egg.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 923537,
+      "sha": "e757022eb1fa7e10"
+    },
+    "yogurt": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bowl of plain white yogurt",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bowl of plain white yogurt.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 970954,
+      "sha": "04a30240336f9dd0"
+    },
+    "bread": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a rustic loaf of crusty bread",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a rustic loaf of crusty bread.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1389431,
+      "sha": "7a490f9e636f63bb"
+    },
+    "shrimp": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small pile of cooked pink shrimp",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small pile of cooked pink shrimp.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1190329,
+      "sha": "7e59d5bf65a60bbf"
+    },
+    "lobster": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single cooked lobster claw",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single cooked lobster claw.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1128860,
+      "sha": "a3007341809a45a8"
+    },
+    "tofu": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a block of fresh white tofu",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a block of fresh white tofu.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 912160,
+      "sha": "2eaf7276075ef9d9"
+    },
+    "milk": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small glass bottle of milk",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small glass bottle of milk.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 842359,
+      "sha": "494df2fe74e81cb9"
+    },
+    "butter": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a stick of butter, partly unwrapped",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a stick of butter, partly unwrapped.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 890056,
+      "sha": "8e6a269585e5c3ad"
+    },
+    "bagel": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single sesame seed bagel",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single sesame seed bagel.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1583177,
+      "sha": "ba28fbfaacc72d40"
+    },
+    "croissant": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single golden flaky croissant",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single golden flaky croissant.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1174913,
+      "sha": "885785ee17510b62"
+    },
+    "pancake": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small stack of golden pancakes",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small stack of golden pancakes.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1261462,
+      "sha": "c0ff490fc6d38193"
+    },
+    "rice": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bowl of steamed white rice",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bowl of steamed white rice.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 968838,
+      "sha": "521fc05d1f8b060c"
+    },
+    "pasta": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a twirl of fresh spaghetti pasta",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a twirl of fresh spaghetti pasta.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1124151,
+      "sha": "6d27f9b0b99f2898"
+    },
+    "tortilla": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a stack of fresh flour tortillas",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a stack of fresh flour tortillas.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1221550,
+      "sha": "84a105dd8a344a0c"
+    },
+    "taco": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single street-style taco",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single street-style taco.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1317554,
+      "sha": "00c37099f2344e84"
+    },
+    "burrito": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single burrito wrapped in foil",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single burrito wrapped in foil.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1111739,
+      "sha": "765511e41da72580"
+    },
+    "pizza": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single slice of artisan pizza",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single slice of artisan pizza.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1414333,
+      "sha": "eb99ffe1e54e805d"
+    },
+    "flour": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small mound of white flour",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small mound of white flour.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1268551,
+      "sha": "6c1c2effceca8ed8"
+    },
+    "seeds": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small pile of mixed seeds",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small pile of mixed seeds.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1191406,
+      "sha": "5920d7d9dc245319"
+    },
+    "oil": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small glass bottle of olive oil",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small glass bottle of olive oil.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 967355,
+      "sha": "bd49808f196560a0"
+    },
+    "sauce": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small jar of tomato sauce",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small jar of tomato sauce.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1049643,
+      "sha": "6d42b5a006b04174"
+    },
+    "honey": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a glass jar of golden honey with a dipper",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a glass jar of golden honey with a dipper.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1405651,
+      "sha": "4c651c7bb2da5755"
+    },
+    "condiment": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small ramekin of mustard",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small ramekin of mustard.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1080954,
+      "sha": "85927d0524962545"
+    },
+    "salt": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small pile of coarse sea salt",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small pile of coarse sea salt.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1182911,
+      "sha": "4eb669e99fe90f11"
+    },
+    "vanilla": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a few vanilla bean pods",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a few vanilla bean pods.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1066253,
+      "sha": "53736a5777a83805"
+    },
+    "chocolate": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a few squares of dark chocolate",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a few squares of dark chocolate.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 860072,
+      "sha": "4ef860898d08f490"
+    },
+    "cookie": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single chocolate chip cookie",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single chocolate chip cookie.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1413523,
+      "sha": "8d5a78072298b5c7"
+    },
+    "cake": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a single small chocolate cupcake",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single small chocolate cupcake.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1254469,
+      "sha": "4f01ff47408d8b5e"
+    },
+    "pie": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a slice of apple pie",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a slice of apple pie.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1366978,
+      "sha": "988e8c7b8864f038"
+    },
+    "ice_cream": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small scoop of vanilla ice cream in a bowl",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small scoop of vanilla ice cream in a bowl.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 982509,
+      "sha": "6f7e9096cba34e5a"
+    },
+    "water": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a clear glass of sparkling water",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a clear glass of sparkling water.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1235082,
+      "sha": "157f973599a3bf69"
+    },
+    "coffee": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small espresso cup with crema",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small espresso cup with crema.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1165996,
+      "sha": "eabce03687d6c4ef"
+    },
+    "tea": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small ceramic cup of green tea",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small ceramic cup of green tea.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1029631,
+      "sha": "915e452c9172fd36"
+    },
+    "juice": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small glass of fresh orange juice",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small glass of fresh orange juice.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1029057,
+      "sha": "fd152f5d0262376a"
+    },
+    "soup": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bowl of dark broth soup",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bowl of dark broth soup.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1094154,
+      "sha": "00175b4032026d7a"
+    },
+    "salad": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bowl of mixed green salad",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bowl of mixed green salad.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1505158,
+      "sha": "500d4be8ead7e9ad"
+    },
+    "popcorn": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a small bowl of buttered popcorn",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a small bowl of buttered popcorn.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 987470,
+      "sha": "264872df86a3403b"
+    },
+    "candy": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a few wrapped hard candies",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a few wrapped hard candies.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1202650,
+      "sha": "df609f3f6fd64937"
+    },
+    "plate": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "an empty rustic ceramic dinner plate",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: an empty rustic ceramic dinner plate.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1435369,
+      "sha": "5e0cf48630ddf113"
+    },
+    "cuisine_italian": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a single bowl of spaghetti pasta",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a single bowl of spaghetti pasta.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1128034,
+      "sha": "5e7b4c5d1168d646"
+    },
+    "cuisine_mexican": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "two street tacos on a wooden board",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: two street tacos on a wooden board.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1113191,
+      "sha": "fa9eb68d98709ecc"
+    },
+    "cuisine_japanese": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a small wooden tray of nigiri sushi",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a small wooden tray of nigiri sushi.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1131754,
+      "sha": "5981a688af761bec"
+    },
+    "cuisine_chinese": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a takeout box of chinese noodles",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a takeout box of chinese noodles.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1272278,
+      "sha": "4fdd49349f4c69b1"
+    },
+    "cuisine_indian": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a small bowl of indian curry",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a small bowl of indian curry.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1044591,
+      "sha": "0f5244c1340d50ea"
+    },
+    "cuisine_thai": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a bowl of thai noodle soup",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a bowl of thai noodle soup.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1183376,
+      "sha": "24524675afd1f998"
+    },
+    "cuisine_french": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a single golden flaky croissant on a plate",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a single golden flaky croissant on a plate.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 999587,
+      "sha": "fc263e50e971452e"
+    },
+    "cuisine_american": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a single classic cheeseburger",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a single classic cheeseburger.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1312126,
+      "sha": "b4e401003badc039"
+    },
+    "cuisine_mediterranean": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a small mediterranean mezze plate",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a small mediterranean mezze plate.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1117019,
+      "sha": "e8f474e09caa8e05"
+    },
+    "cuisine_korean": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "a bento box of korean bibimbap",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a bento box of korean bibimbap.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1513769,
+      "sha": "e749afba6ed2e923"
+    },
+    "cuisine_generic": {
+      "category": "cuisine",
+      "style": "hero",
+      "subject": "an empty rustic ceramic dinner plate, fork and knife",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: an empty rustic ceramic dinner plate, fork and knife.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1209870,
+      "sha": "6a14ef5c0f766d25"
+    },
+    "glass_coupe": {
+      "category": "glass",
+      "style": "icon",
+      "subject": "an empty crystal coupe cocktail glass",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: an empty crystal coupe cocktail glass.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1192033,
+      "sha": "97f21707754cc83c"
+    },
+    "glass_martini": {
+      "category": "glass",
+      "style": "icon",
+      "subject": "an empty martini glass",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: an empty martini glass.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1034661,
+      "sha": "f5dfce708a8ce4bf"
+    },
+    "aisle_produce": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a small grouping of fresh vegetables: leafy greens, tomato, carrot",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a small grouping of fresh vegetables: leafy greens, tomato, carrot.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1198207,
+      "sha": "ec6166b01115cd9b"
+    },
+    "aisle_bakery": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a rustic loaf of crusty bread on a wooden board",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a rustic loaf of crusty bread on a wooden board.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1503791,
+      "sha": "446c96d3120c1360"
+    },
+    "aisle_deli": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a wedge of cheese and sliced cured meat on a board",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a wedge of cheese and sliced cured meat on a board.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1029705,
+      "sha": "b1344b38a997860c"
+    },
+    "aisle_protein": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a raw ribeye steak on a wooden board",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a raw ribeye steak on a wooden board.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1125582,
+      "sha": "cc2d1e4cb3e80508"
+    },
+    "aisle_dairy": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a small glass bottle of milk and a wedge of butter",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a small glass bottle of milk and a wedge of butter.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1034756,
+      "sha": "bb9a4cd2dc9761e5"
+    },
+    "aisle_frozen": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a single ice cube glistening on dark surface",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a single ice cube glistening on dark surface.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1144606,
+      "sha": "57c682b4b0100dba"
+    },
+    "aisle_grain": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a small wooden bowl of mixed grains: rice, oats, wheat",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a small wooden bowl of mixed grains: rice, oats, wheat.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1262316,
+      "sha": "2e86a9c224877dcd"
+    },
+    "aisle_pantry": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a single rustic tin can of preserves on dark wood",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a single rustic tin can of preserves on dark wood.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 951425,
+      "sha": "65ed5303c3e60b5e"
+    },
+    "aisle_spice": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a small wooden bowl of mixed whole spices",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a small wooden bowl of mixed whole spices.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1243171,
+      "sha": "70597a7b295ea61c"
+    },
+    "aisle_condiment": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a glass jar of golden honey with a wooden dipper",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a glass jar of golden honey with a wooden dipper.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1264306,
+      "sha": "e62a51a4b42c474b"
+    },
+    "aisle_bar": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "an empty old fashioned rocks glass next to a bottle on dark bar wood",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: an empty old fashioned rocks glass next to a bottle on dark bar wood.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 963906,
+      "sha": "8a7b5eb1250b3857"
+    },
+    "aisle_beverage": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a tall glass bottle of cola on dark bar wood",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a tall glass bottle of cola on dark bar wood.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1175637,
+      "sha": "8da836fe6832e855"
+    },
+    "aisle_other": {
+      "category": "aisle",
+      "style": "hero",
+      "subject": "a small brown cardboard box on dark wood",
+      "prompt": "Professional food photography in dark moody speakeasy aesthetic. Low-key warm amber lighting, dark wood and velvet background, high contrast, vintage 1920s feel, no text, no menu cards, single subject centered, product photography style. Subject: a small brown cardboard box on dark wood.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1151124,
+      "sha": "dd412452f36d8257"
+    },
+    "beef": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1326551,
+      "sha": "46ea0d50c29d0429"
+    },
+    "pork": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1698726,
+      "sha": "53493d7f01f85478"
+    },
+    "lamb": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1042288,
+      "sha": "da3b6c7c3e29df94"
+    },
+    "sausage": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1204954,
+      "sha": "e499e642e7a18470"
+    },
+    "shellfish": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1536872,
+      "sha": "9d7fbac6401c878b"
+    },
+    "octopus": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1085649,
+      "sha": "2ab963345d010da2"
+    },
+    "sushi": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1377486,
+      "sha": "afd923671eb02307"
+    },
+    "nuts": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1229582,
+      "sha": "592ba87de1cb7524"
+    },
+    "wine": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 927655,
+      "sha": "ac160586805698b2"
+    },
+    "beer": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1194917,
+      "sha": "c99a409a8f5c9a99"
+    },
+    "cocktail_generic": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 903743,
+      "sha": "5e5e90e0a1d39873"
+    },
+    "frozen": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1129822,
+      "sha": "2973c304ccb659d0"
+    },
+    "glass_rocks": {
+      "category": "glass",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1118393,
+      "sha": "1ef8dfa6b92784a5"
+    },
+    "glass_highball": {
+      "category": "glass",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1085683,
+      "sha": "d1da268d86cb65a2"
+    },
+    "glass_flute": {
+      "category": "glass",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 888421,
+      "sha": "dd022a56f5ad56a8"
+    },
+    "glass_shot": {
+      "category": "glass",
+      "style": "icon",
+      "subject": "(legacy — pre-tracked)",
+      "prompt": "(legacy — pre-tracked)",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 958221,
+      "sha": "62cd43820e91341f"
+    },
+    "cheese": {
+      "category": "ingredient",
+      "style": "icon",
+      "subject": "a wedge of aged cheddar cheese",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a wedge of aged cheddar cheese.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1118328,
+      "sha": "e8f39c8597f21204"
+    },
+    "nav_culinary": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a rustic empty stoneware bowl with a polished steel spoon resting on the rim",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a rustic empty stoneware bowl with a polished steel spoon resting on the rim.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1037816,
+      "sha": "4e0073690f8a44cb"
+    },
+    "nav_feed": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a stack of three weathered postcards tied with string on dark wood",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a stack of three weathered postcards tied with string on dark wood.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1352282,
+      "sha": "80645a975e501743"
+    },
+    "nav_you": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a single brass key resting on dark felt, soft amber rim light",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single brass key resting on dark felt, soft amber rim light.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1231716,
+      "sha": "dafaca26561a78ec"
+    },
+    "nav_mixology": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a single coupe cocktail glass empty, dark velvet background, brass rim light",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single coupe cocktail glass empty, dark velvet background, brass rim light.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 817159,
+      "sha": "08fdc93616d973d9"
+    },
+    "nav_snap_bar": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a vintage brass camera lens close-up, dark backdrop, warm amber catchlight",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a vintage brass camera lens close-up, dark backdrop, warm amber catchlight.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1177798,
+      "sha": "b49e36042a0fd87a"
+    },
+    "nav_shop": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a single vintage chrome and brass shopping cart, three-quarter angle, empty, dark wood floor, soft amber rim light, photorealistic, no text, no people",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a single vintage chrome and brass shopping cart, three-quarter angle, empty, dark wood floor, soft amber rim light, photorealistic, no text, no people.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1098222,
+      "sha": "d120f2d54d03df29"
+    },
+    "nav_plan": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a leather-bound pocket calendar open to a blank page, brass clip, dark surface",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a leather-bound pocket calendar open to a blank page, brass clip, dark surface.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1062736,
+      "sha": "4dbbc3bff09a72a3"
+    },
+    "nav_pantry": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "an open vintage wooden apothecary cabinet on dark wall, two shelves visible stocked with antique glass jars and small tins, warm amber light spilling from inside, photorealistic, no text, no labels",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: an open vintage wooden apothecary cabinet on dark wall, two shelves visible stocked with antique glass jars and small tins, warm amber light spilling from inside, photorealistic, no text, no labels.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1003166,
+      "sha": "49fa1531803d51d6"
+    },
+    "nav_saved": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a worn leather bookmark ribbon resting on a dark cookbook page",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a worn leather bookmark ribbon resting on a dark cookbook page.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1213263,
+      "sha": "63930be4736b01d9"
+    },
+    "nav_search": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "a vintage brass magnifying glass on dark felt",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: a vintage brass magnifying glass on dark felt.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1623811,
+      "sha": "e3c8594e2f141ee6"
+    },
+    "nav_adventurous": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "extreme close-up macro shot of a vintage silver fork and silver knife standing perfectly upright vertical side by side, the fork and knife fill 90 percent of the square frame from top to bottom, polished silver with patina, dark velvet background, warm amber rim light catching the tines and blade edge, photorealistic product photography, no plate, no text, no labels",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: extreme close-up macro shot of a vintage silver fork and silver knife standing perfectly upright vertical side by side, the fork and knife fill 90 percent of the square frame from top to bottom, polished silver with patina, dark velvet background, warm amber rim light catching the tines and blade edge, photorealistic product photography, no plate, no text, no labels.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1015356,
+      "sha": "7f681c20881e2d4d"
+    },
+    "nav_library": {
+      "category": "nav",
+      "style": "icon",
+      "subject": "extreme close-up macro shot of three antique leather-bound cookbooks standing upright vertically side by side, the three book spines fill 90 percent of the square frame from top to bottom, gilded brass corners, weathered burgundy and forest-green leather spines, warm amber side light, dark wood shelf below barely visible, photorealistic, no text on spines, no titles, no labels",
+      "prompt": "Macro product photography of a single subject. Subject fills 85% of square frame, centered, sharp focus, soft warm amber rim lighting, clean dark charcoal background with subtle warm gradient, no clutter, no text, no labels, no hands, photorealistic, high edge contrast, app icon style. Subject: extreme close-up macro shot of three antique leather-bound cookbooks standing upright vertically side by side, the three book spines fill 90 percent of the square frame from top to bottom, gilded brass corners, weathered burgundy and forest-green leather spines, warm amber side light, dark wood shelf below barely visible, photorealistic, no text on spines, no titles, no labels.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1134524,
+      "sha": "f9395b912573336f"
+    }
+  }
+}

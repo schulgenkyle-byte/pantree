@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-04-26T18:18:00.121Z",
+  "model": "imagen-4.0-ultra-generate-001",
+  "items": {
+    "icon_bold_brass": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. Single capital letter S is the focal subject and fills approximately 75 percent of the frame area, perfectly centered. Maximum edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum, no decorative flourishes outside the S itself. Photorealistic premium rendering quality. Subject: a bold geometric capital letter S in polished brass, raised three-dimensional with subtle bevel, sitting on a flat solid charcoal black background that fills the entire frame. The S has clean modern geometric construction, slightly tapered curves. Warm amber rim light from the upper left catches the brass surface.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 793719,
+      "sha": "e4aca6c4ca49193f"
+    },
+    "icon_embossed_plaque": {
+      "prompt": "App icon design, perfect square 1024x1024 composition, full-bleed background completely fills the frame edge-to-edge with no border, no margin, no shadow halo, no padding. Single capital letter S is the focal subject and fills approximately 75 percent of the frame area, perfectly centered. Maximum edge contrast so the silhouette reads at thumbnail size. No text, no extra letters, no lorem ipsum, no decorative flourishes outside the S itself. Photorealistic premium rendering quality. Subject: a luxurious embossed brass nameplate filling the entire square frame as the background, with a single capital letter S deeply embossed into the brass surface in the center. The brass has visible brushed-metal texture, antique patina in the recesses, warm amber highlight along the top edge. Premium speakeasy door-plate aesthetic.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1482199,
+      "sha": "961786289554b946"
+    }
+  }
+}

@@ -48,10 +48,10 @@ fun InlineAdCard(
     return
   }
 
-  val cardBg = if (vintageMode) Color(0xFFF6E9CF) else Color(0xFF18181B)
-  val accent = if (vintageMode) Color(0xFF6B4423) else Color(0xFFC9A554)
-  val ink = if (vintageMode) Color(0xFF3E2C1B) else Color(0xFFE8E3D9)
-  val muted = if (vintageMode) Color(0xFF7A6F62) else Color(0xFF8B8578)
+  val cardBg = if (vintageMode) Color(0xFFF6E9CF) else app.pantrie.ui.theme.Paper2
+  val accent = if (vintageMode) Color(0xFF6B4423) else app.pantrie.ui.theme.BrassBright
+  val ink = if (vintageMode) Color(0xFF3E2C1B) else app.pantrie.ui.theme.Ink
+  val muted = if (vintageMode) Color(0xFF7A6F62) else app.pantrie.ui.theme.InkFaint
 
   val context = LocalContext.current
   val adView = remember {
@@ -93,7 +93,7 @@ fun InlineAdCard(
       Box(
         Modifier
           .clip(RoundedCornerShape(8.dp))
-          .background(Color.Black.copy(alpha = 0.04f))
+          .background(if (vintageMode) Color.Black.copy(alpha = 0.04f) else app.pantrie.ui.theme.Paper3)
           .padding(8.dp),
       ) {
         AndroidView(
@@ -105,7 +105,7 @@ fun InlineAdCard(
       Spacer(Modifier.weight(0.4f))
 
       Text(
-        "Brimm Pro removes ads",
+        "${app.pantrie.Brand.PRO_NAME} removes ads",
         color = ink,
         fontSize = 14.sp,
         fontWeight = FontWeight.Medium,
@@ -122,7 +122,7 @@ fun InlineAdCard(
       Button(
         onClick = onContinue,
         modifier = Modifier.fillMaxWidth().height(50.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = accent, contentColor = if (vintageMode) Color.White else Color.Black),
+        colors = ButtonDefaults.buttonColors(containerColor = accent, contentColor = if (vintageMode) Color.White else app.pantrie.ui.theme.Paper),
         shape = RoundedCornerShape(12.dp),
       ) {
         Text("Continue", fontWeight = FontWeight.Bold, fontSize = 15.sp)

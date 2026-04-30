@@ -26,7 +26,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/** Brimm Pro SKUs registered in Play Console. Must match exactly. */
+/**
+ * Speakeater Pro SKUs registered in Play Console. Must match exactly.
+ *
+ * The `brimm_*` prefix is LOCKED — Play Console SKU ids cannot be renamed without
+ * orphaning every existing subscriber. The user-facing brand display name lives in
+ * Brand.PRO_NAME ("Speakeater Pro"); only the internal SKU id strings keep the
+ * legacy prefix.
+ */
 const val SKU_PRO_MONTHLY = "brimm_pro_monthly"
 const val SKU_PRO_YEARLY = "brimm_pro_yearly"
 const val SKU_PRO_LIFETIME = "brimm_pro_lifetime"
@@ -247,7 +254,7 @@ class BillingManager @Inject constructor(
         if (!alreadyOnDevice) {
           _purchaseEvents.value = PurchaseEvent.Error(
             "Purchase verified by Play but server rejected it: ${e.message ?: "unknown"}. " +
-              "Reopen the app — it will retry. If this persists, contact support@brimmapp.com."
+              "Reopen the app — it will retry. If this persists, contact ${app.pantrie.Brand.SUPPORT_EMAIL}."
           )
         }
       }

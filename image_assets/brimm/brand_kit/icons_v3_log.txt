@@ -1,0 +1,11 @@
+Generating 5 v3 (S+liquid) app icon candidates
+Output: C:\Users\12566\Downloads\pantrie-build (1)\pantrie-build\image_assets\brimm\brand_kit\icons
+
+[1/5] SKIP v3_pour_straight_down
+[2/5] OK   v3_pour_trail_back (769KB)
+[3/5] OK   v3_pour_splash_ripple (902KB)
+[4/5] OK   v3_s_morphs_to_liquid (896KB)
+[5/5] OK   v3_pour_into_mini_glass (735KB)
+
+DONE in 75.1s — ok=4 fail=0
+Viewer: file:///C:/Users/12566/Downloads/pantrie-build (1)/pantrie-build/image_assets/brimm/brand_kit/icons/index_v3.html

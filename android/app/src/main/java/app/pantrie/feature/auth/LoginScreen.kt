@@ -70,6 +70,16 @@ class LoginViewModel @Inject constructor(
    * unless the dev-key header matches a value only present in the staging Worker secrets.
    */
   fun devLogin() {
+    // Belt-and-suspenders: refuse dev-login unless THIS build is the .dev
+    // application variant. Even if a future build configuration accidentally
+    // bakes a non-empty DEV_TOKEN_KEY into a non-.dev APK, this guard keeps
+    // the backdoor closed at the client level. Server-side guards (env=dev,
+    // .test email regex, key match) provide the second and third lines of
+    // defense.
+    if (!BuildConfig.APPLICATION_ID.endsWith(".dev")) {
+      _state.value = LoginUiState.Error("Dev login is unavailable in this build.")
+      return
+    }
     val key = BuildConfig.DEV_TOKEN_KEY
     if (key.isBlank()) {
       _state.value = LoginUiState.Error("DEV_TOKEN_KEY missing — debug builds only")
@@ -106,13 +116,13 @@ fun LoginScreen(
     if (state is LoginUiState.LoggedIn) onLoggedIn()
   }
 
-  Surface(modifier = Modifier.fillMaxSize(), color = Cream) {
+  Surface(modifier = Modifier.fillMaxSize(), color = Paper) {
     Column(
       modifier = Modifier.fillMaxSize().padding(24.dp),
       verticalArrangement = Arrangement.Center,
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-      Text("Brimm", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Normal, color = Ink)
+      Text(app.pantrie.Brand.APP_NAME, style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Normal, color = Ink)
       Spacer(Modifier.height(8.dp))
       Text(
         "see it. save it. savor it.",
@@ -121,7 +131,7 @@ fun LoginScreen(
       Spacer(Modifier.height(48.dp))
 
       when (val s = state) {
-        LoginUiState.Loading -> CircularProgressIndicator(color = Ink, strokeWidth = 2.dp)
+        LoginUiState.Loading -> CircularProgressIndicator(color = BrassBright, strokeWidth = 2.dp)
         is LoginUiState.Error -> {
           Text(
             s.message,

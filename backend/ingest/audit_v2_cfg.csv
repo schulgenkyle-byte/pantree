@@ -1,0 +1,101 @@
+id,title,verdict,reason,has_photo,step_count,ingredient_count
+canada-apple-berry-crisp,Apple berry crisp,keep,,1,4,11
+canada-apple-nachos-peanut-butter-caramel-sauce,Apple nachos with peanut butter caramel sauce,keep,,1,8,10
+canada-apple-pie-breakfast-bowl,Apple pie breakfast bowl,keep,,1,4,9
+canada-apple-pie-oatmeal,Apple pie oatmeal,keep,,1,2,8
+canada-baked-blueberry-banana-oatmeal,Baked blueberry and banana oatmeal,keep,,1,4,9
+canada-baked-cheese-stratas,Baked cheese stratas,keep,,1,4,9
+canada-baked-fish-chips,Baked fish and chips,keep,,1,11,15
+canada-banana-walnut-loaf,Banana walnut loaf,keep,,1,6,11
+canada-beef-bean-burger,Beef and bean burger,keep,,1,5,10
+canada-beef-fajitas-lime-sour-cream,Beef fajitas with lime sour cream,keep,,1,4,12
+canada-berry-brunch-bake,Berry brunch bake,keep,,1,6,10
+canada-black-bean-corn-salad,Black bean and corn salad,keep,,1,2,11
+canada-black-bean-enchiladas,Black bean enchiladas,keep,,1,12,20
+canada-blueberry-cornmeal-muffins,Blueberry cornmeal muffins,keep,,1,6,13
+canada-braised-lentils-greens,Braised lentils with greens,keep,,1,3,6
+canada-cajun-lentil-soup,Cajun lentil soup,keep,,1,3,10
+canada-cantaloupe-bocconcini-cheese-salad,Cantaloupe and bocconcini cheese salad,keep,,1,3,11
+canada-caprese-muffin-tin-frittatas,Caprese muffin-tin frittatas,keep,,1,5,7
+canada-carrot-ginger-lentil-soup,Carrot ginger lentil soup,keep,,1,5,9
+canada-carrot-potato-pancakes,Carrot potato pancakes,keep,,1,2,6
+canada-cauliflower-bean-dip,Cauliflower and bean dip,keep,,1,5,8
+canada-cheesy-broccoli-toast,Cheesy broccoli toast,keep,,1,4,6
+canada-chicken-bean-quesadillas,Chicken and bean quesadillas,keep,,1,6,14
+canada-chicken-lima-bean-stew,Chicken and lima bean stew,keep,,1,6,15
+canada-chicken-spring-vegetable-soup,Chicken and spring vegetable soup,keep,,1,5,11
+canada-chickpea-meatballs-gnocchi-bake,Chickpea “meatballs” and gnocchi bake,keep,,1,9,16
+canada-chocolate-berry-overnight-oats,Chocolate berry overnight oats,keep,,1,3,7
+canada-classic-overnight-oats,Classic overnight oats,keep,,1,2,5
+canada-classic-poached-eggs,Classic poached eggs,keep,,1,4,4
+canada-cobb-salad-ranch-dressing,Cobb salad and ranch dressing,keep,,1,7,21
+canada-coleslaw,Coleslaw,fix,no heat step (assumed mix-and-serve),1,3,6
+canada-colourful-quinoa-salad,Quinoa salad,keep,,1,3,13
+canada-corn-bean-squash-soup-three-sister-s-soup,"Three Sisters soup (corn, bean and squash)",keep,,1,5,11
+canada-corn-cakes-tomato-jam,Corn cakes with tomato jam,keep,,1,9,19
+canada-corn-lentil-soup,Corn and lentil soup,keep,,1,5,11
+canada-cornbread,Cornbread,keep,,1,5,9
+canada-cornmeal-porridge-fruit-preserve,Cornmeal porridge with fruit preserve,keep,,1,4,6
+canada-couscous-vegetables,Chickpea and vegetable couscous,keep,,1,6,10
+canada-creamy-clam-chowder,Creamy clam chowder,keep,,1,2,12
+canada-creamy-dreamy-hummus,Creamy hummus,keep,,1,2,8
+canada-creamy-smoothie,Creamy smoothie,keep,,1,2,6
+canada-crispy-chickpeas,Crispy chickpeas,keep,,1,6,4
+canada-crowd-pleasing-chickpea-carrot-salad,Chickpea and carrot salad,keep,,1,3,11
+canada-crunchy-turkey-fingers-oven-fries,Crunchy turkey fingers with oven fries,keep,,1,5,10
+canada-cucumber-smash-salad,Cucumber smash salad,keep,,1,3,9
+canada-curried-chickpea-salad,Curried chickpea salad,keep,,1,3,11
+canada-curried-lentil-spinach-fritters,Curried lentil and spinach fritters,keep,,1,5,16
+canada-curried-vegetable-lentil-stew,Curried vegetable lentil stew,keep,,1,2,13
+canada-curry-chicken-lettuce-wraps,Curry chicken lettuce wraps,fix,no heat step (assumed mix-and-serve),1,2,9
+canada-easy-peasy-fish-tacos,Whitefish tacos,keep,,1,4,12
+canada-eat-your-greens-frittata,Spicy vegetable frittata,keep,,1,3,8
+canada-egg-veggie-scramble,Egg and veggie scramble,keep,,1,4,5
+canada-eggplant-lentil-curry,Eggplant lentil curry,keep,,1,4,11
+canada-fish-fresh-herb-veggie-packets,Fish and herb vegetable packets,keep,,1,4,12
+canada-flourless-yogurt-blender-muffins,Flourless yogurt blender muffins,keep,,1,5,10
+canada-french-toast-sticks-pineapple-orange-topping,French toast sticks with pineapple orange topping,keep,,1,6,11
+canada-fresh-avocado-bean-lettuce-wrap,Avocado and bean lettuce wraps,fix,no heat step (assumed mix-and-serve),1,2,10
+canada-fried-brown-rice-chicken,Chicken fried rice,keep,,1,5,11
+canada-fried-wild-rice,Fried wild rice,keep,,1,4,9
+canada-fruit-kebabs-maple-cinnamon-yogurt-dip,Fruit skewers with maple yogurt dip,fix,only 2 cooking verb(s),1,2,6
+canada-fruit-leathers,Fruit leathers,keep,,1,6,3
+canada-fruit-salad,Fruit salad,keep,,1,1,5
+canada-fruit-yogurt-granola-parfaits,Fruit and yogurt granola parfaits,keep,,1,4,10
+canada-fun-flatbread-pizza,Flatbread pizza,keep,,1,3,9
+canada-ginger-scallion-noodles,Ginger scallion noodles,keep,,1,4,6
+canada-good-morning-egg-roll,Egg wrap with vegetables,keep,,1,4,6
+canada-greek-style-chicken-sandwiches,Chicken and feta sandwiches,fix,no heat step (assumed mix-and-serve),1,3,12
+canada-greek-style-couscous-egg-wrap,Couscous and egg wraps,keep,,1,3,12
+canada-grilled-flank-steak-bbq-veggies,Grilled flank steak with BBQ vegetables,keep,,1,4,13
+canada-hearty-chicken-noodle-soup,Chicken noodle soup,keep,,1,2,11
+canada-honey-grilled-salmon-asparagus,Honey grilled salmon and asparagus,keep,,1,3,9
+canada-hot-sweet-curried-squash,Hot and sweet curried squash,keep,,1,5,11
+canada-kale-chickpea-curry,Kale and chickpea curry,keep,,1,4,12
+canada-lentil-bolognese,Lentil bolognese,keep,,1,5,14
+canada-lentil-nuggets,Lentil nuggets,keep,,1,3,7
+canada-lip-smacking-bbq-drumsticks,BBQ chicken drumsticks,keep,,1,3,12
+canada-lunch-box-tuna-salad-wrap,Tuna salad wraps,keep,,1,4,9
+canada-mac-cheese-veggie-twist,Macaroni and cheese with vegetables,keep,,1,4,13
+canada-mapo-tofu-chicken,Mapo tofu with chicken,keep,,1,5,12
+canada-marvellous-muffins,Sweet zucchini muffins,keep,,1,4,14
+canada-mediterranean-tomato-ricotta-pasta,Tomato and ricotta pasta,keep,,1,3,12
+canada-mighty-minestrone-soup,Minestrone soup,keep,,1,4,6
+canada-miso-ramen-soup-marinated-eggs,Miso ramen soup with marinated eggs,keep,,1,9,18
+canada-moose-stew,Moose stew,keep,,1,4,12
+canada-moroccan-stew-harira,Harira (Moroccan stew),keep,,1,4,12
+canada-muhammara-dip-red-bell-pepper-walnut,Muhammara dip (red bell pepper and walnut),keep,,1,6,8
+canada-mujadarrah-lentils-onions-rice,"Mujadarrah (lentils, onions and rice)",keep,,1,3,5
+canada-multigrain-congee-shiitake-ginger-scallion,"Multigrain congee with shiitake, ginger and scallion",keep,,1,4,11
+canada-mushroom-soup,Mushroom soup,keep,,1,6,10
+canada-mushroom-tagine,Mushroom tagine,keep,,1,5,21
+canada-no-bake-toasted-oat-granola-bars,No-bake oat granola bars,keep,,1,5,6
+canada-oat-pumpkin-no-bake-bites,Oat and pumpkin no-bake bites,keep,,1,3,6
+canada-okroshka-cold-summer-soup,Okroshka (cold summer soup),keep,,1,3,8
+canada-oodles-soba-noodles-tempeh,Soba noodles with tempeh,keep,,1,6,15
+canada-open-face-egg-salad-sandwiches,Open-face egg salad sandwiches,keep,,1,3,10
+canada-open-faced-applewiches,Apple sandwiches,fix,no heat step (assumed mix-and-serve),1,2,3
+canada-orange-soy-tofu-pockets,Orange tofu pockets,keep,,1,4,12
+canada-peach-roasted-chickpeas-halloumi-cheese-salad,"Peach, roasted chickpeas and halloumi cheese salad",keep,,1,5,10
+canada-pineapple-ginger-chicken,Pineapple ginger chicken,keep,,1,4,9
+canada-pork-apple-skillet-dinner,Pork and apple skillet dinner,keep,,1,3,9

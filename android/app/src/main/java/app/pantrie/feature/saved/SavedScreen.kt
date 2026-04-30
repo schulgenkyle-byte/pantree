@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -112,9 +114,12 @@ private data class LibraryBook(
   val matches: (SavedRecipe) -> Boolean,
 )
 
+// Library "book spines" — kept saturated against the dark editorial background. The two
+// books carry the brand's two domains (cooking ↔ mixology); BrassBright handles the title
+// embossing so it ties back to the Speakeater accent palette.
 private val CookingSpine = Color(0xFF6D2C2C)     // burgundy leather
 private val MixologySpine = Color(0xFF2F4F3A)    // deep bottle-green leather
-private val GoldEmboss = Color(0xFFD4A017)       // embossed gold title / chevron
+private val GoldEmboss = BrassBright             // embossed gold title / chevron
 
 private val LibraryBooks = listOf(
   LibraryBook(
@@ -146,12 +151,15 @@ fun SavedScreen(
   onBack: () -> Unit,
   onOpenRecipe: (String) -> Unit,
   @Suppress("UNUSED_PARAMETER") onStartCook: (String) -> Unit,
+  onOpenLibrary: () -> Unit = {},
   vm: SavedViewModel = hiltViewModel(),
 ) {
   val saved by vm.saved.collectAsState()
   val loading by vm.loading.collectAsState()
   val banner by vm.banner.collectAsState()
   val snackbarHost = remember { SnackbarHostState() }
+  // Walkthrough VM — used by the library mini-tour to spotlight the Open Library affordance.
+  val tourVm: app.pantrie.feature.walkthrough.WalkthroughViewModel = hiltViewModel()
   LaunchedEffect(banner) {
     banner?.let { snackbarHost.showSnackbar(it); vm.dismissBanner() }
   }
@@ -163,7 +171,7 @@ fun SavedScreen(
   var sheetTarget by remember { mutableStateOf<SavedRecipe?>(null) }
 
   Scaffold(
-    containerColor = Cream,
+    containerColor = Paper,
     topBar = {
       TopAppBar(
         title = { Text("Library", fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold) },
@@ -172,7 +180,7 @@ fun SavedScreen(
             Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back")
           }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Cream),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Paper, titleContentColor = Ink, navigationIconContentColor = Ink),
       )
     },
     snackbarHost = { SnackbarHost(snackbarHost) },
@@ -225,23 +233,33 @@ fun SavedScreen(
         }
       }
 
-      // v1: disabled "New book" affordance — hints at upcoming user-created books.
+      // v1: live "New book" affordance — wired to the Library screen.
       item(key = "new-book") {
         Surface(
-          color = CreamAlt,
+          onClick = onOpenLibrary,
+          color = Paper2,
           shape = RoundedCornerShape(10.dp),
-          modifier = Modifier.fillMaxWidth().height(52.dp),
+          modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp)
+            // Library mini-tour step 2 spotlights this affordance.
+            .onGloballyPositioned { coords ->
+              tourVm.reportAnchor(
+                app.pantrie.feature.walkthrough.TourAnchors.SAVED_LIBRARY_BUTTON,
+                coords.boundsInWindow(),
+              )
+            },
         ) {
           Row(
             Modifier.fillMaxSize().padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
           ) {
-            Icon(Icons.Outlined.Add, contentDescription = null, tint = InkMuted)
+            Icon(Icons.Outlined.Add, contentDescription = null, tint = Terracotta)
             Spacer(Modifier.width(8.dp))
-            Text("New book", color = InkMuted, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Medium)
+            Text("New book", color = Ink, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Medium)
             Spacer(Modifier.width(10.dp))
-            Text("(coming soon)", color = InkFaint, style = MaterialTheme.typography.bodySmall)
+            Text("Open Library", color = InkFaint, style = MaterialTheme.typography.bodySmall)
           }
         }
       }
@@ -330,7 +348,7 @@ private fun BookContents(
   onLongPress: (SavedRecipe) -> Unit,
 ) {
   Surface(
-    color = Paper,
+    color = Paper2,
     shape = RoundedCornerShape(10.dp),
     tonalElevation = 0.dp,
     modifier = Modifier.fillMaxWidth().padding(top = 2.dp),
@@ -379,7 +397,7 @@ private fun LibraryRecipeRow(
   ) {
     // Thumbnail (AsyncImage falls back to a tinted block if image URL missing).
     Box(
-      Modifier.size(64.dp).clip(RoundedCornerShape(8.dp)).background(Beige),
+      Modifier.size(64.dp).clip(RoundedCornerShape(8.dp)).background(Paper2),
       contentAlignment = Alignment.Center,
     ) {
       if (!r.imageUrl.isNullOrBlank()) {
@@ -433,7 +451,7 @@ private fun RemoveFromLibrarySheet(
       )
       Spacer(Modifier.height(16.dp))
       Surface(
-        color = Cream,
+        color = Paper2,
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier.fillMaxWidth().clickable(onClick = onRemove),
       ) {

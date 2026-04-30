@@ -45,15 +45,16 @@ CREATE INDEX IF NOT EXISTS idx_session_family ON session(family_id);
 
 -- ---------- PANTRY ----------
 CREATE TABLE IF NOT EXISTS pantry_item (
-  id              TEXT PRIMARY KEY,
-  user_id         TEXT NOT NULL,
-  name            TEXT NOT NULL,
-  canonical_name  TEXT,              -- synonym-canonicalized form for matching
-  category        TEXT,
-  quantity        REAL,
-  unit            TEXT,
-  expires_at      TEXT,
-  created_at      INTEGER NOT NULL,
+  id                  TEXT PRIMARY KEY,
+  user_id             TEXT NOT NULL,
+  name                TEXT NOT NULL,
+  canonical_name      TEXT,              -- synonym-canonicalized form for matching
+  category            TEXT,
+  quantity            REAL,
+  unit                TEXT,
+  expires_at          TEXT,
+  original_shelf_days INTEGER,           -- shelf life at insert; >180 suppresses 'Expiring' badge
+  created_at          INTEGER NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_pantry_user ON pantry_item(user_id);
@@ -299,6 +300,31 @@ CREATE TABLE IF NOT EXISTS recipe_submission (
 );
 CREATE INDEX IF NOT EXISTS idx_sub_status ON recipe_submission(status, created_at);
 CREATE INDEX IF NOT EXISTS idx_sub_user ON recipe_submission(user_id, created_at);
+
+-- Recipe photo contributions: user submits a photo for an EXISTING recipe.
+-- If approved, the photo becomes the recipe's canonical image and the
+-- contributor gets photo credit on the card forever.
+CREATE TABLE IF NOT EXISTS recipe_photo_contribution (
+  id              TEXT PRIMARY KEY,
+  recipe_id       TEXT NOT NULL,
+  user_id         TEXT NOT NULL,
+  r2_key          TEXT NOT NULL,
+  image_url       TEXT NOT NULL,
+  status          TEXT NOT NULL DEFAULT 'pending'
+                  CHECK (status IN ('pending','approved','rejected','superseded')),
+  reject_reason   TEXT,
+  reviewed_by     TEXT,
+  reviewed_at     INTEGER,
+  created_at      INTEGER NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+  FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_recipe_photo_contrib_status
+  ON recipe_photo_contribution(status, created_at);
+CREATE INDEX IF NOT EXISTS idx_recipe_photo_contrib_recipe
+  ON recipe_photo_contribution(recipe_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_recipe_photo_contrib_user
+  ON recipe_photo_contribution(user_id, created_at);
 
 -- ---------- BETA FEEDBACK ----------
 CREATE TABLE IF NOT EXISTS beta_feedback (

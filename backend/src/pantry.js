@@ -3,7 +3,7 @@ import {
   validFiniteNumber, validArray,
 } from './util.js';
 import { enforce } from './ratelimit.js';
-import { estimateExpiryDays, suggestExpiresAt } from './expiry.js';
+import { estimateExpiryDays, suggestExpiry } from './expiry.js';
 import { stampPantryWeek } from './core-ingredients.js';
 import { canonicalize } from './canonicalize.js';
 import { getPreferencesFor, prefHash } from './preferences.js';
@@ -55,18 +55,22 @@ export const handlePantry = {
     const b = p.value;
 
     if (!validString(b.name, { min: 1, max: 80 })) return err(400, 'name: 1-80 chars');
-    if (b.category != null && !CATEGORY_ALLOW.has(b.category)) return err(400, 'category: unknown');
     if (b.quantity != null && !validFiniteNumber(b.quantity, { min: 0, max: 10_000 })) return err(400, 'quantity: 0-10000');
-    if (!validUnit(b.unit)) return err(400, 'unit: unknown');
     if (!validExpiry(b.expiresAt)) return err(400, 'expiresAt: ISO date or epoch ms string');
 
-    const category = b.category || 'other';
-    const expiresAt = b.expiresAt ?? new Date(suggestExpiresAt(b.name, category)).toISOString().slice(0, 10);
+    // Lenient: recipe ingredients carry aisle/unit values that don't always match
+    // our allowlists ('cloves', 'pieces', etc). Drop unknown values to null instead
+    // of 400ing — losing a tag is fine; killing the chip-tap with "Couldn't add" is not.
+    const category = (b.category != null && CATEGORY_ALLOW.has(b.category)) ? b.category : 'other';
+    const unit = (b.unit != null && UNIT_ALLOW.has(b.unit)) ? b.unit : null;
+
+    const { expiresAtMs, originalShelfDays } = suggestExpiry(b.name, category);
+    const expiresAt = b.expiresAt ?? new Date(expiresAtMs).toISOString().slice(0, 10);
 
     const id = uid();
     await env.DB.prepare(
-      'INSERT INTO pantry_item (id, user_id, name, canonical_name, category, quantity, unit, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    ).bind(id, userId, b.name, canonicalize(b.name), category, b.quantity ?? null, b.unit ?? null, expiresAt, Date.now()).run();
+      'INSERT INTO pantry_item (id, user_id, name, canonical_name, category, quantity, unit, expires_at, original_shelf_days, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    ).bind(id, userId, b.name, canonicalize(b.name), category, b.quantity ?? null, unit, expiresAt, originalShelfDays, Date.now()).run();
     await handlePantry._bustDeckCache(env, userId);
     return json({ ok: true, id, expiresAt }, 200, request, env);
   },
@@ -81,16 +85,16 @@ export const handlePantry = {
     const added = [];
     for (const b of p.value.items) {
       if (!validString(b.name, { min: 1, max: 80 })) continue;
-      if (b.category != null && !CATEGORY_ALLOW.has(b.category)) continue;
       if (b.quantity != null && !validFiniteNumber(b.quantity, { min: 0, max: 10_000 })) continue;
-      if (!validUnit(b.unit)) continue;
       if (!validExpiry(b.expiresAt)) continue;
-      const category = b.category || 'other';
-      const expiresAt = b.expiresAt ?? new Date(suggestExpiresAt(b.name, category)).toISOString().slice(0, 10);
+      const category = (b.category != null && CATEGORY_ALLOW.has(b.category)) ? b.category : 'other';
+      const unit = (b.unit != null && UNIT_ALLOW.has(b.unit)) ? b.unit : null;
+      const { expiresAtMs, originalShelfDays } = suggestExpiry(b.name, category);
+      const expiresAt = b.expiresAt ?? new Date(expiresAtMs).toISOString().slice(0, 10);
       const id = uid();
       await env.DB.prepare(
-        'INSERT INTO pantry_item (id, user_id, name, canonical_name, category, quantity, unit, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-      ).bind(id, userId, b.name, canonicalize(b.name), category, b.quantity ?? null, b.unit ?? null, expiresAt, now).run();
+        'INSERT INTO pantry_item (id, user_id, name, canonical_name, category, quantity, unit, expires_at, original_shelf_days, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+      ).bind(id, userId, b.name, canonicalize(b.name), category, b.quantity ?? null, unit, expiresAt, originalShelfDays, now).run();
       added.push({ id, name: b.name, expiresAt });
     }
     await handlePantry._bustDeckCache(env, userId);
@@ -111,16 +115,18 @@ export const handlePantry = {
       updates.push(['name', b.name]);
     }
     if ('category' in b) {
-      if (b.category != null && !CATEGORY_ALLOW.has(b.category)) return err(400, 'category: unknown');
-      updates.push(['category', b.category ?? null]);
+      // Lenient: drop unknown categories to null instead of 400ing the update.
+      const v = (b.category != null && CATEGORY_ALLOW.has(b.category)) ? b.category : null;
+      updates.push(['category', v]);
     }
     if ('quantity' in b) {
       if (b.quantity != null && !validFiniteNumber(b.quantity, { min: 0, max: 10_000 })) return err(400, 'quantity: 0-10000');
       updates.push(['quantity', b.quantity ?? null]);
     }
     if ('unit' in b) {
-      if (!validUnit(b.unit)) return err(400, 'unit: unknown');
-      updates.push(['unit', b.unit ?? null]);
+      // Lenient: drop unknown units to null instead of 400.
+      const v = (b.unit != null && UNIT_ALLOW.has(b.unit)) ? b.unit : null;
+      updates.push(['unit', v]);
     }
     if ('expiresAt' in b) {
       if (!validExpiry(b.expiresAt)) return err(400, 'expiresAt invalid');

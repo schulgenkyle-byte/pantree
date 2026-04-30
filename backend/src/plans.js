@@ -3,6 +3,7 @@ import {
 } from './util.js';
 import { enforce } from './ratelimit.js';
 import { buildPantryIndex, indexMatch, isStaple } from './ingredient-match.js';
+import { SHELF_STABLE_THRESHOLD_DAYS } from './expiry.js';
 
 const MAX_PLAN_RECIPES = 21; // 3 meals x 7 days
 
@@ -23,7 +24,7 @@ export const handlePlans = {
     const now = Date.now();
     const EXPIRING_MS = 5 * 86400_000;
     const { results: pantry } = await env.DB.prepare(
-      'SELECT name, canonical_name, expires_at FROM pantry_item WHERE user_id = ?'
+      'SELECT name, canonical_name, expires_at, original_shelf_days FROM pantry_item WHERE user_id = ?'
     ).bind(userId).all();
     const pantryNames = [];
     const expiringNames = [];
@@ -31,6 +32,11 @@ export const handlePlans = {
       const key = (p.canonical_name || p.name || '').trim();
       if (!key) continue;
       pantryNames.push(key);
+      // Shelf-stable items (salt, flour, oil, spices) never count as "expiring" —
+      // their expires_at is years away and triggering a plan reason on them is
+      // nonsensical (the bug that motivated this whole pass).
+      const shelfDays = Number(p.original_shelf_days);
+      if (Number.isFinite(shelfDays) && shelfDays > SHELF_STABLE_THRESHOLD_DAYS) continue;
       if (p.expires_at) {
         const ts = /^\d{10,}$/.test(p.expires_at) ? parseInt(p.expires_at, 10) : Date.parse(p.expires_at);
         if (Number.isFinite(ts) && ts - now < EXPIRING_MS) expiringNames.push(key);
@@ -42,10 +48,13 @@ export const handlePlans = {
     // Require a real time estimate — Wikibooks recipes often have NULL prep/cook minutes,
     // which renders as "0 min" in the plan card. Filter those out so the week plan only
     // surfaces recipes with honest time info.
+    // FOOD ONLY — cocktails / mocktails don't belong in a weekly meal plan. Drinks get
+    // their own deck (Mixology); the meal plan is for actual meals.
     const { results: recipes } = await env.DB.prepare(
       `SELECT id, title, cuisine, prep_minutes, cook_minutes, servings, avg_rating
          FROM recipe
         WHERE (COALESCE(prep_minutes, 0) + COALESCE(cook_minutes, 0)) > 0
+          AND COALESCE(content_type, 'food') = 'food'
         ORDER BY RANDOM() LIMIT 150`
     ).all();
     const ids = (recipes || []).map(r => r.id);

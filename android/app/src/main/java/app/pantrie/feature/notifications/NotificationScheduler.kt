@@ -7,7 +7,9 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.Calendar
@@ -47,6 +49,35 @@ object NotificationScheduler {
     WorkManager.getInstance(context).cancelUniqueWork(RescanWorker.WORK_NAME)
   }
 
+  /** Schedules a one-shot SwipeRefillWorker for the next local midnight (+1 min buffer
+   *  so the date-rollover has fully landed). REPLACE policy means re-hitting the cap
+   *  on a subsequent day just retargets the same unique work, no duplicates. */
+  fun scheduleSwipeRefill(context: Context) {
+    ensureChannels(context)
+    val delayMs = msUntilNextLocalMidnight() + TimeUnit.MINUTES.toMillis(1)
+    val request = OneTimeWorkRequestBuilder<SwipeRefillWorker>()
+      .setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
+      .addTag("swipe-refill")
+      .build()
+    WorkManager.getInstance(context).enqueueUniqueWork(
+      SwipeRefillWorker.WORK_NAME_PREFIX + "v1",
+      ExistingWorkPolicy.REPLACE,
+      request,
+    )
+  }
+
+  private fun msUntilNextLocalMidnight(): Long {
+    val now = Calendar.getInstance()
+    val target = (now.clone() as Calendar).apply {
+      set(Calendar.HOUR_OF_DAY, 0)
+      set(Calendar.MINUTE, 0)
+      set(Calendar.SECOND, 0)
+      set(Calendar.MILLISECOND, 0)
+      add(Calendar.DAY_OF_YEAR, 1)
+    }
+    return (target.timeInMillis - now.timeInMillis).coerceAtLeast(60_000L)
+  }
+
   private fun ensureChannels(context: Context) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
     val nm = ContextCompat.getSystemService(context, NotificationManager::class.java) ?: return
@@ -70,6 +101,17 @@ object NotificationScheduler {
           NotificationManager.IMPORTANCE_HIGH,
         ).apply {
           description = "Alerts when items in your pantry are about to expire."
+        },
+      )
+    }
+    if (nm.getNotificationChannel(SwipeRefillWorker.CHANNEL_REFILL) == null) {
+      nm.createNotificationChannel(
+        NotificationChannel(
+          SwipeRefillWorker.CHANNEL_REFILL,
+          "Daily swipes refilled",
+          NotificationManager.IMPORTANCE_DEFAULT,
+        ).apply {
+          description = "Lets you know when your free daily recipe swipes reset."
         },
       )
     }

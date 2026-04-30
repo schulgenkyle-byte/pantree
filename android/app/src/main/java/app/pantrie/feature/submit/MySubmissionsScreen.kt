@@ -59,7 +59,7 @@ fun MySubmissionsScreen(
   val loading by vm.loading.collectAsState()
 
   Scaffold(
-    containerColor = Cream,
+    containerColor = Paper,
     topBar = {
       TopAppBar(
         title = { Text("My submissions", fontWeight = FontWeight.Normal) },
@@ -68,7 +68,7 @@ fun MySubmissionsScreen(
             Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back")
           }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Cream),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Paper),
       )
     },
   ) { padding ->
@@ -107,11 +107,11 @@ private fun SubRow(s: MySubmission) {
     "pending" -> "In review" to InkMuted
     "approved" -> "Approved — live in catalog" to Olive
     "rejected" -> ("Rejected" + (s.rejectReason?.let { ": $it" } ?: "")) to Terracotta
-    "duplicate" -> "Flagged as duplicate" to Color(0xFFD4A017)
+    "duplicate" -> "Flagged as duplicate" to BrassBright
     else -> s.status to InkMuted
   }
   Card(
-    colors = CardDefaults.cardColors(containerColor = Paper),
+    colors = CardDefaults.cardColors(containerColor = Paper2),
     shape = RoundedCornerShape(12.dp),
     modifier = Modifier.fillMaxWidth(),
   ) {

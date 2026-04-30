@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Bolt
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Restaurant
@@ -15,6 +16,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -166,6 +169,8 @@ fun PlanScreen(
 ) {
   val state by vm.state.collectAsState()
   val altSheet by vm.altSheet.collectAsState()
+  // Walkthrough VM — used by the plan mini-tour to spotlight "Plan it for me".
+  val tourVm: app.pantrie.feature.walkthrough.WalkthroughViewModel = hiltViewModel()
 
   // Alternatives bottom sheet
   altSheet?.let { sheet ->
@@ -178,7 +183,7 @@ fun PlanScreen(
     )
   }
 
-  Scaffold(containerColor = Cream) { padding ->
+  Scaffold(containerColor = Paper) { padding ->
     LazyColumn(
       Modifier.padding(padding).fillMaxSize(),
       contentPadding = PaddingValues(horizontal = 24.dp, vertical = 20.dp),
@@ -207,7 +212,16 @@ fun PlanScreen(
           Column(Modifier.padding(top = 12.dp)) {
             Button(
               onClick = vm::proposeWeek,
-              modifier = Modifier.fillMaxWidth().height(56.dp),
+              modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                // Mini-tour: plan step 2 spotlights this Generate button.
+                .onGloballyPositioned { coords ->
+                  tourVm.reportAnchor(
+                    app.pantrie.feature.walkthrough.TourAnchors.PLAN_GENERATE_BUTTON,
+                    coords.boundsInWindow(),
+                  )
+                },
               colors = ButtonDefaults.buttonColors(containerColor = Terracotta),
               shape = RoundedCornerShape(4.dp),
             ) {
@@ -267,7 +281,11 @@ fun PlanScreen(
             modifier = Modifier.fillMaxWidth(),
           ) {
             Column(Modifier.padding(24.dp)) {
-              Text("Week locked in ✓", style = MaterialTheme.typography.titleLarge, color = Olive, fontWeight = FontWeight.SemiBold)
+              Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Outlined.CheckCircle, null, tint = Olive, modifier = Modifier.size(20.dp))
+                Spacer(Modifier.width(8.dp))
+                Text("Week locked in", style = MaterialTheme.typography.titleLarge, color = Olive, fontWeight = FontWeight.SemiBold)
+              }
               Spacer(Modifier.height(4.dp))
               Text(
                 "Missing ingredients were auto-added to your shopping list. Head to Shop to review.",
@@ -383,7 +401,7 @@ private fun AlternativesSheet(
 ) {
   androidx.compose.material3.ModalBottomSheet(
     onDismissRequest = onDismiss,
-    containerColor = Cream,
+    containerColor = Paper,
   ) {
     Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 12.dp)) {
       Text("Swap this meal", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = Ink)
@@ -406,7 +424,7 @@ private fun AlternativesSheet(
             Surface(
               onClick = { onPick(alt) },
               shape = RoundedCornerShape(12.dp),
-              color = Paper,
+              color = Paper2,
               modifier = Modifier.fillMaxWidth(),
             ) {
               Row(Modifier.padding(12.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {

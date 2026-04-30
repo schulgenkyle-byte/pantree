@@ -18,6 +18,13 @@ class RefreshBus @Inject constructor() {
   private val _pantry = MutableSharedFlow<Long>(replay = 0, extraBufferCapacity = 4)
   val pantry = _pantry.asSharedFlow()
 
+  // Emitted when a recipe is saved (swipe-right or save-tap on Tonight). Drives the
+  // first-launch tour's "tap save" completion trigger so the overlay auto-advances
+  // off the swipe step the moment the user actually does it.
+  private val _recipeSaved = MutableSharedFlow<Long>(replay = 0, extraBufferCapacity = 4)
+  val recipeSaved = _recipeSaved.asSharedFlow()
+
   fun bumpShopping() { _shopping.tryEmit(System.currentTimeMillis()) }
   fun bumpPantry() { _pantry.tryEmit(System.currentTimeMillis()) }
+  fun bumpRecipeSaved() { _recipeSaved.tryEmit(System.currentTimeMillis()) }
 }

@@ -1,0 +1,601 @@
+id,title,verdict,reason,has_photo,is_historic,step_count,ingredient_count,abv_present,glass_present
+cck_000779fd6a423b38d39e43,Greek wine,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_0010fd1f7af13f8801e73e,Bonanza Punch,KEEP,,0,1,6,4,1,1
+cck_0029e212d662d32e075c23,Blue Blazer,KEEP,,1,1,10,7,1,1
+cck_00380dc7e782f242bb111c,Agua de Valencia,FIX,abv_missing;glass_type_field_missing,1,0,4,4,0,1
+cck_00507a15ed336d155c031e,Bénédictine glacée,KEEP,,0,1,1,1,1,1
+cck_0054da407e7cb62ac0b8b4,Pompier High Ball,KEEP,,0,1,4,0,1,1
+cck_005d65f9e53fc789221415,Tea Punch,KEEP,,0,1,6,3,1,1
+cck_007af519029056fe8b34ac,Painkiller (cocktail),FIX,vague_one_sentence;abv_missing;no_image_modern,0,0,1,5,0,1
+cck_0091e8400563ec5f11f7ac,Fitzgerald,KEEP,,0,0,3,4,1,1
+cck_0095ba70a5e573085388e1,Amer Picon,KEEP,,0,1,3,2,1,1
+cck_00a870359c4121cce006cd,Ti' Punch,KEEP,,0,0,3,3,1,1
+cck_00a89718002167a902fa97,Bachelor's Rose,FIX,abv_missing;glass_type_field_missing,1,1,2,0,0,1
+cck_00ba1f0fb8d38eb4b9bd79,Egg Nogg,KEEP,,0,1,3,3,1,1
+cck_00bc47c39328bbf893f4c8,Breakfast martini,KEEP,,1,0,2,1,0,1
+cck_00c0c8d9b7427b236bcefd,Sherry Cobbler,FIX,abv_missing;glass_type_field_missing,1,1,1,0,0,1
+cck_00d67b41f3a969e429f8e2,Zombie (Modern Spec),KEEP,,0,0,3,9,1,1
+cck_00dcdb69b20b4465b685dd,Creamsicle (cocktail),KEEP,,0,0,2,5,1,1
+cck_00e7f1091f403c95171334,Malaga (wine),FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_00ee4fc66650028d7376f3,The Laverstoke,KEEP,,1,0,4,7,1,1
+cck_00f0953723c3ddcd802f75,Rhine- Wine Punch,KEEP,,0,1,2,1,1,1
+cck_00fb29ad0db4deafda6abe,Mr. Bali Hai,KEEP,,0,0,4,6,1,1
+cck_011e65153cff7c3e793d04,Zazarac Cocktail,KEEP,,0,1,9,0,1,1
+cck_01462482d359604688ce0c,Sherry and Bitters,KEEP,,1,1,1,0,1,1
+cck_0156c324bf518531b15095,Moscow Mule,KEEP,,1,0,4,3,1,1
+cck_015a91978def4adb8ed1c5,Harvey Wallbanger (cocktail),KEEP,,0,0,2,3,1,1
+cck_01a39c543ecab0495d1151,Gin High Ball,KEEP,,0,1,4,0,1,1
+cck_01acba1641f2a54c094bc0,Pisco Inferno,KEEP,,0,0,4,5,1,1
+cck_01b8753c7c4bb46dad9945,Caribbean Orange Liqueur,KEEP,,1,0,9,3,0,1
+cck_01caa66570aef3352952a4,Spaulding Cocktail,KEEP,,0,1,4,0,1,1
+cck_01e02d9f78d762389b5a11,Glee Club Punch,KEEP,,0,1,1,3,1,1
+cck_01e3ef55d25eedf46f4510,Chicago Fizz,KEEP,,1,0,2,6,1,1
+cck_01e9a421585313a6b5a692,Rickey (cocktail),KEEP,,0,0,2,3,1,1
+cck_01ecb5e03d990cd706ae7f,Addison Special,KEEP,,1,0,3,3,1,1
+cck_01fa5ab4c9700f96c97cc2,Tequila Old Fashioned,KEEP,,0,0,3,4,1,1
+cck_022416d8b3cc1f111432cf,Crystal Slipper,KEEP,,0,1,4,0,1,1
+cck_022a5d5dcc85c32ad87f9e,Porter Cup,KEEP,,0,1,3,5,1,1
+cck_022d855d278356517b64b3,Durkee Cocktail,DELETE,all_undefined_ingredients,0,1,9,4,1,1
+cck_023579e725961b2a2d4d7e,Applejack Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_023cf550d854550466b9e2,Manhattan (Modern Spec),KEEP,,0,0,3,3,1,1
+cck_02448f9b537d64c53556f3,Wine in China,KEEP,,1,0,3,1,0,1
+cck_0245cd90df74845942b0d7,Snowball,KEEP,,0,1,4,0,1,1
+cck_02738d8d3caf7ee1bbb8e5,Tom Collins,KEEP,,1,1,7,0,1,1
+cck_028d898836dcc400b28cfa,Eton Blazer,DELETE,no_instructions,0,1,0,0,0,1
+cck_02a66998106b4a756ad79b,Cuban Punch,KEEP,,0,1,1,1,1,1
+cck_02b6ca517db45f0a702647,Slavonian cocktail,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,3,0,1
+cck_02d0a13c95016d4b3bf684,Remsen Cooler,KEEP,,1,1,8,1,1,1
+cck_02d83e22699d0943f6f202,Snowball (cocktail),FIX,abv_missing;no_image_modern;no_spirit_in_ings,0,0,3,2,0,1
+cck_02d980637ca6c5693a2c2a,White Lion,KEEP,,1,1,2,3,1,1
+cck_02e260f70724b9647b8774,Paradise Cocktail,KEEP,,0,1,3,0,1,1
+cck_02e7a31147f349eeb2e589,Doray Punch,DELETE,all_undefined_ingredients,0,1,14,8,1,1
+cck_02ed2fc04f0b31327ccf19,Apple Jack Cocktail,KEEP,,0,1,1,5,1,1
+cck_03078524e0ebcd6b48b0f8,West Indian Punch,KEEP,,0,1,1,3,1,1
+cck_031b38fe38cbf9c82cd821,Canchanchara,FIX,abv_missing;no_image_modern,0,0,3,4,0,1
+cck_036c51f353404d88f524f0,Zoksel,KEEP,,1,0,2,7,0,1
+cck_0379b421a619a98c73c88e,Jitterbug,KEEP,,1,0,4,7,1,1
+cck_03b01ddc90aac0d5861e8f,Gin Fizz,KEEP,,1,1,1,0,0,1
+cck_03cea7a32889165e1aeb57,Old-Fashioned Brandy Cocktail,KEEP,,0,1,3,3,1,1
+cck_03d667b12c2476016fe654,Cocktail Horse’s Neck,KEEP,,1,0,4,4,1,1
+cck_03e052718913b477fc3b08,Gin Fix,KEEP,,0,1,3,5,1,1
+cck_03e1dd5903bb06eef71cc2,Blueberry tea,KEEP,,1,0,7,3,1,1
+cck_03e463d6a2c4405070ee3a,Rochester Punch,KEEP,,0,1,2,5,1,1
+cck_040dca4ba603033e76a984,Brain-Duster,KEEP,,0,1,2,4,1,1
+cck_0410630a3480cd5254ed72,Saratoga Sour,DELETE,all_undefined_ingredients,0,1,6,2,1,1
+cck_042c0a0560602f07b80898,Peach Blow,KEEP,,0,1,14,0,1,1
+cck_04376f43698c4757a41cfe,Peblo Cocktail,KEEP,,0,1,6,0,1,1
+cck_0439f4de93b8b2bba61067,Cynar Toronto,KEEP,,0,0,3,4,1,1
+cck_0441309784d51802f564ff,Alizé (drink),FIX,abv_missing;no_image_modern;no_spirit_in_ings,0,0,3,1,0,1
+cck_044a62f0128b1fa5ee5f40,Queens Punch,KEEP,,0,1,8,7,1,1
+cck_044d0125d43605d9461cfa,Orange Oasis,KEEP,,1,0,2,4,1,1
+cck_045139f170cc2425ed6c23,Bahia,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,4,0,1
+cck_045e57706b9eec8fb61fcd,Ruby Royal Cocktail,KEEP,,0,1,5,0,1,1
+cck_0474739a271f37469904cf,Daiquiri (Modern Spec),KEEP,,0,0,2,3,1,1
+cck_04afca20591a61f6cd0751,Black Russian,KEEP,,1,0,2,2,1,1
+cck_04c4a6069be379b67fa7d9,Brandy punch (chaud),KEEP,,0,1,2,5,1,1
+cck_04e14e33b003f9595b6c91,Sherry Negroni,KEEP,,0,0,3,3,1,1
+cck_04e3d007eece3a554242ad,September Morn Cocktail--Country Club Style,KEEP,,0,1,7,0,1,1
+cck_04e719b3959313a08fb6fb,Frozen Rosé (Frosé),KEEP,,0,0,4,4,1,1
+cck_04f8e557c2167a2c8fe914,Hot Toddy (Modern Spec),KEEP,,0,0,3,4,1,1
+cck_05027e158f68f461f9de68,Fish Club Punch (for a Party of 8),DELETE,all_undefined_ingredients,0,1,7,5,1,1
+cck_0505c2b2d0416a8c4cf9aa,French 75,KEEP,,1,0,4,6,1,1
+cck_051ae3093834be09bc94b9,Jockey Club Cocktail,KEEP,,0,1,1,0,0,1
+cck_051ff1f441c78d2d9b58c4,Knabenschue--Country Club Style,KEEP,,0,1,7,0,1,1
+cck_05266711912dcb43e00cc3,Bombay Punch (2-1/2-Gallon Mixture for 40 People),DELETE,all_undefined_ingredients,0,1,12,10,1,1
+cck_05296a0f79bd98176b25bb,Sautemes Cup,KEEP,,0,1,15,0,1,1
+cck_0555cca7d15e24dacfc669,Junkins Cocktail,KEEP,,0,1,5,0,1,1
+cck_056b32fd2f9a1c016f9fd9,Arrack Punch,KEEP,,0,1,1,4,1,1
+cck_056d4577c9b253eaa80f83,Banyuls AOC,FIX,abv_missing;no_image_modern,0,0,3,3,0,1
+cck_0585843a21a7c96863966c,Emerald Cocktail,KEEP,,0,1,4,0,1,1
+cck_05bb720c260790f60aa869,Chocolate Cocktail,FIX,vague_one_sentence;abv_missing;glass_type_field_missing,1,1,1,0,0,0
+cck_05ce2bae5957747c6e6d40,Ogwa-cha,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,5,0,1
+cck_05e9f24f260ca394871497,Port Wine Punch,KEEP,,0,1,7,4,1,1
+cck_05ebcd8adcc566bc83527b,Magnus,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_05fc42d18d2e9e5cc14402,Bonanza,KEEP,,0,1,1,2,1,1
+cck_05fe0b109529b416b2b116,Wibble,KEEP,,0,0,2,6,1,1
+cck_060306c01cba1b3c1b91b7,Calasaya Cocktail,KEEP,,0,1,2,2,1,1
+cck_06187acd6b40f0032f8557,Bronx Cocktail,DELETE,all_undefined_ingredients,1,1,7,4,1,1
+cck_0645f9233cb90d6dcf71db,Whistle Belly Vengeance,DELETE,single_ing_no_measure,0,0,4,1,0,1
+cck_064b367fd079f550e2703a,Mississippi Planters Punch,KEEP,,1,0,2,6,1,1
+cck_0655e371ee9e6eda3601ca,Saratoga Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_0661175d1c90fa78e25156,The Paradise Syndrome,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,6,0,1
+cck_067003283afc34bafe46aa,Saketini,KEEP,,0,0,3,2,1,1
+cck_067b03d17b05dcc36e85c6,Frank's Reîresher,KEEP,,0,1,2,4,1,1
+cck_0689c432704366ec76339a,Flaming B-52,KEEP,,0,0,2,3,1,1
+cck_069391822668a27b401082,Famous Brace up,KEEP,,0,1,2,5,1,1
+cck_0698d7a7cb8f6094688c83,United Service Punch,KEEP,,0,1,3,1,1,1
+cck_06a301ac35c9f9558d0201,Lemon Squash,DELETE,abv_without_alcohol,0,1,3,1,1,1
+cck_06baf9945be3183fd16b60,Oriental Punch,KEEP,,0,1,1,1,1,1
+cck_06c225a86363b0ff851bd7,Golden dream (cocktail),KEEP,,0,0,2,4,1,1
+cck_06e4f5aa8cb7d037f6aab3,Arrack Punch,KEEP,,0,1,3,3,1,1
+cck_06f3bef88d2768c91ad32d,Darkwood Sling,KEEP,,1,0,5,4,0,1
+cck_0710dcaf82eab851fed3d7,Smith Cocktail,KEEP,,0,1,2,3,1,1
+cck_072552553720d5fa9aa2f8,Tea,FIX,abv_missing;glass_type_field_missing,1,0,4,6,0,1
+cck_0760fb5203230625d22855,Boston (cocktail),KEEP,,1,0,1,4,0,1
+cck_07656006e2f1a4452f01d2,Pineapple Paloma,KEEP,,1,0,4,6,1,1
+cck_0765ea124758d986aa05f6,Lanique,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_078579b059b22063c97998,Algonquin,KEEP,,1,0,1,3,1,1
+cck_078771790b9568ca4a3279,Vodka Slime,KEEP,,1,0,2,3,1,1
+cck_079a3847909ecf9978faab,Three Dollar Shoes,FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,7,4,0,1
+cck_07a78e91a84ba491d6f2ed,Hot Milk Punch,KEEP,,0,1,5,0,1,1
+cck_07b1af67db9da2bc8c6780,White Russian Cocktail,FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,3,3,0,1
+cck_07ba84849952e9cf25567e,Gibson Cocktail,KEEP,,0,1,3,0,1,1
+cck_07bf97c65603c1a0ec26b0,Hot Brandy Sling,KEEP,,0,1,1,2,1,1
+cck_07cc678d2bbb89a77b7591,Williams Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_07d32316c0a08f6a33da6f,Tom and Jerry,KEEP,,1,1,11,0,1,1
+cck_07e01ad6d38d303afe03bf,Marguerite Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,3,0,0,1
+cck_07fa5f4dc345579789b55f,Gin Fix,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_0828b0d3d8eb3737781f82,Mogwa-cha,DELETE,single_ing_no_measure,1,0,4,1,0,1
+cck_082a224625345cecb93e08,Canadian Whiskey Sour,DELETE,all_undefined_ingredients,0,1,7,5,1,1
+cck_085681ff2d0f02324be800,Black Flip,KEEP,,1,0,4,4,1,1
+cck_08939a8204934b88d14915,sparkling cocktail,DELETE,single_ing_no_measure,0,0,4,1,0,1
+cck_08bdea544984df1b5e1c62,Hoffman House Cocktail,KEEP,,0,1,2,0,0,1
+cck_08d30681592d32a6f342cb,Bayard Fizz,KEEP,,0,1,6,0,1,1
+cck_08d71af4ae4ffa71173832,Brandy and Soda,DELETE,all_undefined_ingredients,1,1,4,3,1,1
+cck_08dba097eeba45f52d4ad3,Mexican Firing Squad,KEEP,,0,0,3,4,1,1
+cck_08e190eed2894a49c83d0d,Baby Guinness,KEEP,,1,0,3,2,1,1
+cck_08e7baa0f9bb93a880b9c8,Marguerite Cocktail,KEEP,,0,1,4,0,1,1
+cck_0921caa18e6ad262de16da,Lewis Cocktail,KEEP,,0,1,3,0,1,1
+cck_09407a27a6bc653754bc47,Bambo Cocktail,FIX,vague_one_sentence;abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_094bbe4fe71907535b806d,Apple Grande,KEEP,,1,0,2,2,1,1
+cck_094ee50dc1b1eb25055393,Manhattan Cocktail,KEEP,,1,1,1,0,0,1
+cck_095fb89d46281c75c29914,West Indian Cocktail,DELETE,all_undefined_ingredients,0,1,2,1,0,1
+cck_0964767ac9a2648ca23cf2,Delusion,DELETE,all_undefined_ingredients,0,1,7,3,1,1
+cck_099ed0af495d9b3ba69b76,Astringent,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_09a524080a57facd24ec36,Baldy Cocktail,DELETE,all_undefined_ingredients,1,1,6,3,1,1
+cck_09adc185dd578c81977a09,Sukunabikona,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_09b1d257efac6cbf667a22,Moscow Mule (Modern Spec),KEEP,,0,0,3,3,1,1
+cck_09bd34c912e48f811d8a4d,Train bleu,FIX,abv_missing;glass_type_field_missing,1,0,4,3,0,1
+cck_09bda1233deb61ad23b9cf,Strawberry Daiquiri (Shaken),KEEP,,0,0,4,4,1,1
+cck_09deab8a08664d0b558d0d,Hangman's blood,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,3,6,0,1
+cck_09ec09d2db932dc6cb2d86,American Revolution,FIX,abv_missing;no_image_modern;method_field_missing,0,0,5,6,0,1
+cck_09f0bdbd01e4a94fc71f5e,Bull-Dog,FIX,abv_missing;method_field_missing,0,1,1,0,0,1
+cck_09f2df37dbd4793d847545,Overall Julep--St. Louis Style,KEEP,,0,1,10,0,1,1
+cck_09fa5f8eae865588f81e63,Modernista (cocktail),FIX,no_image_modern;glass_type_field_missing,0,0,2,8,1,1
+cck_0a0a81d29433e0820bf76b,Habushu,KEEP,,1,0,3,1,0,1
+cck_0a16dee675ad9699f31e78,Van Zandt Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_0a3142c2ec341f85afb576,Spritz,KEEP,,1,0,1,3,1,1
+cck_0a34263b1401c0a0e9f41b,Bumbo,FIX,vague_one_sentence;no_image_modern,0,0,1,4,1,1
+cck_0a37f8a9f9ff9ab52b5a89,Brandy Cocktail,FIX,vague_one_sentence;abv_missing;glass_type_field_missing,1,1,1,0,0,1
+cck_0a57f2cc6032116009cde3,Kirschwasser Punch,FIX,abv_missing;glass_type_field_missing;method_field_missing,0,1,2,0,0,1
+cck_0a5a384fbdf7fccc536111,Merry Widow Fizz,KEEP,,0,1,7,0,1,1
+cck_0a89f9a3337512fc9cc628,Champagne Cup No. 1,KEEP,,0,1,2,10,1,1
+cck_0aad5dd5715f72df355a25,Mezcal Negroni,KEEP,,0,0,3,3,1,1
+cck_0aaf858b459b7ace877a7e,Quencher,KEEP,,0,1,5,3,1,1
+cck_0abda12b7b9525109c4d85,Mint Julep,FIX,abv_missing;glass_type_field_missing;method_field_missing,1,1,2,0,0,1
+cck_0ad24e39c90a2eb9d6d55c,Rosemary Blue,KEEP,,1,0,4,4,1,1
+cck_0ad39ddc6437821869c533,Shikanjvi (Punjabi Spiced Lemonade),FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,3,6,0,1
+cck_0ad771c45497c9ec219aa3,Sherry Egg-Nogg (Fancy),KEEP,,0,1,1,1,1,1
+cck_0ae569d173225eef10ddbb,Golfer,KEEP,,0,1,9,0,1,1
+cck_0af614cdfdf007d3ba7258,Diarrhea Mixture,KEEP,,0,1,4,0,1,1
+cck_0afa937004c7d3ea56bd29,Regents Park Cup,KEEP,,0,1,4,13,1,1
+cck_0b0cc5ab80add72a897a5a,A1,KEEP,,1,0,1,4,1,1
+cck_0b0f7e5ded6b3c21c40bcf,Gin and Tansy,KEEP,,0,1,2,1,1,1
+cck_0b1167c53ab7439ff26501,Glühwein,KEEP,,1,0,3,7,1,1
+cck_0b27e2cce304e9c0eefc4e,Quartier Latin Cocktail,DELETE,all_undefined_ingredients,0,1,1,1,0,1
+cck_0b336020820b97757de1fe,Girard Flip,KEEP,,0,1,5,5,1,1
+cck_0b36b272e4b3d04f68cef1,Champagne Punch (for a Party of 6),DELETE,all_undefined_ingredients,0,1,7,5,1,1
+cck_0b4736c6bea13dbb7aa147,Sherry and Bitters,DELETE,no_instructions,1,1,0,2,1,1
+cck_0b67ab104c128a0fab85d4,Pine-Apple Punch,KEEP,,0,1,4,7,1,1
+cck_0b705e48383743650ad2d7,Fancy Bénédictine Cocktail,KEEP,,0,1,3,2,1,1
+cck_0b7f0b7fd39c83fbb822dd,Hot Toddy,KEEP,,1,0,6,5,1,1
+cck_0b997c4c6d1ee8662c5129,Port Wine Negus,KEEP,,1,1,4,1,1,1
+cck_0ba35f5a69c5421f129882,Whiskey and Glycerine,KEEP,,0,1,3,1,1,1
+cck_0ba76d2c0e54a9f910859e,Godmother (cocktail),KEEP,,0,0,2,2,1,1
+cck_0bbf0b788fbf71dfaf433c,Postmaster,FIX,vague_one_sentence;abv_missing;glass_type_field_missing;method_field_missing,0,1,1,0,0,1
+cck_0bd95ab13d8e27d502db49,Tom Tom,KEEP,,0,1,4,0,1,1
+cck_0be39c8533d8e3c8239cf1,Tamagozake,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,1,3,0,1
+cck_0bf043b2b5ed9e462d38f3,Mr. Howell,KEEP,,0,0,4,5,1,1
+cck_0c058a8da206e06047173a,Irish Cream,KEEP,,1,0,3,5,0,1
+cck_0c172eabc374af154badff,Cosmopolitan (Modern Spec),KEEP,,0,0,3,4,1,1
+cck_0c2784665c0b645d2e0baa,Ojen Cocktail,KEEP,,0,1,6,0,1,1
+cck_0c4aa9aaac942bc17e9d89,Bathtub Gin (speakeasy),FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_0c58ad555960df145db0eb,Soul Kiss,KEEP,,0,1,6,0,1,1
+cck_0c5b33fa1947c7faa99f0c,Catawba Cobbler,KEEP,,1,1,1,1,1,1
+cck_0c7789957eeeabcb856899,Ramos Gin Fizz (Modern Spec),KEEP,,0,0,4,8,1,1
+cck_0c7dd4378b2c03539ba954,Society Cocktail,KEEP,,0,1,4,0,1,1
+cck_0ca4e043cabba6daf7f862,B Cola,FIX,abv_missing;no_image_modern;no_spirit_in_ings;glass_type_field_missing,0,0,4,2,0,1
+cck_0cbc192a08ebbb71ddc2b7,Cosmopolitan,KEEP,,1,0,3,4,1,1
+cck_0ccb08a84cb9d968457aa9,Angry Canadian,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,5,0,1
+cck_0cf20b7173c8582b24ae6e,Turf Cocktail No. 2,KEEP,,0,1,4,0,1,1
+cck_0d1b1a4a046d3582d7cf06,Steinway Punch,DELETE,all_undefined_ingredients,0,1,7,4,1,1
+cck_0d71a744b3f57571ef2706,Port Wine Sangaree,KEEP,,1,1,1,2,1,1
+cck_0d74573494a2ed1eb36db1,Angostura Phosphate,KEEP,,0,1,4,0,1,1
+cck_0d7555ca9fd9f3c40e1666,Ritz Fizz,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,4,0,1
+cck_0d7e03d95416816c77a497,Oreo Mudslide,KEEP,,1,0,3,5,1,1
+cck_0da3ed01925b0c053a0f5a,Colamore Cordial,KEEP,,0,1,3,1,1,1
+cck_0da5cf0487a8018f9bbb8b,Rum Shrub,KEEP,,0,1,3,2,1,1
+cck_0db2d3c9d93cd65da2d274,Atomic Lokade,KEEP,,1,0,3,6,1,1
+cck_0db30f7cd5025575b52902,Gin Punch,KEEP,,0,1,1,1,1,1
+cck_0dc4dee6215df95da23e70,Boston Cooler,DELETE,all_undefined_ingredients,1,1,5,1,1,1
+cck_0dd8a4ae9570b0ee4a4012,Claret Lemonade,KEEP,,1,1,2,1,0,1
+cck_0df2d9de796d94709a347b,Picon Punch,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,5,0,1
+cck_0dfe9b408161ae85a0f754,Hard Start,KEEP,,0,0,2,2,1,1
+cck_0e0adb85ac0a9dcf97e587,Jersey Sour,KEEP,,0,1,1,1,1,1
+cck_0e1b1557054b215f68a81d,Champagne Cup,KEEP,,1,1,2,0,0,1
+cck_0e1edded3bfaa12c595016,Inari Ōkami,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_0e2298f5ee60442bac317a,Sidewinder's Fang,KEEP,,0,0,3,5,1,1
+cck_0e3eea1b8e0a78d8dee3ec,Whiskey Rickey,KEEP,,0,1,3,0,0,1
+cck_0e4fae5dda4156e9a6f965,Sabath Cooler,KEEP,,0,1,4,0,1,1
+cck_0e53a4c9f3d8426bbf7207,Frazie,KEEP,,0,1,3,0,1,1
+cck_0e5adbb7320d75b1d5961a,White Lion,FIX,abv_missing;glass_type_field_missing,1,1,1,0,0,1
+cck_0e6ad03e91dbb195e02553,Sidecar (Modern Spec),KEEP,,0,0,3,3,1,1
+cck_0e6dc7887f9edf4d00994b,Mama Juana,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_0e7090996312cceb7e9f5b,Agkud,FIX,abv_missing;no_image_modern,0,0,3,6,0,1
+cck_0e78f45ca61f5b78703415,Bacardi cocktail,KEEP,,1,0,2,3,1,1
+cck_0eb3c82589546ca7bd7836,Boulevardier,KEEP,,1,0,3,3,1,1
+cck_0eb7c939540f36d00ae440,Plymouth Gin Cocktail,KEEP,,0,1,3,2,1,1
+cck_0ebbe5777887e386651166,Cabinet Cocktail,KEEP,,0,1,4,0,1,1
+cck_0ed39adf901619ce96e070,Elk's Fizz,KEEP,,0,1,6,4,1,1
+cck_0ee4f8e0c402f94fec5fd2,Champagne Sour,KEEP,,0,1,1,1,1,1
+cck_0ee6006985a736fc2ec835,Julebrus,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_0ee6de4bdf26ffb4f5cc70,Lone Tree Cooler,KEEP,,1,0,4,6,0,1
+cck_0ef4f374db6396ee57b66f,Lillet Wild Berry,FIX,abv_missing;no_spirit_in_ings;glass_type_field_missing,1,0,4,6,0,1
+cck_0efd613e45c9d729e4b208,Sake,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_0efeb6da636b9488841e54,Blow my skull,FIX,abv_missing;no_image_modern,0,0,4,6,0,1
+cck_0efeec5d3208deda5fa31a,Paloma,KEEP,,0,0,4,4,1,1
+cck_0f09835ce1faa1645810b8,Cameron's Kick Cocktail,DELETE,no_instructions,0,1,0,0,0,0
+cck_0f18fc872e145f2b934618,Bob Marley,KEEP,,1,0,1,3,1,1
+cck_0f230eae7a3cd7b0c165a4,Black Stripe,KEEP,,1,1,2,2,1,1
+cck_0f26fd099df038994a7469,Gimlet,KEEP,,1,0,3,4,1,1
+cck_0f2f3c1baf8927619f0490,Mayfair Cocktail,DELETE,no_instructions,0,1,0,0,0,0
+cck_0f4755d2158d43a7ef2643,Buck's Fizz (cocktail),KEEP,,0,0,2,2,1,1
+cck_0f5d2eca9078ef07af6c87,New Orleans Fizz,KEEP,,0,1,8,0,1,1
+cck_0f877d62c32cafd5291782,Brandy crusta,KEEP,,1,0,2,6,1,1
+cck_0f8ed2559346bd2c913987,Golden Elk,FIX,abv_missing;no_image_modern,0,0,4,2,0,1
+cck_0faed475014245b744e686,Dry Punch,KEEP,,0,1,3,5,1,1
+cck_0fb620c6a33ab6216aa3ea,Sterling Punch,KEEP,,0,1,2,1,1,1
+cck_0fbd4eab53b6e36260bbe4,Egg Flip,KEEP,,1,1,4,2,1,1
+cck_0fe34d00b403f1ef47e421,Badminton Cup,KEEP,,0,1,2,6,1,1
+cck_0ffc3d7d0610b9b74613b1,Clove Cocktail,KEEP,,1,0,1,3,1,1
+cck_1046fd1c2ebf0148513362,Apricot Lady,KEEP,,1,0,4,6,1,1
+cck_104c8e8312acab49c2aee1,Bishop,DELETE,all_undefined_ingredients,1,1,8,4,1,1
+cck_10625626ec171a0f2a0c05,Whisky Mac,KEEP,,1,0,1,2,1,1
+cck_108760206f699bfa558031,Balmoral,KEEP,,1,0,3,4,1,1
+cck_10a139e82ec962e38fc539,Cliftin Cocktail,FIX,vague_one_sentence;abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_10b0388db4c21bd4db9c32,Garden of Eden,KEEP,,0,1,2,0,1,1
+cck_10b855effb1515414b1c55,Mulled Wine with Eggs,KEEP,,0,1,2,3,1,1
+cck_10c2bb47d12a5bee417cdc,Improved Holland Gin Cocktail,KEEP,,0,0,3,4,1,1
+cck_10e0b363e9ca33866c82bd,White Stripe,DELETE,abv_without_alcohol,0,1,3,1,1,1
+cck_10e0fc93decaa95c67eb1a,South Side Fizz,FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,10,5,0,1
+cck_10f797afdf88f7a87fd254,Isabelle Cocktail,DELETE,no_instructions,0,1,0,0,0,1
+cck_10f859a57887ca3fa6240d,Alexander Cocktail,FIX,abv_missing;glass_type_field_missing,1,1,2,0,0,1
+cck_110247a8d175e214d04ae5,Brandy Alexander,KEEP,,1,0,2,3,1,1
+cck_11055980436fcf05a0c7a7,Curacoa Punch,KEEP,,0,1,2,1,1,1
+cck_110d0540fbd2233f404214,Bishop,KEEP,,1,1,7,0,1,1
+cck_1113c7a213c5fb40e88ac5,Angel Tip,KEEP,,0,1,2,0,1,1
+cck_112791c643ecbd355f7514,Singapore sling,KEEP,,1,0,3,8,1,1
+cck_112e5b46c4d0bc4eaa0a99,Gin and Pine,KEEP,,0,1,2,2,1,1
+cck_1149f10edc23b928bced03,Egg Flip,KEEP,,1,1,1,0,0,1
+cck_117aec70d5a795523ea2a6,Promoter,KEEP,,0,1,8,0,1,1
+cck_1182fc045a2e8dcc9eb8e6,Columbus Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_118a12dbe9bc494ef8da1a,Horsford Punch,KEEP,,0,1,1,3,1,1
+cck_1194a3f03ae8c9e27e700e,Daniel Webster Punch,FIX,abv_missing;method_field_missing,0,1,2,0,0,1
+cck_11b699605c28a919a9a91b,Income Tax,KEEP,,0,0,3,5,1,1
+cck_11df20249bfea957f17497,St. Charles Punch,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_11e4e0ab8f21d39b7e3d25,Union Cocktail,KEEP,,0,1,3,3,1,1
+cck_11ec447dafa8e62780d999,Cloister (cocktail),KEEP,,0,0,2,5,1,1
+cck_11fa86357dbed91e6ddff5,Claret Cup (English Style),KEEP,,0,1,2,6,1,1
+cck_11fee46a1e408738e30044,Gin High-ball,KEEP,,0,1,1,0,0,1
+cck_1210ee43825e5a86d65a7b,Kohama style,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_1245f1c1e4a2d242b62c9d,Brave Bull,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,2,0,1
+cck_124cd861ad993788bd93d7,Brandy Daisy,KEEP,,0,1,3,2,1,1
+cck_124d5f690861d4ec780d6a,Burgundy Cup,KEEP,,0,1,12,0,1,1
+cck_12578402ed7b9fe07fe274,Black and tan,DELETE,single_ing_no_measure,0,0,5,1,0,1
+cck_12672d0ee602fb1c55c1f2,Vodka Martini,KEEP,,1,0,1,3,1,1
+cck_12764b23cd07a63c389cdc,Gin Punch (Modern),KEEP,,0,0,3,4,1,1
+cck_12899f82974a478347d04d,Honey deuce,KEEP,,0,0,3,3,1,1
+cck_12902972b40f4f252b1cd4,Modern Cocktail,KEEP,,0,1,1,0,0,1
+cck_12a29c36f60b1abb23bc6e,Polish wine,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_12b4bc13ea36a6237f952a,Raksi,FIX,abv_missing;no_spirit_in_ings,1,0,3,1,0,1
+cck_12c39102b21c909213d956,Rosé Spritz,KEEP,,0,0,3,3,1,1
+cck_12c8dc2d14de8fc6c8b2e5,Tom Collins,DELETE,all_undefined_ingredients,1,1,1,1,0,1
+cck_12cd7c9affe5c3e9c42806,Buckfast Tonic Wine,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_12d06169ac78482202741a,Alabazam,KEEP,,0,1,4,3,1,1
+cck_12dcf0a4d6c4c0b3d00df2,Watermelon Margarita,KEEP,,0,0,3,4,1,1
+cck_12e331cc3e172032ccbf3c,Cider Punch,KEEP,,0,1,3,4,1,1
+cck_12f4bd02ff333cca2122ff,Ritz Sidecar,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,3,0,1
+cck_12f853c59e903367f49ccb,Rock and Rye,KEEP,,0,1,1,1,1,1
+cck_12fb8e60b5f5e4d4762320,Soda Cocktail,KEEP,,1,1,2,3,0,1
+cck_130cc1f7d827b063a4d728,Rum Eggnog,KEEP,,0,1,5,0,1,1
+cck_13181802e9a1ec5534e1d6,Beadlestone Cocktail,KEEP,,0,1,3,0,1,1
+cck_1332d6e35760721517975b,Pumpkin Spice Old Fashioned,KEEP,,0,0,3,3,1,1
+cck_13523b051181222c382fe6,Brandy Daisy,KEEP,,1,1,1,0,0,1
+cck_1358f542162fcb63b06465,Highball,KEEP,,0,1,2,2,1,1
+cck_135b3eea29d1c4267bc05a,Horse's Neck,KEEP,,1,0,4,4,1,1
+cck_135d9cded1b01c075defb5,Golden Fizz,FIX,vague_one_sentence;abv_missing;glass_type_field_missing;method_field_missing,0,1,1,0,0,0
+cck_1375b542cc382cd8095cc8,Cherbet Mazhar (Algerian Flower Water Drink),FIX,abv_missing;no_image_modern;no_spirit_in_ings;glass_type_field_missing;method_field_missing,0,0,9,5,0,1
+cck_137bb1672f14294e6f6e65,Brandy Sling,DELETE,all_undefined_ingredients,0,1,6,3,1,1
+cck_138653b803929fcf90c343,Duhh orange,KEEP,,0,1,1,1,1,1
+cck_138aa5863e8a9de103ccac,Aperol Frozen Spritz,KEEP,,0,0,3,3,1,1
+cck_139420301e0fc60b2935ea,Eye Opener,KEEP,,0,1,2,5,1,1
+cck_13b120d11853148f48502a,Marquette Cocktail,KEEP,,0,1,6,0,1,1
+cck_13caf2cced8dbee41950fc,Beals Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_13ce4fb4658ba27401009a,Old Fashioned Cocktails,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_13d8fd9fa935a63f5be0e9,"Royal .punch, .Hot",KEEP,,0,1,3,4,1,1
+cck_13e17f44b391412c794109,Creole Lady,KEEP,,0,1,5,0,1,1
+cck_13e4a0edc3880476a201bc,Sherry Cocktail,DELETE,all_undefined_ingredients,0,1,1,1,0,1
+cck_13e5698372849a5b106032,Port Wine Punch,FIX,abv_missing;glass_type_field_missing,0,1,3,0,0,1
+cck_13efaa163adae1e3852589,Smoke and Mirrors,KEEP,,0,0,3,4,1,1
+cck_13f6ea9e06b0bd1c71b3de,Pegu Club Cocktail,DELETE,no_instructions;all_undefined_ingredients,1,1,0,1,0,0
+cck_13fcf32a7a4cecafa1ce40,Martini (Sweet),KEEP,,0,1,1,0,0,1
+cck_140534c5ad609e3d22d59f,Waldorf Punch,DELETE,all_undefined_ingredients,0,1,6,4,1,1
+cck_141ae32c54cfb6f85895ba,Scheuer Cocktail,KEEP,,0,1,4,0,1,1
+cck_141fb5e871c1d53e19c85e,Cobra's Fang,KEEP,,0,0,3,7,1,1
+cck_14297514b0a98adac46abc,Hot Whiskey Sling,KEEP,,0,1,4,2,1,1
+cck_142ac5481ca5899b0a47c2,Cider Cup,DELETE,no_instructions,1,1,0,0,0,1
+cck_142ec3d24627aeb042ba55,Boulevardier (Modern Spec),KEEP,,0,0,3,3,1,1
+cck_142fb2c68e394b92efc286,Jungle Bird,KEEP,,0,0,3,5,1,1
+cck_144003a779d3ce9a4e0a29,Aviation No. 2,KEEP,,1,0,2,3,1,1
+cck_1446bee727f7ac857f1554,Creme Yvette,FIX,abv_missing;no_image_modern,0,0,3,7,0,1
+cck_1463e1484a0cc88144d945,Soda Fizz,DELETE,abv_without_alcohol,0,1,3,1,1,1
+cck_146da9f1461b88dda72b9f,Cooperstown cocktail (cocktail),KEEP,,0,0,1,4,1,1
+cck_146fb9654a3e83404b5606,Ford Cocktail,KEEP,,0,1,4,4,1,1
+cck_147e5bb82630d136b8b9ba,Egg Nogg,KEEP,,0,1,3,4,1,1
+cck_148082bb2109420911c8ab,Racquet Club Cocktail,KEEP,,0,1,3,0,1,1
+cck_14a4e0eab9959b175e0f45,Hot Whiskey Sling,KEEP,,0,1,1,1,1,1
+cck_14ac0896c34e4484a035bd,Claret and Champagne Cup,KEEP,,0,1,1,4,1,1
+cck_14ae381ad97e4d8d437be1,Corpse Reviver,KEEP,,1,0,1,5,1,1
+cck_14d51f33acdf41b5869879,Niquita,FIX,abv_missing;glass_type_field_missing,1,0,4,5,0,1
+cck_14edd09a64bfff82eca4ae,Dorr Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_15059fb3c1a34838087f86,Bloody Maria,KEEP,,1,0,3,8,1,1
+cck_1528952bb312077430db58,white Gilgamesh,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,2,0,1
+cck_155e4b9f4fe8807539f90e,Royal Gin Fizz,KEEP,,1,0,2,5,1,1
+cck_158ca2a0d6afb7c5a6d908,Princeton Cocktail,KEEP,,0,1,1,1,1,1
+cck_15951d94e869edef1daa0f,CafS Parfait,DELETE,abv_without_alcohol,0,1,1,3,1,1
+cck_159ad33b2a3c0a10f2bfe5,California Sherry Cobbler,KEEP,,0,1,2,2,1,1
+cck_15a0c50c86a9234e3d5cf1,Yellow bird (cocktail),KEEP,,0,0,1,4,1,1
+cck_16282a86fe6f2ba129f0e4,Milk Punch,KEEP,,0,1,2,2,1,1
+cck_16317c193e1d4c2bb8cf5b,Raspberry Punch,KEEP,,0,1,2,2,1,1
+cck_167797741609959d183567,Apple Punch,KEEP,,0,1,2,2,1,1
+cck_16805f4df58aa7e856ee3c,Ve.n.to,FIX,abv_missing;no_image_modern,0,0,3,5,0,1
+cck_1692cc9e9860ac72254933,Winter Paloma,KEEP,,1,0,5,5,1,1
+cck_1694711f2cf0b00aba0cee,Inca Cocktail,FIX,abv_missing;method_field_missing,0,1,1,0,0,1
+cck_1696b182f481f8029fe9fd,Exam's Cocktail,KEEP,,0,1,2,4,1,1
+cck_16b976cd86b6ab0a07984c,White Lion,KEEP,,1,1,3,3,1,1
+cck_16e973bc86d44f65f0b452,Billin Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_1731932a8cb03a58d8fbfe,Pousse Cafe,FIX,vague_one_sentence;abv_missing;glass_type_field_missing;method_field_missing,0,1,1,0,0,1
+cck_1778c571add7376a81fd7e,Maximilian Affair,KEEP,,0,0,3,5,1,1
+cck_17797dfc7e8e7562f53f81,ChafTeur Punch,KEEP,,0,1,1,1,1,1
+cck_178146b3d2b4f1647278aa,Blue Blazer,DELETE,all_undefined_ingredients,1,1,5,2,1,1
+cck_17cd3cebb865adb5b4df7f,Baraccas Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_17ceb4f41502748f9412d2,Nineteen-Twenty Pick-me-up,KEEP,,0,1,1,0,0,1
+cck_17d9e6614dd839c4175924,Strawberry Fizz,KEEP,,0,1,5,0,1,1
+cck_17d9fbe05e0edd1e9599b6,Black velvet (cocktail),DELETE,single_ing_no_measure,1,0,1,1,0,0
+cck_17e08880850793847b0690,Paradise (cocktail),KEEP,,0,0,2,3,1,1
+cck_17e3da94779a10515c6a6a,Mezcal Negroni Sbagliato,KEEP,,0,0,3,4,1,1
+cck_17ff45a882d77017ebcd0f,Porter Sangaree,KEEP,,0,1,2,1,1,1
+cck_180bfa8f49d63d798e722c,Club Punch,KEEP,,0,1,2,2,1,1
+cck_181692e45797a4c758add4,Opera Cocktail,KEEP,,0,1,5,0,1,1
+cck_1819bb408f0faff1346bbc,New Orleans Fizz,KEEP,,0,1,2,1,1,1
+cck_181a7df4b3de325a838037,Heap of Comfort,KEEP,,0,1,4,2,1,1
+cck_1822a8c34a4ad81e2d242b,Rum Old-fashioned,KEEP,,1,0,3,6,1,1
+cck_183cd630a463c451b46d91,Daisy Fizz,KEEP,,0,1,5,0,1,1
+cck_1841f26150f5bd17d31451,Hot Scotch,FIX,abv_missing;glass_type_field_missing;method_field_missing,0,1,1,0,0,1
+cck_184291830a45835e36e370,Claret Punch,KEEP,,1,1,2,2,1,1
+cck_184a251bfb1b6c044cf7c6,Pineapple Julep,KEEP,,0,1,8,2,1,1
+cck_184dd4bb3ba4e068f9492e,Faivre's Pousse Cafe,KEEP,,0,1,5,4,1,1
+cck_185d188bb1c59945975925,Stone Fence,KEEP,,0,1,10,0,1,1
+cck_18659c5ab911f3ccc17deb,Morning Cocktail,KEEP,,0,1,7,1,1,1
+cck_18676828e93887f1392481,Rocky Mountain Cooler,KEEP,,0,1,3,1,1,1
+cck_18693fe4adc22ca0c6f0ff,Highball Mizuwari,KEEP,,0,0,4,2,1,1
+cck_186cd36020e8d5a1ffcf34,Coffee-Vodka,KEEP,,1,0,8,6,0,1
+cck_1884094e1c7797cfa0f5de,Port Wine Flip,FIX,abv_missing;glass_type_field_missing,0,1,3,0,0,1
+cck_1887d157f19b4fdbb1c398,Claret punch,KEEP,,0,1,2,6,1,1
+cck_1892588222fbc6ae571ac5,Absinthe #2,KEEP,,1,0,3,5,0,1
+cck_18c63fe44d783e7e9606e1,Rosita,KEEP,,0,0,3,5,1,1
+cck_18c6b0ea84be42e44fb310,Dubonnet Cocktail,KEEP,,1,0,2,4,1,1
+cck_18d2b438a5cff4f50f0646,Baraccas Cocktail,KEEP,,0,1,2,0,1,1
+cck_18e8bf87527734cdb04cc6,Gin Cocktail,FIX,abv_missing;glass_type_field_missing,1,1,1,0,0,1
+cck_18f25ad81c62465cbc4ed6,Dean Lyder,KEEP,,0,0,3,3,1,1
+cck_18ff048dd254092435451e,Almond Joy,KEEP,,1,0,1,3,1,1
+cck_190e042fa15b0cde3765cf,Summer Delight,DELETE,abv_without_alcohol,0,1,1,3,1,1
+cck_19196b9f1b26a75e1132c3,Philadelphia Fish-House Punch,DELETE,abv_without_alcohol,0,1,2,3,1,1
+cck_191a47b9a8d0314b8cb13b,Honey Bee,KEEP,,1,0,1,3,1,1
+cck_192ee0c3e25a259141f122,Zazarack Cocktail,FIX,vague_one_sentence;abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_194ad49e97e4a1922c6878,20th Century (Modern Spec),KEEP,,0,0,2,4,1,1
+cck_1955b9e998751a6d33d764,Hot Rum,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,0
+cck_1957c094fa9c54c68327d9,Brandy Sour,DELETE,all_undefined_ingredients,1,1,8,4,1,1
+cck_1961ccf76facb5f888e394,Fuzzy navel,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,2,0,1
+cck_1963684d072f0ef788541e,Cream Fizz,KEEP,,0,1,1,0,0,1
+cck_19647c27bab5967be9ec71,Byrrh Wine Daisy,KEEP,,0,1,2,0,0,1
+cck_19759b4d18f956d0368bb7,Holland Gin Cocktail,KEEP,,0,1,3,3,1,1
+cck_198f2b2f5597f729bd254c,Amaretto Shake,KEEP,,1,0,2,3,1,1
+cck_199432ce7e7ce46dbf96c0,Mole Old Fashioned,KEEP,,0,0,3,3,1,1
+cck_19adb53a8ed2fa5f219ab1,Brant Cocktail,KEEP,,0,1,5,0,1,1
+cck_19c452151188149081307a,Pine-Apple Punch,KEEP,,0,1,9,7,1,1
+cck_19ca0a2fae6e09d284102b,Bombay Cassis,KEEP,,1,0,4,6,1,1
+cck_19cd5a32e8ba94d6252368,Sea Side Cooler,DELETE,abv_without_alcohol,0,1,3,0,1,1
+cck_19dd372e7bcd271cee72e2,Soul Kiss No. 3 Cocktail,KEEP,,0,1,5,0,1,1
+cck_19dedcbf0e7dc29dfac24c,Aleberry,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_19f0092a2e365933684606,Fruit soju,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_19ff98791b4bfe940c4472,Matcha,DELETE,single_ing_no_measure,1,0,4,1,0,1
+cck_1a0cacd8cd5b3b38718d2a,Astringent,KEEP,,0,1,3,1,1,1
+cck_1a15b5f54cc968e8c7e7ae,Appetizer Cocktail,KEEP,,0,1,1,5,1,1
+cck_1a199b60a027b3199b196a,Century Club Punch (for a Party of 5),DELETE,all_undefined_ingredients,0,1,6,4,1,1
+cck_1a49e20c90e49c53f36d81,Glögg,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_1a54ddd32a82e91361fc9e,South Side Cocktail,FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,5,4,0,1
+cck_1a56f2eb3461a91edc7088,Navy Grog (Modern Spec),KEEP,,0,0,4,8,1,1
+cck_1a5dde906b3461423529f1,Queen's Park Swizzle,KEEP,,0,0,3,5,1,1
+cck_1a5ff522620bc73413a725,Square Meal,KEEP,,0,1,2,1,1,1
+cck_1a615f77a8ac858d7c1dbf,Pony Brandy,KEEP,,0,1,1,1,1,1
+cck_1a87ac312e8f31126bf82d,Whiskey Cobbler,KEEP,,0,1,5,0,1,1
+cck_1aad420a2db46b08851ace,Salmoncito,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,4,0,1
+cck_1ab7871c37844e92ffab46,Sea breeze (cocktail),KEEP,,0,0,2,3,1,1
+cck_1aba9d6855b7808a5f03a6,Prince of Wales (cocktail),FIX,no_image_modern;glass_type_field_missing,0,0,4,5,1,1
+cck_1abd2c4740d92bb41f58ca,Catawba Cobbler,FIX,abv_missing;glass_type_field_missing,1,1,2,0,0,1
+cck_1ac7e096744827a3801978,Flat Liner,FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,7,4,0,1
+cck_1ad24075f11ae7e931cb28,Imperial Punch,KEEP,,0,1,3,4,1,1
+cck_1ad4aaa14bcd4d180ce771,Gin Fizz,KEEP,,1,1,2,0,0,1
+cck_1ad67606c507c9bd19b588,Liberal Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_1aebc49a63a9fffa331d2c,Flip Flap,KEEP,,0,1,3,2,1,1
+cck_1b14bed330ec897bf7d77a,Jersey Cocktail,KEEP,,1,1,3,2,1,1
+cck_1b28dcb32565233dcdda9d,Regent Punch,DELETE,all_undefined_ingredients,0,1,10,6,1,1
+cck_1b2f0f0d18397ec54a3a13,Coffee Cocktail,KEEP,,1,1,2,0,0,1
+cck_1b320c19073e3aacbd187c,Port Wine Cocktail,KEEP,,1,0,1,2,1,1
+cck_1b506f921607b37730a407,kogel mogel,FIX,abv_missing;glass_type_field_missing,1,0,4,2,0,1
+cck_1b5ee1276ced394a5c0b4f,Clifton Cocktail,KEEP,,0,1,5,0,1,1
+cck_1b653546fe57862e75b578,Spicy Fifty,KEEP,,0,0,1,5,1,1
+cck_1b73848a7865777dbfe690,Tequila Sour,KEEP,,1,0,2,5,1,1
+cck_1b8015cd42ef2a55355d7e,Imperial Fizz,KEEP,,1,0,2,5,1,1
+cck_1b8b4cbe1e843eb3e48e1a,Auburn Headbanger,KEEP,,1,0,4,2,0,1
+cck_1b97c084d62721813aa6db,Telephone Fizz,KEEP,,0,1,6,4,1,1
+cck_1ba58937be655e1639b7aa,Wonjo Bissap (Gambian Hibiscus Beverage),FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,13,5,0,1
+cck_1bb30c0e17a849d04f5650,Curacao Punch,FIX,abv_missing;glass_type_field_missing,1,1,2,0,0,1
+cck_1bb7bfa2a00ae10b6a92fc,Brandy Flip,KEEP,,0,1,6,3,1,1
+cck_1bb87fd979e402856926e8,Ruby Cocktail,KEEP,,0,1,2,5,1,1
+cck_1be0c7f28324a23419191f,Good Fellow Cocktail,KEEP,,0,1,5,0,1,1
+cck_1be52284d44e3dd7ad58c8,Brut Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_1beb1706789e65dd67859f,Blue bird (cocktail),KEEP,,0,0,2,3,1,1
+cck_1c290dd87dfd587f5a6881,Star Cocktail,FIX,abv_missing;glass_type_field_missing,1,1,1,0,0,1
+cck_1c5ea30937b234022b1e29,Casino (cocktail),KEEP,,0,0,5,4,1,1
+cck_1c63238eb5b0d43eb0f9c4,"Mint Julep, Western Style",KEEP,,0,1,8,0,1,1
+cck_1c803625218ad7a8d25164,Caffè Borghetti,FIX,abv_missing;no_spirit_in_ings;glass_type_field_missing,1,1,4,4,0,1
+cck_1c87c1ce5e9d01fe6f7685,Remsen Cooler,DELETE,no_instructions;all_undefined_ingredients,1,1,0,1,0,1
+cck_1ca8bc8d4b2bde9dcbef2f,Brandy Sling,KEEP,,0,1,4,2,1,1
+cck_1caa34939071abef265c12,Blackstone Cooler,KEEP,,0,1,3,0,1,1
+cck_1cc2cd3531db245564e23d,Light Guard Punch,KEEP,,0,1,3,4,1,1
+cck_1cdc4dd85ccce6de91ecc6,Café com cheirinho,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_1cdea2b76e9ccdf77aec63,La Patria Punch,KEEP,,0,1,1,4,1,1
+cck_1ce4506cd34aa778064784,Stengah,DELETE,single_ing_no_measure,0,0,1,1,0,1
+cck_1cef4700a061a7a9b68af1,Whitecap Margarita,KEEP,,1,0,2,4,1,1
+cck_1cf7cad0bbc7517971e250,Gin Fizz,KEEP,,0,1,2,4,1,1
+cck_1d0d5e67de3c8aaad8bd60,Zizi Coin-coin,KEEP,,1,0,1,4,1,1
+cck_1d19c18def770b718e71d1,Last Word (Modern Spec),KEEP,,0,0,2,4,1,1
+cck_1d2d55b135a5cf86d8d5d7,Hasty Cocktail,KEEP,,0,1,1,0,0,1
+cck_1d4617f44a1adcfb094501,Dead Rabbit Irish Coffee,KEEP,,0,0,4,4,1,1
+cck_1d7522bcb21f9a05be2acf,Pineapple Sherbet,DELETE,abv_without_alcohol,0,1,2,2,1,1
+cck_1d82ff235b315ebf33c99a,Herald Punch,DELETE,all_undefined_ingredients,0,1,5,2,1,1
+cck_1d8d6eae81f6c1b0fa4ad7,Little Max1ne,DELETE,no_instructions,0,1,0,0,0,1
+cck_1d9512d6f62abafb2a36da,Tokyo Drift,KEEP,,0,0,4,4,1,1
+cck_1dbdca448b0c991161f2cb,Port Wine Cobbler,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_1dc6484b446dd7d87c08a3,Hotel Nacional Special,KEEP,,0,0,3,4,1,1
+cck_1dde77b46a08cb89dc0eb4,Vanilla Punch,FIX,abv_missing;glass_type_field_missing,1,1,1,0,0,1
+cck_1de60dda9719d5c701daa2,Whiskey Scotch Hot,KEEP,,0,1,5,0,1,1
+cck_1dfb45add30b137e02e2a1,Par’Mach on the Beach,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,11,0,1
+cck_1e1fae21ef8760cf82ebc5,Swan Cocktail,KEEP,,0,1,5,0,1,1
+cck_1e240ac5ec6b94424d5322,Ruebli Fizz,KEEP,,0,1,5,0,1,1
+cck_1e4176ae0709ee46f02314,Right Hand,KEEP,,0,0,3,4,1,1
+cck_1e55ea4b2fee0a47315d67,Amer Pigon Pouffle,KEEP,,0,1,13,0,1,1
+cck_1e5912a057efebd1e4d8b8,Agbalumo Smoothie,FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,9,3,0,0
+cck_1e6dd7e7cfbdd57690e3c1,Evans Shandy Gaff,FIX,abv_missing;glass_type_field_missing;method_field_missing,0,1,1,0,0,1
+cck_1e6de21c3c948e1969a2e5,Little Italy,KEEP,,0,0,3,3,1,1
+cck_1eafd48b5d4c9bae2b02b8,Champagne Cocktail,DELETE,all_undefined_ingredients,1,1,6,4,1,1
+cck_1eb3618ec40efdb4d6b46c,Toussaint Coffee Liqueur,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_1ebbffaadf443ba8b9f8f3,Tea Shake,KEEP,,0,1,4,0,1,1
+cck_1ee0c8c8a7024b4eb06f83,Irish Whiskey Skin,KEEP,,0,1,6,3,1,1
+cck_1ee163feef6141909d1304,Espresso,FIX,abv_missing;glass_type_field_missing,1,1,4,2,0,1
+cck_1ef4caa6eb70cd01fbeffc,Tom and Jerry,KEEP,,1,1,9,0,1,1
+cck_1ef5a5ae88da0a9e5d8982,Gunshop Fizz,KEEP,,0,0,3,6,1,1
+cck_1f03109af14030574048e6,Star Cocktail,DELETE,all_undefined_ingredients,1,1,2,1,0,1
+cck_1f4605aac506fde5066514,Penicillin (cocktail),KEEP,,0,0,4,5,1,1
+cck_1f4e0fdc9c02918b8ad03f,Cherry Electric Lemonade,KEEP,,1,0,2,8,1,1
+cck_1f4f7a93e49b3d6bc8e0d1,Regent Punch,DELETE,no_instructions,0,1,0,0,0,1
+cck_1f5476e8252937496e32be,Consolidated Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_1f64660d681980868a05e2,Fish House Punch,DELETE,no_instructions,1,1,0,0,0,0
+cck_1f6808fc6e1a91271079d5,Test pilot (cocktail),FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_1fe4a43c9f23839b2d417a,Agave Negroni,KEEP,,0,0,3,3,1,1
+cck_1ff1fdb40c17242784c8ee,Bourbon Sour,KEEP,,1,0,3,5,1,1
+cck_20086c09dba59fb2b03688,Green Leaf Juice,FIX,abv_missing;no_image_modern;glass_type_field_missing;method_field_missing,0,0,7,5,0,0
+cck_200af6116dfdbcf11c5d8e,Picon Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_201009749035b5044d8f46,Ponche de los libertadores,FIX,abv_missing;glass_type_field_missing,0,1,4,2,0,1
+cck_20249c42843cc428828fdf,Rhine Wine Punch,DELETE,all_undefined_ingredients,0,1,7,6,1,1
+cck_203ba23940c727b4dd2c2b,Egg Flip (No. 116),KEEP,,0,1,3,3,1,1
+cck_2080c585e2b77022c4894d,Kahlúa and Milk,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,2,0,1
+cck_2087e3e7d7a2f743345510,Santa Cruz Rum Punch,KEEP,,0,1,2,1,1,1
+cck_208d4a14a2713ae8589d2b,American Beauty,DELETE,no_instructions,1,1,0,0,0,1
+cck_209a0b3c348202520d6647,Montana Club Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_209b6cf3e625d9b2ffee11,Fancy Brandy Cocktail,KEEP,,0,1,3,4,1,1
+cck_20a3eb267eb4b3a6d48f06,Lemon Squash,DELETE,no_instructions,0,1,0,0,0,1
+cck_20a43fbd65d84decb3d5ac,Brandy Flip,FIX,abv_missing;glass_type_field_missing,1,1,1,0,0,1
+cck_20aba27b23d4ae19963c5a,Bijou Cocktail,FIX,abv_missing;glass_type_field_missing,1,1,1,0,0,1
+cck_20b2de40c71bf330af568a,Mull Claret,KEEP,,0,1,6,0,1,1
+cck_20cc480edcc18574019d6b,El Presidente,KEEP,,0,0,3,4,1,1
+cck_20d6ee60844dfffed9d351,Old Etonian (cocktail),KEEP,,0,0,1,4,1,1
+cck_20dc70576924746f3f7394,Royal Fizz,KEEP,,0,1,1,1,1,1
+cck_20eaaa2c0ebae788e1a683,Whiskey Cobbler,KEEP,,0,1,1,3,1,1
+cck_2108a44aff81fa298f18b9,Mudslide,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,4,0,1
+cck_21209e60f5b8f812be099f,Queen Charlotte,DELETE,abv_without_alcohol,0,1,2,3,1,1
+cck_214b88f0e8c19f735b89c1,Gin Milk Punch,KEEP,,0,1,2,2,1,1
+cck_214fffa65e93d072051852,Gideon's Green Dinosaur,KEEP,,1,0,1,6,1,1
+cck_215320915c6c6f44726603,Brave Bull Shooter,KEEP,,1,0,1,2,1,1
+cck_216be299172f5423cd02e7,Gin Cocktail,KEEP,,0,1,3,7,1,1
+cck_2189c39526aae052de8a6f,Champagne Julep,KEEP,,0,1,2,1,1,1
+cck_219bce8baa4e383ca1b1c6,Thirty-Second Regiment or Victoria Punch,KEEP,,0,1,3,5,1,1
+cck_21bcc1547ce8f9e93f84b0,Pony Punch,DELETE,all_undefined_ingredients,0,1,8,6,1,1
+cck_21d04906691ba223a78319,Tobie Tobias,KEEP,,0,1,5,0,1,1
+cck_21d13633bc56e13b55fef8,Cleaves Delight,FIX,vague_one_sentence;abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_21d8963b82d0ed7899cf49,Irving Cocktail,KEEP,,0,1,5,0,1,1
+cck_21d8ddb8e108cb053e3b5c,Ballor Cocktail,FIX,vague_one_sentence;abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_21daa663e1f56e1cf2174c,Orgasm,KEEP,,1,0,1,5,1,1
+cck_21db56ebff95a4135c320d,Black Stripe,KEEP,,1,1,4,2,1,1
+cck_21dffb190e71358099d3b1,Cacao Old Fashioned,KEEP,,0,0,3,3,1,1
+cck_21e3482187746165cddf87,Chiliguaro,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,1,0,1
+cck_21e4eb351c66740dd5b0f5,Applejack Cocktail,KEEP,,0,1,4,0,1,1
+cck_223574f92e460cc6c6db2b,Polar Bear,FIX,abv_missing;glass_type_field_missing,1,0,4,2,0,1
+cck_224fcc488af9d11cafbbff,Morning Cocktail,KEEP,,0,1,9,0,1,1
+cck_22607504bbffbceca923bc,Baltimore Egg Nogg,KEEP,,1,1,8,2,1,1
+cck_22629053718b354ebf50ef,Apple Cider Old Fashioned,KEEP,,1,0,3,4,1,1
+cck_2278319f323e97e2a5c17c,City Slicker,KEEP,,1,0,3,3,1,1
+cck_228770c8e4a30f7a8a5bba,St. Peter Cocktail,KEEP,,0,1,4,0,1,1
+cck_22ace53807613f527e7670,Hibiscus Margarita,KEEP,,0,0,3,4,1,1
+cck_22b8550e6d3773fcd474ea,Gin And Calamus,FIX,abv_missing;glass_type_field_missing;method_field_missing,0,1,1,0,0,1
+cck_22ba09de926d01689475b7,Claret or Champagne Cup,KEEP,,0,1,7,7,1,1
+cck_22ce27c11a4925947edd81,Bull Moose Punch,DELETE,all_undefined_ingredients,0,1,8,6,1,1
+cck_22ce2a33846f1391b4bedd,National Punch,KEEP,,0,1,3,3,1,1
+cck_22d5d8f3374a945d3869d7,Junkins Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,0
+cck_22e7f12c960568774f8c55,Tequila Sunrise,KEEP,,1,0,4,3,0,1
+cck_22f4b37ef45b801ee07f78,Cucumber Lavender Spritz,KEEP,,0,0,4,5,1,1
+cck_22fdfb9a92e41138855cda,Gin and Wormwood,KEEP,,0,1,2,1,1,1
+cck_230e3e84224ef59dcbf16b,Amaretto Sweet & Sour,KEEP,,1,0,4,4,0,1
+cck_230ea2734dc29125ddddd5,Happy Thought,KEEP,,0,1,6,0,1,1
+cck_230f0cf1957aaa86c0dd72,Anise drinks,FIX,abv_missing;glass_type_field_missing,1,0,4,3,0,1
+cck_232100cb31abc23cdec383,The Red Hour,FIX,abv_missing;no_image_modern;glass_type_field_missing,0,0,4,10,0,1
+cck_2325e7079eb5d8c474e632,Mango Mojito,KEEP,,1,0,6,7,1,1
+cck_233c3986493c03abeed677,Tip-Top Bracer,KEEP,,0,1,5,0,1,1
+cck_234103bfcd02ac496a8f44,Cranberry Cordial,KEEP,,1,0,5,3,0,1
+cck_234846395ba93394750e9b,Egg Milk Punch,DELETE,all_undefined_ingredients,0,1,8,4,1,1
+cck_235ebe1ec0c079f46fbda0,Whisky Smash (Modern Spec),KEEP,,0,0,4,5,1,1
+cck_2366d7d06ef471dcfb276c,Chicha de jora,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_23719cb3ec4448c03e4971,Blood Orange Spritz,FIX,abv_missing;glass_type_field_missing,1,0,4,5,0,1
+cck_237710bc89a306b63b71ef,Soda and Syrup,DELETE,abv_without_alcohol,0,1,1,1,1,1
+cck_2378c3ccc2b37bc69fb6e7,Kirk-a-kola,FIX,abv_missing;glass_type_field_missing,1,0,4,6,0,1
+cck_2385d558205f6159cc3097,Frank's Cocktail,KEEP,,0,1,2,4,1,1
+cck_239659a90cf39b220ba6ca,Vermouth Cocktail,KEEP,,0,1,2,2,1,1
+cck_23998932d38e192c37dafc,Jim Lee Cocktail,KEEP,,0,1,6,0,1,1
+cck_239bb4bb708707509bd0e5,Brandy and Gum,KEEP,,0,1,2,1,1,1
+cck_23a4d2d04d7e495d623825,Old-Fashioned Whisky Cocktail,FIX,abv_missing;method_field_missing,0,1,1,0,0,1
+cck_23acc9f2e5f46313a97aaa,Medford Rum Smash,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_23b93e6117c5396324bddf,"Mamie Taylor, Southern Style",KEEP,,0,1,10,0,1,1
+cck_23c774779bbb9b3b848f1a,Widow's Kiss,KEEP,,1,1,2,0,0,1
+cck_23daac83527c402d3d17ab,Claret punch pour 12 personnes,KEEP,,0,1,3,4,1,1
+cck_23e7b13534f60c9ffa7f2b,Planter's Cocktail,DELETE,no_instructions,0,1,0,0,0,0
+cck_23e967c8799b676d655854,Fancy Whiskey Smash,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_2406470307879304f68d3b,Frank's Cordial,KEEP,,0,1,3,2,1,1
+cck_2426a95e9e23b776e81079,Brandy Sangaree,KEEP,,0,1,1,3,1,1
+cck_24385b43ad9cfcc94ff52c,Zaza Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_2449de646f647e3c5b088b,Dry Martini Cocktail,KEEP,,0,1,2,2,1,1
+cck_24662a9711795ae3650a1e,Mjøndøling,DELETE,single_ing_no_measure,0,0,4,1,0,1
+cck_2469eb8549968a37de767c,Brooklyn (cocktail),KEEP,,0,0,1,5,1,1
+cck_2492ee67c47da8261363d2,Sherry Cocktail,FIX,abv_missing;glass_type_field_missing,0,1,2,0,0,1
+cck_2498181f62a0db34f2d4bf,Gin Julep,KEEP,,0,1,3,2,1,1
+cck_24a8f1295cee30475b3f56,Jägerbomb,FIX,abv_missing;glass_type_field_missing,1,0,4,4,0,1
+cck_24b58156a8bae64f098902,Brooklyn,KEEP,,1,0,2,5,1,1
+cck_24b6122afe1efdad98fd0f,Pacific Union Club Punch,KEEP,,0,1,5,5,1,1
+cck_24d90a1aa6c21516a28a00,Champagne Pick-me-Up,KEEP,,0,1,2,3,1,1
+cck_24db5ae5d1bdcda4f70d4e,"Claret Punch, Hot",KEEP,,0,1,4,0,1,1
+cck_24e5efef3ef6a1d958ffa0,Parisian,FIX,abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_24edad3a41526da6ad0789,"Buttered Ruivi, Hot",KEEP,,0,1,1,1,1,1
+cck_24ef8b45e8209cec6a6dc8,Fernet and Coke,FIX,abv_missing;glass_type_field_missing,1,0,4,3,0,1
+cck_25109eac79fc15c4cc0d97,Hawaii Cooler,KEEP,,0,1,3,0,1,1
+cck_25212e7a3d2e7a82e0cc7b,Baltimore Egg Nogg,KEEP,,1,1,6,1,1,1
+cck_257d4fa676ebcdb752c0c9,Twentieth Century,KEEP,,0,1,7,0,1,1
+cck_2588fc10e43fc8992326e3,Rice wine,FIX,abv_missing;no_image_modern,0,0,3,1,0,1
+cck_25917b11cb50584a2486d5,Sauterne Cobbler,KEEP,,0,1,4,2,1,1
+cck_259875b73b4fdab3d131e6,Caipirinha,KEEP,,1,0,2,3,1,1
+cck_2598b00afda5c0bbd2c146,Pat's Cocktail,FIX,vague_one_sentence;abv_missing;glass_type_field_missing,0,1,1,0,0,1
+cck_259a45e6c23303f3886f23,St. Croix Crusta,FIX,abv_missing;glass_type_field_missing;method_field_missing,0,1,1,0,0,1
+cck_25abab34fd6dd2b7bd1519,All Right Cocktail,DELETE,all_undefined_ingredients,1,1,6,3,1,1
+cck_25b7874bff4e8d036dad1d,Coquito,FIX,abv_missing;no_image_modern,0,0,3,7,0,1
+cck_25f733857d67edd36feb43,English Rose Cocktail,KEEP,,1,0,3,6,1,1
+cck_25f7c6aa0eba588f173b86,Montana Cocktail,KEEP,,0,1,2,0,0,1

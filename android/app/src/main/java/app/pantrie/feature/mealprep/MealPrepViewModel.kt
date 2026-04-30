@@ -93,7 +93,7 @@ class MealPrepViewModel @Inject constructor(
         val paywall = extractPaywall(t)
         if (paywall != null) {
           _state.value = MealPrepUiState.PaywallPreview(
-            upgrade = paywall.upgrade ?: "Upgrade to Brimm Pro for full meal-prep planning.",
+            upgrade = paywall.upgrade ?: "Upgrade to ${app.pantrie.Brand.PRO_NAME} for full meal-prep planning.",
             preview = paywall.preview,
             shoppingList = paywall.shoppingList,
           )
@@ -132,7 +132,7 @@ class MealPrepViewModel @Inject constructor(
   private fun renderResponse(resp: MealPrepResponse): MealPrepUiState {
     if (resp.ok == false && resp.tier == "free") {
       return MealPrepUiState.PaywallPreview(
-        upgrade = resp.upgrade ?: "Upgrade to Brimm Pro.",
+        upgrade = resp.upgrade ?: "Upgrade to ${app.pantrie.Brand.PRO_NAME}.",
         preview = resp.preview,
         shoppingList = resp.shoppingList,
       )

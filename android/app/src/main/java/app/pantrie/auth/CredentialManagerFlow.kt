@@ -33,10 +33,10 @@ class CredentialManagerFlow @Inject constructor(
    *   4. Exchange everything with the backend, which verifies nonce + integrity + id token locally.
    */
   suspend fun signInWithGoogle(activity: Activity): Result<String> = runCatching {
-    android.util.Log.i("CredFlow", "signInWithGoogle: requesting nonce")
+    if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "signInWithGoogle: requesting nonce")
     val nonceResp = api.authNonce()
     val nonce = nonceResp.nonce
-    android.util.Log.i("CredFlow", "signInWithGoogle: got nonce, opening picker")
+    if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "signInWithGoogle: got nonce, opening picker")
 
     val credentialManager = CredentialManager.create(activity)
     // GetSignInWithGoogleOption is the right API for an explicit "Sign in with Google" button —
@@ -52,7 +52,7 @@ class CredentialManagerFlow @Inject constructor(
     val result = kotlinx.coroutines.withTimeout(30_000L) {
       credentialManager.getCredential(activity, request)
     }
-    android.util.Log.i("CredFlow", "signInWithGoogle: picker returned, extracting id token")
+    if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "signInWithGoogle: picker returned, extracting id token")
 
     val cred = result.credential
     val idToken = when {
@@ -61,20 +61,27 @@ class CredentialManagerFlow @Inject constructor(
         GoogleIdTokenCredential.createFrom(cred.data).idToken
       else -> error("Unexpected credential type: ${cred.type}")
     }
-    android.util.Log.i("CredFlow", "signInWithGoogle: requesting integrity token")
+    if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "signInWithGoogle: requesting integrity token")
 
     // Integrity token bound to the SAME nonce so the backend can cross-check.
     val integrityToken = getIntegrityToken(activity, nonce)
-    android.util.Log.i("CredFlow", "signInWithGoogle: exchanging with backend")
+    if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "signInWithGoogle: exchanging with backend")
 
     val resp = api.googleExchange(GoogleExchangeRequest(idToken, nonce, integrityToken))
     tokenStore.saveRefreshToken(resp.refreshToken)
     tokenStore.saveUserId(resp.userId)
     tokenStore.setAccess(resp.accessToken, resp.expiresAt)
-    android.util.Log.i("CredFlow", "signInWithGoogle: SUCCESS userId=${resp.userId}")
+    if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "signInWithGoogle: SUCCESS userId=${resp.userId}")
     resp.userId
   }.onFailure { e ->
-    android.util.Log.e("CredFlow", "signInWithGoogle FAILED: ${e::class.simpleName}: ${e.message}", e)
+    // Class name only — never the user-facing message (which can include emails / userIds
+    // returned in upstream errors). Swallow throwable in release to keep stack frames out
+    // of crash reporters that aggregate by message.
+    if (BuildConfig.DEBUG) {
+      android.util.Log.e("CredFlow", "signInWithGoogle FAILED: ${e::class.simpleName}: ${e.message}", e)
+    } else {
+      android.util.Log.e("CredFlow", "signInWithGoogle FAILED: ${e::class.simpleName}")
+    }
   }
 
   /**

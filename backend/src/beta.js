@@ -439,24 +439,46 @@ export const handleAdmin = {
     if (!adminAuthed(request, env)) return err(401, 'bad admin key');
     const url = new URL(request.url);
     const source = (url.searchParams.get('source') || 'all').toLowerCase();
+    const contentType = (url.searchParams.get('content_type') || '').toLowerCase().trim();
     const rawLimit = parseInt(url.searchParams.get('limit') || '200', 10);
     const limit = Math.max(1, Math.min(1000, isNaN(rawLimit) ? 200 : rawLimit));
+    const rawOffset = parseInt(url.searchParams.get('offset') || '0', 10);
+    const offset = Math.max(0, isNaN(rawOffset) ? 0 : rawOffset);
+    const full = url.searchParams.get('full') === '1';
 
-    let where = '';
+    const whereParts = [];
     const binds = [];
     if (source && source !== 'all') {
-      where = 'WHERE r.id LIKE ?';
+      whereParts.push('r.id LIKE ?');
       binds.push(source + '-%');
     }
+    if (contentType) {
+      whereParts.push('r.content_type = ?');
+      binds.push(contentType);
+      // For cocktails we want only alcoholic ones (mocktails are reclassified)
+      if (contentType === 'cocktail') {
+        whereParts.push('COALESCE(r.is_alcoholic, 0) = 1');
+      }
+    }
+    const where = whereParts.length ? 'WHERE ' + whereParts.join(' AND ') : '';
+
+    // When offset>0 we want a deterministic page (so paged audits don't overlap).
+    // When offset=0 and no offset param given, keep prior random behaviour for ad-hoc QA.
+    const useDeterministic = offset > 0 || url.searchParams.has('offset');
+    const orderClause = useDeterministic ? 'ORDER BY r.id' : 'ORDER BY RANDOM()';
+    const limitClause = useDeterministic ? 'LIMIT ? OFFSET ?' : 'LIMIT ?';
+    const limitBinds = useDeterministic ? [limit, offset] : [limit];
 
     const recipeRows = await env.DB.prepare(
       `SELECT r.id, r.title, r.cuisine, r.image_url, r.content_type,
-              r.source_book, r.source_year, r.description
+              r.source_book, r.source_year, r.description,
+              r.is_alcoholic, r.is_historic, r.glass_type, r.method,
+              r.garnish, r.abv_percent, r.original_text
          FROM recipe r
          ${where}
-         ORDER BY RANDOM()
-         LIMIT ?`
-    ).bind(...binds, limit).all();
+         ${orderClause}
+         ${limitClause}`
+    ).bind(...binds, ...limitBinds).all();
 
     const recipes = recipeRows?.results || [];
     if (recipes.length === 0) return json({ recipes: [], count: 0 }, 200, request, env);
@@ -499,7 +521,9 @@ export const handleAdmin = {
       const ings = ingByRecipe[r.id] || [];
       const steps = stepByRecipe[r.id] || [];
       const instructions = steps.join(' • ');
-      const truncated = instructions.length > 500 ? instructions.slice(0, 500) + '…' : instructions;
+      const truncated = full
+        ? instructions
+        : (instructions.length > 500 ? instructions.slice(0, 500) + '…' : instructions);
       return {
         id: r.id,
         title: r.title,
@@ -509,15 +533,60 @@ export const handleAdmin = {
         source_year: r.source_year,
         image_url: r.image_url,
         description: r.description,
+        is_alcoholic: r.is_alcoholic == null ? null : !!r.is_alcoholic,
+        is_historic: r.is_historic == null ? null : !!r.is_historic,
+        glass_type: r.glass_type || null,
+        method: r.method || null,
+        garnish: r.garnish || null,
+        abv_percent: r.abv_percent ?? null,
+        original_text: r.original_text || null,
         ingredient_count: ings.length,
         ingredients: ings,
         ingredient_names: ings.map(i => i.name).filter(Boolean).join(', '),
         step_count: steps.length,
         instructions: truncated,
+        ...(full ? { steps } : {}),
       };
     });
 
-    return json({ recipes: out, count: out.length, source, limit }, 200, request, env);
+    return json({ recipes: out, count: out.length, source, content_type: contentType || null, limit, offset }, 200, request, env);
+  },
+
+  /** List recipes that have no photo (image_url IS NULL or empty).
+   *  Used by the photo-backfill ingest script. Optional ?content_type= filter. */
+  async photolessRecipes(request, env) {
+    if (!adminAuthed(request, env)) return err(401, 'bad admin key');
+    const url = new URL(request.url);
+    const limit = Math.min(parseInt(url.searchParams.get('limit') || '500', 10), 1000);
+    const offset = parseInt(url.searchParams.get('offset') || '0', 10);
+    const contentType = url.searchParams.get('content_type');
+    const where = contentType
+      ? `WHERE (image_url IS NULL OR image_url = '') AND content_type = ?`
+      : `WHERE image_url IS NULL OR image_url = ''`;
+    const stmt = contentType
+      ? env.DB.prepare(`SELECT id, title, cuisine, content_type FROM recipe ${where} ORDER BY title LIMIT ? OFFSET ?`).bind(contentType, limit, offset)
+      : env.DB.prepare(`SELECT id, title, cuisine, content_type FROM recipe ${where} ORDER BY title LIMIT ? OFFSET ?`).bind(limit, offset);
+    const { results } = await stmt.all();
+    return json({ recipes: results || [] }, 200, request, env);
+  },
+
+  /** Bulk patch image_url + license metadata for recipes that currently lack a photo.
+   *  Idempotent — only updates rows where image_url is currently NULL or empty. */
+  async patchRecipePhoto(request, env) {
+    if (!adminAuthed(request, env)) return err(401, 'bad admin key');
+    const { value, error } = await readJson(request, 64_000);
+    if (error) return error;
+    const items = Array.isArray(value.items) ? value.items.slice(0, 100) : [];
+    let updated = 0;
+    for (const it of items) {
+      if (!it.id || !it.image_url) continue;
+      const r = await env.DB.prepare(
+        `UPDATE recipe SET image_url=?, photo_credit=?, photo_license=?, photo_source_url=?
+          WHERE id=? AND (image_url IS NULL OR image_url='')`
+      ).bind(it.image_url, it.photo_credit || null, it.photo_license || null, it.photo_source_url || null, it.id).run();
+      updated += r.meta?.changes || 0;
+    }
+    return json({ ok: true, updated }, 200, request, env);
   },
 
   async dashboard(request, env) {

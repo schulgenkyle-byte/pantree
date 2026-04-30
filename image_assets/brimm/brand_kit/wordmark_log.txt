@@ -1,0 +1,11 @@
+Generating 5 SPEAK/EATER cross-layout wordmarks
+Output: C:\Users\12566\Downloads\pantrie-build (1)\pantrie-build\image_assets\brimm\brand_kit\wordmark
+
+[1/5] OK   wordmark_brass_plaque (694KB)
+[2/5] OK   wordmark_neon_sign (1119KB)
+[3/5] OK   wordmark_letterpress (1275KB)
+[4/5] OK   wordmark_artdeco_geometric (679KB)
+[5/5] OK   wordmark_ink_stamp (940KB)
+
+DONE in 104.2s — ok=5 fail=0
+Viewer: file:///C:/Users/12566/Downloads/pantrie-build (1)/pantrie-build/image_assets/brimm/brand_kit/wordmark/index.html

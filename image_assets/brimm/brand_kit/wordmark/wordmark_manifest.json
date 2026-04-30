@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-04-26T18:48:43.066Z",
+  "model": "imagen-4.0-generate-001",
+  "items": {
+    "wordmark_brass_plaque": {
+      "prompt": "Wordmark logo design. \nThe wordmark uses a crossword-style intersection layout:\n- The word SPEAK is stacked vertically, one letter per line, top to bottom: S, P, E, A, K (5 letters total stacked vertically, all uppercase, large prominent letters).\n- The word EATER reads horizontally left-to-right, starting from the E in SPEAK and extending to the right with the letters A, T, E, R.\n- The letter E is shared between SPEAK (vertical, 3rd letter) and EATER (horizontal, 1st letter). It is the pivot point of the cross.\n- The result spells SPEAKEATER as a connected wordmark.\n- All letters are perfectly legible and well-kerned.\n- No extra letters, no decorative flourishes outside the letterforms, no lorem ipsum. STYLE: All letters embossed in polished antique brass with subtle three-dimensional bevel. Background is solid charcoal black velvet (#0D0D0E). Warm amber rim lighting catches the brass surfaces. Premium speakeasy nameplate aesthetic. Square 1024x1024 composition. The full crossword layout (vertical SPEAK + horizontal EATER) is centered in the frame and fills approximately 70 percent of the canvas with comfortable breathing room. Background fills the entire frame edge-to-edge with no border. Photorealistic premium rendering.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 710302,
+      "sha": "5f30b783666bbf4f"
+    },
+    "wordmark_neon_sign": {
+      "prompt": "Wordmark logo design. \nThe wordmark uses a crossword-style intersection layout:\n- The word SPEAK is stacked vertically, one letter per line, top to bottom: S, P, E, A, K (5 letters total stacked vertically, all uppercase, large prominent letters).\n- The word EATER reads horizontally left-to-right, starting from the E in SPEAK and extending to the right with the letters A, T, E, R.\n- The letter E is shared between SPEAK (vertical, 3rd letter) and EATER (horizontal, 1st letter). It is the pivot point of the cross.\n- The result spells SPEAKEATER as a connected wordmark.\n- All letters are perfectly legible and well-kerned.\n- No extra letters, no decorative flourishes outside the letterforms, no lorem ipsum. STYLE: All letters rendered in glowing amber-orange vintage neon tubing, each letter a distinct neon tube with subtle glow halo. Mounted on a dark brick wall background with slight ambient amber glow. Vintage speakeasy neon sign aesthetic. Square 1024x1024 composition. The full crossword layout (vertical SPEAK + horizontal EATER) is centered in the frame and fills approximately 70 percent of the canvas with comfortable breathing room. Background fills the entire frame edge-to-edge with no border. Photorealistic premium rendering.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1146047,
+      "sha": "af9e4e6e2a327b60"
+    },
+    "wordmark_letterpress": {
+      "prompt": "Wordmark logo design. \nThe wordmark uses a crossword-style intersection layout:\n- The word SPEAK is stacked vertically, one letter per line, top to bottom: S, P, E, A, K (5 letters total stacked vertically, all uppercase, large prominent letters).\n- The word EATER reads horizontally left-to-right, starting from the E in SPEAK and extending to the right with the letters A, T, E, R.\n- The letter E is shared between SPEAK (vertical, 3rd letter) and EATER (horizontal, 1st letter). It is the pivot point of the cross.\n- The result spells SPEAKEATER as a connected wordmark.\n- All letters are perfectly legible and well-kerned.\n- No extra letters, no decorative flourishes outside the letterforms, no lorem ipsum. STYLE: Each letter deeply pressed (debossed) into thick cream cotton paper using gold foil ink, vintage letterpress technique. Visible paper texture and the deboss impression around each letter. The pressed paper sits on a dark wood surface with dramatic side lighting. Square 1024x1024 composition. The full crossword layout (vertical SPEAK + horizontal EATER) is centered in the frame and fills approximately 70 percent of the canvas with comfortable breathing room. Background fills the entire frame edge-to-edge with no border. Photorealistic premium rendering.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 1305255,
+      "sha": "584e39c6bb9c9b02"
+    },
+    "wordmark_artdeco_geometric": {
+      "prompt": "Wordmark logo design. \nThe wordmark uses a crossword-style intersection layout:\n- The word SPEAK is stacked vertically, one letter per line, top to bottom: S, P, E, A, K (5 letters total stacked vertically, all uppercase, large prominent letters).\n- The word EATER reads horizontally left-to-right, starting from the E in SPEAK and extending to the right with the letters A, T, E, R.\n- The letter E is shared between SPEAK (vertical, 3rd letter) and EATER (horizontal, 1st letter). It is the pivot point of the cross.\n- The result spells SPEAKEATER as a connected wordmark.\n- All letters are perfectly legible and well-kerned.\n- No extra letters, no decorative flourishes outside the letterforms, no lorem ipsum. STYLE: All letters set in a tall geometric art deco sans-serif typeface with sharp corners and precise lines, rendered in matte brass on a flat dark charcoal background. Clean, modern, 1920s prohibition-era geometry. Square 1024x1024 composition. The full crossword layout (vertical SPEAK + horizontal EATER) is centered in the frame and fills approximately 70 percent of the canvas with comfortable breathing room. Background fills the entire frame edge-to-edge with no border. Photorealistic premium rendering.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 694893,
+      "sha": "b2c3a6a921c3136f"
+    },
+    "wordmark_ink_stamp": {
+      "prompt": "Wordmark logo design. \nThe wordmark uses a crossword-style intersection layout:\n- The word SPEAK is stacked vertically, one letter per line, top to bottom: S, P, E, A, K (5 letters total stacked vertically, all uppercase, large prominent letters).\n- The word EATER reads horizontally left-to-right, starting from the E in SPEAK and extending to the right with the letters A, T, E, R.\n- The letter E is shared between SPEAK (vertical, 3rd letter) and EATER (horizontal, 1st letter). It is the pivot point of the cross.\n- The result spells SPEAKEATER as a connected wordmark.\n- All letters are perfectly legible and well-kerned.\n- No extra letters, no decorative flourishes outside the letterforms, no lorem ipsum. STYLE: Each letter rendered as if stamped in deep black ink onto aged cream parchment paper, with slight ink bleed and imperfect impression characteristic of a vintage rubber stamp. The parchment fills the entire frame with subtle aged texture. Vintage speakeasy bar tab aesthetic. Square 1024x1024 composition. The full crossword layout (vertical SPEAK + horizontal EATER) is centered in the frame and fills approximately 70 percent of the canvas with comfortable breathing room. Background fills the entire frame edge-to-edge with no border. Photorealistic premium rendering.",
+      "model": "imagen-4.0-generate-001",
+      "bytes": 962831,
+      "sha": "ca549c992cb585b0"
+    }
+  }
+}
