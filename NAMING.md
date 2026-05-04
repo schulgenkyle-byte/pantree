@@ -30,7 +30,7 @@ These are baked into shipped infrastructure or external systems. Renaming any of
 | R2 bucket name | `pan-tree` | R2 buckets cannot be renamed. Photo data lives there. We hide this behind an env var (`R2_BUCKET`) so callers don't see the legacy name. |
 | Domain | `brimmapp.com` | Registered + DNS configured. Rebrand later means new domain + 301 redirects, not a rename. |
 | Support email | `support@brimmapp.com` | Tied to domain. |
-| Pro subscription SKUs | `brimm_pro_monthly`, `brimm_pro_yearly`, `brimm_pro_lifetime` | Created in Play Console. Renaming = recreating, which orphans existing subscribers. |
+| Pro subscription SKUs | `brimm_pro_monthly`, `brimm_pro_yearly` | Created in Play Console. Renaming = recreating, which orphans existing subscribers. (Former `brimm_pro_lifetime` SKU is deprecated and must be deactivated in Play Console — no lifetime tier offered.) |
 | Play Console listing | `brimm-playstore-paste/` files on Desktop | Bound to Play Store entry. Rename the folder if you want; the contents are the only locked thing. |
 
 ---

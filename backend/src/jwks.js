@@ -64,7 +64,7 @@ export async function verifyGoogleIdToken(idToken, env, options) {
     const allowed = options.clientIds || [];
     if (!allowed.includes(payload.aud)) return null;
     if (payload.azp && !allowed.includes(payload.azp)) return null;
-    // lifetimes
+    // expiry / issued-at validation
     const now = Math.floor(Date.now() / 1000);
     if (typeof payload.exp !== 'number' || payload.exp < now) return null;
     if (typeof payload.iat !== 'number' || payload.iat > now + 300) return null; // clock skew

@@ -61,7 +61,7 @@ fun SubstitutionSheet(
       when (val s = state) {
         SubUiState.Idle, SubUiState.Loading -> CircularProgressIndicator()
         is SubUiState.Loaded -> {
-          if (s.subs.isEmpty()) Text("No substitutes found.") else {
+          if (s.subs.isEmpty()) Text("No known substitutes.") else {
             s.subs.forEach { sub ->
               Column(Modifier.padding(vertical = 8.dp)) {
                 Text(sub.to, fontWeight = FontWeight.Medium)

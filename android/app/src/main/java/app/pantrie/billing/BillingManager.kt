@@ -36,10 +36,9 @@ import javax.inject.Singleton
  */
 const val SKU_PRO_MONTHLY = "brimm_pro_monthly"
 const val SKU_PRO_YEARLY = "brimm_pro_yearly"
-const val SKU_PRO_LIFETIME = "brimm_pro_lifetime"
 
 private val SUBSCRIPTION_SKUS = listOf(SKU_PRO_MONTHLY, SKU_PRO_YEARLY)
-private val INAPP_SKUS = listOf(SKU_PRO_LIFETIME)
+private val INAPP_SKUS = emptyList<String>()
 
 /**
  * Wraps the Google Play BillingClient. Single-tenant: holds one client per app process.

@@ -727,10 +727,380 @@ const SEED = {
     { to: 'garlic powder', ratio: '1 clove = 1/8 tsp', notes: '' },
     { to: 'shallot', ratio: '1 clove = 1/2 shallot', notes: 'softer' },
   ],
+
+  // ============================================================
+  // SEASONINGS — common food-recipe miss-cases that aren't real allergens
+  // ============================================================
+  'pepper': [
+    { to: 'white pepper', ratio: '1:1', notes: 'milder, no black flecks' },
+    { to: 'cayenne (small)', ratio: '1 tsp pepper = 1/4 tsp cayenne', notes: 'spicier, redder' },
+    { to: 'reduce or omit', ratio: '', notes: 'no real swap for the bite' },
+  ],
+  'ground pepper': [
+    { to: 'whole peppercorns ground fresh', ratio: '1:1', notes: 'sharper aroma' },
+    { to: 'white pepper', ratio: '1:1', notes: 'milder' },
+  ],
+  'paprika': [
+    { to: 'smoked paprika', ratio: '1:1', notes: 'smokier' },
+    { to: 'chili powder', ratio: '1:1', notes: 'spicier' },
+    { to: 'cayenne (very small)', ratio: '1 tbsp paprika = 1 tsp cayenne', notes: 'much hotter' },
+  ],
+  'cayenne': [
+    { to: 'red pepper flakes', ratio: '1 tsp cayenne = 1.5 tsp flakes', notes: 'less smooth' },
+    { to: 'hot sauce', ratio: '1/4 tsp cayenne = 1/2 tsp hot sauce', notes: 'adds liquid' },
+  ],
+  'red pepper flakes': [
+    { to: 'cayenne', ratio: '1 tsp flakes = 2/3 tsp cayenne', notes: '' },
+    { to: 'fresh chili minced', ratio: '1 tsp flakes = 1/2 small chili', notes: 'fresher' },
+  ],
+  'cinnamon': [
+    { to: 'allspice + nutmeg', ratio: '1 tsp cinnamon = 1/2 tsp allspice + 1/4 tsp nutmeg', notes: '' },
+    { to: 'pumpkin pie spice', ratio: '1:1', notes: 'sweeter' },
+  ],
+  'nutmeg': [
+    { to: 'mace', ratio: '1:1', notes: 'milder, same plant' },
+    { to: 'allspice', ratio: '1:1', notes: '' },
+    { to: 'cinnamon (pinch)', ratio: '1/2', notes: 'different note' },
+  ],
+  'oregano': [
+    { to: 'marjoram', ratio: '1:1', notes: 'milder' },
+    { to: 'italian seasoning', ratio: '1:1', notes: 'mixed herb blend' },
+    { to: 'basil + thyme', ratio: '1:1 mix', notes: '' },
+  ],
+  'basil': [
+    { to: 'fresh oregano', ratio: '1:1', notes: 'more peppery' },
+    { to: 'tarragon', ratio: '1:1', notes: 'anise-leaning' },
+  ],
+  'thyme': [
+    { to: 'oregano', ratio: '1:1', notes: '' },
+    { to: 'savory', ratio: '1:1', notes: 'closest match' },
+  ],
+  'rosemary': [
+    { to: 'thyme', ratio: '1:1', notes: 'less piney' },
+    { to: 'sage (small)', ratio: '3:4', notes: 'earthier' },
+  ],
+  'parsley': [
+    { to: 'cilantro', ratio: '1:1', notes: 'different flavor profile' },
+    { to: 'celery leaves', ratio: '1:1', notes: '' },
+    { to: 'chervil', ratio: '1:1', notes: '' },
+  ],
+  'cilantro': [
+    { to: 'flat-leaf parsley', ratio: '1:1', notes: 'no soap-gene issue' },
+    { to: 'thai basil', ratio: '1:1', notes: 'sweeter, more anise' },
+  ],
+  'dill': [
+    { to: 'tarragon', ratio: '1:1', notes: 'similar feathery herb' },
+    { to: 'fennel fronds', ratio: '1:1', notes: 'anise-leaning' },
+  ],
+  'bay leaf': [
+    { to: 'thyme + oregano (pinch each)', ratio: '1 leaf = 1/4 tsp combined', notes: '' },
+    { to: 'omit', ratio: '', notes: 'subtle; recipe survives without' },
+  ],
+  'turmeric': [
+    { to: 'curry powder', ratio: '1:1', notes: 'adds other spices' },
+    { to: 'saffron (tiny)', ratio: '1 tsp turmeric = pinch saffron', notes: 'pricier, more aromatic' },
+  ],
+  'curry powder': [
+    { to: 'garam masala', ratio: '1:1', notes: 'warmer, less yellow' },
+    { to: 'turmeric + cumin + coriander', ratio: '1:1 blend', notes: 'DIY' },
+  ],
+  'rice vinegar': [
+    { to: 'apple cider vinegar (diluted)', ratio: '1:1 + 1 tsp water per tbsp', notes: 'milder once cut' },
+    { to: 'white wine vinegar', ratio: '1:1', notes: '' },
+    { to: 'lemon juice + sugar', ratio: '1:1 + pinch sugar', notes: '' },
+  ],
+  'balsamic vinegar': [
+    { to: 'red wine vinegar + sugar', ratio: '1 tbsp balsamic = 1 tbsp vinegar + 1/2 tsp sugar', notes: '' },
+    { to: 'sherry vinegar', ratio: '1:1', notes: 'drier' },
+  ],
+  'red wine vinegar': [
+    { to: 'apple cider vinegar', ratio: '1:1', notes: '' },
+    { to: 'white wine vinegar', ratio: '1:1', notes: 'lighter' },
+  ],
+  'white wine vinegar': [
+    { to: 'rice vinegar', ratio: '1:1', notes: '' },
+    { to: 'apple cider vinegar', ratio: '1:1', notes: '' },
+    { to: 'lemon juice', ratio: '1:1', notes: '' },
+  ],
+  'mayonnaise': [
+    { to: 'greek yogurt', ratio: '1:1', notes: 'lower fat, tangier' },
+    { to: 'sour cream', ratio: '1:1', notes: '' },
+    { to: 'avocado mashed', ratio: '1:1', notes: 'green tint, vegan' },
+    { to: 'vegan mayo (Vegenaise, JustMayo)', ratio: '1:1', notes: 'egg-free' },
+  ],
+  'ketchup': [
+    { to: 'tomato paste + vinegar + sugar', ratio: '1 cup ketchup = 1 cup paste + 2 tbsp vinegar + 1 tbsp sugar', notes: 'DIY' },
+    { to: 'tomato sauce + sweetener', ratio: '1:1 + 1 tsp sugar/honey per cup', notes: 'thinner' },
+  ],
+  'mustard': [
+    { to: 'horseradish + mayo', ratio: '1 tsp HR + 1 tbsp mayo = 1 tbsp mustard', notes: 'mustard-free' },
+    { to: 'wasabi + mayo', ratio: '1 tsp wasabi + 1 tbsp mayo', notes: 'mustard-free; spicier' },
+  ],
+  'dijon mustard': [
+    { to: 'yellow mustard', ratio: '1:1', notes: 'milder' },
+    { to: 'horseradish + mayo + lemon', ratio: '1 tsp HR + 1 tbsp mayo + drop lemon', notes: 'mustard-free' },
+  ],
+
+  // ============================================================
+  // COCKTAIL — spirits, modifiers, mixers (the bartender's cabinet)
+  // ============================================================
+  'gin': [
+    { to: 'vodka', ratio: '1:1', notes: 'neutral; loses botanicals' },
+    { to: 'white rum', ratio: '1:1', notes: 'sweeter' },
+    { to: 'blanco tequila', ratio: '1:1', notes: 'agave note' },
+    { to: 'aquavit', ratio: '1:1', notes: 'caraway-forward' },
+  ],
+  'vodka': [
+    { to: 'white rum', ratio: '1:1', notes: 'slightly sweeter' },
+    { to: 'gin', ratio: '1:1', notes: 'adds botanicals' },
+    { to: 'shochu', ratio: '1:1', notes: 'lower-proof, neutral' },
+  ],
+  'whiskey': [
+    { to: 'bourbon', ratio: '1:1', notes: '' },
+    { to: 'rye whiskey', ratio: '1:1', notes: 'spicier' },
+    { to: 'scotch', ratio: '1:1', notes: 'smokier' },
+    { to: 'irish whiskey', ratio: '1:1', notes: 'smoother' },
+  ],
+  'bourbon': [
+    { to: 'rye whiskey', ratio: '1:1', notes: 'spicier, drier' },
+    { to: 'tennessee whiskey', ratio: '1:1', notes: 'similar' },
+    { to: 'scotch (blended)', ratio: '1:1', notes: 'less sweet' },
+  ],
+  'rye whiskey': [
+    { to: 'bourbon', ratio: '1:1', notes: 'sweeter' },
+    { to: 'canadian whisky (high-rye)', ratio: '1:1', notes: '' },
+  ],
+  'scotch': [
+    { to: 'irish whiskey', ratio: '1:1', notes: 'no peat smoke' },
+    { to: 'bourbon', ratio: '1:1', notes: 'sweeter' },
+    { to: 'japanese whisky', ratio: '1:1', notes: 'cleaner' },
+  ],
+  'rum': [
+    { to: 'cachaça', ratio: '1:1', notes: 'grassier; for caipirinha-style' },
+    { to: 'bourbon', ratio: '1:1', notes: 'darker, sweeter' },
+    { to: 'aged tequila', ratio: '1:1', notes: 'agave-forward' },
+  ],
+  'white rum': [
+    { to: 'silver tequila', ratio: '1:1', notes: '' },
+    { to: 'vodka', ratio: '1:1', notes: 'less sweet' },
+    { to: 'cachaça', ratio: '1:1', notes: '' },
+  ],
+  'dark rum': [
+    { to: 'spiced rum', ratio: '1:1', notes: 'extra spice' },
+    { to: 'bourbon', ratio: '1:1', notes: '' },
+    { to: 'aged tequila', ratio: '1:1', notes: '' },
+  ],
+  'tequila': [
+    { to: 'mezcal', ratio: '1:1', notes: 'smokier' },
+    { to: 'white rum', ratio: '1:1', notes: 'sweeter, no agave' },
+    { to: 'cachaça', ratio: '1:1', notes: '' },
+  ],
+  'mezcal': [
+    { to: 'tequila + drop liquid smoke', ratio: '1:1 + 1/8 tsp smoke per oz', notes: '' },
+    { to: 'islay scotch (small)', ratio: '1:1', notes: 'different smoke profile' },
+  ],
+  'cognac': [
+    { to: 'brandy', ratio: '1:1', notes: '' },
+    { to: 'armagnac', ratio: '1:1', notes: 'rustic' },
+    { to: 'aged rum', ratio: '1:1', notes: 'sweeter' },
+  ],
+  'brandy': [
+    { to: 'cognac', ratio: '1:1', notes: 'pricier, smoother' },
+    { to: 'aged rum', ratio: '1:1', notes: 'sweeter' },
+  ],
+  'dry vermouth': [
+    { to: 'fino sherry', ratio: '1:1', notes: 'drier, nuttier' },
+    { to: 'dry white wine', ratio: '1:1', notes: 'less herbal' },
+    { to: 'lillet blanc', ratio: '1:1', notes: 'sweeter' },
+  ],
+  'sweet vermouth': [
+    { to: 'ruby port', ratio: '1:1', notes: 'less herbal' },
+    { to: 'sweet sherry (oloroso)', ratio: '1:1', notes: '' },
+    { to: 'lillet rouge', ratio: '1:1', notes: 'lighter' },
+    { to: 'red wine + simple syrup + bitters', ratio: '1 oz vermouth = 1 oz wine + 1 tsp syrup + dash bitters', notes: 'DIY' },
+  ],
+  'vermouth': [
+    { to: 'dry sherry (fino)', ratio: '1:1', notes: 'drier, fortified' },
+    { to: 'lillet (blanc or rouge)', ratio: '1:1', notes: 'sweeter, lighter' },
+  ],
+  'campari': [
+    { to: 'aperol + a few drops bitters', ratio: '1:1', notes: 'less bitter' },
+    { to: 'gentian liqueur (Suze)', ratio: '1:1', notes: 'drier' },
+    { to: 'cynar', ratio: '1:1', notes: 'artichoke-leaning' },
+  ],
+  'aperol': [
+    { to: 'campari (less)', ratio: '3/4', notes: 'much more bitter' },
+    { to: 'orange liqueur + a few dashes amaro', ratio: '1:1', notes: '' },
+  ],
+  'cointreau': [
+    { to: 'triple sec', ratio: '1:1', notes: 'cheaper, less polished' },
+    { to: 'grand marnier', ratio: '1:1', notes: 'cognac-aged, deeper' },
+    { to: 'orange curacao', ratio: '1:1', notes: '' },
+  ],
+  'triple sec': [
+    { to: 'cointreau', ratio: '1:1', notes: 'higher quality' },
+    { to: 'grand marnier', ratio: '1:1', notes: 'richer' },
+    { to: 'orange juice + simple syrup + small splash vodka', ratio: '', notes: 'non-orange-liqueur DIY' },
+  ],
+  'grand marnier': [
+    { to: 'cointreau', ratio: '1:1', notes: 'lighter' },
+    { to: 'orange curacao', ratio: '1:1', notes: '' },
+  ],
+  'simple syrup': [
+    { to: 'agave nectar (diluted)', ratio: '3:4', notes: 'thinner' },
+    { to: 'honey syrup (1:1 honey + water)', ratio: '1:1', notes: 'floral' },
+    { to: 'maple syrup (small)', ratio: '3:4', notes: 'maple notes' },
+    { to: 'sugar + water (1:1, dissolved)', ratio: '1:1', notes: 'DIY simple syrup' },
+  ],
+  'agave': [
+    { to: 'simple syrup', ratio: '4:3', notes: 'thinner sweetness' },
+    { to: 'honey syrup', ratio: '1:1', notes: '' },
+  ],
+  'angostura bitters': [
+    { to: 'orange bitters + dash allspice', ratio: '1:1', notes: 'closer than nothing' },
+    { to: 'peychaud\'s bitters', ratio: '1:1', notes: 'redder, more anise' },
+    { to: 'omit', ratio: '', notes: 'recipe loses spice complexity' },
+  ],
+  'orange bitters': [
+    { to: 'angostura + a tiny squeeze orange peel oil', ratio: '1:1', notes: '' },
+    { to: 'peychaud\'s', ratio: '1:1', notes: 'different profile' },
+  ],
+  'grenadine': [
+    { to: 'pomegranate juice + sugar', ratio: '1 oz grenadine = 1 oz juice + 1 tsp sugar reduced', notes: 'DIY' },
+    { to: 'pomegranate molasses + water', ratio: '1:1 diluted', notes: 'thicker' },
+  ],
+  'maraschino liqueur': [
+    { to: 'kirsch + simple syrup', ratio: '1:1 + 1/4 tsp syrup', notes: '' },
+    { to: 'cherry heering + a touch dry vermouth', ratio: '3/4 cherry + 1/4 vermouth', notes: '' },
+  ],
+  'absinthe': [
+    { to: 'pastis (Pernod, Ricard)', ratio: '1:1', notes: 'no wormwood, similar anise' },
+    { to: 'herbsaint', ratio: '1:1', notes: 'New Orleans equivalent' },
+    { to: 'sambuca + a drop fennel tea', ratio: '1:1', notes: '' },
+  ],
+  'st-germain': [
+    { to: 'elderflower syrup + vodka', ratio: '1 oz st-germain = 3/4 oz syrup + 1/4 oz vodka', notes: 'DIY' },
+    { to: 'elderflower cordial', ratio: '1:1', notes: 'non-alcoholic; reduce other sweet' },
+  ],
+  'elderflower liqueur': [
+    { to: 'st-germain', ratio: '1:1', notes: 'standard brand' },
+    { to: 'elderflower syrup', ratio: '1:1', notes: 'non-alcoholic' },
+  ],
+  'creme de cassis': [
+    { to: 'blackberry liqueur', ratio: '1:1', notes: '' },
+    { to: 'chambord', ratio: '1:1', notes: 'raspberry-leaning' },
+  ],
+  'creme de menthe': [
+    { to: 'peppermint schnapps', ratio: '1:1', notes: 'higher proof' },
+    { to: 'peppermint extract + simple syrup', ratio: '1 oz menthe = 1/4 tsp extract + 1 oz syrup', notes: 'DIY' },
+  ],
+  'chartreuse': [
+    { to: 'genepi liqueur', ratio: '1:1', notes: 'closest herbal cousin' },
+    { to: 'yellow chartreuse (if green missing)', ratio: '1:1', notes: 'sweeter, less herbal' },
+  ],
+  'fernet': [
+    { to: 'jagermeister', ratio: '1:1', notes: 'sweeter' },
+    { to: 'amaro', ratio: '1:1', notes: 'less menthol' },
+  ],
+  'amaro': [
+    { to: 'fernet', ratio: '1:1', notes: 'menthol-leaning' },
+    { to: 'cynar', ratio: '1:1', notes: 'vegetal' },
+    { to: 'campari', ratio: '1:1', notes: 'redder, less herbal' },
+  ],
+  'lemon juice': [
+    { to: 'lime juice', ratio: '1:1', notes: '' },
+    { to: 'white wine vinegar (small)', ratio: '1 tsp lemon = 1/2 tsp vinegar', notes: 'baking only' },
+  ],
+  'lime juice': [
+    { to: 'lemon juice', ratio: '1:1', notes: '' },
+    { to: 'rice vinegar + drop lemon', ratio: '1:1', notes: '' },
+  ],
+  'club soda': [
+    { to: 'sparkling water', ratio: '1:1', notes: '' },
+    { to: 'tonic (less)', ratio: '3/4', notes: 'sweetened, quinine bitter' },
+    { to: 'seltzer', ratio: '1:1', notes: '' },
+  ],
+  'tonic water': [
+    { to: 'club soda + drop bitters', ratio: '1:1', notes: 'no quinine' },
+    { to: 'sparkling water + 1/4 tsp simple syrup', ratio: '1:1', notes: 'sweeter, no bitter' },
+  ],
+  'ginger beer': [
+    { to: 'ginger ale (drier mouthfeel needed)', ratio: '1:1', notes: 'less spicy' },
+    { to: 'club soda + ginger syrup', ratio: '1:1 + 1 tbsp syrup per cup', notes: 'DIY' },
+  ],
+  'champagne': [
+    { to: 'cava', ratio: '1:1', notes: 'spanish equivalent' },
+    { to: 'prosecco', ratio: '1:1', notes: 'fruitier' },
+    { to: 'sparkling wine (any)', ratio: '1:1', notes: '' },
+    { to: 'sparkling cider (non-alcoholic)', ratio: '1:1', notes: 'sulfite-free option' },
+  ],
+  'prosecco': [
+    { to: 'cava', ratio: '1:1', notes: '' },
+    { to: 'champagne', ratio: '1:1', notes: 'pricier, drier' },
+  ],
+  'lillet blanc': [
+    { to: 'cocchi americano', ratio: '1:1', notes: 'closest match, more bitter' },
+    { to: 'dry vermouth + drop simple syrup', ratio: '1:1 + 1/4 tsp syrup', notes: '' },
+  ],
 };
+
+// Common cooking units we strip from the head of an ingredient string so
+// "2 cups whole milk" canonicalizes to "whole milk" before SEED lookup.
+// Order matters: longer plurals before singulars to avoid partial matches.
+const UNIT_TOKENS = new Set([
+  'cups','cup','tablespoons','tablespoon','tbsp','tbs','teaspoons','teaspoon','tsp',
+  'ounces','ounce','oz','pounds','pound','lb','lbs','grams','gram','g','kilograms','kilogram','kg',
+  'milliliters','milliliter','ml','liters','liter','l',
+  'quarts','quart','qt','pints','pint','pt','gallons','gallon','gal',
+  'pinches','pinch','dashes','dash','splashes','splash','drops','drop',
+  'cans','can','bottles','bottle','jars','jar','bags','bag','boxes','box','packs','pack','packages','package',
+  'cloves','clove','heads','head','bunches','bunch','sprigs','sprig','stalks','stalk','sticks','stick',
+  'large','small','medium','whole','fresh','dried','ground','chopped','minced','sliced','diced','grated',
+]);
 
 function normalize(name) {
   return String(name || '').toLowerCase().replace(/[.,()]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+/** Best-effort canonical form of a recipe ingredient string. Strips leading
+ *  numeric quantities, fractions ("1/2"), unit/descriptor tokens, and parens
+ *  before returning. So "2 cups whole milk" → "milk", "1 large egg" → "egg",
+ *  "1/4 tsp ground cinnamon" → "cinnamon". Falls back to the normalized
+ *  string when the canonicalization can't determine a clear noun. */
+function canonicalizeIngredient(raw) {
+  let s = normalize(raw);
+  if (!s) return s;
+  // Strip leading numbers / fractions / ranges.
+  s = s.replace(/^[\d/.\s\-–]+/, '').trim();
+  // Drop parenthetical asides ("(packed)", "(plus more for greasing)").
+  s = s.replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim();
+  // Walk tokens left-to-right; first non-unit/-descriptor word starts the noun.
+  const tokens = s.split(' ');
+  let head = 0;
+  while (head < tokens.length && UNIT_TOKENS.has(tokens[head])) head++;
+  s = tokens.slice(head).join(' ').trim();
+  return s || normalize(raw);
+}
+
+/** SEED lookup with a substring fallback. Tries exact key first, then walks
+ *  SEED keys to see if any is a substring of the canonicalized request. Returns
+ *  the matching SEED entry (the value list) or null. Substring fallback is
+ *  CRITICAL for cache amplification: "2 cups whole milk" → "whole milk" still
+ *  doesn't exact-match SEED["milk"], but substring catches it. */
+function lookupSeed(canonical) {
+  if (!canonical) return { key: null, subs: null };
+  if (SEED[canonical]) return { key: canonical, subs: SEED[canonical] };
+  // Substring fallback — match the LONGEST SEED key that appears in the input.
+  // Longest-first because "buttermilk" should beat "milk" when both match.
+  let best = null;
+  for (const seedKey of Object.keys(SEED)) {
+    if (seedKey.length < 3) continue;
+    if (canonical.includes(seedKey)) {
+      if (!best || seedKey.length > best.length) best = seedKey;
+    }
+  }
+  if (best) return { key: best, subs: SEED[best] };
+  return { key: null, subs: null };
 }
 
 /** Pre-built keyword index over SEED. Each key (e.g., 'milk', 'cheddar') maps
@@ -809,44 +1179,43 @@ export const handleSubstitutions = {
     const rl = await enforce(env, 'read', userId);
     if (rl) return rl;
 
-    const key = normalize(ingredient);
-    if (SEED[key]) return json({ ok: true, ingredient: key, subs: SEED[key], source: 'seed' }, 200, request, env);
+    // Two-stage canonicalization: strip qty/unit prefixes ("2 cups whole milk"
+    // → "whole milk"), then SEED-substring fallback ("whole milk" → "milk").
+    // Most recipe ingredient strings have a number-and-unit head, which used
+    // to miss SEED entirely and burn a Claude call per variant. Now they
+    // resolve to seed for free.
+    const raw = normalize(ingredient);
+    const canonical = canonicalizeIngredient(ingredient);
+    const seedHit = lookupSeed(canonical);
+    if (seedHit.subs) {
+      return json({ ok: true, ingredient: seedHit.key, subs: seedHit.subs, source: 'seed' }, 200, request, env);
+    }
 
-    // KV cache check
-    const cacheKey = `sub:${key}`;
+    // KV cache check on the CANONICAL key — so "2 cups whole milk" and
+    // "1 cup milk" share the same cache slot once one of them populates it.
+    const cacheKey = `sub:${canonical || raw}`;
     if (env.RATE_LIMIT_KV) {
       const cached = await env.RATE_LIMIT_KV.get(cacheKey);
       if (cached) {
         try {
           const subs = JSON.parse(cached);
-          if (Array.isArray(subs)) return json({ ok: true, ingredient: key, subs, source: 'cache' }, 200, request, env);
+          if (Array.isArray(subs)) return json({ ok: true, ingredient: canonical || raw, subs, source: 'cache' }, 200, request, env);
         } catch { /* fall through */ }
       }
     }
 
-    // AI fallback under read-tier rate limit. Substitutions are pure-text Claude
-    // calls (~$0.001 each), nowhere near the $0.005 vision-scan cost — they should
-    // NOT consume the user's fridge-scan quota. Read tier (120/min) is the right cap.
-    const aiRl = await enforce(env, 'read', userId);
-    if (aiRl) return aiRl;
-
-    const subs = await aiFallback(env, key);
-    // Return ok:true with empty subs + honest note instead of 404. A 404 reads
-    // as "the server broke", an empty result with explanation reads as "this
-    // ingredient genuinely has no good swap, here's why."
-    if (!subs?.length) {
-      return json({
-        ok: true,
-        ingredient: key,
-        subs: [],
-        source: 'ai_empty',
-        note: `No reliable substitute for ${key}. Reduce, omit, or check the original recipe for a workaround.`,
-      }, 200, request, env);
-    }
-
-    if (env.RATE_LIMIT_KV) {
-      await env.RATE_LIMIT_KV.put(cacheKey, JSON.stringify(subs), { expirationTtl: CACHE_TTL });
-    }
-    return json({ ok: true, ingredient: key, subs, source: 'ai' }, 200, request, env);
+    // SEED + KV miss → honest empty result. The Anthropic AI-fallback path
+    // was removed because substitutions are deterministic culinary data, not
+    // an inference task — they belong in a curated DB, not in a per-request
+    // LLM call. To grow coverage, expand the SEED table in this file (or a
+    // future migration into a `substitution` D1 table). Never silently spend
+    // API on something a static lookup can answer.
+    return json({
+      ok: true,
+      ingredient: canonical || raw,
+      subs: [],
+      source: 'no_seed',
+      note: `No known substitutes.`,
+    }, 200, request, env);
   },
 };

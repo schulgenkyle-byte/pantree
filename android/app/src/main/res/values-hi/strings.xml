@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">Speakeater</string>
+    <string name="app_tagline">रसोई के पीछे एक छुपा कमरा है।</string>
+
+    <!-- Language picker -->
+    <string name="lang_picker_title">अपनी भाषा चुनें</string>
+    <string name="lang_picker_subtitle">आप इसे बाद में सेटिंग्स में बदल सकते हैं।</string>
+    <string name="lang_picker_continue">जारी रखें</string>
+    <string name="lang_name_english">English</string>
+    <string name="lang_name_spanish">Español</string>
+    <string name="lang_name_portuguese">Português (Brasil)</string>
+    <string name="lang_name_hindi">हिन्दी</string>
+    <string name="lang_name_indonesian">Bahasa Indonesia</string>
+
+    <!-- Auth -->
+    <string name="auth_sign_in_with_google">Google से साइन इन करें</string>
+    <string name="auth_signing_in">साइन इन हो रहा है…</string>
+    <string name="auth_sign_in_failed">साइन इन विफल। फिर से प्रयास करें।</string>
+    <string name="auth_loading">लोड हो रहा है…</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Speakeater में आपका स्वागत है</string>
+    <string name="onboarding_welcome_body">वह कुकिंग ऐप जो आपके फ्रिज को पढ़ता है।</string>
+    <string name="onboarding_get_started">शुरू करें</string>
+    <string name="onboarding_palate_title">आप क्या पकाना पसंद करते हैं?</string>
+    <string name="onboarding_diet_title">कोई आहार संबंधी प्राथमिकता?</string>
+    <string name="onboarding_allergens_title">किन एलर्जेन से बचना है?</string>
+    <string name="onboarding_heat_title">आपको कितना तीखा पसंद है?</string>
+    <string name="onboarding_adventure_title">आप कितने प्रयोगशील हैं?</string>
+    <string name="onboarding_skip">अभी छोड़ें</string>
+    <string name="onboarding_next">आगे</string>
+    <string name="onboarding_done">हो गया</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_culinary">रसोई</string>
+    <string name="nav_mixology">मिक्सोलॉजी</string>
+    <string name="nav_feed">फ़ीड</string>
+    <string name="nav_you">आप</string>
+
+    <!-- Actions -->
+    <string name="action_save">सहेजें</string>
+    <string name="action_skip">छोड़ें</string>
+    <string name="action_cook">पकाएँ</string>
+    <string name="action_open">खोलें</string>
+    <string name="action_close">बंद करें</string>
+    <string name="action_back">वापस</string>
+    <string name="action_add">जोड़ें</string>
+    <string name="action_delete">हटाएँ</string>
+    <string name="action_share">साझा करें</string>
+    <string name="action_retry">पुनः प्रयास</string>
+    <string name="action_scan">स्कैन</string>
+    <string name="action_take_photo">फ़ोटो लें</string>
+    <string name="action_choose_photo">गैलरी से चुनें</string>
+    <string name="action_done">हो गया</string>
+    <string name="action_cancel">रद्द</string>
+
+    <!-- Tonight deck -->
+    <string name="deck_loading">आज रात की रेसिपी लोड हो रही हैं…</string>
+    <string name="deck_couldnt_load">लोड नहीं हो सका</string>
+    <string name="deck_empty_message">आज के लिए और कोई रेसिपी नहीं। कल फिर आएँ।</string>
+    <string name="deck_be_the_first">पहले बनें</string>
+    <string name="deck_be_the_first_food">इस व्यंजन की फ़ोटो लें। मंज़ूरी पर हमेशा के लिए आपकी।</string>
+    <string name="deck_be_the_first_drink">इस ड्रिंक की फ़ोटो लें। मंज़ूरी पर हमेशा के लिए आपकी।</string>
+    <string name="deck_first_cooked_by">पहले बनाया गया —</string>
+    <string name="deck_swipe_save">सहेजें</string>
+    <string name="deck_swipe_skip">छोड़ें</string>
+
+    <!-- Allergen banners -->
+    <string name="allergen_no_swap">एलर्जेन, कोई विकल्प नहीं</string>
+    <string name="allergen_sub_available">एलर्जेन, विकल्प उपलब्ध</string>
+    <string name="allergen_no_known_substitutes">कोई ज्ञात विकल्प नहीं।</string>
+
+    <!-- Settings -->
+    <string name="settings_title">आप</string>
+    <string name="settings_section_palate">स्वाद</string>
+    <string name="settings_section_features">फ़ीचर्स</string>
+    <string name="settings_section_account">खाता</string>
+    <string name="settings_language">भाषा</string>
+    <string name="settings_show_app_tour">ऐप टूर फिर से दिखाएँ</string>
+    <string name="settings_redo_onboarding">सेटअप फिर से करें</string>
+    <string name="settings_sign_out">साइन आउट</string>
+
+    <!-- Errors -->
+    <string name="error_no_internet">इंटरनेट कनेक्शन नहीं है।</string>
+    <string name="error_generic">कुछ गड़बड़ हुई। फिर से प्रयास करें।</string>
+    <string name="error_no_camera">कोई कैमरा ऐप उपलब्ध नहीं। गैलरी से चुनें का प्रयोग करें।</string>
+</resources>

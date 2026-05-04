@@ -11,7 +11,10 @@ const TIERS = {
   rtdn:      { limit: 120, windowSec: 60 },   // Pub/Sub can burst
   write:     { limit: 30,  windowSec: 60 },
   read:      { limit: 120, windowSec: 60 },
-  seed:      { limit: 5000, windowSec: 3600 },  // bulk ingest — SEED_KEY header is the real gate
+  // Seed is bulk-ingest by an offline script. 200/hour gives enough headroom
+  // for legitimate corpus expansions without enabling rapid pollution if the
+  // seed key leaks. (Was 5000/hr until 2026-05-03 audit.)
+  seed:      { limit: 200, windowSec: 3600 },  // bulk ingest — SEED_KEY header is the real gate
   report:    { limit: 10,  windowSec: 3600 },
   follow:    { limit: 60,  windowSec: 3600 },
   beta_feedback: { limit: 20,  windowSec: 3600 },

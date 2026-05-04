@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">Speakeater</string>
+    <string name="app_tagline">A cozinha tem uma sala dos fundos.</string>
+
+    <!-- Language picker -->
+    <string name="lang_picker_title">Escolha seu idioma</string>
+    <string name="lang_picker_subtitle">Você pode mudar isso depois nas Configurações.</string>
+    <string name="lang_picker_continue">Continuar</string>
+    <string name="lang_name_english">English</string>
+    <string name="lang_name_spanish">Español</string>
+    <string name="lang_name_portuguese">Português (Brasil)</string>
+    <string name="lang_name_hindi">हिन्दी</string>
+    <string name="lang_name_indonesian">Bahasa Indonesia</string>
+
+    <!-- Auth -->
+    <string name="auth_sign_in_with_google">Entrar com o Google</string>
+    <string name="auth_signing_in">Entrando…</string>
+    <string name="auth_sign_in_failed">Falha ao entrar. Tente novamente.</string>
+    <string name="auth_loading">Carregando…</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Bem-vindo ao Speakeater</string>
+    <string name="onboarding_welcome_body">O app de cozinha que lê sua geladeira.</string>
+    <string name="onboarding_get_started">Começar</string>
+    <string name="onboarding_palate_title">O que você gosta de cozinhar?</string>
+    <string name="onboarding_diet_title">Alguma preferência alimentar?</string>
+    <string name="onboarding_allergens_title">Algum alérgeno a evitar?</string>
+    <string name="onboarding_heat_title">Quão picante você gosta?</string>
+    <string name="onboarding_adventure_title">Quão aventureiro você é?</string>
+    <string name="onboarding_skip">Pular por enquanto</string>
+    <string name="onboarding_next">Próximo</string>
+    <string name="onboarding_done">Pronto</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_culinary">Cozinha</string>
+    <string name="nav_mixology">Coquetelaria</string>
+    <string name="nav_feed">Comunidade</string>
+    <string name="nav_you">Você</string>
+
+    <!-- Actions -->
+    <string name="action_save">Salvar</string>
+    <string name="action_skip">Pular</string>
+    <string name="action_cook">Cozinhar</string>
+    <string name="action_open">Abrir</string>
+    <string name="action_close">Fechar</string>
+    <string name="action_back">Voltar</string>
+    <string name="action_add">Adicionar</string>
+    <string name="action_delete">Excluir</string>
+    <string name="action_share">Compartilhar</string>
+    <string name="action_retry">Tentar novamente</string>
+    <string name="action_scan">Escanear</string>
+    <string name="action_take_photo">Tirar uma foto</string>
+    <string name="action_choose_photo">Escolher da galeria</string>
+    <string name="action_done">Pronto</string>
+    <string name="action_cancel">Cancelar</string>
+
+    <!-- Tonight deck -->
+    <string name="deck_loading">Carregando receitas para esta noite…</string>
+    <string name="deck_couldnt_load">Não foi possível carregar</string>
+    <string name="deck_empty_message">Sem mais receitas por hoje. Volte amanhã.</string>
+    <string name="deck_be_the_first">SEJA O PRIMEIRO</string>
+    <string name="deck_be_the_first_food">Fotografe este prato. Seu para sempre se aprovado.</string>
+    <string name="deck_be_the_first_drink">Fotografe este drinque. Seu para sempre se aprovado.</string>
+    <string name="deck_first_cooked_by">COZINHADO PRIMEIRO POR</string>
+    <string name="deck_swipe_save">SALVAR</string>
+    <string name="deck_swipe_skip">PULAR</string>
+
+    <!-- Allergen banners -->
+    <string name="allergen_no_swap">Alérgeno, sem substituto</string>
+    <string name="allergen_sub_available">Alérgeno, substituto disponível</string>
+    <string name="allergen_no_known_substitutes">Nenhum substituto conhecido.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Você</string>
+    <string name="settings_section_palate">Paladar</string>
+    <string name="settings_section_features">Recursos</string>
+    <string name="settings_section_account">Conta</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_show_app_tour">Mostrar tour do app novamente</string>
+    <string name="settings_redo_onboarding">Refazer integração</string>
+    <string name="settings_sign_out">Sair</string>
+
+    <!-- Errors -->
+    <string name="error_no_internet">Sem conexão com a internet.</string>
+    <string name="error_generic">Algo deu errado. Tente novamente.</string>
+    <string name="error_no_camera">Nenhum app de câmera disponível. Tente Escolher da galeria.</string>
+</resources>

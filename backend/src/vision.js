@@ -12,7 +12,11 @@ const MAX_B64_LEN = Math.ceil(MAX_IMAGE_BYTES * 4 / 3) + 8;
 
 // Tiered caps — survivable unit economics. Every change to these numbers ships
 // revenue risk; review PANTRIE.md before editing.
-const FREE_LIFETIME = 5;        // 5 scans TOTAL for free users — never resets, upgrade to keep using vision
+// Free tier scan cap. Originally a one-time 5-scan total ("burn 5, never come back") which
+// gated growth too aggressively for a cold-start app. Switched to a 5-scans /
+// rolling-7-day window so free users have a reason to return weekly. Pro stays
+// at 10/7d. Tighten later when ad revenue covers vision-API spend.
+const FREE_WEEKLY = 5;
 const PRO_WEEKLY = 10;          // 10 scans / 7-day rolling window for Pro — caps cost at ~$0.20/user/month
                                 // Overage requires a credit-pack top-up (consumable IAP, separate billing wiring).
                                 // Rationale: the founder cannot afford an unbounded per-user vision bill;
@@ -38,12 +42,28 @@ function detectMime(b) {
   return null;
 }
 
+// Beta-tester whitelist — these emails get unlimited 'dev' tier without
+// needing the *.test convention. Edit + redeploy when adding/removing.
+// Keep small (<20 entries); for larger lists add an `is_tester` column to
+// the user table and select it in getUserTier instead.
+const TESTER_EMAILS = new Set([
+  'schulgenkyle@gmail.com',       // owner
+  'bonniefullerton2015@gmail.com',
+  'ctb0001@gmail.com',
+  'kadinkullan@gmail.com',
+  'cldjax@gmail.com',             // first speakeater.com landing signup
+]);
+
 async function getUserTier(env, userId) {
   try {
-    // Dev .test accounts bypass caps in dev env
+    // Dev *.test accounts bypass caps in dev env (CI / smoke tests).
+    // Whitelisted real tester emails ALSO bypass — for closed beta we want
+    // demo videos + tester feedback without hitting the free-tier 5-scan cap.
     if ((env.ENVIRONMENT || 'prod').toLowerCase() === 'dev') {
       const u = await env.DB.prepare('SELECT email FROM user WHERE id = ?').bind(userId).first();
-      if (/\.test$/i.test(u?.email || '')) return 'dev';
+      const email = String(u?.email || '').toLowerCase();
+      if (/\.test$/i.test(email)) return 'dev';
+      if (TESTER_EMAILS.has(email)) return 'dev';
     }
     const row = await env.DB.prepare('SELECT expires_at FROM entitlement WHERE user_id = ? AND expires_at > ?').bind(userId, Date.now()).first();
     return row ? 'pro' : 'free';
@@ -51,12 +71,12 @@ async function getUserTier(env, userId) {
 }
 
 async function getUserDailyLimit(env, userId) {
-  // Returned shape: { kind, limit }
-  //   kind='weekly'   → rolling 7-day window (Pro)
-  //   kind='lifetime' → never resets (Free trial: 5 scans, ever)
+  // Returned shape: { kind, limit }. Both tiers now use rolling 7-day windows
+  // — the former one-time 5-scan free cap was removed because "5 scans forever"
+  // gated growth too aggressively. Free users now get 5 scans/week; Pro gets 10/week.
   const tier = await getUserTier(env, userId);
   if (tier === 'pro') return { kind: 'weekly', limit: PRO_WEEKLY };
-  return { kind: 'lifetime', limit: FREE_LIFETIME };
+  return { kind: 'weekly', limit: FREE_WEEKLY };
 }
 
 async function monthlyScansUsed(env, userId) {
@@ -107,43 +127,31 @@ async function preflight(request, env, userId) {
   const tier = await getUserTier(env, userId);
   const day = Math.floor(Date.now() / 86400_000);
   const dayKey = `scanq:${userId}:${day}`;
-  const limit = tier === 'dev' ? 9999 : (tier === 'pro' ? PRO_WEEKLY : FREE_LIFETIME);
+  const dailyLimit = tier === 'dev' ? 9999 : (tier === 'pro' ? PRO_WEEKLY : FREE_WEEKLY);
   if (tier !== 'dev') {
-    // Free tier counts lifetime — 5 scans total, ever, never resets. The
-    // photo-scan IS the trial: feel it work 5 times, then decide whether
-    // $4.99 Pro is worth it. Anything more bleeds money at scale.
-    //
-    // Pro tier counts a rolling 7-day window. Hits 10 scans this week →
-    // wait or buy a credit pack. Caps worst-case spend at ~$0.20/user/month.
+    // Both tiers count a rolling 7-day window. Free = 5/week, Pro = 10/week.
+    // No more one-time-total cap — too aggressive a growth gate.
     let used = 0;
-    let windowStartMs = null;
-    if (tier === 'free') {
-      const row = await env.DB.prepare(
-        'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ?'
-      ).bind(userId).first();
-      used = row?.n || 0;
-    } else {
-      windowStartMs = Date.now() - 7 * 86400_000;
+    let windowStartMs = Date.now() - 7 * 86400_000;
+    {
       const row = await env.DB.prepare(
         'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ? AND created_at >= ?'
       ).bind(userId, windowStartMs).first();
       used = row?.n || 0;
     }
-    if (used >= limit) {
+    if (used >= dailyLimit) {
       // Compute when the oldest in-window scan ages out so the user knows
       // exactly when their quota refills (only meaningful for Pro).
       let retryAfterSec = null;
-      if (tier === 'pro') {
-        const oldest = await env.DB.prepare(
-          'SELECT MIN(created_at) AS t FROM scan_history WHERE user_id = ? AND created_at >= ?'
-        ).bind(userId, windowStartMs).first();
-        if (oldest?.t) {
-          const refillAt = oldest.t + 7 * 86400_000;
-          retryAfterSec = Math.max(60, Math.floor((refillAt - Date.now()) / 1000));
-        }
+      const oldest = await env.DB.prepare(
+        'SELECT MIN(created_at) AS t FROM scan_history WHERE user_id = ? AND created_at >= ?'
+      ).bind(userId, windowStartMs).first();
+      if (oldest?.t) {
+        const refillAt = oldest.t + 7 * 86400_000;
+        retryAfterSec = Math.max(60, Math.floor((refillAt - Date.now()) / 1000));
       }
       const msg = tier === 'free'
-        ? `You've used all 5 free scans. Upgrade to Pro for 10 scans / week.`
+        ? `You've used all ${FREE_WEEKLY} free scans this week. Upgrade to Pro for ${PRO_WEEKLY} scans / week, or wait for the rolling window to refill.`
         : `Weekly Pro limit reached (${PRO_WEEKLY}). Your oldest scan ages out soon, or buy a credit pack to keep going.`;
       return { error: err(429, msg, {
         retryAfter: retryAfterSec,
@@ -378,37 +386,29 @@ async function callClaudeVision(env, pre, system, tools, toolName, userText) {
 }
 
 export async function scanStatus(userId, env, request) {
-  // D1-derived count — matches the enforcement path in preflight() so what the UI
-  // shows is exactly what the scan endpoint will allow. Free tier counts lifetime
-  // total; Pro counts a rolling 7-day window.
+  // D1-derived count — matches the enforcement path in preflight() so what
+  // the UI shows is exactly what the scan endpoint will allow. Both tiers
+  // count a rolling 7-day window now (former one-time cap removed).
   const quota = await getUserDailyLimit(env, userId);
   let used = 0;
   let resetAt = null;
   if (env.DB) {
     try {
-      if (quota.kind === 'lifetime') {
-        const row = await env.DB.prepare(
-          'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ?'
-        ).bind(userId).first();
-        used = row?.n || 0;
-      } else {
-        const windowStartMs = Date.now() - 7 * 86400_000;
-        const row = await env.DB.prepare(
-          'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ? AND created_at >= ?'
-        ).bind(userId, windowStartMs).first();
-        used = row?.n || 0;
-        // Next quota slot opens when the oldest in-window scan ages past 7 days.
-        const oldest = await env.DB.prepare(
-          'SELECT MIN(created_at) AS t FROM scan_history WHERE user_id = ? AND created_at >= ?'
-        ).bind(userId, windowStartMs).first();
-        if (oldest?.t) resetAt = oldest.t + 7 * 86400_000;
-      }
+      const windowStartMs = Date.now() - 7 * 86400_000;
+      const row = await env.DB.prepare(
+        'SELECT COUNT(*) AS n FROM scan_history WHERE user_id = ? AND created_at >= ?'
+      ).bind(userId, windowStartMs).first();
+      used = row?.n || 0;
+      const oldest = await env.DB.prepare(
+        'SELECT MIN(created_at) AS t FROM scan_history WHERE user_id = ? AND created_at >= ?'
+      ).bind(userId, windowStartMs).first();
+      if (oldest?.t) resetAt = oldest.t + 7 * 86400_000;
     } catch (e) { console.warn('scan status count failed:', e?.message); }
   }
   return json({
     used,
     limit: quota.limit,
-    quotaKind: quota.kind,                                  // 'lifetime' | 'weekly'
-    resetAt,                                                // null for lifetime
+    quotaKind: quota.kind,                                  // always 'weekly' in current code
+    resetAt,                                                // weekly window reset timestamp
   }, 200, request, env);
 }

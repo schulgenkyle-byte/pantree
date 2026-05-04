@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">Speakeater</string>
+    <string name="app_tagline">Ada ruang belakang di dapur ini.</string>
+
+    <!-- Language picker -->
+    <string name="lang_picker_title">Pilih bahasa Anda</string>
+    <string name="lang_picker_subtitle">Anda dapat mengubahnya nanti di Pengaturan.</string>
+    <string name="lang_picker_continue">Lanjutkan</string>
+    <string name="lang_name_english">English</string>
+    <string name="lang_name_spanish">Español</string>
+    <string name="lang_name_portuguese">Português (Brasil)</string>
+    <string name="lang_name_hindi">हिन्दी</string>
+    <string name="lang_name_indonesian">Bahasa Indonesia</string>
+
+    <!-- Auth -->
+    <string name="auth_sign_in_with_google">Masuk dengan Google</string>
+    <string name="auth_signing_in">Masuk…</string>
+    <string name="auth_sign_in_failed">Gagal masuk. Coba lagi.</string>
+    <string name="auth_loading">Memuat…</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Selamat datang di Speakeater</string>
+    <string name="onboarding_welcome_body">Aplikasi memasak yang membaca isi kulkas Anda.</string>
+    <string name="onboarding_get_started">Mulai</string>
+    <string name="onboarding_palate_title">Apa yang suka Anda masak?</string>
+    <string name="onboarding_diet_title">Ada preferensi diet?</string>
+    <string name="onboarding_allergens_title">Ada alergen yang harus dihindari?</string>
+    <string name="onboarding_heat_title">Seberapa pedas yang Anda suka?</string>
+    <string name="onboarding_adventure_title">Seberapa berani Anda mencoba?</string>
+    <string name="onboarding_skip">Lewati dulu</string>
+    <string name="onboarding_next">Lanjut</string>
+    <string name="onboarding_done">Selesai</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_culinary">Kuliner</string>
+    <string name="nav_mixology">Mixology</string>
+    <string name="nav_feed">Komunitas</string>
+    <string name="nav_you">Anda</string>
+
+    <!-- Actions -->
+    <string name="action_save">Simpan</string>
+    <string name="action_skip">Lewati</string>
+    <string name="action_cook">Masak</string>
+    <string name="action_open">Buka</string>
+    <string name="action_close">Tutup</string>
+    <string name="action_back">Kembali</string>
+    <string name="action_add">Tambah</string>
+    <string name="action_delete">Hapus</string>
+    <string name="action_share">Bagikan</string>
+    <string name="action_retry">Coba lagi</string>
+    <string name="action_scan">Pindai</string>
+    <string name="action_take_photo">Ambil foto</string>
+    <string name="action_choose_photo">Pilih dari galeri</string>
+    <string name="action_done">Selesai</string>
+    <string name="action_cancel">Batal</string>
+
+    <!-- Tonight deck -->
+    <string name="deck_loading">Memuat resep malam ini…</string>
+    <string name="deck_couldnt_load">Gagal memuat</string>
+    <string name="deck_empty_message">Tidak ada resep lagi malam ini. Datang lagi besok.</string>
+    <string name="deck_be_the_first">JADILAH YANG PERTAMA</string>
+    <string name="deck_be_the_first_food">Foto hidangan ini. Milik Anda selamanya jika disetujui.</string>
+    <string name="deck_be_the_first_drink">Foto minuman ini. Milik Anda selamanya jika disetujui.</string>
+    <string name="deck_first_cooked_by">PERTAMA DIMASAK OLEH</string>
+    <string name="deck_swipe_save">SIMPAN</string>
+    <string name="deck_swipe_skip">LEWATI</string>
+
+    <!-- Allergen banners -->
+    <string name="allergen_no_swap">Alergen, tanpa pengganti</string>
+    <string name="allergen_sub_available">Alergen, pengganti tersedia</string>
+    <string name="allergen_no_known_substitutes">Tidak ada pengganti yang diketahui.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Anda</string>
+    <string name="settings_section_palate">Selera</string>
+    <string name="settings_section_features">Fitur</string>
+    <string name="settings_section_account">Akun</string>
+    <string name="settings_language">Bahasa</string>
+    <string name="settings_show_app_tour">Tampilkan tur aplikasi lagi</string>
+    <string name="settings_redo_onboarding">Ulangi penyiapan</string>
+    <string name="settings_sign_out">Keluar</string>
+
+    <!-- Errors -->
+    <string name="error_no_internet">Tidak ada koneksi internet.</string>
+    <string name="error_generic">Terjadi kesalahan. Coba lagi.</string>
+    <string name="error_no_camera">Tidak ada aplikasi kamera tersedia. Coba Pilih dari galeri.</string>
+</resources>

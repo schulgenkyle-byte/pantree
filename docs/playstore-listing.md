@@ -78,10 +78,9 @@ Free forever:
 • 20 swipes per day in the Tonight deck
 • Banner + occasional interstitial ads
 
-Brimm Pro:
+Speakeater Pro:
 • $4.99 / month
 • $29.99 / year (save 50%)
-• $59.99 / lifetime
 • Unlimited swipes
 • Vision pantry scan (snap your fridge → ingredients)
 • Smart shopping + meal prep planner
@@ -192,7 +191,7 @@ No access to contacts, microphone, SMS, location, calendar, files, or background
 - **Directed at children?** No
 - **Complies with Families policy?** N/A — not in Families program
 - **Contains ads?** **YES.** Brimm displays ads via Google AdMob in the free tier (banners, interstitials between deck swipes, and rewarded videos at the daily swipe wall). Brimm Pro removes all ads.
-- **In-app purchases?** Yes — Brimm Pro subscription ($4.99/mo, $29.99/yr, $59.99 lifetime). Single product family, clearly disclosed.
+- **In-app purchases?** Yes — Speakeater Pro subscription ($4.99/mo or $29.99/yr). Single product family, clearly disclosed.
 - **Third-party ad networks integrated?** Google AdMob.
 - **Behavioral advertising?** Possible — AdMob may serve personalized ads where consent is given. EU/UK users are prompted via UMP consent SDK before personalized ads are shown.
 
@@ -217,7 +216,7 @@ Google allows up to 8 phone screenshots. Recommended capture list, in order:
 5. **"Smart shopping list"** — Aisle-grouped list (Produce / Dairy / Bar) with checkable items
 6. **"Library"** — Cooking + Mixology book spines accordion, gold emboss text
 7. **"Search 4,000 cocktails"** — Search results grid with Spirited / Zero-Proof filter chips
-8. **"Brimm Pro — unlimited swipes, no ads"** — Paywall sheet with monthly / yearly / lifetime tiers
+8. **"Speakeater Pro — unlimited swipes, no ads"** — Paywall sheet with monthly / yearly tiers
 
 **Aspect ratio:** 9:16 (1080×1920 or 1440×2560). No device frames.
 

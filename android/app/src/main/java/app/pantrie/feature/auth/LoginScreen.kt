@@ -52,14 +52,31 @@ class LoginViewModel @Inject constructor(
     }
   }
 
+  // Re-entrancy guard. Two getCredential() calls in flight at once cause the
+  // OS to cancel the older one — and that cancellation surfaces as the system
+  // toast "SIGN IN REQUEST CANCELLED BY SPEAKEATER" before the second picker
+  // renders. A double-tap on the button OR a stale recomposition firing the
+  // onClick twice was the source. Single-flight prevents both.
+  private var signInJob: kotlinx.coroutines.Job? = null
+
   /** Real Google sign-in via Credential Manager. This is the production path. */
   fun signInWithGoogle(activity: Activity) {
-    viewModelScope.launch {
+    if (signInJob?.isActive == true) return
+    signInJob = viewModelScope.launch {
       _state.value = LoginUiState.Loading
       credentialFlow.signInWithGoogle(activity)
         .onSuccess { _state.value = LoginUiState.LoggedIn }
         .onFailure { e ->
-          _state.value = LoginUiState.Error(e.message ?: "Sign-in failed")
+          // Swallow user-cancellations silently — they tapped Back / outside
+          // the picker, which is not an error worth surfacing as red text.
+          val msg = e.message?.lowercase().orEmpty()
+          val userCancelled = msg.contains("cancel") || msg.contains("user closed") ||
+            e::class.simpleName?.contains("Cancellation") == true
+          if (userCancelled) {
+            _state.value = LoginUiState.Idle
+          } else {
+            _state.value = LoginUiState.Error(e.message ?: "Sign-in failed")
+          }
         }
     }
   }

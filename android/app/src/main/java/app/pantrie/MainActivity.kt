@@ -74,6 +74,7 @@ class MainActivity : ComponentActivity() {
   @Inject lateinit var analytics: Analytics
   @Inject lateinit var api: PantrieApi
   @Inject lateinit var localSettings: LocalSettingsStore
+  @Inject lateinit var localeManager: app.pantrie.locale.LocaleManager
 
   override fun onCreate(savedInstanceState: Bundle?) {
     installSplashScreen()
@@ -117,20 +118,28 @@ class MainActivity : ComponentActivity() {
     setContent {
       PantrieTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          // Required by Google Play regulated-goods policy: a global age gate
-          // before any cocktail content can be shown. Persisted in
-          // LocalSettingsStore so the user only confirms once per install.
+          // Strict gate order — only one screen on screen at a time:
+          //   1. Age gate  (Google Play policy for regulated-goods content)
+          //   2. Language picker  (first thing users see in their own tongue)
+          //   3. PantrieNav  (login → onboarding → deck → tour)
+          // Hoisted out of PantrieNav so the WalkthroughOverlay can never race
+          // with either gate. Each gate is its own composition root; nothing
+          // else mounts until the gate clears.
           val hasConfirmedAge by localSettings.hasConfirmedAge.collectAsState()
-          if (!hasConfirmedAge) {
-            AgeGateScreen(
+          var hasPickedLocale by remember { mutableStateOf(localeManager.hasPicked()) }
+          when {
+            !hasConfirmedAge -> AgeGateScreen(
               onConfirmed = { localSettings.setHasConfirmedAge(true) },
               onDeclined = { finish() },
             )
-          } else {
-            PantrieNav(
+            !hasPickedLocale -> app.pantrie.locale.LanguagePickerScreen(
+              onPicked = { hasPickedLocale = true },
+            )
+            else -> PantrieNav(
               analytics = analytics,
               api = api,
               localSettings = localSettings,
+              localeManager = localeManager,
               initialDeepLink = initialNavTarget,
             )
           }
@@ -236,6 +245,7 @@ fun PantrieNav(
   analytics: Analytics,
   api: PantrieApi,
   localSettings: LocalSettingsStore,
+  localeManager: app.pantrie.locale.LocaleManager,
   initialDeepLink: String? = null,
 ) {
   val nav = rememberNavController()
@@ -252,7 +262,7 @@ fun PantrieNav(
   }
   // Show bottom nav on every logged-in screen so users can always navigate home.
   // Hide only on login / onboarding / deep drill-downs that own the whole screen (scan, cook, etc).
-  val fullScreenRoutes = setOf("login", "onboarding", "scan", "receipt", "barcode")
+  val fullScreenRoutes = setOf("lang_picker", "login", "onboarding", "scan", "receipt", "barcode")
   val showBottomBar = currentRoute != null
     && currentRoute !in fullScreenRoutes
     && !(currentRoute.startsWith("cook/"))
@@ -294,7 +304,10 @@ fun PantrieNav(
   // is even rendered. Push null while ineligible so any trigger watching for a stale
   // pre-tour route doesn't fire on hydrate.
   LaunchedEffect(currentRoute) {
-    val eligible = currentRoute != null && currentRoute != "login" && currentRoute != "onboarding"
+    val eligible = currentRoute != null
+      && currentRoute != "lang_picker"
+      && currentRoute != "login"
+      && currentRoute != "onboarding"
     tourVm.reportCurrentRoute(if (eligible) currentRoute else null)
   }
 
@@ -404,6 +417,10 @@ fun PantrieNav(
       }
     },
   ) { padding ->
+    // Language picker now lives at MainActivity level (hoisted out of nav)
+    // so it can't race with the WalkthroughOverlay or any other PantrieNav
+    // composable. By the time we reach this NavHost, the user has already
+    // picked a locale, so login is always the start destination.
     NavHost(
       navController = nav,
       startDestination = "login",
@@ -666,8 +683,10 @@ fun PantrieNav(
 
   // First-launch walkthrough overlay — sits on top of everything (including the FAB
   // and bottom nav). Only renders past login/onboarding so the welcome card shows up
-  // against the real app, not the auth screen.
+  // against the real app, not the auth screen. Also excludes lang_picker — overlay
+  // would render OVER the picker and both got tap-cancelled by each other.
   val tourEligibleRoute = currentRoute != null
+    && currentRoute != "lang_picker"
     && currentRoute != "login"
     && currentRoute != "onboarding"
   if (tourEligibleRoute && tourState.visible) {

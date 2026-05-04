@@ -193,7 +193,8 @@ export const handleBeta = {
 // ---------- ADMIN (key-gated) ----------
 
 function adminAuthed(request, env) {
-  const key = request.headers.get('x-admin-key') || new URL(request.url).searchParams.get('key') || '';
+  // Header-only — never accept the admin key in URL params (logs leak).
+  const key = request.headers.get('x-admin-key') || '';
   if (!env.ADMIN_KEY) return false;
   if (key.length !== env.ADMIN_KEY.length) return false;
   let x = 0;
@@ -339,15 +340,15 @@ export const handleAdmin = {
         GROUP BY severity`
     ).all();
 
-    // Recipe leaderboards (lifetime, not 7d-windowed)
-    const topCookedLifetime = await env.DB.prepare(
+    // Recipe leaderboards (all-time, not 7d-windowed)
+    const topCookedAllTime = await env.DB.prepare(
       `SELECT id, title, cuisine, content_type, COALESCE(cook_count, 0) AS n
          FROM recipe
         WHERE COALESCE(cook_count, 0) > 0
         ORDER BY n DESC, title ASC LIMIT 10`
     ).all();
 
-    const topSavedLifetime = await env.DB.prepare(
+    const topSavedAllTime = await env.DB.prepare(
       `SELECT r.id, r.title, r.cuisine, r.content_type, COUNT(*) AS n
          FROM interaction i
          JOIN recipe r ON r.id = i.recipe_id
@@ -409,8 +410,8 @@ export const handleAdmin = {
       recentFeedback: recentFeedback?.results || [],
       catalogBreakdown: catalog?.results || [],
       // Recipe leaderboards
-      topCookedLifetime: topCookedLifetime?.results || [],
-      topSavedLifetime: topSavedLifetime?.results || [],
+      topCookedAllTime: topCookedAllTime?.results || [],
+      topSavedAllTime: topSavedAllTime?.results || [],
       topRated: topRated?.results || [],
       mostReviewed: mostReviewed?.results || [],
       recentReviews: recentReviews?.results || [],

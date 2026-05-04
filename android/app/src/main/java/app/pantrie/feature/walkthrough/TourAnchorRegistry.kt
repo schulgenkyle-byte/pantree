@@ -28,6 +28,11 @@ internal object TourAnchors {
   // to save" was confusing because the tab isn't where the swipe happens.
   const val DECK_CARD_AREA = "deck_card_area"
 
+  // Edge-to-edge allergen banner across the top of any card whose ingredients
+  // match the user's saved allergens. Allergen mini-tour anchors here so the
+  // first spotlight points at the actual warning the user just learned to read.
+  const val DECK_ALLERGEN_BANNER = "deck_allergen_banner"
+
   // Quick-action tiles on DeckScreen for shopping / plan. Used by the shopping +
   // plan mini-tours respectively.
   const val DECK_SHOPPING_TILE = "deck_shopping_tile"

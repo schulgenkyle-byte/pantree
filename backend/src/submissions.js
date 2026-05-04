@@ -139,7 +139,8 @@ async function findDuplicate(env, title, ingredients) {
 // ---------- admin auth ----------
 
 function adminAuthed(request, env) {
-  const key = request.headers.get('x-admin-key') || new URL(request.url).searchParams.get('key') || '';
+  // Header-only — never accept the admin key in URL params (logs leak).
+  const key = request.headers.get('x-admin-key') || '';
   if (!env.ADMIN_KEY) return false;
   if (key.length !== env.ADMIN_KEY.length) return false;
   let x = 0;
@@ -220,14 +221,25 @@ export const handleSubmissions = {
     ).bind(recipeId).first();
     if (!exists) return err(404, 'recipe not found');
 
-    // Cap pending contributions per user per recipe to 1 — prevents drive-by spam
-    // where someone submits 50 different photos for the same recipe in a minute.
-    const pendingCount = await env.DB.prepare(
+    // Two caps to prevent both drive-by spam and infinite contribution build-up:
+    //   - Per-user-per-recipe: max 1 pending. (You can't submit 50 photos to
+    //     the same recipe yourself.)
+    //   - Per-recipe global: max 3 pending across ALL users. After 3 are
+    //     queued, additional submissions are blocked until admin reviews; the
+    //     UI message tells the user "First photos in review, check back."
+    const perUserPending = await env.DB.prepare(
       `SELECT COUNT(*) AS n FROM recipe_photo_contribution
        WHERE recipe_id = ? AND user_id = ? AND status = 'pending'`
     ).bind(recipeId, userId).first();
-    if ((pendingCount?.n || 0) >= 1) {
+    if ((perUserPending?.n || 0) >= 1) {
       return err(429, "You already have a pending photo for this recipe.");
+    }
+    const recipePending = await env.DB.prepare(
+      `SELECT COUNT(*) AS n FROM recipe_photo_contribution
+       WHERE recipe_id = ? AND status = 'pending'`
+    ).bind(recipeId).first();
+    if ((recipePending?.n || 0) >= 3) {
+      return err(429, "First photos for this recipe are in review. Check back after our team approves.", { reviewQueue: true });
     }
 
     const p = await readJson(request, 9_000_000);

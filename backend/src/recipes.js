@@ -118,14 +118,30 @@ export const handleRecipes = {
     ).bind(userId, dayStartMs, ...bucketTypes).first();
     const used = swipeRow?.n || 0;
 
-    // Tier check: active entitlement => Pro. Dev (.test) accounts get unlimited for QA.
+    // Tier check: active entitlement => Pro. Dev (.test) accounts AND the
+    // tester-email whitelist BOTH get unlimited for QA. Whitelist matches
+    // the one in vision.js — kept inline (small set) instead of a shared
+    // util because the endpoints have slightly different tier semantics.
     const userRow = await env.DB.prepare('SELECT email FROM user WHERE id = ?').bind(userId).first();
-    const isDev = (env.ENVIRONMENT || 'prod').toLowerCase() === 'dev' && /\.test$/i.test(userRow?.email || '');
+    const userEmail = String(userRow?.email || '').toLowerCase();
+    const TESTER_EMAILS = new Set([
+      'schulgenkyle@gmail.com',
+      'bonniefullerton2015@gmail.com',
+      'ctb0001@gmail.com',
+      'kadinkullan@gmail.com',
+      'cldjax@gmail.com',
+    ]);
+    const envIsDev = (env.ENVIRONMENT || 'prod').toLowerCase() === 'dev';
+    const isDev = envIsDev && (/\.test$/i.test(userEmail) || TESTER_EMAILS.has(userEmail));
     const ent = await env.DB.prepare(
       'SELECT sku, expires_at FROM entitlement WHERE user_id = ? AND expires_at > ?'
     ).bind(userId, Date.now()).first();
     const tier = isDev ? 'dev' : (ent ? (ent.sku === 'pantrie_pro_annual' ? 'pro_annual' : 'pro_monthly') : 'free');
-    const dailyCap = isDev ? 9999 : (tier === 'free' ? 20 : 9999);
+    // Free daily-swipe cap raised 20→40 earlier this week for cold-start
+    // acquisition. recipes.js was still hardcoded at 20 — out of sync with the
+    // client's SwipeQuotaRepository.FREE_DAILY_LIMIT. Aligning both at 40 so
+    // the deck doesn't run out before the client's swipe wall would fire.
+    const dailyCap = isDev ? 9999 : (tier === 'free' ? 40 : 9999);
     const remaining = Math.max(0, dailyCap - used);
     const resetAt = dayStartMs + 86400_000;  // next local midnight
 
@@ -372,8 +388,16 @@ export const handleRecipes = {
       const matchScore = percent;
 
       // Taste cuisine affinity (0..60): explicit pref = +60, taste history scaled to 0..40.
+      // Substring match — user pref "italian" hits recipe cuisine "Italian-American",
+      // "northern italian", etc. Exact-match alone was missing most of the catalog
+      // because recipe cuisines are often qualified ("Indian (North)", "Tex-Mex").
+      // 4-char minimum on the pref side avoids false positives like "thai" → "thailand".
       let tasteScore = 0;
-      if (recipeCuisine && prefCuisines.has(recipeCuisine))   tasteScore += 60;
+      const cuisineMatchesPref = recipeCuisine && Array.from(prefCuisines).some(p => {
+        if (!p || p.length < 4) return p === recipeCuisine;
+        return recipeCuisine.includes(p) || p.includes(recipeCuisine);
+      });
+      if (cuisineMatchesPref) tasteScore += 60;
       if (recipeCuisine && tasteCuisineMap.has(recipeCuisine)) tasteScore += 40 * (tasteCuisineMap.get(recipeCuisine) / maxTasteCuisine);
       // Ingredient overlap with historical affinity (0..40).
       let ingAff = 0, ingHits = 0;
@@ -435,10 +459,17 @@ export const handleRecipes = {
         + tasteScore  * tasteWeight
         + noveltyScore* noveltyWeight;
 
+      // Image bonus reduced 32→8 so photoless recipes can surface in the deck.
+      // Was: photo'd cards essentially guaranteed the top 10 slots, so the
+      // user-contribution camera CTA never had a card to render against. Now
+      // photo'd recipes still tiebreak ahead of equivalent photoless ones,
+      // but a recipe with strong pantry-match + expiring + taste-affinity
+      // can outrank a photo'd recipe with weaker signals — and that's the
+      // right outcome for both ranking quality and contribution opportunity.
       const score =
         blended                                                // 0..100 core
-        + (r.image_url ? 32 : 0)                              // photos FIRST — strong UX weight
-        + (percent >= 60 && r.image_url ? 12 : 0)             // photo AND high-match gets another bump
+        + (r.image_url ? 8 : 0)                               // gentle photo tiebreaker
+        + (percent >= 60 && r.image_url ? 4 : 0)              // photo + high-match small bump
         + (r.cook_count || 0) * 0.05                          // mild social proof
         + (r.avg_rating || 0) * 2                              // tiebreaker from ratings
         + (maxServings && maxServings >= (r.servings || 2) ? 6 : 0);  // fully-makeable tiebreaker
@@ -504,6 +535,9 @@ export const handleRecipes = {
       picks = strong.length >= remaining ? strong : scored;
     }
     const deck = picks.slice(0, remaining).map(s => s.recipe);
+    // Log shape so we can diagnose "cards aren't loading" without an actual
+    // 4xx — responses can return 200 with deck:[] when filters drop everything.
+    console.log(`deck u=${userId.slice(0,8)} ct=${contentType} candidates=${candidates.length} scored=${scored.length} strong=${scored.filter(s => s.recipe.pantryMatchPercent >= 20 || s.recipe.usesExpiring.length > 0).length} returned=${deck.length} remaining=${remaining}`);
 
     const payload = JSON.stringify({ deck, dailyCap, remaining, resetAt, tier });
     if (env.RATE_LIMIT_KV) {

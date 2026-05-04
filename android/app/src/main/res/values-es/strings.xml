@@ -1,0 +1,88 @@
+<resources>
+    <!-- App identity stays in the brand language. -->
+    <string name="app_name">Speakeater</string>
+    <string name="app_tagline">La cocina tiene un cuarto trasero.</string>
+
+    <!-- Language picker (always visible regardless of locale) -->
+    <string name="lang_picker_title">Elige tu idioma</string>
+    <string name="lang_picker_subtitle">Puedes cambiarlo más tarde en Ajustes.</string>
+    <string name="lang_picker_continue">Continuar</string>
+    <string name="lang_name_english">English</string>
+    <string name="lang_name_spanish">Español</string>
+    <string name="lang_name_portuguese">Português (Brasil)</string>
+    <string name="lang_name_hindi">हिन्दी</string>
+    <string name="lang_name_indonesian">Bahasa Indonesia</string>
+
+    <!-- Auth -->
+    <string name="auth_sign_in_with_google">Iniciar sesión con Google</string>
+    <string name="auth_signing_in">Iniciando sesión…</string>
+    <string name="auth_sign_in_failed">Error al iniciar sesión. Inténtalo de nuevo.</string>
+    <string name="auth_loading">Cargando…</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Bienvenido a Speakeater</string>
+    <string name="onboarding_welcome_body">La app de cocina que lee tu refrigerador.</string>
+    <string name="onboarding_get_started">Empezar</string>
+    <string name="onboarding_palate_title">¿Qué te gusta cocinar?</string>
+    <string name="onboarding_diet_title">¿Alguna preferencia dietética?</string>
+    <string name="onboarding_allergens_title">¿Algún alérgeno que evitar?</string>
+    <string name="onboarding_heat_title">¿Cuánto picante te gusta?</string>
+    <string name="onboarding_adventure_title">¿Qué tan aventurero eres?</string>
+    <string name="onboarding_skip">Omitir por ahora</string>
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_done">Listo</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_culinary">Cocina</string>
+    <string name="nav_mixology">Coctelería</string>
+    <string name="nav_feed">Comunidad</string>
+    <string name="nav_you">Tú</string>
+
+    <!-- Actions -->
+    <string name="action_save">Guardar</string>
+    <string name="action_skip">Omitir</string>
+    <string name="action_cook">Cocinar</string>
+    <string name="action_open">Abrir</string>
+    <string name="action_close">Cerrar</string>
+    <string name="action_back">Atrás</string>
+    <string name="action_add">Añadir</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_retry">Reintentar</string>
+    <string name="action_scan">Escanear</string>
+    <string name="action_take_photo">Tomar una foto</string>
+    <string name="action_choose_photo">Elegir de la galería</string>
+    <string name="action_done">Listo</string>
+    <string name="action_cancel">Cancelar</string>
+
+    <!-- Tonight deck -->
+    <string name="deck_loading">Cargando recetas para esta noche…</string>
+    <string name="deck_couldnt_load">No se pudo cargar</string>
+    <string name="deck_empty_message">No hay más recetas por hoy. Vuelve mañana.</string>
+    <string name="deck_be_the_first">SÉ EL PRIMERO</string>
+    <string name="deck_be_the_first_food">Fotografía este plato. Tuyo para siempre si se aprueba.</string>
+    <string name="deck_be_the_first_drink">Fotografía esta copa. Tuya para siempre si se aprueba.</string>
+    <string name="deck_first_cooked_by">COCINADO POR PRIMERA VEZ POR</string>
+    <string name="deck_swipe_save">GUARDAR</string>
+    <string name="deck_swipe_skip">OMITIR</string>
+
+    <!-- Allergen banners -->
+    <string name="allergen_no_swap">Alérgeno, sin sustituto</string>
+    <string name="allergen_sub_available">Alérgeno, sustituto disponible</string>
+    <string name="allergen_no_known_substitutes">No hay sustitutos conocidos.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Tú</string>
+    <string name="settings_section_palate">Paladar</string>
+    <string name="settings_section_features">Funciones</string>
+    <string name="settings_section_account">Cuenta</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_show_app_tour">Mostrar tour de la app de nuevo</string>
+    <string name="settings_redo_onboarding">Repetir incorporación</string>
+    <string name="settings_sign_out">Cerrar sesión</string>
+
+    <!-- Errors -->
+    <string name="error_no_internet">Sin conexión a internet.</string>
+    <string name="error_generic">Algo salió mal. Inténtalo de nuevo.</string>
+    <string name="error_no_camera">No hay aplicación de cámara disponible. Prueba Elegir de la galería.</string>
+</resources>

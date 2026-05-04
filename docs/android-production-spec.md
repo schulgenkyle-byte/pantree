@@ -682,11 +682,11 @@ Covered by §3 (data classification) and §5.2 (deletion/export). Specifically:
 | Data | Type | Collected? | Purpose | Stored | Shared? | Retention | Optional? | How to delete |
 |---|---|---|---|---|---|---|---|---|
 | Email | Personal | Yes (on sign-in) | Account identity, comms | Backend DB | No | Until account deletion | No (required to sign in) | Delete account |
-| Display name | Personal | Yes | Display to user, community features | Backend + local | Public if user reviews publicly | Account lifetime | Yes (can leave blank) | Delete account |
+| Display name | Personal | Yes | Display to user, community features | Backend + local | Public if user reviews publicly | Until account deletion | Yes (can leave blank) | Delete account |
 | Pantry photos | Private user content | Yes (on scan) | Ingredient detection | Local encrypted by default; cloud if sync enabled | No | User-controlled | Yes | Per-photo delete + "Clear scan history" |
 | Dish photos (public reviews) | User content | Yes (if user submits public review) | Community feature | Backend object storage | Yes — public via app feed | Until user deletes review | Yes | Delete review |
 | Dish photos (private reviews) | Private user content | Yes (if user submits private) | User's personal journal | Local encrypted | No | User-controlled | Yes | Delete review |
-| Recipe interactions (saves/swipes/cooks) | App activity | Yes | Core app functionality | Backend + local | No | Account lifetime | No (required for feature) | Delete account |
+| Recipe interactions (saves/swipes/cooks) | App activity | Yes | Core app functionality | Backend + local | No | Until account deletion | No (required for feature) | Delete account |
 | Reviews (text + rating) | User content | Yes | Community feature / personal journal | Backend + local | Public if user chooses | Until deleted | Yes | Delete review |
 | Pantry inventory items | User content | Yes | Core functionality | Local encrypted; cloud if sync on | No | User-controlled | No | Delete item or delete account |
 | Crash logs | Diagnostics | Yes (unless opted out) | Stability | Firebase Crashlytics | With Google | 90 days | Yes (opt-out in settings) | Clear on uninstall |

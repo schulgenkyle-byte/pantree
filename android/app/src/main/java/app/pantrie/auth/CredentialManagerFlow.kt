@@ -39,18 +39,46 @@ class CredentialManagerFlow @Inject constructor(
     if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "signInWithGoogle: got nonce, opening picker")
 
     val credentialManager = CredentialManager.create(activity)
-    // GetSignInWithGoogleOption is the right API for an explicit "Sign in with Google" button —
-    // always renders the picker, never hangs on Android 14+ when auto-select can't decide.
-    // GetGoogleIdOption (with setAutoSelectEnabled) is for SILENT/zero-tap re-auth flows only.
-    val googleOption = GetSignInWithGoogleOption.Builder(BuildConfig.GOOGLE_SERVER_CLIENT_ID)
+    // Two-stage option chain — Google's documented pattern for avoiding the
+    // "SIGN IN REQUEST CANCELLED BY <APP>" Play-Services toast.
+    //
+    // The toast fires when Play Services internally falls back from one
+    // credential option to another inside a SINGLE getCredential() call —
+    // e.g. it tries to find an authorized account, doesn't, then opens the
+    // picker. The transition between stages emits the toast.
+    //
+    // Fix: do the staging OURSELVES. First call asks ONLY for authorized
+    // accounts (filterByAuthorizedAccounts=true). If that throws
+    // NoCredentialException — meaning the user has never authorized this app
+    // before — we fall through to a second getCredential() with
+    // filterByAuthorizedAccounts=false (full picker). Each individual call
+    // is single-stage internally, so Play Services never has to fall back
+    // mid-call, and no toast appears.
+    val authorizedOption = GetGoogleIdOption.Builder()
+      .setServerClientId(BuildConfig.GOOGLE_SERVER_CLIENT_ID)
+      .setFilterByAuthorizedAccounts(true)
+      .setAutoSelectEnabled(false)
+      .setNonce(nonce)
+      .build()
+    val unauthorizedOption = GetGoogleIdOption.Builder()
+      .setServerClientId(BuildConfig.GOOGLE_SERVER_CLIENT_ID)
+      .setFilterByAuthorizedAccounts(false)
+      .setAutoSelectEnabled(false)
       .setNonce(nonce)
       .build()
 
-    val request = GetCredentialRequest.Builder().addCredentialOption(googleOption).build()
-    // 30-second cap — if the Credential Manager bottom sheet fails to render
-    // (rare Android 14+ bug), the user gets an Error state instead of an infinite spinner.
+    val request = GetCredentialRequest.Builder().addCredentialOption(authorizedOption).build()
+    val fallbackRequest = GetCredentialRequest.Builder().addCredentialOption(unauthorizedOption).build()
+    // First try: authorized-accounts-only. If the user has never picked this
+    // app before, NoCredentialException fires immediately (no UI shown), and
+    // we fall through to the full picker.
     val result = kotlinx.coroutines.withTimeout(30_000L) {
-      credentialManager.getCredential(activity, request)
+      try {
+        credentialManager.getCredential(activity, request)
+      } catch (e: androidx.credentials.exceptions.NoCredentialException) {
+        if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "no authorized account — falling back to picker")
+        credentialManager.getCredential(activity, fallbackRequest)
+      }
     }
     if (BuildConfig.DEBUG) android.util.Log.i("CredFlow", "signInWithGoogle: picker returned, extracting id token")
 

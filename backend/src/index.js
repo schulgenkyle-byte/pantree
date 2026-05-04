@@ -53,8 +53,13 @@ export default {
         return json({ ok: true, env: envName, warnings: envName === 'prod' ? undefined : problems }, 200, request, env);
       }
 
-      // Beta signup (public, no auth — landing-page form posts here)
-      if (path === '/beta/signup' && request.method === 'POST') return handleSignups.create(request, env);
+      // Beta signup (public, no auth — landing-page form posts here).
+      // Two route aliases: /beta/signup (canonical, used by curl + admin tooling)
+      // and /signup (the public-facing path the landing form actually posts to).
+      // Keeping both because the landing HTML hardcodes /signup; renaming requires
+      // a Pages redeploy whereas adding the alias is one Worker deploy.
+      if ((path === '/beta/signup' || path === '/signup') && request.method === 'POST') return handleSignups.create(request, env);
+      if ((path === '/signup/count' || path === '/signups/count') && request.method === 'GET') return handleSignups.count(request, env);
       if (path === '/admin/signups' && request.method === 'GET') return handleSignups.list(request, env);
       if (path === '/admin/signups/mark-added' && request.method === 'POST') return handleSignups.markAdded(request, env);
 
@@ -128,7 +133,11 @@ export default {
       const nutritionMatch = path.match(/^\/recipes\/([\w-]+)\/nutrition$/);
       if (nutritionMatch && request.method === 'GET') return handleNutrition.get(nutritionMatch[1], userId, env, request);
 
-      const subMatch = path.match(/^\/substitutions\/([\w\-.]+)$/);
+      // Match anything that isn't a path separator. Old `[\w\-.]+` regex
+      // 404'd on every multi-word ingredient ("black pepper" → URL-encoded
+      // "/substitutions/black%20pepper" — the % wasn't in the char class
+      // and the regex bailed out). decodeURIComponent runs in the handler.
+      const subMatch = path.match(/^\/substitutions\/([^/]+)$/);
       if (subMatch && request.method === 'GET') return handleSubstitutions.get(decodeURIComponent(subMatch[1]), userId, env, request);
 
       if (path === '/me' && request.method === 'GET') return handleUsers.me(userId, env, request);

@@ -182,6 +182,7 @@ internal object TourSteps {
   const val MINI_PANTRY_PHOTO = "mini_pantry_photo"
   const val MINI_PLAN = "mini_plan"
   const val MINI_LIBRARY = "mini_library"
+  const val MINI_ALLERGEN = "mini_allergen"
 
   // ---------- Mini-tour: Cocktails / Mixology ----------
   // Walks the user through enabling the Mixology tab in Settings, opening it, and
@@ -394,9 +395,52 @@ internal object TourSteps {
     ),
   )
 
+  // ---------- Mini-tour: Allergens ----------
+  // Only shown when the user has saved allergens — gated by WalkthroughViewModel
+  // before it appears on the Hub or auto-fires. Walks: banner → flip-back/detail
+  // → long-press an ingredient → see substitutes. Trains the single most-missed
+  // gesture in the app for users who actually need it.
+  private val miniAllergen = MiniTour(
+    id = MINI_ALLERGEN,
+    title = "Allergens & substitutes",
+    description = "Spot a flagged ingredient. Long-press for a swap.",
+    steps = listOf(
+      TourStep(
+        kind = TourStepKind.FullSheet,
+        title = "We're watching for your allergens.",
+        body = "Any card with one of your flagged ingredients shows a banner across the top. Yellow means we have a swap. Red means skip the recipe.",
+        trigger = TourTrigger.None,
+        requiredRoute = "deck",
+      ),
+      TourStep(
+        kind = TourStepKind.Spotlight,
+        title = "Look for the banner.",
+        body = "This is the banner — yellow when we have a swap, red when we don't. Tap to continue.",
+        anchorKey = TourAnchors.DECK_ALLERGEN_BANNER,
+        // No reliable observable that the user "saw" the banner — TooltipTap
+        // lets them dismiss the spotlight at their own pace.
+        trigger = TourTrigger.TooltipTap,
+        requiredRoute = "deck",
+      ),
+      TourStep(
+        kind = TourStepKind.FullSheet,
+        title = "Long-press the ingredient.",
+        body = "On the recipe view, press and hold any ingredient name. We'll show you working substitutes — almond milk for dairy, oat flour for wheat, sunbutter for peanuts, that kind of thing. If we don't have a swap, we say so honestly.",
+        trigger = TourTrigger.None,
+      ),
+      TourStep(
+        kind = TourStepKind.FullSheet,
+        title = "That's it.",
+        body = "Banner up top tells you when. Long-press tells you what to swap. The rest is yours.",
+        trigger = TourTrigger.None,
+      ),
+    ),
+  )
+
   /** All mini-tours, in the order the Hub renders their buttons. */
   val miniTours: List<MiniTour> = listOf(
     miniLibrary,
+    miniAllergen,
     miniMixology,
     miniAddRecipe,
     miniShopping,

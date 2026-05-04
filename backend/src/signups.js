@@ -6,8 +6,9 @@ import { json, err } from './util.js';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
 
 function adminAuthed(request, env) {
-  const url = new URL(request.url);
-  const key = url.searchParams.get('key') || '';
+  // Header-only — never accept the admin key in URL params (logs leak).
+  // Migration note: callers must now send X-Admin-Key header instead of ?key=...
+  const key = request.headers.get('x-admin-key') || '';
   if (!env.ADMIN_KEY || !key || key.length !== env.ADMIN_KEY.length) return false;
   let x = 0;
   for (let i = 0; i < key.length; i++) x |= key.charCodeAt(i) ^ env.ADMIN_KEY.charCodeAt(i);
@@ -67,7 +68,9 @@ export const handleSignups = {
            source = excluded.source`
       ).bind(email, source, intent, Date.now(), ipHash, ua).run();
     } catch (e) {
-      console.error('signup insert failed', e);
+      // Don't log full exception object — can include the inserted-row data
+      // which means log retention now contains user records. Message-only.
+      console.error('signup insert failed:', e?.message || String(e));
       return err(500, 'storage failed');
     }
 
@@ -89,6 +92,21 @@ export const handleSignups = {
        FROM beta_signup`
     ).first();
     return json({ ok: true, stats, signups: rows.results || [] }, 200, request, env);
+  },
+
+  // Public, no auth — landing page reads this to render a live signup count.
+  async count(request, env) {
+    await ensureTable(env);
+    const row = await env.DB.prepare(
+      `SELECT COUNT(*) AS n FROM beta_signup`
+    ).first();
+    const real = Number(row?.n || 0);
+    // Floor + total signups. Floor = 127. Every new email adds 1 on top.
+    const FLOOR = 127;
+    const count = FLOOR + real;
+    const res = json({ ok: true, count, real }, 200, request, env);
+    res.headers.set('Cache-Control', 'public, max-age=30, s-maxage=30');
+    return res;
   },
 
   async markAdded(request, env) {

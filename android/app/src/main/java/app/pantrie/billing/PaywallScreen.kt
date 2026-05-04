@@ -46,7 +46,7 @@ data class PriceTier(
 )
 
 /**
- * Single source of truth for the three Pro tiers. Imported by ProUpgradeCard.kt so the
+ * Single source of truth for Pro tiers. Imported by ProUpgradeCard.kt so the
  * inline membership card never drifts from the full paywall. If you change a price here,
  * also bump the matching SKU price in Play Console — the strings are display-only and
  * do NOT control billing (Play returns its own price; this is just the pre-purchase preview).
@@ -66,13 +66,6 @@ internal val TIERS = listOf(
     perMonth = "$2.50/mo",
     savings = "Save 50%",
     highlight = true,
-  ),
-  PriceTier(
-    sku = "brimm_pro_lifetime",
-    title = "Lifetime",
-    price = "$59.99",
-    perMonth = "one-time",
-    savings = "Best value",
   ),
 )
 

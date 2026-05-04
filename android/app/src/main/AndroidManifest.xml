@@ -7,7 +7,26 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- Photo Picker: no READ_MEDIA_IMAGES needed -->
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <!-- All hardware features explicitly required="false". Without these, the
+         androidx.biometric / camera / barcode libs implicitly require sensors
+         that 17k+ budget Android devices don't have, and Play Console filters
+         the listing. We use the sensors when present; we don't NEED them. -->
+    <uses-feature android:name="android.hardware.camera"             android:required="false" />
+    <uses-feature android:name="android.hardware.camera.any"         android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus"   android:required="false" />
+    <uses-feature android:name="android.hardware.camera.flash"       android:required="false" />
+    <uses-feature android:name="android.hardware.camera.front"       android:required="false" />
+    <uses-feature android:name="android.hardware.fingerprint"        android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth"          android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth_le"       android:required="false" />
+    <uses-feature android:name="android.hardware.location"           android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps"       android:required="false" />
+    <uses-feature android:name="android.hardware.location.network"   android:required="false" />
+    <uses-feature android:name="android.hardware.telephony"          android:required="false" />
+    <uses-feature android:name="android.hardware.microphone"         android:required="false" />
+    <uses-feature android:name="android.hardware.faketouch"          android:required="false" />
+    <uses-feature android:name="android.hardware.screen.portrait"    android:required="false" />
+    <uses-feature android:name="android.hardware.screen.landscape"   android:required="false" />
 
     <application
         android:name=".PantrieApplication"

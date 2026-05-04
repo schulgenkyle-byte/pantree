@@ -94,3 +94,9 @@ pan-tree/
 # Large generated CSVs in ingest — regenerable.
 backend/ingest/photo_backfill_log.csv
 backend/ingest/photo_backfill_pending.csv
+
+# Cocktail-archive scrape cache (69MB+ of cached HTML / text from Archive.org,
+# EUVS, Gutenberg, Wikisource). Fully regenerable from the fetch-historical-*.js
+# scripts. Logs are append-only and noisy — keep the scripts, drop the cache+logs.
+backend/ingest/cocktails/_cache/
+backend/ingest/cocktails/_logs_*.txt

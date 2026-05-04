@@ -12,10 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.pantrie.R
 import app.pantrie.network.dto.TasteProfile
 import app.pantrie.ui.theme.*
 import kotlinx.coroutines.delay
@@ -307,10 +309,59 @@ fun SettingsScreen(
         shape = RoundedCornerShape(4.dp),
       ) { Text("Redo onboarding", color = Ink) }
 
+      // ============= PRIVACY & LEGAL =============
+      // Play Store policy (effective 2024) requires an in-app deletion entry point
+      // for any account-creating app, plus an accessible privacy policy. These
+      // links open the canonical pages on speakeater.com via the system browser.
+      // Intentionally below "Account" so the audit trail is obvious.
+      Spacer(Modifier.height(36.dp))
+      SectionHeader(eyebrow = "06", title = "Privacy & legal")
+      Spacer(Modifier.height(18.dp))
+
+      val ctx = androidx.compose.ui.platform.LocalContext.current
+      val openUrl: (String) -> Unit = { url ->
+        runCatching {
+          ctx.startActivity(
+            android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
+              .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK),
+          )
+        }
+      }
+
+      OutlinedButton(
+        onClick = { openUrl("https://speakeater.com/privacy.html") },
+        modifier = Modifier.fillMaxWidth().height(48.dp),
+        shape = RoundedCornerShape(4.dp),
+      ) { Text(stringResource(R.string.settings_privacy_policy), color = Ink) }
+
+      Spacer(Modifier.height(12.dp))
+      OutlinedButton(
+        onClick = { openUrl("https://speakeater.com/terms.html") },
+        modifier = Modifier.fillMaxWidth().height(48.dp),
+        shape = RoundedCornerShape(4.dp),
+      ) { Text(stringResource(R.string.settings_terms_of_service), color = Ink) }
+
+      Spacer(Modifier.height(12.dp))
+      // Play Store-mandated in-app account-deletion entry point.
+      // Opens the web deletion flow at /delete-account.html so the user gets the same
+      // 30-day-purge guarantee the privacy policy promises.
+      OutlinedButton(
+        onClick = { openUrl("https://speakeater.com/delete-account.html") },
+        modifier = Modifier.fillMaxWidth().height(48.dp),
+        shape = RoundedCornerShape(4.dp),
+      ) { Text(stringResource(R.string.settings_delete_account), color = Terracotta) }
+
+      Text(
+        stringResource(R.string.settings_delete_account_subtitle),
+        style = MaterialTheme.typography.bodySmall,
+        color = InkMuted,
+        modifier = Modifier.padding(start = 4.dp, top = 6.dp, end = 4.dp),
+      )
+
       // Debug-only block — never ships in release builds.
       if (app.pantrie.BuildConfig.DEBUG) {
         Spacer(Modifier.height(36.dp))
-        SectionHeader(eyebrow = "06", title = "Internal")
+        SectionHeader(eyebrow = "07", title = "Internal")
         Spacer(Modifier.height(18.dp))
         OutlinedButton(
           onClick = onOpenPriceDemo,

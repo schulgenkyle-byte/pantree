@@ -1,4 +1,114 @@
 <resources>
+    <!-- App identity. NOT translated — brand name is the same in every locale. -->
     <string name="app_name">Speakeater</string>
     <string name="app_tagline">The kitchen has a back room.</string>
+
+    <!-- ================================================================
+         LANGUAGE PICKER (first onboarding step)
+         These five must always be visible regardless of current locale,
+         which is why each language's name appears in its OWN tongue.
+         ================================================================ -->
+    <string name="lang_picker_title">Choose your language</string>
+    <string name="lang_picker_subtitle">You can change this later in Settings.</string>
+    <string name="lang_picker_continue">Continue</string>
+    <string name="lang_name_english">English</string>
+    <string name="lang_name_spanish">Español</string>
+    <string name="lang_name_portuguese">Português (Brasil)</string>
+    <string name="lang_name_hindi">हिन्दी</string>
+    <string name="lang_name_indonesian">Bahasa Indonesia</string>
+
+    <!-- ================================================================
+         AUTH / LOGIN
+         ================================================================ -->
+    <string name="auth_sign_in_with_google">Sign in with Google</string>
+    <string name="auth_signing_in">Signing in…</string>
+    <string name="auth_sign_in_failed">Sign-in failed. Try again.</string>
+    <string name="auth_loading">Loading…</string>
+
+    <!-- ================================================================
+         ONBOARDING WIZARD
+         ================================================================ -->
+    <string name="onboarding_welcome_title">Welcome to Speakeater</string>
+    <string name="onboarding_welcome_body">The cooking app that reads your fridge.</string>
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_palate_title">What do you like to cook?</string>
+    <string name="onboarding_diet_title">Any dietary preferences?</string>
+    <string name="onboarding_allergens_title">Any allergens to avoid?</string>
+    <string name="onboarding_heat_title">How spicy do you like it?</string>
+    <string name="onboarding_adventure_title">How adventurous are you?</string>
+    <string name="onboarding_skip">Skip for now</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_done">Done</string>
+
+    <!-- ================================================================
+         BOTTOM NAV TABS
+         ================================================================ -->
+    <string name="nav_culinary">Culinary</string>
+    <string name="nav_mixology">Mixology</string>
+    <string name="nav_feed">Feed</string>
+    <string name="nav_you">You</string>
+
+    <!-- ================================================================
+         PRIMARY ACTIONS (verbs)
+         ================================================================ -->
+    <string name="action_save">Save</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_cook">Cook</string>
+    <string name="action_open">Open</string>
+    <string name="action_close">Close</string>
+    <string name="action_back">Back</string>
+    <string name="action_add">Add</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_share">Share</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_scan">Scan</string>
+    <string name="action_take_photo">Take a photo</string>
+    <string name="action_choose_photo">Choose from gallery</string>
+    <string name="action_done">Done</string>
+    <string name="action_cancel">Cancel</string>
+
+    <!-- ================================================================
+         TONIGHT DECK
+         ================================================================ -->
+    <string name="deck_loading">Loading tonight\'s recipes…</string>
+    <string name="deck_couldnt_load">Couldn\'t load</string>
+    <string name="deck_empty_message">No more recipes for tonight. Come back tomorrow.</string>
+    <string name="deck_be_the_first">BE THE FIRST</string>
+    <string name="deck_be_the_first_food">Photo this dish. Yours forever if approved.</string>
+    <string name="deck_be_the_first_drink">Photo this pour. Yours forever if approved.</string>
+    <string name="deck_first_cooked_by">FIRST COOKED BY</string>
+    <string name="deck_swipe_save">SAVE</string>
+    <string name="deck_swipe_skip">SKIP</string>
+
+    <!-- ================================================================
+         ALLERGEN BANNERS
+         ================================================================ -->
+    <string name="allergen_no_swap">Allergen, no swap</string>
+    <string name="allergen_sub_available">Allergen, sub available</string>
+    <string name="allergen_no_known_substitutes">No known substitutes.</string>
+
+    <!-- ================================================================
+         SETTINGS
+         ================================================================ -->
+    <string name="settings_title">You</string>
+    <string name="settings_section_palate">Palate</string>
+    <string name="settings_section_features">Features</string>
+    <string name="settings_section_account">Account</string>
+    <string name="settings_section_legal">Privacy &amp; legal</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_show_app_tour">Show app tour again</string>
+    <string name="settings_redo_onboarding">Redo onboarding</string>
+    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_terms_of_service">Terms of service</string>
+    <string name="settings_delete_account">Delete my account</string>
+    <string name="settings_delete_account_subtitle">Permanently wipes your pantry, plans, and account within 30 days.</string>
+    <string name="settings_open_in_browser_failed">Couldn\'t open browser. Visit %1$s manually.</string>
+
+    <!-- ================================================================
+         ERRORS / EMPTY STATES
+         ================================================================ -->
+    <string name="error_no_internet">No internet connection.</string>
+    <string name="error_generic">Something went wrong. Try again.</string>
+    <string name="error_no_camera">No camera app available. Try Choose from gallery instead.</string>
 </resources>

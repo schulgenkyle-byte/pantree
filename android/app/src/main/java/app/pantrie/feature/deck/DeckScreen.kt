@@ -4,6 +4,7 @@ package app.pantrie.feature.deck
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -36,6 +37,9 @@ import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material.icons.outlined.SoupKitchen
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.Warning
+import app.pantrie.feature.cards.CardAllergenBanner
+import app.pantrie.feature.cards.FOOD_PALETTE
+import app.pantrie.feature.cards.SwipeOverlay
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.collectAsState
@@ -233,25 +237,34 @@ class DeckViewModel @Inject constructor(
       val advFlag = if (_adventurous.value) 1 else null
       // require_photo=1 — surface only photo-having recipes in the Tonight deck.
       // Audit (2026-04-25) showed 94% of HuggingFace recipes have no image; without
-      // this guard the deck is mostly photoless garbage. Mixology has its own client-side
-      // photo guard for Mixologist mode (Bootlegger vintage cards intentionally photoless).
+      // this guard the deck is mostly photoless garbage.
       //
-      // One-shot auto-retry so a transient flake (cold-start race against the auth-refresh
-      // interceptor, brief network blip) doesn't leave the user looking at "Couldn't load"
-      // until they manually tap Retry. Second call after a 1.2s pause gives the refresh
-      // interceptor time to swap a fresh access token onto the queue.
-      val first = runCatching { api.deck(adventurous = advFlag, filter = _filter.value, requirePhoto = 1) }
-      val finalResult = if (first.isFailure) {
-        kotlinx.coroutines.delay(1200)
-        runCatching { api.deck(adventurous = advFlag, filter = _filter.value, requirePhoto = 1) }
-      } else first
-      finalResult
-        .onSuccess { resp ->
-          _state.value = resp
+      // Backoff retry. First-install path: Google one-tap takes 2-4s to land a
+      // token, but the deck VM constructs as soon as the route enters and fires
+      // /recipes/deck immediately — beating the auth interceptor. The single
+      // 1.2s retry we used to do wasn't long enough; new users saw "Couldn't
+      // load." Now we try up to 5 times across ~10s before surfacing an error.
+      // Stays in loading state through retries so the spinner doesn't flicker
+      // to "couldn't load" and back. Refresh-on-pull / refresh-on-tab-return
+      // still reaches this path the same way.
+      val backoffMs = longArrayOf(0L, 800L, 1500L, 2500L, 4000L)
+      var lastResult: Result<DeckResponse>? = null
+      for (delayMs in backoffMs) {
+        if (delayMs > 0) kotlinx.coroutines.delay(delayMs)
+        lastResult = runCatching {
+          // requirePhoto = null (was 1) — let photoless recipes through so the
+          // "BE THE FIRST" camera CTA actually appears on cards that need it.
+          // Server still ranks photo-having recipes higher in the deck score
+          // (image_url adds +32 to score in recipes.js), so most cards still
+          // have images; users just see a ~5-10% mix of photoless cards as
+          // user-contribution opportunities.
+          api.deck(adventurous = advFlag, filter = _filter.value, requirePhoto = null)
         }
-        .onFailure { e ->
-          _error.value = e.message ?: "Couldn't load recipes"
-        }
+        if (lastResult.isSuccess) break
+      }
+      lastResult
+        ?.onSuccess { resp -> _state.value = resp }
+        ?.onFailure { e -> _error.value = e.message ?: "Couldn't load recipes" }
       _refreshing.value = false
     }
   }
@@ -927,34 +940,9 @@ private fun DraggableCard(
       }
     }
 
-    // Drag overlay labels
-    if (saveOverlay > 0.1f && rotationYAnim < 90f) {
-      Text(
-        "SAVE",
-        modifier = Modifier
-          .align(Alignment.TopStart)
-          .padding(24.dp)
-          .rotate(-12f)
-          .border(3.dp, Olive, RoundedCornerShape(4.dp))
-          .padding(horizontal = 10.dp, vertical = 4.dp)
-          .alpha(saveOverlay),
-        color = Olive, fontWeight = FontWeight.ExtraBold,
-        style = MaterialTheme.typography.headlineSmall,
-      )
-    }
-    if (skipOverlay > 0.1f && rotationYAnim < 90f) {
-      Text(
-        "SKIP",
-        modifier = Modifier
-          .align(Alignment.TopEnd)
-          .padding(24.dp)
-          .rotate(12f)
-          .border(3.dp, Terracotta, RoundedCornerShape(4.dp))
-          .padding(horizontal = 10.dp, vertical = 4.dp)
-          .alpha(skipOverlay),
-        color = Terracotta, fontWeight = FontWeight.ExtraBold,
-        style = MaterialTheme.typography.headlineSmall,
-      )
+    // Drag overlays — shared chrome, palette-tinted. Identical look to mixology.
+    if (rotationYAnim < 90f) {
+      SwipeOverlay(saveProgress = saveOverlay, skipProgress = skipOverlay, palette = FOOD_PALETTE)
     }
   }
 }
@@ -979,17 +967,13 @@ private fun CardFront(
   ) {
     Column(Modifier.fillMaxSize()) {
 
-      // Edge-to-edge allergen banner. Server tells us status per recipe so the
-      // client doesn't need to know which allergens have substitutes.
-      //   "red"    → at least one matched allergen has no real sub → SKIP
-      //   "yellow" → every matched allergen has a known sub → block w/ workaround
-      //   "none"   → no allergen → no banner
-      if (recipe.allergenStatus == "red" || recipe.allergenStatus == "yellow") {
-        DeckAllergenBanner(
-          status = recipe.allergenStatus,
-          labels = recipe.allergenLabels,
-        )
-      }
+      // Edge-to-edge allergen banner — shared chrome across food + mixology so
+      // every card type renders the same banner shape, just in its own palette.
+      CardAllergenBanner(
+        status = recipe.allergenStatus,
+        labels = recipe.allergenLabels,
+        palette = FOOD_PALETTE,
+      )
       // IMAGE — fills ALL remaining vertical space via weight(1f). Text blocks below have intrinsic
       // heights, so image grows to eat everything else. No scroll, no dead space.
       if (hasImage) {
@@ -1003,103 +987,60 @@ private fun CardFront(
             .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
         )
       } else {
-        // No photo placeholder. Two stacked CTAs:
-        //   1. First-cook claim ("Cook this first · Your name. Forever.")
-        //   2. First-photo claim ("Take the first photo · Yours forever if approved.")
-        // Both are real value props: cook = top-of-card credit; photo = the recipe's
-        // canonical image. Stacked because either action is independently valuable
-        // and a user might do one without the other. .clickable on the photo CTA
-        // is OK alongside the parent swipe — quick taps register, drags pass through.
-        Box(
-          Modifier
+        // No photo. Big tappable gold-bordered camera panel fills the entire
+        // image slot — same pattern as photoless cocktails. The user lands on
+        // a card without a photo, the call-to-action is the first thing they
+        // see in the image position. No scrolling, no nested CTAs.
+        //
+        // First-cook claim ("First cooked by X" badge) renders as a tiny
+        // overline at the bottom of the panel when applicable, so the CTA
+        // for the photo is the dominant action.
+        Surface(
+          shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+          color = Paper2,
+          border = BorderStroke(2.dp, BrassBright),
+          modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
-            .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-            .background(bg.copy(alpha = 0.55f)),
-          contentAlignment = Alignment.Center,
+            .clickable { onContributePhoto(recipe.id) },
         ) {
           Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 18.dp),
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
           ) {
-            // Block 1 — first-cook claim. No tap target; user claims by Cook-Mode finish.
             Icon(
-              imageVector = Icons.Outlined.LocalFireDepartment,
+              imageVector = Icons.Outlined.CameraAlt,
               contentDescription = null,
-              tint = Ink.copy(alpha = 0.85f),
-              modifier = Modifier.size(48.dp),
+              tint = BrassBright,
+              modifier = Modifier.size(64.dp),
             )
-            Spacer(Modifier.height(10.dp))
-            if (recipe.firstCookedBy.isNullOrBlank()) {
-              Text(
-                "Cook this first",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = Ink,
-              )
-              Spacer(Modifier.height(2.dp))
-              Text(
-                "Your name on the card. Forever.",
-                style = MaterialTheme.typography.bodySmall,
-                color = Ink.copy(alpha = 0.78f),
-              )
-            } else {
-              Text(
-                "FIRST COOKED BY",
-                style = MaterialTheme.typography.labelSmall,
-                color = Ink.copy(alpha = 0.65f),
-                letterSpacing = 1.5.sp,
-              )
-              Spacer(Modifier.height(2.dp))
-              Text(
-                recipe.firstCookedBy,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = BrassBright,
-              )
-            }
-
-            Spacer(Modifier.height(20.dp))
-            HorizontalDivider(
-              modifier = Modifier.fillMaxWidth(0.4f),
-              color = Ink.copy(alpha = 0.2f),
-            )
-            Spacer(Modifier.height(20.dp))
-
-            // Block 2 — first-photo claim. Tappable surface.
-            // Routes to recipe/<id>/photo-contribute, which opens the system camera.
-            // Approved photo becomes the canonical image and the user gets photo credit.
-            androidx.compose.material3.Surface(
-              shape = RoundedCornerShape(28.dp),
-              color = Ink,
-              modifier = Modifier.clickable { onContributePhoto(recipe.id) },
-            ) {
-              Row(
-                Modifier.padding(horizontal = 18.dp, vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-              ) {
-                Icon(
-                  imageVector = Icons.Outlined.CameraAlt,
-                  contentDescription = null,
-                  tint = BrassBright,
-                  modifier = Modifier.size(22.dp),
-                )
-                Spacer(Modifier.width(10.dp))
-                Text(
-                  "Take the first photo",
-                  style = MaterialTheme.typography.labelLarge,
-                  fontWeight = FontWeight.SemiBold,
-                  color = androidx.compose.ui.graphics.Color(0xFFF5EFE4),
-                )
-              }
-            }
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(14.dp))
             Text(
-              "Yours forever if approved.",
-              style = MaterialTheme.typography.labelSmall,
-              color = Ink.copy(alpha = 0.7f),
-              fontStyle = FontStyle.Italic,
+              "BE THE FIRST",
+              style = MaterialTheme.typography.titleMedium,
+              color = BrassBright,
+              fontWeight = FontWeight.Bold,
+              letterSpacing = 2.5.sp,
             )
+            Spacer(Modifier.height(4.dp))
+            Text(
+              "Photo this dish. Yours forever if approved.",
+              style = MaterialTheme.typography.bodyMedium,
+              color = Ink.copy(alpha = 0.75f),
+              fontStyle = FontStyle.Italic,
+              textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            )
+            if (!recipe.firstCookedBy.isNullOrBlank()) {
+              Spacer(Modifier.height(18.dp))
+              Text(
+                "FIRST COOKED BY · ${recipe.firstCookedBy.uppercase()}",
+                style = MaterialTheme.typography.labelSmall,
+                color = Ink.copy(alpha = 0.55f),
+                letterSpacing = 1.5.sp,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+              )
+            }
           }
         }
       }
@@ -1372,7 +1313,11 @@ private fun CardBack(
         )
       }
 
-      Spacer(Modifier.weight(1f))
+      // Spacer(weight) inside a verticalScroll Column reads as 0 height (scroll
+      // gives infinite max-height, so weight has nothing to fight). Was eating
+      // the entire layout — the back card rendered fully blank. Replaced with a
+      // fixed gap so content + buttons just stack naturally and scroll if long.
+      Spacer(Modifier.height(20.dp))
 
       Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         OutlinedButton(
@@ -1425,54 +1370,6 @@ private fun StatCell(icon: androidx.compose.ui.graphics.vector.ImageVector, valu
     Icon(icon, null, tint = iconTint, modifier = Modifier.size(14.dp))
     Spacer(Modifier.width(4.dp))
     Text(value, style = MaterialTheme.typography.labelMedium, color = InkSoft, fontWeight = FontWeight.Medium)
-  }
-}
-
-/** Edge-to-edge allergen banner for the deck card. Sits above the image
- *  on the front of the card. Tri-state:
- *    red    → at least one matched allergen has no real substitute → skip
- *    yellow → all matched allergens have known subs → can work around
- *    (none) → no banner; status="none" rendered as nothing
- *
- *  Compact (~36dp) so it doesn't eat the image. Long-press ingredients on
- *  the detail screen for sub options — the deck card is too small for subs
- *  inline. Server computes status; client just renders. */
-@Composable
-private fun DeckAllergenBanner(status: String, labels: List<String>) {
-  val red = Color(0xFFC54B3C)
-  val amber = Color(0xFFD4A04A)   // BrassBright — on-brand "warning, workable"
-  val ink = Color(0xFF2B2621)
-  val isRed = status == "red"
-  val bg = if (isRed) red else amber
-  // Red text white-on-red for max contrast; yellow ink-on-brass to keep
-  // the speakeasy palette clean (white on brass looks washed out).
-  val fg = if (isRed) Color.White else ink
-  val labelText = labels.joinToString(" · ") { it.uppercase() }
-  val prefix = if (isRed) "Allergen, no swap" else "Allergen, sub available"
-  Surface(
-    color = bg,
-    modifier = Modifier.fillMaxWidth(),
-  ) {
-    Row(
-      Modifier.padding(horizontal = 14.dp, vertical = 9.dp),
-      verticalAlignment = Alignment.CenterVertically,
-    ) {
-      Icon(
-        imageVector = Icons.Outlined.Warning,
-        contentDescription = null,
-        tint = fg,
-        modifier = Modifier.size(16.dp),
-      )
-      Spacer(Modifier.width(10.dp))
-      Text(
-        if (labelText.isNotBlank()) "$prefix · $labelText" else prefix,
-        style = MaterialTheme.typography.labelMedium,
-        fontWeight = FontWeight.Bold,
-        color = fg,
-        letterSpacing = 1.0.sp,
-        maxLines = 2,
-      )
-    }
   }
 }
 

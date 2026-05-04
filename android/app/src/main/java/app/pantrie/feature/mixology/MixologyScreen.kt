@@ -5,6 +5,7 @@ package app.pantrie.feature.mixology
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
@@ -53,6 +54,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.pantrie.feature.beta.Analytics
+import app.pantrie.feature.cards.CardAllergenBanner
+import app.pantrie.feature.cards.SwipeOverlay
+import app.pantrie.feature.cards.paletteFor
 import app.pantrie.feature.settings.LocalSettingsStore
 import app.pantrie.network.PantrieApi
 import app.pantrie.network.dto.DeckResponse
@@ -188,6 +192,30 @@ class MixologyViewModel @Inject constructor(
 
   fun getNote(recipeId: String): String = localSettings.getMixologyNote(recipeId)
   fun setNote(recipeId: String, note: String) = localSettings.setMixologyNote(recipeId, note)
+
+  /** Commit the note. If `shareAsReview`, also POST to the public review feed.
+   *  Local copy stays in localSettings either way so the back-card NotesPage
+   *  shows the note next time the user flips. onDone fires on completion so
+   *  the button can flash "Saved ✓". */
+  fun saveNote(recipeId: String, note: String, shareAsReview: Boolean, onDone: () -> Unit) {
+    localSettings.setMixologyNote(recipeId, note.trim())
+    analytics.track("note_saved", mapOf("recipe_id" to recipeId, "shared" to shareAsReview))
+    viewModelScope.launch {
+      if (shareAsReview && note.isNotBlank()) {
+        runCatching {
+          api.review(
+            app.pantrie.network.dto.ReviewRequest(
+              recipeId = recipeId,
+              ratingPots = 0,
+              notes = note.trim(),
+              isPublic = true,
+            )
+          )
+        }
+      }
+      onDone()
+    }
+  }
 
   fun clearToast() { _toast.value = null }
 }
@@ -566,7 +594,10 @@ private fun DraggableMixCard(
           onFlip()
         },
         onPanIt = onPanIt,
-        onSave = { exitDir = 1 },
+        // Save no longer auto-dismisses the card — users wanted to keep
+        // reading after saving. Just records the save; user swipes when ready.
+        onSave = onSave,
+        onContributePhoto = onSubmitDrinkPhoto,
       )
     } else {
       Box(Modifier.fillMaxSize().graphicsLayer { rotationY = 180f }) {
@@ -587,34 +618,10 @@ private fun DraggableMixCard(
       }
     }
 
-    // Swipe overlays
-    if (saveOverlay > 0.1f && rotationYAnim < 90f) {
-      Text(
-        "SAVE",
-        modifier = Modifier
-          .align(Alignment.TopStart)
-          .padding(24.dp)
-          .rotate(-12f)
-          .border(3.dp, Olive, RoundedCornerShape(4.dp))
-          .padding(horizontal = 10.dp, vertical = 4.dp)
-          .alpha(saveOverlay),
-        color = Olive, fontWeight = FontWeight.ExtraBold,
-        style = MaterialTheme.typography.headlineSmall,
-      )
-    }
-    if (skipOverlay > 0.1f && rotationYAnim < 90f) {
-      Text(
-        "SKIP",
-        modifier = Modifier
-          .align(Alignment.TopEnd)
-          .padding(24.dp)
-          .rotate(12f)
-          .border(3.dp, Terracotta, RoundedCornerShape(4.dp))
-          .padding(horizontal = 10.dp, vertical = 4.dp)
-          .alpha(skipOverlay),
-        color = Terracotta, fontWeight = FontWeight.ExtraBold,
-        style = MaterialTheme.typography.headlineSmall,
-      )
+    // Swipe overlays — shared chrome, palette-tinted. Identical to food.
+    if (rotationYAnim < 90f) {
+      val palette = paletteFor("cocktail", vintageMode)
+      SwipeOverlay(saveProgress = saveOverlay, skipProgress = skipOverlay, palette = palette)
     }
   }
 }
@@ -806,6 +813,7 @@ private fun MixCardFront(
   onFlip: () -> Unit,
   onPanIt: () -> Unit,
   onSave: () -> Unit,
+  onContributePhoto: (String) -> Unit = {},
 ) {
   val cardBg = if (vintageMode) Sepia else ModernCard
   val textInk = if (vintageMode) SepiaInk else ModernInk
@@ -839,9 +847,33 @@ private fun MixCardFront(
               shape = RoundedCornerShape(16.dp),
             )
           else Modifier
-        )
+        ),
+    ) {
+      // Edge-to-edge allergen banner — same chrome as food deck. Drawn outside
+      // the padding wrapper so it spans the full card width. Banner takes its
+      // natural height; the inner Column gets weight(1f) so it consumes the
+      // remaining vertical space and any verticalScroll inside actually clips.
+      CardAllergenBanner(
+        status = recipe.allergenStatus,
+        labels = recipe.allergenLabels,
+        palette = paletteFor("cocktail", vintageMode),
+      )
+    Column(
+      Modifier
+        .weight(1f)
+        .fillMaxWidth()
         .padding(if (vintageMode) 16.dp else 20.dp),
     ) {
+      // Era eyebrow — small uppercase strip above the title so users immediately
+      // know whether this is a 1908 bootleg cocktail or a modern craft drink.
+      // Without this, vintage and modern cards looked identical at first glance.
+      app.pantrie.feature.cards.CocktailEraEyebrow(
+        isHistoric = recipe.isHistoric,
+        sourceYear = recipe.sourceYear,
+        palette = paletteFor("cocktail", vintageMode),
+      )
+      Spacer(Modifier.height(if (vintageMode) 8.dp else 6.dp))
+
       if (vintageMode) {
         // VINTAGE title — tight, no wasted space, recipe body gets the stage
         Text(
@@ -948,7 +980,60 @@ private fun MixCardFront(
           }
         }
       } else {
-        // MODERNIZED body — image at top (the cocktail photo), then ingredients + method.
+        // Photoless cocktails: render the "BE THE FIRST" CTA OUTSIDE (above)
+        // the scrollable body so it occupies the image slot — same vertical
+        // real estate the image would, no need for the user to scroll the
+        // body to find it. Vintage cards are intentionally text-only.
+        if (recipe.imageUrl.isNullOrBlank() && !vintageMode) {
+          Surface(
+            shape = RoundedCornerShape(10.dp),
+            color = Paper2,
+            border = BorderStroke(2.dp, ModernGold),
+            modifier = Modifier
+              .fillMaxWidth()
+              .height(200.dp)
+              .clickable { onContributePhoto(recipe.id) },
+          ) {
+            Column(
+              horizontalAlignment = Alignment.CenterHorizontally,
+              verticalArrangement = Arrangement.Center,
+              modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp),
+            ) {
+              Icon(
+                imageVector = Icons.Outlined.CameraAlt,
+                contentDescription = null,
+                tint = ModernGold,
+                modifier = Modifier.size(56.dp),
+              )
+              Spacer(Modifier.height(12.dp))
+              Text(
+                "BE THE FIRST",
+                style = MaterialTheme.typography.titleMedium,
+                color = ModernGold,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 2.5.sp,
+              )
+              Spacer(Modifier.height(4.dp))
+              Text(
+                "Photo this pour. Yours forever if approved.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = ModernInkMuted,
+                fontStyle = FontStyle.Italic,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+              )
+            }
+          }
+          Spacer(Modifier.height(12.dp))
+        }
+        // MODERNIZED body — wrapped in verticalScroll so long ingredient lists
+        // and method steps don't push the social footer off-screen and don't
+        // clip silently. Vintage path scrolls its own originalText separately.
+        Column(
+          Modifier
+            .weight(1f)
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
+        ) {
         if (!recipe.imageUrl.isNullOrBlank()) {
           AsyncImage(
             model = recipe.imageUrl,
@@ -1016,6 +1101,7 @@ private fun MixCardFront(
             }
           }
         }
+        }  // end Modern body verticalScroll Column
       }
 
       Spacer(Modifier.height(10.dp))
@@ -1100,7 +1186,8 @@ private fun MixCardFront(
           )
         }
       }
-      }  // end Column
+      }  // end inner padded Column
+    }  // end outer Column (banner + body)
     }  // end Box (vintage paper texture wrapper)
   }
 }
@@ -1176,7 +1263,12 @@ private fun MixCardBack(
 
   Card(
     modifier = Modifier.fillMaxSize(),
-    colors = CardDefaults.cardColors(containerColor = Cream),
+    // Surface MUST be a dark "paper" — the theme rebrand re-pointed `Cream` at
+    // the warm off-white foreground ink, so using it as a card-bg here meant
+    // light-on-light: every text on the back face was rendering invisible
+    // against an off-white surface. Paper2 is the lifted-black card surface
+    // intended for elevated/inset surfaces against the near-black app bg.
+    colors = CardDefaults.cardColors(containerColor = Paper2),
     shape = RoundedCornerShape(16.dp),
     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
   ) {
@@ -1511,45 +1603,79 @@ private fun NotesPage(
 
     Spacer(Modifier.height(10.dp))
 
-    // Photo of your pour — opens system camera, runs through SafeSearch + drink-detection
-    // moderation, then attaches to the recipe (and to your review if you toggle Share below).
+    // Compact action bar: [📷] [Save] [Share toggle]. All three live on the
+    // same row so the OutlinedTextField above keeps weight(1f) and the user
+    // can actually see what they're typing. Camera → icon-only square, Save →
+    // takes the slack with weight(1f), share toggle on the right.
+    var savedFlash by remember(recipeId) { mutableStateOf(false) }
+    var saving by remember(recipeId) { mutableStateOf(false) }
+    val mixVm: MixologyViewModel = hiltViewModel()
+    LaunchedEffect(savedFlash) {
+      if (savedFlash) {
+        kotlinx.coroutines.delay(1800)
+        savedFlash = false
+      }
+    }
     Row(
       Modifier.fillMaxWidth(),
       verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.spacedBy(10.dp),
+      horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+      // Camera — icon-only square. Compact so the Save button + share toggle fit.
       Surface(
         onClick = { onSubmitDrinkPhoto(recipeId) },
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(8.dp),
         color = Color.Transparent,
         border = androidx.compose.foundation.BorderStroke(1.dp, InkFaint),
-        modifier = Modifier.weight(1f).height(48.dp),
+        modifier = Modifier.size(44.dp),
       ) {
-        Row(
-          Modifier.fillMaxSize().padding(horizontal = 12.dp),
-          verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.Center,
-        ) {
-          Icon(Icons.Outlined.CameraAlt, null, tint = Ink, modifier = Modifier.size(20.dp))
-          Spacer(Modifier.width(8.dp))
-          Text("Photo your pour", color = Ink, style = MaterialTheme.typography.labelLarge)
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+          Icon(Icons.Outlined.CameraAlt, "Photo your pour", tint = Ink, modifier = Modifier.size(20.dp))
         }
       }
-    }
-
-    Spacer(Modifier.height(8.dp))
-
-    // Toggle to publish note + photo as a public review on this recipe
-    Row(verticalAlignment = Alignment.CenterVertically) {
+      // Save commit. Notes type instantly into local state via onNoteChange so
+      // a quick flip-back preserves them; the Save button is what posts to the
+      // server (and to the public review feed if Share is on).
+      Button(
+        onClick = {
+          if (saving) return@Button
+          saving = true
+          mixVm.saveNote(recipeId, text, shareAsReview) {
+            saving = false
+            savedFlash = true
+          }
+        },
+        enabled = !saving && text.isNotBlank(),
+        colors = ButtonDefaults.buttonColors(
+          containerColor = Ink,
+          contentColor = Paper,
+          disabledContainerColor = InkFaint.copy(alpha = 0.3f),
+          disabledContentColor = InkMuted,
+        ),
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier.weight(1f).height(44.dp),
+        contentPadding = PaddingValues(horizontal = 12.dp),
+      ) {
+        Text(
+          when {
+            saving -> "Saving…"
+            savedFlash && shareAsReview -> "Saved + shared ✓"
+            savedFlash -> "Saved ✓"
+            shareAsReview -> "Save + share"
+            else -> "Save"
+          },
+          fontWeight = FontWeight.SemiBold,
+          maxLines = 1,
+        )
+      }
+      // Share toggle inline. Switch alone — the prior "Share to What Others
+      // Are Saying" caption already lives in the privacy hint at the top
+      // ("Will post to What Others Are Saying after moderation.") so a label
+      // here would duplicate. Smaller scale to fit the action row.
       Switch(
         checked = shareAsReview,
         onCheckedChange = { shareAsReview = it },
-      )
-      Spacer(Modifier.width(8.dp))
-      Text(
-        "Share to What Others Are Saying",
-        style = MaterialTheme.typography.labelMedium,
-        color = Ink,
+        modifier = Modifier.scale(0.85f),
       )
     }
   }

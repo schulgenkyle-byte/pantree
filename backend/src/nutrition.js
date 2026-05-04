@@ -62,7 +62,12 @@ async function estimate(env, recipe, ingredients) {
 }
 
 export const handleNutrition = {
-  /** GET /recipes/{id}/nutrition */
+  /** GET /recipes/{id}/nutrition
+   *  Returns cached nutrition only. The on-demand Claude estimate was removed
+   *  because nutrition is deterministic per (ingredient list, servings) — that
+   *  belongs in a precomputed table, not in a per-view LLM call. Backfill via
+   *  a batch script (`backend/ingest/nutrition_backfill.cjs`) that walks
+   *  recipe rows offline and writes the `nutrition` column once. */
   async get(recipeId, userId, env, request) {
     if (!validOpaqueId(recipeId)) return err(400, 'id invalid');
     const rl = await enforce(env, 'read', userId);
@@ -75,21 +80,10 @@ export const handleNutrition = {
 
     if (recipe.nutrition) {
       try { return json({ ok: true, nutrition: JSON.parse(recipe.nutrition), cached: true }, 200, request, env); }
-      catch { /* compute below */ }
+      catch { /* fall through to null */ }
     }
-
-    // Rate-limit the AI fallback more aggressively (per-user, expensive).
-    const rlAi = await enforce(env, 'scan', userId);
-    if (rlAi) return rlAi;
-
-    const ings = await env.DB.prepare(
-      'SELECT name, quantity, unit FROM recipe_ingredient WHERE recipe_id = ? ORDER BY seq'
-    ).bind(recipeId).all();
-
-    const est = await estimate(env, recipe, ings.results || []);
-    if (!est) return err(502, 'nutrition upstream error');
-
-    await env.DB.prepare('UPDATE recipe SET nutrition = ? WHERE id = ?').bind(JSON.stringify(est), recipeId).run();
-    return json({ ok: true, nutrition: est, cached: false }, 200, request, env);
+    // No cached nutrition. Return ok:null instead of erroring — Android client
+    // already handles a missing nutrition payload gracefully (the row hides).
+    return json({ ok: true, nutrition: null, cached: false }, 200, request, env);
   },
 };

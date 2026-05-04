@@ -38,6 +38,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import java.io.ByteArrayOutputStream
 import java.io.File
 import javax.inject.Inject
@@ -64,6 +67,7 @@ class ContributeRecipePhotoViewModel @Inject constructor(
   val state = _state.asStateFlow()
 
   fun setPhoto(uri: Uri?) { _state.value = _state.value.copy(photoUri = uri, error = null) }
+  fun setError(msg: String) { _state.value = _state.value.copy(error = msg) }
   fun clearError() { _state.value = _state.value.copy(error = null) }
 
   fun submit(ctx: Context, recipeId: String) {
@@ -81,10 +85,19 @@ class ContributeRecipePhotoViewModel @Inject constructor(
           _state.value = _state.value.copy(submitting = false, submitted = true)
         }
         .onFailure { e ->
-          _state.value = _state.value.copy(
-            submitting = false,
-            error = e.message?.takeIf { it.isNotBlank() } ?: "Couldn't submit. Try again.",
-          )
+          // Surface the server's error message (e.g. "First photos for this
+          // recipe are in review") instead of Retrofit's generic "HTTP 429".
+          val msg = (e as? retrofit2.HttpException)
+            ?.response()?.errorBody()?.string()
+            ?.let { body ->
+              runCatching {
+                kotlinx.serialization.json.Json.parseToJsonElement(body)
+                  .let { it.jsonObject["error"]?.jsonPrimitive?.contentOrNull }
+              }.getOrNull()
+            }
+            ?: e.message?.takeIf { it.isNotBlank() }
+            ?: "Couldn't submit. Try again."
+          _state.value = _state.value.copy(submitting = false, error = msg)
         }
     }
   }
@@ -99,12 +112,20 @@ fun ContributeRecipePhotoScreen(
   val ctx = LocalContext.current
   val state by vm.state.collectAsState()
 
-  // System camera launcher. We hand it a temp file URI; on success the Bitmap
-  // is full-resolution (vs. TakePicturePreview which thumbnails to ~256px).
-  val cameraTargetUri = remember { newCaptureUri(ctx) }
+  // System camera launcher. URI is generated FRESH on each launch via the
+  // `pendingCameraUri` ref — caching a single URI in `remember` was the crash
+  // source: if the first launch failed silently (ActivityNotFound, denied
+  // permission, OEM camera app weirdness) the cached URI's file ref went
+  // stale and the second launch crashed dereferencing it. Fresh URI per
+  // attempt avoids the stale-state path entirely.
+  val pendingCameraUri = remember { mutableStateOf<Uri?>(null) }
   val cameraLauncher = rememberLauncherForActivityResult(
     contract = ActivityResultContracts.TakePicture(),
-  ) { ok -> if (ok) vm.setPhoto(cameraTargetUri) }
+  ) { ok ->
+    val captured = pendingCameraUri.value
+    if (ok && captured != null) vm.setPhoto(captured)
+    pendingCameraUri.value = null
+  }
 
   // Gallery picker. Some users will want to upload a cooking photo they
   // already took. PickVisualMedia is the modern Photo-Picker API; it
@@ -199,7 +220,25 @@ fun ContributeRecipePhotoScreen(
       // Two source buttons. Camera first because shooting is the primary intent.
       Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         Button(
-          onClick = { cameraLauncher.launch(cameraTargetUri) },
+          onClick = {
+            // Fresh URI on every tap. Catch ActivityNotFoundException (devices
+            // without a camera app accepting ACTION_IMAGE_CAPTURE) and any
+            // FileProvider/OEM-camera weirdness so a failed launch surfaces a
+            // friendly error instead of crashing the whole app. The most
+            // common crash here was an ActivityNotFoundException dereferenced
+            // in the launcher's internal state.
+            val uri = runCatching { newCaptureUri(ctx) }.getOrNull()
+            if (uri == null) {
+              vm.setError("Couldn't prepare a photo file. Try Choose from gallery instead.")
+              return@Button
+            }
+            pendingCameraUri.value = uri
+            runCatching { cameraLauncher.launch(uri) }
+              .onFailure { e ->
+                pendingCameraUri.value = null
+                vm.setError("No camera app available. Try Choose from gallery instead.")
+              }
+          },
           colors = ButtonDefaults.buttonColors(containerColor = Ink, contentColor = Paper),
           shape = RoundedCornerShape(10.dp),
           modifier = Modifier.weight(1f),

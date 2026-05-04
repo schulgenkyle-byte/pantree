@@ -15,7 +15,7 @@ package app.pantrie
  *   HELLO_EMAIL is the marketing surface tied to the new brand domain. Use this for
  *   any new copy that asks users to "reach out" or "say hi".
  *
- * SKU ids (brimm_pro_monthly/yearly/lifetime) live in BillingManager.kt and stay
+ * SKU ids (brimm_pro_monthly, brimm_pro_yearly) live in BillingManager.kt and stay
  * locked — Play Console SKU ids cannot be renamed without orphaning subscribers.
  */
 object Brand {
