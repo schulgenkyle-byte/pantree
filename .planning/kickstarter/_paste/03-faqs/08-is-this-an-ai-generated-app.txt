@@ -1,0 +1,5 @@
+QUESTION:
+Is this an AI-generated app?
+
+ANSWER:
+No. The cocktail recipes are transcribed from primary-source manuscripts by hand. The food recipes are licensed, edited, and ranked. The Mystery Night writing is mine. The only AI involvement is the vision OCR that reads your fridge, the matching engine that ranks recipes by ingredient overlap, and the optional Video Clue Pack stretch goal which uses AI video generation tools to produce period-styled twist clips. The recipes, the games, and the cocktail history themselves are real.

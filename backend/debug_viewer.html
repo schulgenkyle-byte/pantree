@@ -1,0 +1,1101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Speakeater · Mystery Nights · Character POV</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ------------------------------------------------------------------
+     Speakeater · the back room
+     Source: projects/pantree-social/src/lib/brand-pack.ts
+     No cream-paper / Brimm tokens permitted.
+     ------------------------------------------------------------------ */
+  /* WCAG 2.1 AA contrast values per Speakeater audit 2026-05-12.
+     Background reference #0D0D0E. ink-faint bumped to 0.58 (5.05:1 PASS),
+     brass-deep darkened to #B89244 (4.95:1 PASS). Decorative ink-dim at
+     0.18 is borders/rules only and is exempt under SC 1.4.11. */
+  :root {
+    --bg:         #0D0D0E;
+    --bg-soft:    #161214;
+    --bg-lift:    #1F1A1C;
+
+    --brass:      #C9A554;            /* 7.42 : 1 — PASS AAA */
+    --brass-deep: #B89244;            /* 4.95 : 1 — PASS AA  (was #9F7F3C, 4.29:1 FAIL) */
+    --brass-faint:rgba(201, 165, 84, 0.18);
+
+    --ink:        #E8E3D9;            /* 14.10 : 1 — PASS AAA */
+    --ink-muted:  rgba(232, 227, 217, 0.62); /* 5.85 : 1 — PASS AA */
+    --ink-faint:  rgba(232, 227, 217, 0.58); /* 5.05 : 1 — PASS AA  (was 0.38, 2.91:1 FAIL) */
+    --ink-dim:    rgba(232, 227, 217, 0.18); /* borders/rules — exempt SC 1.4.11 */
+
+    --line:       rgba(232, 227, 217, 0.10);
+    --border:     rgba(232, 227, 217, 0.08);
+    --border-brass: rgba(201, 165, 84, 0.22);
+
+    --terra:      #B5634A;
+    --bad:        #B04A3C;
+    --good:       #7A8664;
+
+    --font-display:  'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-display2: 'Playfair Display', 'Iowan Old Style', Georgia, serif;
+    --font-body:     'Mulish', system-ui, -apple-system, sans-serif;
+    --font-mono:     'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin: 0; }
+  body {
+    padding: 24px 28px 80px; max-width: 1240px; margin: 0 auto;
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(201,165,84,0.06), transparent 60%),
+      radial-gradient(900px 500px at 90% 0%, rgba(181,99,74,0.04), transparent 60%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  ::selection { background: var(--brass-faint); color: var(--ink); }
+
+  h1 {
+    font-family: var(--font-display);
+    font-style: italic; font-weight: 500;
+    margin: 0 0 6px 0; font-size: 34px;
+    letter-spacing: -0.01em;
+  }
+  h1 .dot { color: var(--brass); }
+  .sub { color: var(--ink-muted); font-style: italic; font-size: 14px; margin-bottom: 22px; max-width: 820px; }
+  .sub a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted var(--brass-deep); }
+  .sub a:hover { color: var(--ink); }
+  .mono { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2.4px; color: var(--brass); text-transform: uppercase; }
+
+  /* Picker bars (sticky) */
+  .picker, .char-tabs {
+    background: var(--bg-soft); border-radius: 8px;
+    padding: 4px; display: flex; gap: 0; flex-wrap: wrap;
+    box-shadow: 0 0 0 1px var(--border);
+  }
+  .picker { margin-bottom: 12px; position: sticky; top: 14px; z-index: 50; }
+  .char-tabs { padding: 6px; margin-bottom: 22px; gap: 6px; }
+  .picker button, .char-tabs button {
+    background: transparent; border: 0; cursor: pointer;
+    color: var(--ink-muted); font-style: italic;
+    font-family: var(--font-display); font-size: 14.5px;
+    padding: 10px 16px; border-radius: 5px;
+    transition: color 120ms, background 120ms;
+  }
+  .picker button:hover, .char-tabs button:hover { color: var(--ink); background: var(--bg-lift); }
+  .picker button.active { color: var(--ink); background: var(--bg-lift); }
+  .picker button.active::after {
+    content: ""; display: block; height: 2px; background: var(--brass);
+    margin: 4px -16px -8px; border-radius: 1px;
+  }
+  .picker button .meta { color: var(--ink-faint); font-size: 11px; margin-left: 8px; font-style: normal; font-family: var(--font-mono); letter-spacing: 1.4px; }
+  .char-tabs button {
+    background: var(--bg-lift); padding: 6px 12px; font-size: 13px; border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .char-tabs button.active { background: var(--brass-deep); color: var(--bg); font-weight: 600; border-color: var(--brass); }
+  .char-tabs button.killer.active { background: var(--terra); color: var(--bg); border-color: var(--terra); }
+  .char-tabs button .tag {
+    font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 1.4px;
+    margin-left: 6px; padding: 1px 5px; border-radius: 2px;
+    background: var(--brass-faint); color: var(--brass);
+  }
+  .char-tabs button.active .tag { background: rgba(13,13,14,0.32); color: var(--bg); }
+  .char-tabs button.optional .tag { background: var(--ink-dim); color: var(--ink-muted); }
+
+  /* Character header */
+  .char-header {
+    background: var(--bg-soft);
+    border: 1px solid var(--border-brass);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.55);
+  }
+  .char-header h2 {
+    font-family: var(--font-display); font-style: italic; font-weight: 500;
+    font-size: 28px; margin: 0; letter-spacing: -0.01em;
+  }
+  .char-header h2 .badge {
+    font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 1.6px;
+    color: var(--bg); background: var(--brass); padding: 3px 7px; border-radius: 3px;
+    margin-left: 10px; font-style: normal; vertical-align: middle;
+  }
+  .char-header h2 .badge.killer { background: var(--terra); }
+  .char-header h2 .badge.optional { background: var(--ink-dim); color: var(--ink); }
+  .char-header .who-meta { color: var(--ink-faint); font-size: 13.5px; margin-top: 4px; font-style: italic; font-family: var(--font-display); }
+  .char-header .lbl {
+    font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 2.2px;
+    color: var(--brass); margin-top: 14px; text-transform: uppercase;
+  }
+  .char-header .role,
+  .char-header .agenda { font-size: 14px; line-height: 21px; color: var(--ink); margin-top: 4px; }
+  .char-header .secret { font-size: 14px; line-height: 21px; color: var(--terra); font-style: italic; margin-top: 4px; }
+  .char-header .bluffs {
+    margin-top: 4px;
+    list-style: none; padding: 0;
+  }
+  .char-header .bluffs li {
+    padding: 8px 12px;
+    border-left: 2px solid var(--terra);
+    background: rgba(181,99,74,0.06);
+    font-size: 13px; line-height: 18px; color: var(--ink);
+    font-style: italic;
+    margin-bottom: 6px; border-radius: 0 4px 4px 0;
+  }
+
+  /* Privacy preamble */
+  .preamble {
+    background: var(--bg-lift); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 16px; margin-bottom: 12px;
+    font-style: italic; color: var(--ink-muted); font-size: 13px; line-height: 19px;
+  }
+  .preamble .ttl {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 2.2px;
+    color: var(--brass); font-style: normal; display: block; margin-bottom: 6px;
+  }
+
+  /* Host Cues panel */
+  details.cues {
+    background: var(--bg-soft); border: 1px solid var(--border-brass);
+    border-radius: 8px; padding: 0; margin-bottom: 14px;
+    overflow: hidden;
+  }
+  details.cues > summary {
+    cursor: pointer; padding: 12px 18px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 2.2px;
+    color: var(--brass); list-style: none;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(201,165,84,0.04);
+  }
+  details.cues > summary::-webkit-details-marker { display: none; }
+  details.cues > summary::after { content: "▾"; font-family: var(--font-mono); color: var(--brass-deep); }
+  details.cues[open] > summary::after { content: "▴"; }
+  details.cues .body { padding: 14px 18px 18px; }
+  details.cues .ttl {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px;
+    color: var(--brass); margin: 10px 0 4px; text-transform: uppercase;
+  }
+  details.cues .body p {
+    margin: 0 0 8px 0; font-size: 13.5px; line-height: 20px; color: var(--ink);
+  }
+  details.cues .body p.monologue { font-family: var(--font-display); font-style: italic; font-size: 15px; line-height: 23px; color: var(--ink); }
+  details.cues ul { margin: 0 0 6px 0; padding-left: 20px; }
+  details.cues ul li { font-size: 13px; line-height: 19px; color: var(--ink-muted); margin-bottom: 4px; }
+  details.cues .pill-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  details.cues .pill {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.2px;
+    color: var(--brass); background: var(--brass-faint);
+    border: 1px solid var(--border-brass);
+    padding: 4px 9px; border-radius: 999px;
+  }
+
+  /* Director view toggle */
+  .director-toggle {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 12px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px;
+    color: var(--ink-muted); cursor: pointer; margin-bottom: 12px;
+    user-select: none;
+  }
+  .director-toggle input { accent-color: var(--brass); }
+  .director-toggle.on { color: var(--brass); border-color: var(--border-brass); }
+
+  /* Summary chips */
+  .summary {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;
+  }
+  .summary span {
+    background: var(--bg-lift); border: 1px solid var(--border);
+    border-radius: 999px; padding: 5px 11px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.3px; color: var(--ink-muted);
+  }
+  .summary span b { color: var(--ink); font-weight: 600; }
+
+  /* Beats timeline */
+  .pov { position: relative; }
+  .row {
+    display: grid; grid-template-columns: 60px 1fr; gap: 12px;
+    margin-bottom: 9px; align-items: start;
+  }
+  .row .time {
+    font-family: var(--font-mono); font-size: 11px; color: var(--brass-deep);
+    text-align: right; padding-top: 13px; letter-spacing: 1px;
+  }
+  .card {
+    border: 1px solid var(--border); border-radius: 6px; padding: 11px 15px;
+    background: var(--bg-soft); position: relative;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .card .head { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; }
+  .card .kind {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px;
+    padding: 2px 7px; border-radius: 2px;
+    background: var(--bg-lift); color: var(--ink-muted);
+  }
+  .card .meta {
+    font-family: var(--font-mono); font-size: 9.5px; color: var(--ink-faint);
+    letter-spacing: 1.2px;
+  }
+  .card .meta b { color: var(--brass); font-weight: 600; }
+  .card .body {
+    font-size: 14.5px; line-height: 21px; color: var(--ink);
+    font-family: var(--font-display); font-weight: 400;
+  }
+  /* Per-kind chrome */
+  .card.broadcast { background: linear-gradient(180deg, rgba(201,165,84,0.05) 0%, var(--bg-soft) 100%); }
+  .card.broadcast .kind { background: var(--brass-deep); color: var(--bg); }
+  .card.system { background: var(--bg); border-style: dashed; }
+  .card.system .kind { background: var(--ink-dim); color: var(--ink-muted); }
+  .card.clock {
+    background: linear-gradient(180deg, rgba(201,165,84,0.10) 0%, var(--bg-soft) 100%);
+    border-color: var(--brass-deep);
+  }
+  .card.clock .kind { background: var(--brass); color: var(--bg); }
+  .card.clock .body { font-family: var(--font-display2); font-style: italic; font-size: 16px; color: var(--ink); }
+  .card.real {
+    background: linear-gradient(180deg, rgba(181,99,74,0.10) 0%, var(--bg-soft) 100%);
+    border: 1px solid var(--terra);
+  }
+  .card.real .kind { background: var(--terra); color: var(--bg); }
+  .card.cover { background: var(--bg); border-style: dashed; opacity: 0.92; }
+  .card.cover .kind { background: var(--bg-lift); color: var(--brass); }
+  .card.movement {
+    background: linear-gradient(180deg, rgba(181,99,74,0.06) 0%, var(--bg-soft) 100%);
+    border: 1px dashed var(--terra);
+  }
+  .card.movement .kind { background: var(--terra); color: var(--bg); }
+  .card.reveal {
+    background: linear-gradient(180deg, rgba(201,165,84,0.16) 0%, var(--bg-soft) 100%);
+    border: 1px solid var(--brass);
+    box-shadow: 0 0 0 1px rgba(201,165,84,0.18), 0 14px 40px rgba(0,0,0,0.65);
+  }
+  .card.reveal .kind { background: var(--brass); color: var(--bg); }
+  .card.reveal .killer-line {
+    font-family: var(--font-display); font-style: italic; font-size: 24px;
+    margin-bottom: 12px; color: var(--ink); letter-spacing: -0.01em;
+  }
+  .card.reveal .body { font-family: var(--font-display); font-size: 14.5px; line-height: 23px; color: var(--ink); white-space: pre-wrap; }
+  .actions {
+    margin-top: 9px; display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .actions span {
+    font-family: var(--font-body); font-size: 12px; color: var(--ink);
+    padding: 4px 10px; background: var(--bg-lift);
+    border: 1px solid var(--border-brass); border-radius: 999px;
+  }
+  .card.cover .samples {
+    font-style: italic; color: var(--ink-muted); font-size: 13px;
+    line-height: 19px; margin-top: 2px;
+    font-family: var(--font-display);
+  }
+  .host-note {
+    display: none;
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px dotted var(--brass-deep);
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.3px;
+    color: var(--brass); line-height: 16px;
+  }
+  body.director-mode .host-note { display: block; }
+  .host-note .lbl {
+    font-size: 8.5px; letter-spacing: 1.8px; color: var(--brass-deep);
+    text-transform: uppercase; display: block; margin-bottom: 3px;
+  }
+
+  /* MR sections + footer */
+  .section-title {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 2.2px;
+    color: var(--brass); margin: 22px 0 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--border-brass) 0%, transparent 100%);
+  }
+
+  .mystery-header {
+    display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .mystery-header h2 {
+    font-family: var(--font-display); font-style: italic; font-weight: 500;
+    font-size: 32px; margin: 0; letter-spacing: -0.01em;
+  }
+  .mystery-header .where { color: var(--ink-faint); font-style: italic; font-size: 14px; font-family: var(--font-display); }
+  .mystery-header .range {
+    margin-left: auto; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.8px;
+    color: var(--brass); background: var(--brass-faint);
+    border: 1px solid var(--border-brass);
+    padding: 5px 10px; border-radius: 999px;
+  }
+  .mystery-header .stype {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.8px;
+    color: var(--terra); background: rgba(181,99,74,0.10);
+    border: 1px solid rgba(181,99,74,0.30);
+    padding: 5px 10px; border-radius: 999px;
+  }
+
+  .footnote { margin-top: 32px; font-size: 11px; color: var(--ink-faint); font-style: italic; max-width: 720px; }
+</style>
+</head>
+<body>
+
+<h1>Speakeater<span class="dot">.</span> Mystery Nights <span style="color:var(--ink-muted); font-size:18px;">· Character POV</span></h1>
+<div class="sub">
+  Pick a mystery, pick a character. Read every beat that character will see across the ninety minutes — broadcasts, private twists, cover beats, the clock, the physical-movement layer, the reveal.
+  Mirrors <span class="mono" style="font-size:9px;">android/.../GameScripts.kt</span> after the gamemaster audit. Toggle <b>Director view</b> to see host-only stage notes.
+</div>
+
+<div class="picker" id="picker"></div>
+<div class="char-tabs" id="charTabs"></div>
+
+<label class="director-toggle" id="dirToggle">
+  <input type="checkbox" id="dirInput" />
+  <span>Director view (show host stage notes)</span>
+</label>
+
+<div id="walkthrough"></div>
+
+<div class="footnote">
+  Mirror of <span class="mono" style="font-size:9px;">android/app/src/main/java/app/pantrie/feature/parties/game/GameScripts.kt</span>. When the Kotlin source changes, this file changes with it. Theme: Speakeater back-room (brand-pack <span class="mono" style="font-size:9px;">pantree-social/src/lib/brand-pack.ts</span>).
+</div>
+
+<script>
+// ============================================================================
+// Mirror of GameScripts.kt — full audit-pass content for all 5 mysteries.
+// ============================================================================
+
+const PRIVACY_PREAMBLE = "Your dossier is yours. Your phone is yours. Anything that buzzes on it is yours to use, share, or keep. You may lie. You may bluff. You may invent. The only rule is that you do not show another guest your screen, you do not read another guest's dossier, and you only volunteer a secret when your phone tells you to or you choose to. The night is yours to play.";
+
+const MYSTERIES = [
+  // ============================ ALGONQUIN ============================
+  {
+    id: 'murder_algonquin',
+    title: 'Murder at the Algonquin',
+    era: '1924',
+    city: 'New York',
+    where: 'The Round Table set · Algonquin Hotel',
+    range: '4 to 12 guests',
+    solution_type: 'MURDER',
+    killer: 'the_author',
+    host_cues: {
+      opening_monologue: "It is Tuesday evening, October 14, 1924, at the Algonquin. Last night the same five of you had dinner at this table with the theatre critic from The Standard. This morning he was found dead in his room upstairs. The Algonquin's manager has invited you back to sit where you sat last night and order what you ordered last night. The morning edition of every paper in this city prints at four o'clock. Before then, one of you is going to tell me what happened.",
+      success_picture: "T+30: the lapel pin is in play and at least one player has named the Visiting Author aloud. T+60: the resignation letter has been read aloud and the table has split into two camps. T+80: the room is quiet, the Author is talking too much.",
+      panic_buttons: [
+        "Ask the Matron, out loud, what she saw in the side hallway after dinner last night.",
+        "Walk over to the Author's chair. Stop. Look at her shoes. Walk away without speaking.",
+        "Refill the Editor's glass. Ask him whose name was supposed to run in tomorrow's column.",
+      ],
+      post_game_prompts: [
+        "Each player: what did your character do at midnight when they left the dining room?",
+        "Visiting Author: was twelve years long enough?",
+        "Group photo at the table holding the lapel pin. One frame. No retakes.",
+      ],
+      cocktails: ["Aviation", "Sidecar", "Manhattan"],
+    },
+    cast: [
+      { id: 'the_author', name: 'The Visiting Author', role: "Newly arrived from London with a new novel and a habit of disappearing at parties.", secret: "You knew the dead man from before. From a different life. You met to settle that history last night.", objective: "Avoid being identified before the reveal. If a guest gets close, plant the lapel pin under another guest's chair.", optional: false, bluffs: [
+        "I was on the back stair to the cloakroom at ten-forty — I had torn my hem and was looking for a pin. The Maître d' would have heard me pass.",
+        "Twelve years in London is twelve years too far back to remember. Who else here was in London in twelve?",
+        "If anyone here has a motive worth naming, look at the Editor. He had a man to fire and a letter that made it impossible.",
+      ] },
+      { id: 'the_matron', name: 'The Society Matron', role: "Hostess to half of New York. Knows everyone's secrets.", secret: "You saw the dead man and the Visiting Author whispering in the corner after dinner.", objective: "Trade what you saw last night for a favor from someone at this table.", optional: false },
+      { id: 'the_editor', name: "The Critic's Editor", role: "Edits the dead man's column at The Standard. Was planning to fire him next week.", secret: "You have the dead man's resignation letter, dated yesterday afternoon.", objective: "Surface the resignation letter at the right moment. Protect the Actress.", optional: false },
+      { id: 'the_playwright', name: 'The Playwright', role: "A successful Broadway author. Had a play savaged by the dead man six months ago.", secret: "You returned to the hotel at midnight and saw the dead man arguing with someone in the lobby.", objective: "Force the Critic's review of your play to be retracted publicly tonight. The Editor has the authority. Make him use it before the morning edition prints.", optional: false },
+      { id: 'the_actress', name: 'The Actress', role: "Recently passed over for a lead role the dead man championed for someone else.", secret: "You knew the role would go to the other actress because the dead man told you privately last week.", objective: "Keep the producer's name out of every conversation. He is your brother-in-law.", optional: true },
+      { id: 'the_columnist', name: 'The Rival Columnist', role: "Writes the gossip column at The Daily Mirror.", secret: "You filed a column this morning that ran a paragraph about the dead man you cannot take back.", objective: "Find out whether the morning edition has hit newsstands yet.", optional: true },
+      { id: 'the_understudy', name: 'The Understudy', role: "Plays the Actress's understudy at the Lyceum.", secret: "The role the dead man championed for the other actress was meant to be auditioned by you in two weeks.", objective: "Stay quiet about your audition.", optional: true },
+      { id: 'the_bellman', name: 'The Bellman', role: "Worked the Algonquin lobby from eight until two last night.", secret: "You took three dollars from the Playwright at twelve-fifteen to forget what time he came in.", objective: "Collect what you are owed for what you saw.", optional: true },
+      { id: 'the_manager', name: 'The Hotel Manager', role: "Runs the Algonquin. Wants this matter resolved before the morning papers print.", secret: "The dead man's key was returned to the front desk at twelve forty-five last night.", objective: "Steer the table to a name before midnight.", optional: true },
+      { id: 'the_photographer', name: 'The Society Photographer', role: "Was at last night's dinner shooting plates for the Sunday society page.", secret: "One of last night's plates shows the Visiting Author leaving the dining room at ten-forty.", objective: "Decide whether the plate is worth more sold or used to settle a favor.", optional: true },
+      { id: 'the_maitre', name: "The Maître d'", role: "Seats the Round Table every Tuesday.", secret: "The Visiting Author asked to be seated next to the dead man last night.", objective: "Protect the Round Table's reputation.", optional: true },
+      { id: 'the_detective', name: 'The Hotel Detective', role: "Algonquin staff. Discreet.", secret: "A torn lapel pin was found in the hallway carpet outside the dead man's door this morning.", objective: "Hand the pin to the right hand at the right moment.", optional: true },
+    ],
+    beats: [
+      { t: 0, kind: 'NARRATIVE', target: 'all', body: "The Algonquin Hotel. October 14, 1924. The critic from The Standard is dead. One of you knows why.", host_note: "Read flat, almost bored. The room will lean in for you." },
+      { t: 3, kind: 'SYSTEM', target: 'all', body: "Round one is poured. Take your seat. Order what your character ordered last night." },
+      { t: 5, kind: 'TWIST', target: 'the_author', killer_first: true, body: "You did it. Twelve years overdue. Survive eighty more minutes. Do not touch your lapel.", actions: ['Steady','Plan a bluff'], host_note: "The only private confession the killer gets all night. Do not surface." },
+      { t: 6, kind: 'TWIST', target: 'the_bellman', optional: true, body: "The Playwright recognizes you. He looks down at his glass and waits for you to set the price.", actions: ['Name price','Wait','Warn Manager'] },
+      { t: 8, kind: 'TWIST', target: 'the_maitre', optional: true, body: "Someone asks you who chose the seating last night. Choose your phrasing carefully.", actions: ['Name Author','Blame house','Deflect'] },
+      { t: 10, kind: 'TWIST', target: 'the_playwright', body: "A bellman slips you a note: \"Seen returning at midnight. The lobby man forgets, for a price.\"", actions: ['Pay him','Ignore','Read aloud'] },
+      { t: 12, kind: 'TWIST', target: 'the_editor', body: "The dead man's resignation letter is in your inside pocket, dated yesterday.", actions: ['Produce it','Wait','Show the Actress'] },
+      { t: 14, kind: 'STEP_AWAY', target: 'the_playwright', body: "Excuse yourself to the lobby. Pay the bellman in cash. Stay gone four minutes. Return with the folded bill visible. Volunteer nothing.", host_note: "Pre-place a folded dollar at the lobby's front desk. He retrieves it now." },
+      { t: 15, kind: 'CLOCK', target: 'all', body: "Quarter past eight. The morning edition prints at four. You have seven and three quarters hours, and the manager is holding the front page open until you give him a name.", host_note: "Hold a beat after \"a name.\" Look around the table slowly." },
+      { t: 20, kind: 'TWIST', target: 'the_actress', optional: true, body: "The Matron mentions, low, that the dead man whispered with the Visiting Author after dinner.", actions: ['Confront her','Note it','Tell the Playwright'] },
+      { t: 25, kind: 'TWIST', target: 'the_author', body: "The bellman hands you a velvet pouch from the hotel detective. Inside: your torn lapel pin. The Detective has not asked whose.", actions: ['Pocket it','Plant it','Ask aloud'] },
+      { t: 26, kind: 'RECON', target: 'the_author', body: "Excuse yourself to the cloakroom. Your coat is on the third hook. Three minutes.", host_note: "Pre-place the wrapping cloth in her coat pocket. She finds it now." },
+      { t: 28, kind: 'TWIST', target: 'the_editor', body: "You feel something against your foot under the table. Probably nothing. The Author has been watching you for a minute.", actions: ['Reach down','Ignore','Accuse aloud'], host_note: "If the Author chose Plant at T+25, this is the real frame-up. If not, this is misdirection she can use." },
+      { t: 30, kind: 'BE_SEEN', target: 'the_photographer', optional: true, body: "Stand. Carry the printed plate slowly past the Author's chair. Sit at the bar for thirty seconds. Return without speaking.", host_note: "Lower the lights a notch when she stands. Watch the Author's hands." },
+      { t: 30, kind: 'TWIST', target: 'the_columnist', optional: true, body: "A copyboy from the Mirror just rushed in. The morning edition went out an hour ago.", actions: ['Recall it','Own it','Blame Editor'] },
+      { t: 31, kind: 'CLOCK', target: 'all', body: "Half past eight. The bellman has been carrying messages between three of you. The room is taller for it." },
+      { t: 33, kind: 'TWIST', target: 'the_photographer', optional: true, body: "The plate is in your bag. It catches the Visiting Author leaving the dining room at ten-forty.", actions: ['Show the table','Offer Editor','Keep it'] },
+      { t: 35, kind: 'NARRATIVE', target: 'all', body: "The Editor raises a glass. \"To the man we are not mourning enough.\"", host_note: "Read with no irony. The Editor means it." },
+      { t: 38, kind: 'TWIST', target: 'the_matron', body: "You remember it now — he said \"twelve years is a long time to keep something quiet,\" and she replied too low to hear.", actions: ['Say it now','Trade it','Keep it'] },
+      { t: 44, kind: 'CLOCK', target: 'all', body: "Quarter to nine. The Standard's editors are watching the wire. The Manager is watching the door. You are running out of conversation." },
+      { t: 45, kind: 'TWIST', target: 'the_manager', optional: true, body: "The morning edition prints at four. You need a name from this table before three.", actions: ['Press Editor','Press Matron','Wait'] },
+      { t: 50, kind: 'TWIST', target: 'the_playwright', body: "The Editor slides the resignation letter across to you. His hand is shaking.", actions: ['Read it aloud','Pocket it','Demand names'] },
+      { t: 50, kind: 'RENDEZVOUS', target: 'the_matron', body: "Excuse yourself to the dining-room doorway. The Editor will join you. Two minutes. Decide what you tell each other before you walk back.", host_note: "Paired beat — fires to the Editor at the same instant. Two empty chairs at once is the point." },
+      { t: 50, kind: 'RENDEZVOUS', target: 'the_editor', body: "Excuse yourself to the dining-room doorway. The Matron is already there. Two minutes." },
+      { t: 55, kind: 'TWIST', target: 'the_detective', optional: true, body: "The wrapping cloth from the pouch is in your inside pocket. There is a single dark hair caught in it.", actions: ['Present it','Show Manager','Hold it'] },
+      { t: 56, kind: 'DEAD_DROP', target: 'the_detective', optional: true, body: "Cross to the bar. As you pass the Author's chair, drop the cloth under it. Do not look back.", host_note: "This loops the frame-up back onto the framer." },
+      { t: 59, kind: 'CLOCK', target: 'all', body: "Nine o'clock. Last call on small talk. The manager returns in thirty minutes for a name." },
+      { t: 60, kind: 'NARRATIVE', target: 'all', body: "The room quiets. The waiter pauses at the door, watching.", host_note: "Do not refill any glass for sixty seconds after you read this." },
+      { t: 65, kind: 'TWIST', target: 'the_author', body: "Twelve years ago in London is back in the room.", actions: ['Accuse Actress','Accuse Editor','Stay silent'] },
+      { t: 72, kind: 'TWIST', target: 'the_understudy', optional: true, body: "The Actress just touched her glass to yours without looking — the cue you arranged at brunch.", actions: ['Speak now','Nod back','Ignore'] },
+      { t: 74, kind: 'CLOCK', target: 'all', body: "Quarter past nine. Fifteen minutes until the manager comes for a name. If you do not give him one, he gives them one." },
+      { t: 75, kind: 'TWIST', target: 'the_actress', optional: true, body: "The producer's wife — the one who decided the casting — was the Visiting Author's sister.", actions: ['Say aloud','Save it'] },
+      { t: 80, kind: 'NARRATIVE', target: 'all', body: "Make your accusation. Write a name on a slip and place it face-down at the table.", host_note: "Hand out slips and pens before you read this." },
+      { t: 90, kind: 'REVEAL', target: 'all', body: "It was the Visiting Author.\n\nTwelve years ago in London, the dead man — under a different name — had blackmailed her over a manuscript she had submitted under her sister's identity. She had paid him quarterly for a decade. When she heard he was coming to New York to retire, she came to confront him. She offered him the resignation letter, written under coercion, as a final clean-out. When he refused to leave town quietly, she returned to his room after dinner with a vial of digitalis hidden in her glove and poured it into his nightcap before she left.\n\nThe lapel pin was hers. The wrapping cloth held one of her hairs. The whispered conversation the Matron overheard was him refusing the offer. The Editor was about to fire a man who was about to vanish anyway. The Playwright saw her in the lobby at midnight, returning from his room.\n\nIt was twelve years overdue.", host_note: "Read paragraph one. Pause three seconds. Read paragraph two — at \"the wrapping cloth\" look at the Detective. Read paragraph three. Look at the Author before \"twelve years overdue.\"" },
+    ],
+    covers: [
+      "The waiter refills your glass without asking.",
+      "The candle on your side of the table is burning down faster than the others.",
+      "A draft from the hallway stirs the napkin in your lap.",
+      "Across the room, a busboy drops a tray of glassware and the diners pretend not to hear.",
+      "The pianist begins the second chorus of a Berlin song you do not quite recognize.",
+      "Your cigarette case is almost empty.",
+      "A woman two tables over looks at you for half a second too long, then looks away.",
+      "The Algonquin's manager passes through the dining room without making eye contact.",
+      "Your reflection in the silverware looks older than you remember.",
+      "The bellman at the corner is reading a folded newspaper and only pretending.",
+      "Someone you knew at school walks past with a woman you do not.",
+      "The kitchen door swings open and the smell of onions and butter comes out with it.",
+      "The clock above the bar is two minutes slow.",
+      "The ice in your glass cracks quietly as it melts.",
+      "Outside the window, a taxi horn sounds longer than it should.",
+      "A telegram boy waits in the lobby. The doorman waves him off.",
+      "Your shoe is pinching. You shift in your chair.",
+      "The Matron's pearls catch the light in a way that draws every eye for a second.",
+      "A coat is delivered to the table. It is not yours.",
+      "The maître d' refills the water from a silver pitcher that does not match the table service.",
+      "Two of the lamps along the back wall flicker in sequence, then steady.",
+    ],
+  },
+
+  // ============================ BOOTLEGGER ============================
+  {
+    id: 'bootleggers_wife',
+    title: "The Bootlegger's Wife",
+    era: '1929',
+    city: 'Chicago',
+    where: 'South Side basement bars',
+    range: '4 to 9 guests',
+    solution_type: 'MURDER',
+    killer: 'the_partner',
+    host_cues: {
+      opening_monologue: "It is nine o'clock on a Tuesday in March 1929. Twenty minutes ago they came down the alley three at a time and lifted every floorboard in the kitchen. He is at the federal building tonight. The arraignment is at midnight. The five of you knew where the floorboards were. One of you told them. You are going to figure out which one before the morning paper does.",
+      success_picture: "T+30: the Wife has shown the tickets to someone. T+50: at least two players have publicly named the Singer or the Partner. T+70: the Agent is watching the Partner directly.",
+      panic_buttons: [
+        "Ask the Wife, out loud, whether she still trusts the Singer.",
+        "Ask the Doorman whose handwriting was on the envelope.",
+        "Ask the Singer to sing the song she sang Tuesday night.",
+      ],
+      post_game_prompts: [
+        "Each player: what would your character do tomorrow morning?",
+        "Singer + Partner: would your characters have left together?",
+        "Wife: do you forgive her?",
+      ],
+      cocktails: ["Sazerac", "Old Fashioned", "Gin Rickey"],
+    },
+    cast: [
+      { id: 'the_partner', name: 'The Partner', role: "Ran the South Side route with him until two years ago, when the bootlegger pushed him out.", secret: "You met with a federal agent on Tuesday. You insist it was about something else.", objective: "Misdirect every line of questioning. Make the Singer look like the leak.", optional: false, bluffs: [
+        "I was at Maxwell's on Halsted Tuesday afternoon — the bartender there saw me at three. Whatever I did at the diner was after.",
+        "The Doorman has been jumpy for a week. He took an envelope nobody can identify. That is your leak.",
+        "The Singer was standing in the alley when the agents came. Ask her why she did not run.",
+      ] },
+      { id: 'the_wife', name: 'The Wife', role: "Married to the bootlegger nine years. Runs the books.", secret: "You discovered last week that he was planning to leave town with the Singer when the Christmas run finished.", objective: "Find out who took your husband down. Do not let the room learn you knew about the Singer.", optional: false },
+      { id: 'the_singer', name: 'The Singer', role: "Performs Tuesdays and Saturdays. In love with someone in this room.", secret: "You were standing outside the bar when the agents arrived. You did not raise the alarm.", objective: "Survive the night without anyone learning you watched the agents come and let them in.", optional: false },
+      { id: 'the_agent', name: 'The Federal Agent', role: "Drinks here three nights a week. Plays poker on Sundays.", secret: "You knew where the floorboards were because someone in this room told you, drunk.", objective: "Identify your informant out loud only if there is no other way.", optional: false },
+      { id: 'the_doorman', name: 'The Doorman', role: "Twenty years on the South Side.", secret: "You took an envelope from someone you did not recognize on Wednesday morning.", objective: "Keep your envelope private.", optional: true },
+      { id: 'the_cousin', name: 'The Cousin', role: "Family ties to the bootlegger.", secret: "You took a bottle off the back shelf last week. The agents counted it.", objective: "Establish you were home all of Tuesday.", optional: true },
+      { id: 'the_cook', name: 'The Cook', role: "Runs the back kitchen.", secret: "You served the Partner a plate at three on Tuesday. He was on the phone the whole time.", objective: "Keep your kitchen out of the conversation.", optional: true },
+      { id: 'the_bartender', name: 'The Bartender', role: "Pours for the South Side trade.", secret: "The Federal Agent has been drinking watered drinks for two months.", objective: "Decide which side of the bar to be on tomorrow.", optional: true },
+      { id: 'the_pianist', name: 'The Pianist', role: "Plays Tuesdays and Saturdays. In love with the Singer.", secret: "You saw the Partner leave the bar at half-past three Tuesday and return at four-fifteen.", objective: "Protect the Singer.", optional: true },
+    ],
+    beats: [
+      { t: 0, kind: 'NARRATIVE', target: 'all', body: "The South Side, March 1929. He is in federal lockup tonight. The agents knew where to come, what to lift, and when. One of you told them.", host_note: "Read flat. Almost bored. The table is on edge already." },
+      { t: 3, kind: 'SYSTEM', target: 'all', body: "Round one is poured. Take your seat. The bourbon stays on the bar." },
+      { t: 5, kind: 'SNEAK', target: 'the_wife', body: "While the bartender pours, cross to the coat hook by the back door. Slip both hands into his coat pockets. Take what you find. Two minutes.", host_note: "Pre-place a folded paper labeled 'tickets' in the coat pocket." },
+      { t: 8, kind: 'TWIST', target: 'the_wife', body: "You find a railway ticket to St. Louis in his coat pocket, dated tomorrow. There are two.", actions: ['Burn it','Keep it','Show the Singer'] },
+      { t: 10, kind: 'TWIST', target: 'the_partner', killer_first: true, body: "You did it. Two years overdue. Survive eighty more minutes. Do not say the word \"floorboards.\"", actions: ['Steady','Plan a misdirect'], host_note: "Killer-first private acknowledgment. Do not surface." },
+      { t: 12, kind: 'TWIST', target: 'the_agent', body: "You recognize the Partner from a quiet meeting Tuesday at the diner on Halsted.", actions: ['Press him','Wait','Warn him'] },
+      { t: 15, kind: 'CLOCK', target: 'all', body: "Quarter past nine. They are processing him at the federal building. The arraignment is at midnight. Two hours and forty-five minutes.", host_note: "Read this aloud at the table. Look at your watch. Then continue." },
+      { t: 18, kind: 'TWIST', target: 'the_singer', body: "A federal car was idling at the alley mouth ten minutes before the raid. You said nothing.", actions: ['Confess','Deflect','Blame Partner'] },
+      { t: 20, kind: 'RECON', target: 'the_singer', body: "Step out the alley door for some air. While you are gone, look at whose car is parked at the corner. Five minutes.", host_note: "When she returns, the table will ask where she went. She lies or doesn't." },
+      { t: 23, kind: 'STEP_AWAY', target: 'the_partner', body: "Excuse yourself to the back kitchen — a phone call. Stay gone six minutes. Do not come back early.", host_note: "The empty chair is the point. Do not check on him." },
+      { t: 24, kind: 'TWIST', target: 'the_cook', optional: true, body: "The Partner's lunch plate is still in the back. The phone receipt with it.", actions: ['Hide receipt','Show Wife','Burn it'] },
+      { t: 26, kind: 'MISSED', target: 'all', body: "The Partner has been gone since the phone rang. Notice his chair aloud.", host_note: "Read this out. Look at the empty chair when you say it." },
+      { t: 28, kind: 'NARRATIVE', target: 'all', body: "The pianist plays \"Sweet Georgia Brown.\" The bartender refills the bourbon without being asked." },
+      { t: 30, kind: 'CLOCK', target: 'all', body: "Half past nine. The second sweep team is on its way. If they leave this bar without a name from you, they take the lot of you in for questioning.", host_note: "Read in a conspiratorial whisper. Refill your own glass." },
+      { t: 32, kind: 'TWIST', target: 'the_doorman', optional: true, body: "The envelope you took Wednesday morning was sealed with a federal stamp. You only just noticed.", actions: ['Burn it','Admit it','Pocket it'] },
+      { t: 36, kind: 'TWIST', target: 'the_cousin', optional: true, body: "The agents have your name on a list. You can see it from where you are sitting.", actions: ['Come clean','Blame Doorman','Stall'] },
+      { t: 40, kind: 'TWIST', target: 'the_partner', body: "The Agent is looking at you. He has not looked away in two minutes.", actions: ['Toast him','Step out','Accuse Singer'] },
+      { t: 42, kind: 'NARRATIVE', target: 'all', body: "The bartender wipes the bar twice in the same spot. The pianist has stopped playing. Something the Wife found in his coat is starting to weigh on the room.", host_note: "Pause four seconds after \"the room.\" Let it sit." },
+      { t: 45, kind: 'CLOCK', target: 'all', body: "Quarter to ten. The lawyer just arrived at the courthouse. He needs a name to take to the judge — or this becomes long-term.", host_note: "Hold a beat after \"long-term.\" Look at the Partner if he is at the table." },
+      { t: 45, kind: 'TWIST', target: 'the_bartender', optional: true, body: "The Agent ordered a tall water. You can call that out from across the bar or pretend not to notice.", actions: ['Call out','Nod to him','Ignore'] },
+      { t: 48, kind: 'TWIST', target: 'the_wife', body: "The second ticket is in the Singer's name. You read it again to be sure.", actions: ['Confront her','Hide it','Lay it down'] },
+      { t: 52, kind: 'TWIST', target: 'the_pianist', optional: true, body: "What you saw from the bench puts the Partner on the wrong side of Tuesday afternoon.", actions: ['Say it','Tell Singer','Withhold'] },
+      { t: 55, kind: 'NARRATIVE', target: 'all', body: "Somewhere above, a door closes. The bartender does not look up." },
+      { t: 60, kind: 'CLOCK', target: 'all', body: "Ten o'clock. The agents have his ledger now. Every name in it gets a knock in the next two days unless someone speaks tonight." },
+      { t: 62, kind: 'TWIST', target: 'the_agent', body: "The Partner just said \"the floorboards\" without anyone mentioning them.", actions: ['Name him','Let it sit'] },
+      { t: 63, kind: 'BE_SEEN', target: 'the_agent', body: "Stand. Cross to the bar slowly. Pass the Partner's chair. Hold his eye for a beat. Return without speaking.", host_note: "Drop the music. Let the room watch." },
+      { t: 70, kind: 'TWIST', target: 'the_partner', body: "You realize you slipped. Recover, deflect, or run.", actions: ['Accuse Wife','Accuse Doorman','Confess'] },
+      { t: 75, kind: 'CLOCK', target: 'all', body: "Quarter past ten. The arraignment is in forty-five minutes. After it begins, anything said in this room is just gossip." },
+      { t: 78, kind: 'NARRATIVE', target: 'all', body: "Name your suspect. A folded napkin in the center of the bar. Write the name on it. Cover it." },
+      { t: 90, kind: 'REVEAL', target: 'all', body: "It was the Partner.\n\nTwo years ago the bootlegger pushed him off the South Side route. He never let it go. He met the Federal Agent Tuesday at the diner on Halsted and told him about the floorboards, the schedule, and the back-room safe — dressed as a casual conversation between friends.\n\nThe Singer saw the car idling and said nothing because she had her own ticket to St. Louis in her purse. The Wife is innocent of the raid but knew about the ticket. The Doorman's envelope was unrelated. The Federal Agent at this table covered for his informant until the Partner named the floorboards aloud and confirmed himself.\n\nIt was two years overdue.", host_note: "Read the first paragraph. Pause three seconds. Read the second. Look at the Partner before you read the third." },
+    ],
+    covers: [
+      "Footsteps cross the floor above. Three pairs. Slow.",
+      "The bartender wipes a glass with a cloth that smells of rye.",
+      "Someone shifts on the bench at the far end and the wood groans.",
+      "The boiler in the back room cycles on, then off.",
+      "A draft from the alley door brings in the smell of wet brick.",
+      "The light over the back booth flickers once and steadies.",
+      "The phonograph has been on the same record for an hour.",
+      "A car horn from the street is muffled by the door.",
+      "The icebox in the corner drips into a tin pan.",
+      "A man at the bar slides a folded bill across the counter and the bartender pockets it without looking.",
+      "The piano player runs his thumb along a chord but does not play.",
+      "Outside, the wind picks up enough to rattle the basement grate.",
+      "Someone strikes a match. The flame is taller than it should be.",
+      "The radiator clangs once.",
+      "The smell of cigar smoke from the back booth thickens.",
+      "A glass slips a quarter-inch on the wet bar without falling.",
+      "The bartender glances at the clock without reading it.",
+      "Two of the bottles behind the bar are turned label-out, the rest are not.",
+    ],
+  },
+
+  // ============================ RITZ ============================
+  {
+    id: 'last_toast_ritz',
+    title: 'Last Toast at the Ritz',
+    era: '1925',
+    city: 'Paris',
+    where: 'Frank Meier · Ritz Paris Bar',
+    range: '4 to 9 guests',
+    solution_type: 'MURDER',
+    killer: 'the_heiress',
+    host_cues: {
+      opening_monologue: "It is autumn, 1925, at the Ritz in Paris. An hour ago a wealthy American gentleman finished his champagne, stood, and did not reach the door. Frank Meier — who has poured at this bar for forty years — has a theory but wants yours first. The four of you, and any of the staff who saw what happened, are going to sit at this bar and reconstruct the last cocktail of his life.",
+      success_picture: "T+30: the compact has come up in conversation. T+50: Frank has either named the Heiress or made the room name her. T+70: the Heiress has either confessed or accused someone else.",
+      panic_buttons: [
+        "Walk to the bar. Refill the Heiress's coupe slowly. Set the bottle down between her and the Painter.",
+        "Ask Frank, out loud, whether he has ever seen a guest leave the bar in the middle of a conversation and come back without being asked.",
+        "Ask the Couturière to stand and re-pin a sash on the Heiress's dress.",
+      ],
+      post_game_prompts: [
+        "Heiress: did the fiancé know?",
+        "Frank: when did you decide to let the table answer?",
+        "Each player: read aloud your character's last drink order tonight.",
+      ],
+      cocktails: ["French 75", "Sidecar", "Champagne Cocktail"],
+    },
+    cast: [
+      { id: 'the_heiress', name: 'The Heiress', role: "Engaged to the dead man's son.", secret: "He told you privately, twenty minutes before his collapse, that he would refuse his blessing.", objective: "Make sure no one places you near the dining room at the moment in question. Keep the fiancé's name unspoken.", optional: false, bluffs: [
+        "I was at the front desk asking after a telegram from my mother in New York. The concierge can confirm.",
+        "If Frank saw anyone leave that table, it was the Painter — they argued for ten full minutes.",
+        "The Fixer was in the bar all night taking calls. I would have been the last person near that glass.",
+      ] },
+      { id: 'frank_meier', name: 'Frank Meier', role: "The bartender. Forty years behind the Ritz bar.", secret: "You saw the Heiress disappear into the dining room for three minutes during which the glass sat unattended.", objective: "Identify the killer in your bar before the morning papers arrive.", optional: false },
+      { id: 'the_painter', name: 'The Painter', role: "Owed the dead man a large sum from a portrait commission gone wrong.", secret: "You had a private conversation with the dead man at the bar an hour before he died.", objective: "Establish an alibi at the bar with Frank Meier.", optional: false },
+      { id: 'the_novelist', name: 'The Expat Novelist', role: "An American writer running a tab.", secret: "The dead man was the inspiration for your novel. He had read the manuscript last week.", objective: "Find out if anyone else read the manuscript. Settle your tab.", optional: false },
+      { id: 'the_couturiere', name: 'The Couturière', role: "The Heiress's dressmaker.", secret: "You watched the Heiress slip something from her compact into the champagne glass when no one else looked.", objective: "Decide whether the Heiress's account is worth the secret.", optional: false },
+      { id: 'the_fixer', name: 'The Fixer', role: "A man who solves problems for wealthy Americans abroad.", secret: "You were paid in advance to deliver a message tonight. You did not have time.", objective: "Recover the message envelope from the dead man's coat.", optional: true },
+      { id: 'the_concierge', name: 'The Concierge', role: "Front-of-house at the Ritz.", secret: "The dead man asked you yesterday whether the Fixer was registered at the hotel.", objective: "Protect the Ritz from a public mess.", optional: true },
+      { id: 'the_cigarette_girl', name: 'The Cigarette Girl', role: "Works the bar with the silver tray.", secret: "He bought one cigarette from you tonight and asked you to deliver a note to the Heiress.", objective: "Decide whether to mention the note.", optional: true },
+      { id: 'the_senator', name: 'The American Senator', role: "On holiday in Paris.", secret: "You hired the Fixer last week and your message has not been delivered.", objective: "Recover the message from the Fixer.", optional: true },
+    ],
+    beats: [
+      { t: 0, kind: 'NARRATIVE', target: 'all', body: "The Ritz bar, Paris, autumn 1925. He finished the champagne. He stood. He did not reach the door. Frank Meier has a theory and wants yours first.", host_note: "Read in a conspiratorial whisper. Polish a glass while you read." },
+      { t: 3, kind: 'SYSTEM', target: 'all', body: "Take the seat your character took an hour ago. The coupes are full. Frank is listening." },
+      { t: 5, kind: 'TWIST', target: 'the_heiress', killer_first: true, body: "You did it. Three minutes in the dining room, a vial in your glove, a son cut off. Survive eighty more minutes. Do not look at Frank.", actions: ['Steady','Plan a bluff'], host_note: "Killer-first private acknowledgment. Do not surface." },
+      { t: 9, kind: 'TWIST', target: 'the_painter', body: "Frank refills your glass and murmurs, \"I saw your conversation with him at the bar. So did the boy.\"", actions: ['Pay Frank','Dismiss','Admit it'] },
+      { t: 13, kind: 'TWIST', target: 'the_heiress', body: "Frank's eyes settle on you for one second too long.", actions: ['Smile back','Look away','Speak first'] },
+      { t: 14, kind: 'STEP_AWAY', target: 'the_heiress', body: "Excuse yourself to the dining room. Three minutes. Walk past the empty table where he was sitting. Return slowly.", host_note: "She is recreating the window. Frank watches every step." },
+      { t: 14, kind: 'BE_SEEN', target: 'frank_meier', body: "When the Heiress stands, set down your towel. Watch her walk across the floor. Do not look away until she returns.", host_note: "Paired with her STEP_AWAY. The table sees you watch her." },
+      { t: 15, kind: 'CLOCK', target: 'all', body: "Half past ten. The morning editions go to bed at three. You have four and a half hours to decide what story Paris reads about the Ritz tomorrow.", host_note: "Hold a beat. Look at Frank." },
+      { t: 20, kind: 'TWIST', target: 'the_fixer', optional: true, body: "The envelope is still in the dead man's coat, hanging by the door.", actions: ['Retrieve it','Send a boy','Wait'] },
+      { t: 26, kind: 'TWIST', target: 'the_novelist', body: "Across the bar, a stranger is reading what looks very much like your manuscript.", actions: ['Approach','Watch','Ask Frank'] },
+      { t: 30, kind: 'GATHER_INTEL', target: 'the_couturiere', body: "Excuse yourself to the powder room. The Heiress's compact is on the marble counter. The mirror is mirrored. Three minutes. Retrieve it.", host_note: "Pre-place a small powder compact on the counter." },
+      { t: 30, kind: 'CLOCK', target: 'all', body: "Eleven o'clock. The body is still in the dining room. The night porter is asking the manager what to do." },
+      { t: 31, kind: 'TWIST', target: 'the_couturiere', body: "What you saw in the compact is worth a year of the Heiress's commissions, or nothing.", actions: ['Tell Frank','Approach her','Withhold'] },
+      { t: 33, kind: 'NARRATIVE', target: 'all', body: "Frank Meier polishes a coupe and waits.", host_note: "Hand a polishing cloth to whichever guest is closest to the bar." },
+      { t: 38, kind: 'TWIST', target: 'frank_meier', body: "You know what you saw. You also know that knowing is not the same as proving. Choose.", actions: ['Hint at it','Approach her','Withhold'], host_note: "Frank knows but does not name." },
+      { t: 42, kind: 'DEAD_DROP', target: 'the_cigarette_girl', optional: true, body: "Slip the folded note onto the lacquer tray at the end of the bar. Walk away. Do not point." },
+      { t: 42, kind: 'TWIST', target: 'the_cigarette_girl', optional: true, body: "The folded note he asked you to deliver is still in your apron pocket.", actions: ['Deliver it','Read aloud','Burn it'] },
+      { t: 45, kind: 'CLOCK', target: 'all', body: "Quarter past eleven. The fiancé — the dead man's son — is now in the lobby asking for the Heiress by name." },
+      { t: 46, kind: 'TWIST', target: 'the_heiress', body: "Your fiancé sent a telegram tonight. It is at the front desk. It mentions you.", actions: ['Retrieve it','Ignore','Ask the Fixer'] },
+      { t: 48, kind: 'TWIST', target: 'the_senator', optional: true, body: "The Fixer has not looked at you once tonight. You paid for that message in cash a week ago.", actions: ['Press Fixer','Ask Frank','Wait'] },
+      { t: 50, kind: 'RENDEZVOUS', target: 'the_concierge', optional: true, body: "Meet the Fixer at the front desk for two minutes." },
+      { t: 50, kind: 'RENDEZVOUS', target: 'the_fixer', optional: true, body: "Meet the Concierge at the front desk for two minutes." },
+      { t: 50, kind: 'TWIST', target: 'the_concierge', optional: true, body: "The Fixer's room is booked under a different name than the one at this table.", actions: ['Say aloud','Warn him','Hold it'] },
+      { t: 54, kind: 'NARRATIVE', target: 'all', body: "The piano changes songs. The lobby clock chimes the half-hour." },
+      { t: 60, kind: 'CLOCK', target: 'all', body: "Midnight. The morning paper goes to print in three hours. The Ritz's manager wants a name in two." },
+      { t: 60, kind: 'TWIST', target: 'the_painter', body: "The argument you had with him at the bar is the only window anyone could have used the table. Without realizing it, you may have given the killer the window.", actions: ['Admit it','Blame Heiress','Blame Fixer'] },
+      { t: 68, kind: 'TWIST', target: 'the_heiress', body: "The room is closing on you. Three minutes in the dining room is a long time.", actions: ['Accuse Novelist','Accuse Painter','Stay silent'] },
+      { t: 75, kind: 'CLOCK', target: 'all', body: "Quarter past midnight. Last call. The night porter is at the door of this bar." },
+      { t: 76, kind: 'NARRATIVE', target: 'all', body: "Frank sets one last coupe on the bar. The room makes its decision." },
+      { t: 80, kind: 'NARRATIVE', target: 'all', body: "Name your suspect on the back of the bar receipt and pass it to Frank." },
+      { t: 90, kind: 'REVEAL', target: 'all', body: "It was the Heiress.\n\nThe fiancé — the dead man's son — was about to be cut off. He had told her the day before that his father would refuse his blessing. She arrived at the Ritz with a small vial of digitalis in a powder compact. When the Painter pulled the dead man into an argument at the bar, she stepped into the dining room for three minutes. Frank Meier saw the glass sit. She returned, took the seat opposite him, and waited.\n\nThe Novelist's manuscript was unrelated. The Fixer's message was unrelated. The Painter's debt was real but did not move the dose.\n\nFrank Meier knew before the second cocktail. He let the table arrive on its own." },
+    ],
+    covers: [
+      "The chandelier above the bar trembles slightly when the elevator passes.",
+      "The doorman steps in from the rue Cambon to warm his hands.",
+      "A bellboy carries a stack of telegram envelopes past the bar.",
+      "Frank Meier polishes a coupe glass with the cloth tucked into his apron.",
+      "The smell of tuberose from the next room is thicker tonight.",
+      "Two women in evening dress laugh too loud at something across the lobby.",
+      "The waiter pauses at your table, then moves on without asking.",
+      "A man at the far end of the bar lights a cigarette with the wrong end.",
+      "The ice in the silver bucket settles.",
+      "The piano player begins a Cole Porter song you have not heard in Paris before.",
+      "An older couple speaking German at the corner table go silent when you pass.",
+      "The brass rail along the bar has been polished to mirror brightness.",
+      "A flake of paint from the ceiling lands on the marble floor without sound.",
+      "The clock on the wall chimes the half-hour, three minutes late.",
+      "A page boy walks past with an empty silver tray.",
+      "Outside, a horse-drawn carriage clatters past, then a Citroën with a broken muffler.",
+      "The bartender pours a glass of vermouth for someone who has not arrived.",
+      "Through the velvet curtain into the dining room, the kitchen door swings once.",
+    ],
+  },
+
+  // ============================ PENDENNIS ============================
+  {
+    id: 'heir_pendennis',
+    title: 'Heir to the Pendennis',
+    era: '1923',
+    city: 'Louisville',
+    where: 'Pendennis Club · Derby Eve',
+    range: '4 to 9 guests',
+    solution_type: 'MURDER',
+    killer: 'youngest_son',
+    host_cues: {
+      opening_monologue: "It is Derby Eve, 1923, in Louisville. The Colonel was found in his study at quarter past six this evening. The new draft of his will is on his desk, unsigned. The six of you, plus the staff, were the only souls in this house this afternoon. The reading is at nine in the morning. Before then, you are going to decide what story this family takes to the track.",
+      success_picture: "T+30: at least one player has named the Youngest Son aloud or hinted at his Paris trip. T+50: the Housekeeper has begun to circle her testimony. T+70: the new draft has been produced — burned, pocketed, or set on the table.",
+      panic_buttons: [
+        "Walk into the kitchen. Ask the Housekeeper, where you can be heard by the table, whether the bourbon needs refreshing.",
+        "Lift the Family Lawyer's coat from the chair. Hand it to him with both hands, slowly.",
+        "Ask the Doctor whether the Colonel had been complaining of his heart in the last week.",
+      ],
+      post_game_prompts: [
+        "Housekeeper: was forty-one years long enough?",
+        "Youngest Son: when did you decide?",
+        "Each player: who do you stay with after tomorrow's reading?",
+      ],
+      cocktails: ["Mint Julep", "Old Fashioned", "Whiskey Sour"],
+    },
+    cast: [
+      { id: 'youngest_son', name: 'The Youngest Son', role: "Returned from Paris last week, suspiciously well-dressed.", secret: "You had been writing checks against an account that did not exist, signed in the Colonel's name.", objective: "Make the Eldest Son look guilty. Bury the checks. Avoid any mention of Paris.", optional: false, bluffs: [
+        "I was in the front parlor with the Daughter from five until six — ask her, she had the telegram open on the side table.",
+        "The Eldest owed him a sum that would close a small bank. Look at his hands tonight.",
+        "Paris was three months. Whatever the bank wrote to him was somebody else signing my name.",
+      ] },
+      { id: 'the_housekeeper', name: 'The Housekeeper', role: "Forty-one years in the Colonel's household.", secret: "You saw the Youngest Son go into the study at five forty-five and emerge at six.", objective: "Decide whether to mention what you saw.", optional: false },
+      { id: 'family_lawyer', name: 'The Family Lawyer', role: "Drafted the new will today.", secret: "You suggested the cuts to the Eldest and Youngest Son.", objective: "Leave the house tonight without anyone learning the cuts were your idea.", optional: false },
+      { id: 'eldest_son', name: 'The Eldest Son', role: "Gambler. Owes the Colonel.", secret: "You overheard the Colonel telling the Family Lawyer that the new draft cut you entirely.", objective: "Keep the new draft from being signed.", optional: false },
+      { id: 'the_daughter', name: 'The Daughter', role: "Frozen out of the will by Southern custom.", secret: "The Colonel had sent you a private telegram yesterday saying he was restoring your share.", objective: "Get the telegram on the record before the night ends.", optional: true },
+      { id: 'stable_master', name: 'The Stable Master', role: "Came in for tonight's dinner from the racing stable.", secret: "The Colonel had told you at three o'clock that you would inherit a small share of the stable.", objective: "Confirm your share is in writing.", optional: true },
+      { id: 'the_visiting_cousin', name: 'The Visiting Cousin', role: "Second cousin from St. Louis, in town for the Derby.", secret: "The Colonel had written you into the old draft for a small share of the bourbon stocks.", objective: "Find out if the new draft has been signed.", optional: true },
+      { id: 'the_butler', name: 'The Butler', role: "Forty-three years with the Colonel.", secret: "You let the Family Lawyer into the study at four-thirty for ten minutes. He left with a folder.", objective: "Decide whether to confirm the Housekeeper's account.", optional: true },
+      { id: 'the_doctor', name: 'The Family Doctor', role: "Treated the Colonel for thirty years.", secret: "The Colonel asked you last week, in passing, whether the Youngest Son had been buying anything peculiar from pharmacies in Paris.", objective: "Steer the table away from the question of method.", optional: true },
+    ],
+    beats: [
+      { t: 0, kind: 'NARRATIVE', target: 'all', body: "Louisville, Derby Eve, 1923. The Colonel is dead in his study. The new draft of his will sits unsigned on the desk.", host_note: "Read low. The room is in mourning even if the family is not." },
+      { t: 3, kind: 'SYSTEM', target: 'all', body: "Take your seat at the long table. The bourbon is poured. The Housekeeper waits in the kitchen." },
+      { t: 5, kind: 'TWIST', target: 'youngest_son', killer_first: true, body: "You did it. The Colonel called you in at five-thirty about the checks. He was alive when you closed the door. He was not when you left. Survive eighty more minutes. Do not mention Paris.", actions: ['Steady','Plan a bluff'], host_note: "Killer-first private acknowledgment." },
+      { t: 8, kind: 'SNEAK', target: 'eldest_son', body: "While the Housekeeper is in the kitchen, slip across the room. The Lawyer's coat is on the chair. The new draft is folded in the inside pocket. Two minutes.", host_note: "Pre-place a folded paper labeled 'WILL · DRAFT II' inside the lawyer's coat." },
+      { t: 9, kind: 'TWIST', target: 'eldest_son', body: "The new draft cuts you to a single dollar. The Lawyer's coat is across the room.", actions: ['Take it','Read it','Leave it'] },
+      { t: 13, kind: 'GATHER_INTEL', target: 'the_daughter', optional: true, body: "Excuse yourself upstairs to your room for three minutes. The telegram is in the drawer of your dressing table. Bring it down folded.", host_note: "Pre-place a folded telegram in the upstairs room." },
+      { t: 13, kind: 'TWIST', target: 'the_daughter', optional: true, body: "The telegram is in your reticule. Read it tonight or it does not count.", actions: ['Read aloud','Show Lawyer','Hold it'] },
+      { t: 15, kind: 'CLOCK', target: 'all', body: "Quarter past seven. The reading is at nine tomorrow morning. The Lawyer needs the new draft signed before midnight or the old draft stands.", host_note: "Hold a beat after \"old draft stands.\" Look at the Eldest." },
+      { t: 20, kind: 'STEP_AWAY', target: 'youngest_son', body: "Excuse yourself to the study for five minutes. Stand where you stood at five-thirty. Do not touch the desk.", host_note: "He is recreating the original window." },
+      { t: 20, kind: 'BE_SEEN', target: 'the_housekeeper', body: "When the Youngest stands, set down the polishing cloth. Stand in the kitchen doorway. Watch him cross to the study.", host_note: "Paired beat." },
+      { t: 26, kind: 'TWIST', target: 'stable_master', optional: true, body: "The stable share was a verbal promise. There is no paper.", actions: ['Ask Lawyer','Ask Daughter','Wait'] },
+      { t: 30, kind: 'CLOCK', target: 'all', body: "Half past seven. The Colonel has been on the study floor for two hours. The Housekeeper has not been into that room since the bell rang." },
+      { t: 30, kind: 'TWIST', target: 'the_visiting_cousin', optional: true, body: "The Housekeeper sets a glass of bourbon by your elbow that you did not ask for.", actions: ['Thank her','Ask about old draft','Watch her'] },
+      { t: 33, kind: 'NARRATIVE', target: 'all', body: "The clock in the hall chimes the half-hour. The hound shifts by the fire." },
+      { t: 38, kind: 'TWIST', target: 'family_lawyer', body: "The Daughter has the telegram. If she reads it aloud, the cuts are your work alone.", actions: ['Speak first','Deny it','Blame Youngest'] },
+      { t: 42, kind: 'RENDEZVOUS', target: 'the_butler', optional: true, body: "Excuse yourself to the library. The Family Lawyer will meet you there for two minutes." },
+      { t: 42, kind: 'RENDEZVOUS', target: 'family_lawyer', body: "Excuse yourself to the library. The Butler is waiting. Two minutes." },
+      { t: 42, kind: 'TWIST', target: 'the_butler', optional: true, body: "What you saw at four-thirty puts the Lawyer in the study with a folder before the Youngest went in.", actions: ['Name Lawyer','Hint at it','Withhold'] },
+      { t: 45, kind: 'CLOCK', target: 'all', body: "Quarter to eight. The undertaker is at the back porch. The Lawyer is running out of room to redraft." },
+      { t: 46, kind: 'TWIST', target: 'the_housekeeper', body: "You have served this family forty-one years. Tonight is the night to speak or never speak again.", actions: ['Name Youngest','Hint at it','Withhold'] },
+      { t: 50, kind: 'TWIST', target: 'the_doctor', optional: true, body: "The Colonel asked you about Paris pharmacies last week. The Youngest was in Paris three months. Connect or do not.", actions: ['Name Paris','Deflect','Call it heart'] },
+      { t: 54, kind: 'NARRATIVE', target: 'all', body: "The decanter is empty. The Housekeeper does not bring another." },
+      { t: 60, kind: 'CLOCK', target: 'all', body: "Eight o'clock. The Lawyer is at the writing desk. The pen is in his hand." },
+      { t: 60, kind: 'TWIST', target: 'youngest_son', body: "The Housekeeper is going to say it. You have one move left.", actions: ['Accuse Eldest','Accuse Lawyer','Confess'] },
+      { t: 68, kind: 'TWIST', target: 'eldest_son', body: "The new draft cuts you to a single dollar. Burn it before it is signed.", actions: ['Burn it','Pocket it','Present it'] },
+      { t: 75, kind: 'CLOCK', target: 'all', body: "Quarter past eight. Forty-five minutes until the reading is no longer your private matter." },
+      { t: 76, kind: 'NARRATIVE', target: 'all', body: "The Housekeeper stands at the doorway with the cloth still folded over her arm." },
+      { t: 80, kind: 'NARRATIVE', target: 'all', body: "Name your suspect. Write it on the back of a calling card and place it under the centerpiece." },
+      { t: 90, kind: 'REVEAL', target: 'all', body: "The Youngest Son did it.\n\nHe had been writing checks against an account that did not exist. The bank notified the Colonel last week. The Colonel called him into the study at five-thirty to confront him. The Youngest carried a small vial of digitalis tincture from a Paris pharmacy, slipped it into the bourbon glass on the side table, and waited until the Colonel drank. He was on the floor by six. The Housekeeper saw the Youngest emerge from the study at six — the only window in which the Colonel was alive and alone.\n\nThe new draft was the Lawyer's idea and it cut both sons. The Daughter's telegram was real. The Eldest's debt was old news. The Doctor's pharmacy question was the thread.\n\nThe Youngest could not allow the audit.", host_note: "Pause four seconds at \"He was on the floor by six.\" Look at the Youngest at \"audit.\"" },
+    ],
+    covers: [
+      "The grandfather clock in the front hall ticks a half-beat slower than your watch.",
+      "The Colonel's old hound shifts on the rug by the fire.",
+      "A log in the hearth settles into the coals.",
+      "The smell of bourbon from the sideboard is stronger than the smell of the food.",
+      "Outside, a horse whinnies in the stable. Then quiet.",
+      "The mantel clock chimes a single hollow note.",
+      "Two of the candles on the table burn down at the same rate. The third does not.",
+      "A page from a newspaper rustles on the side table though no window is open.",
+      "The Housekeeper passes the doorway carrying a folded cloth and does not look in.",
+      "The chandelier creaks once on its chain.",
+      "The smell of cigar smoke seeps in from the library across the hall.",
+      "Somewhere in the house, a door is closed very gently.",
+      "A floorboard in the hallway above gives once and goes still.",
+      "The decanter on the sideboard catches the lamp light.",
+      "An ash falls from the cigar in the ashtray onto the linen.",
+      "From the front porch, the night insects pick up volume and drop off again.",
+      "The portrait of the Colonel over the mantel watches the table without blinking.",
+      "Down the hall, the longcase clock in the library is exactly half a minute fast.",
+    ],
+  },
+
+  // ============================ SOCIALITE ============================
+  {
+    id: 'vanishing_socialite',
+    title: 'The Vanishing Socialite',
+    era: '1926',
+    city: 'West Egg, Long Island',
+    where: 'A Gatsby-era estate party',
+    range: '4 to 12 guests',
+    solution_type: 'DISAPPEARANCE',
+    killer: 'the_host',
+    host_cues: {
+      opening_monologue: "It is summer, 1926, West Egg, Long Island. At midnight a young socialite walked out of the ballroom of this house with a Pink Lady in her hand. She did not reach her car. The Host has gathered the people who saw her last in the library, with the door closed. The band is still playing outside. Before dawn, the four of you are going to decide whether this is a body, a kidnapping, or something else entirely.",
+      success_picture: "T+30: at least one player has said \"she left on her own.\" T+60: the genre has flipped — it is no longer a body case. T+80: the Host is either named or has walked away with three hours.",
+      panic_buttons: [
+        "Walk to the french doors. Open them. Stand a moment. Listen to the band. Close them again without speaking.",
+        "Ask the Husband, where the Host can hear, whether his eyes have been examined this year.",
+        "Refill the Sister's glass. Set the bottle in front of her, not the tray.",
+      ],
+      post_game_prompts: [
+        "Sister: where is she now?",
+        "Husband: what would you have done with three more hours?",
+        "Host: was it worth West Egg?",
+      ],
+      cocktails: ["Pink Lady", "French 75", "Bee's Knees"],
+    },
+    cast: [
+      { id: 'the_host', name: 'The Host', role: "A West Egg newcomer. Was once in love with the vanished socialite.", secret: "She had agreed to leave with you tonight before the party. She did not show up.", objective: "Buy three more hours. Keep the room from calling the police until dawn.", optional: false, bluffs: [
+        "I was on the back terrace from eleven thirty to twelve. The Bandleader saw me. The Doctor saw me.",
+        "If anyone saw a figure on the lawn at eleven forty, look at the Aviator — he was the only other man at this party with pale hair.",
+        "The Husband has been asking me about sedatives for a week. Ask the Doctor.",
+      ] },
+      { id: 'the_sister', name: 'The Sister', role: "The vanished socialite's sister. Came late.", secret: "Your sister had been planning to disappear tonight. She left a note in the powder room.", objective: "Protect your sister's escape. Misdirect for three more hours.", optional: false },
+      { id: 'the_husband', name: 'The Husband', role: "Married to the vanished socialite.", secret: "You were on the lawn from eleven thirty to midnight. You saw your wife with a figure whose hair caught the lamp light. Your eyes are not what they were.", objective: "Identify who she was with on the lawn.", optional: false },
+      { id: 'the_bootlegger', name: 'The Bootlegger', role: "Delivered the champagne.", secret: "You saw the socialite speak with the Husband at eleven forty. You saw her walk away alive.", objective: "Keep your name off any record kept tonight.", optional: false },
+      { id: 'the_journalist', name: 'The Journalist', role: "Was at the party to write a profile of the Host.", secret: "Your notebook contains a draft that implicates the Host in something the Husband does not yet know.", objective: "Get the story.", optional: true },
+      { id: 'the_driver', name: 'The Driver', role: "Drove the Husband from Manhattan tonight.", secret: "A young woman matching the socialite's description got into a different car at the back gate at twelve oh five.", objective: "Decide which of your two employers you want to keep next week.", optional: true },
+      { id: 'the_maid', name: 'The Maid', role: "On loan from the Plaza. Worked the powder room.", secret: "You saw the socialite write a note at eleven forty and fold it into the mirror's edge.", objective: "Keep the Plaza's name out of any record kept tonight.", optional: true },
+      { id: 'the_bandleader', name: 'The Bandleader', role: "Brought eleven musicians from a Harlem dance hall.", secret: "From the bandstand, you saw the socialite walk past at eleven fifty-five, alone, headed to the back.", objective: "Play through. Speak to the Host first.", optional: true },
+      { id: 'the_doctor', name: 'The Party Doctor', role: "A Manhattan physician.", secret: "The Husband asked you privately last week about sedatives that pass through a person quickly.", objective: "Stay sober. Decide whether to mention what the Husband asked.", optional: true },
+      { id: 'the_aviator', name: 'The Aviator', role: "Stage-show pilot. Knows the back roads of Long Island.", secret: "You agreed last week to fly someone out of an airfield in Glen Cove tonight at one in the morning.", objective: "Keep your appointment without naming the passenger.", optional: true },
+      { id: 'the_cigarette_girl', name: 'The Cigarette Girl', role: "Works parties on the North Shore.", secret: "The socialite asked you for matches at eleven fifty. Her hand was steady.", objective: "Sell every pack on the tray before two.", optional: true },
+      { id: 'the_photographer', name: 'The Society Photographer', role: "Hired by the Journalist's paper.", secret: "One of your plates shows the Host and the socialite speaking on the back terrace at half-past eleven.", objective: "Decide whether the plate is worth selling to the paper or to the Host.", optional: true },
+    ],
+    beats: [
+      { t: 0, kind: 'NARRATIVE', target: 'all', body: "West Egg, summer 1926. She left the ballroom at midnight with a Pink Lady in her hand. She did not reach her car. The Host has gathered you in the library.", host_note: "Read with the band audible. Do not close the french doors until T+76." },
+      { t: 3, kind: 'SYSTEM', target: 'all', body: "Take a seat in the library. The champagne is on the sideboard. The band is still playing outside." },
+      { t: 5, kind: 'TWIST', target: 'the_host', killer_first: true, body: "You did it — not the killing, the engineering. She agreed to leave with you and did not appear at the meeting point. You panicked and stayed. Survive ninety minutes without naming the airfield.", actions: ['Steady','Plan a bluff'], host_note: "Killer-first private acknowledgment. The 'killer' is the architect, not a murderer." },
+      { t: 8, kind: 'STEP_AWAY', target: 'the_sister', body: "Excuse yourself to the powder room. Three minutes. Retrieve the note from the mirror's edge. Burn it in the candle on the way back, or hide it deeper.", host_note: "Pre-place a folded note tucked into the edge of the powder-room mirror." },
+      { t: 8, kind: 'TWIST', target: 'the_sister', body: "The note from the powder room is folded inside your glove. Burn it or hide it deeper.", actions: ['Burn it','Hide deeper','Re-read'] },
+      { t: 13, kind: 'STEP_AWAY', target: 'the_husband', body: "Excuse yourself to the lawn for four minutes. Stand where you stood at eleven thirty. Look at the library windows. Return slowly.", host_note: "He is recreating his own alibi window." },
+      { t: 13, kind: 'TWIST', target: 'the_husband', body: "On the lawn, the figure she was speaking with had pale hair. The Host has pale hair. The Aviator has pale hair. Your eyes are not what they were.", actions: ['Name Host','Name Aviator','Watch both'] },
+      { t: 15, kind: 'CLOCK', target: 'all', body: "Quarter past midnight. The valet has not returned. The morning papers go to press at three. You have two and three quarters hours to decide what story West Egg wakes up to.", host_note: "Hold a beat. Look at the Host." },
+      { t: 20, kind: 'TWIST', target: 'the_journalist', optional: true, body: "The notebook in your bag has a draft headline: \"The Host's Wife in West Egg, 1922.\"", actions: ['Show Husband','Offer Host','Hold it'] },
+      { t: 22, kind: 'BE_SEEN', target: 'the_bandleader', optional: true, body: "From the bandstand outside, walk slowly past the library french doors. Look in. Walk past again two minutes later.", host_note: "Drop the music to a low number while he passes both times." },
+      { t: 22, kind: 'TWIST', target: 'the_bandleader', optional: true, body: "From the stand you saw her walk past at eleven fifty-five toward the back of the property.", actions: ['Tell Host','Tell Husband','Play on'] },
+      { t: 26, kind: 'TWIST', target: 'the_bootlegger', body: "The valet is asking which car you came in. He has not asked anyone else.", actions: ['Leave now','Bluff','Pay valet'] },
+      { t: 28, kind: 'TWIST', target: 'the_cigarette_girl', optional: true, body: "She asked you for matches at eleven fifty. You can confirm she was steady or claim you do not remember.", actions: ['Confirm alive','Forget','Sell to Host'] },
+      { t: 30, kind: 'TWIST', target: 'the_maid', optional: true, body: "The note is still in the mirror's edge if no one has cleaned the powder room yet.", actions: ['Retrieve it','Tell Sister','Leave it'] },
+      { t: 30, kind: 'CLOCK', target: 'all', body: "Half past midnight. The valet should have been back twenty minutes ago. The kitchen garden door is unlatched." },
+      { t: 33, kind: 'NARRATIVE', target: 'all', body: "The band starts a slow number. Across the lawn, a single yellow light moves on the Sound." },
+      { t: 38, kind: 'TWIST', target: 'the_host', body: "The Husband is looking at your hair, then at the lawn, then at your hair again.", actions: ['Apologize','Blame Bootlegger','Stall'] },
+      { t: 44, kind: 'TWIST', target: 'the_doctor', optional: true, body: "What the Husband asked you last week comes back into focus when you look at him now.", actions: ['Say aloud','Ask him','Withhold'] },
+      { t: 45, kind: 'CLOCK', target: 'all', body: "Quarter to one. If she was alive at eleven forty, this stops being a body case at the next sentence one of you speaks." },
+      { t: 46, kind: 'TWIST', target: 'the_aviator', optional: true, body: "Your appointment at the Glen Cove airfield is in less than two hours. The passenger has not arrived.", actions: ['Warn Host','Leave now','Wait'] },
+      { t: 46, kind: 'TWIST', target: 'the_sister', body: "The Journalist's notebook is on the side table. Three pages from the top is the headline.", actions: ['Take a page','Distract her','Leave alone'] },
+      { t: 48, kind: 'DEAD_DROP', target: 'the_photographer', optional: true, body: "Cross to the side table. Slip the plate face-up under the candlestick. Walk away.", host_note: "Pre-place a small printed photograph next to the candle." },
+      { t: 48, kind: 'TWIST', target: 'the_photographer', optional: true, body: "The plate of the Host and the socialite on the terrace is in your case. Sell it once, to the right hand.", actions: ['Offer Host','Offer paper','Show the room'] },
+      { t: 50, kind: 'GATHER_INTEL', target: 'the_driver', optional: true, body: "Excuse yourself to the back gate. Walk the perimeter. Three minutes. Confirm whether the second car is still parked beyond the hedge.", host_note: "He saw the getaway car. Whether he returns with that information is his choice." },
+      { t: 50, kind: 'TWIST', target: 'the_driver', optional: true, body: "If you say what you saw at the back gate, the Husband makes you next week. If you do not, the Host keeps you.", actions: ['Tell Husband','Tell Host','Withhold'] },
+      { t: 54, kind: 'NARRATIVE', target: 'all', body: "The clock in the hall reads ten past one. The valet has not returned." },
+      { t: 60, kind: 'CLOCK', target: 'all', body: "One o'clock. If she has not been seen by now, she is not on this property. The genre is about to change." },
+      { t: 60, kind: 'TWIST', target: 'the_husband', body: "If she was alive at eleven forty, this is not a body case. It is a leaving case.", actions: ['Say it aloud','Confront Host','Save for dawn'] },
+      { t: 68, kind: 'RENDEZVOUS', target: 'the_aviator', optional: true, body: "Meet the Host in the kitchen for two minutes. Decide together whether the appointment is on." },
+      { t: 68, kind: 'RENDEZVOUS', target: 'the_host', body: "Meet the Aviator in the kitchen for two minutes. Decide whether the appointment is on." },
+      { t: 68, kind: 'TWIST', target: 'the_host', body: "Three more hours. That is all you need. Buy them.", actions: ['Offer Journalist','Blame Sister','Confess quietly'] },
+      { t: 75, kind: 'CLOCK', target: 'all', body: "Quarter past one. Forty-five minutes until the papers go to bed. The Host needs the airfield to be in the air by two." },
+      { t: 76, kind: 'NARRATIVE', target: 'all', body: "The band stops mid-song outside. Someone has asked them to." },
+      { t: 80, kind: 'NARRATIVE', target: 'all', body: "Name what you think happened. Write it on the corner of a cocktail napkin and place it on the side table." },
+      { t: 90, kind: 'REVEAL', target: 'all', body: "She vanished by her own choice, with help.\n\nThe Sister knew. The note in the powder room was the instruction. The Host had agreed weeks ago to drive the car waiting at the back of the property; when she did not appear at the meeting point at midnight, he panicked and stayed at the party to misdirect. The figure on the lawn the Husband saw was the Host going to look for her at eleven forty — the Husband's eyes were not what they were and the Aviator's hair muddied the recall. The Bootlegger saw her speak with the Husband and walk away alive at eleven forty. She left under her own power at twelve oh five through the kitchen garden.\n\nThe second car at the back gate was a Ford coupe, driven by the Host's chauffeur, who had been instructed two days earlier to wait there from eleven thirty to one. The Driver — if at the table — saw it from the perimeter and chose which employer to keep. The Aviator's appointment was the next leg of her route, out of Glen Cove at two in the morning.\n\nThe Journalist's headline was about the affair in 1922, not the disappearance tonight. The Host bought the three hours she needed.\n\nShe is somewhere else by morning.", host_note: "Read with the band silent. Pause five seconds after \"under her own power.\" Look at the Sister last." },
+    ],
+    covers: [
+      "From the lawn, a saxophone holds a note longer than the trumpet expects.",
+      "Beyond the windows, the green light at the end of the dock blinks once.",
+      "A waiter passes carrying a tray of pink coupes.",
+      "The breeze through the open french doors stirs the curtain.",
+      "Out on the gravel drive, a car door closes.",
+      "The pearl strand around someone's neck catches the chandelier light.",
+      "A young couple at the next sofa stop talking when you look over.",
+      "An ice sculpture by the buffet has lost the tip of one wing.",
+      "The band finishes a fox-trot and pauses before the next number.",
+      "A cigarette girl with a tray on a strap walks past without stopping.",
+      "From the second floor, a window is opened and closed again.",
+      "The smell of gin from the bar carries across the room.",
+      "A telephone rings somewhere in the house and is answered after one ring.",
+      "The piano player at the corner stops playing to drink and starts again.",
+      "Through the french doors, a couple on the lawn are speaking too quietly to hear.",
+      "Out on the Sound, a small boat shows a single yellow light, then goes dark.",
+      "Someone at the bar laughs in a way that does not sound like a laugh.",
+      "An older woman pulls her shawl tighter though the room is warm.",
+    ],
+  },
+];
+
+// ============================================================================
+// Render
+// ============================================================================
+const MOVEMENT_KINDS = new Set(['STEP_AWAY','RECON','GATHER_INTEL','RENDEZVOUS','SNEAK','DEAD_DROP','BE_SEEN','MISSED']);
+
+const picker = document.getElementById('picker');
+const charTabs = document.getElementById('charTabs');
+const mountEl = document.getElementById('walkthrough');
+const dirInput = document.getElementById('dirInput');
+const dirToggle = document.getElementById('dirToggle');
+
+let activeMystery = MYSTERIES[0].id;
+let activeChar = MYSTERIES[0].cast[0].id;
+
+dirInput.addEventListener('change', () => {
+  document.body.classList.toggle('director-mode', dirInput.checked);
+  dirToggle.classList.toggle('on', dirInput.checked);
+});
+
+function init() {
+  for (const m of MYSTERIES) {
+    const b = document.createElement('button');
+    b.dataset.id = m.id;
+    b.innerHTML = `${escapeHtml(m.title)} <span class="meta">${escapeHtml(m.city)} · ${escapeHtml(m.era)}</span>`;
+    b.addEventListener('click', () => {
+      activeMystery = m.id;
+      activeChar = m.cast[0].id;
+      renderCharTabs(); renderWalkthrough();
+    });
+    picker.appendChild(b);
+  }
+  renderCharTabs();
+  renderWalkthrough();
+}
+
+function renderCharTabs() {
+  picker.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.id === activeMystery));
+  const m = MYSTERIES.find(x => x.id === activeMystery);
+  charTabs.innerHTML = '';
+  for (const c of m.cast) {
+    const b = document.createElement('button');
+    b.dataset.id = c.id;
+    b.classList.toggle('killer', c.id === m.killer);
+    b.classList.toggle('optional', !!c.optional);
+    b.classList.toggle('active', c.id === activeChar);
+    const tag = c.id === m.killer ? '<span class="tag">KILLER</span>'
+              : c.optional ? '<span class="tag">OPTIONAL</span>'
+              : '<span class="tag">CORE</span>';
+    b.innerHTML = `${escapeHtml(c.name)}${tag}`;
+    b.addEventListener('click', () => { activeChar = c.id; renderCharTabs(); renderWalkthrough(); });
+    charTabs.appendChild(b);
+  }
+}
+
+function renderWalkthrough() {
+  const m = MYSTERIES.find(x => x.id === activeMystery);
+  const c = m.cast.find(x => x.id === activeChar);
+  if (!c) { mountEl.innerHTML = '<div>Pick a character above.</div>'; return; }
+
+  // Sort beats chronologically for the POV view
+  const sortedBeats = [...m.beats].sort((a,b) => a.t - b.t);
+  const pov = sortedBeats.map(beat => povRow(beat, c));
+
+  const realCount = pov.filter(r => r.type === 'real').length;
+  const movementCount = pov.filter(r => r.type === 'movement').length;
+  const broadcastCount = pov.filter(r => r.type === 'broadcast' || r.type === 'system' || r.type === 'clock').length;
+  const coverCount = pov.filter(r => r.type === 'cover').length;
+
+  const killerBadge = c.id === m.killer ? '<span class="badge killer">KILLER</span>' : '';
+  const optBadge = c.optional ? '<span class="badge optional">OPTIONAL</span>' : '';
+
+  const bluffsBlock = (c.bluffs && c.bluffs.length) ? `
+    <div class="lbl">PRE-WRITTEN BLUFFS · USE VERBATIM</div>
+    <ul class="bluffs">
+      ${c.bluffs.map(b => `<li>"${escapeHtml(b)}"</li>`).join('')}
+    </ul>
+  ` : '';
+
+  const hc = m.host_cues || {};
+  const cuesBlock = `
+    <details class="cues">
+      <summary>HOST'S DIRECTOR TRACK · MONOLOGUE · SUCCESS · PANIC BUTTONS · POST-GAME</summary>
+      <div class="body">
+        <div class="ttl">OPENING MONOLOGUE</div>
+        <p class="monologue">${escapeHtml(hc.opening_monologue || '')}</p>
+        <div class="ttl">WHAT SUCCESS LOOKS LIKE</div>
+        <p>${escapeHtml(hc.success_picture || '')}</p>
+        <div class="ttl">PANIC BUTTONS</div>
+        <ul>${(hc.panic_buttons || []).map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>
+        <div class="ttl">POST-GAME PROMPTS</div>
+        <ul>${(hc.post_game_prompts || []).map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>
+        <div class="ttl">RECOMMENDED COCKTAILS</div>
+        <div class="pill-row">${(hc.cocktails || []).map(p => `<span class="pill">${escapeHtml(p)}</span>`).join('')}</div>
+      </div>
+    </details>
+  `;
+
+  mountEl.innerHTML = `
+    <div class="mystery-header">
+      <h2>${escapeHtml(m.title)}</h2>
+      <span class="where">${escapeHtml(m.where)}</span>
+      <span class="range">${escapeHtml(m.range)}</span>
+      ${m.solution_type === 'DISAPPEARANCE' ? '<span class="stype">DISAPPEARANCE · NOT MURDER</span>' : ''}
+    </div>
+
+    <div class="preamble"><span class="ttl">PRIVACY PREAMBLE · READ AT T+0</span>${escapeHtml(PRIVACY_PREAMBLE)}</div>
+
+    ${cuesBlock}
+
+    <div class="section-title">CHARACTER POV · ${escapeHtml(c.name).toUpperCase()}</div>
+
+    <div class="char-header">
+      <h2>${escapeHtml(c.name)}${killerBadge}${optBadge}</h2>
+      <div class="who-meta">${escapeHtml(m.title)} · ${escapeHtml(m.city)}, ${escapeHtml(m.era)}</div>
+      <div class="lbl">ROLE</div>
+      <div class="role">${escapeHtml(c.role)}</div>
+      <div class="lbl">AGENDA FOR THE NIGHT</div>
+      <div class="agenda">${escapeHtml(c.objective)}</div>
+      <div class="lbl">SECRET · DO NOT SHARE</div>
+      <div class="secret">${escapeHtml(c.secret)}</div>
+      ${bluffsBlock}
+    </div>
+
+    <div class="summary">
+      <span><b>${realCount}</b> private twists</span>
+      <span><b>${movementCount}</b> movement beats</span>
+      <span><b>${broadcastCount}</b> broadcasts &amp; clocks</span>
+      <span><b>${coverCount}</b> cover beats</span>
+      <span><b>${sortedBeats.length}</b> total over 90 min</span>
+    </div>
+
+    <div class="section-title">TIMELINE</div>
+    <div class="pov">
+      ${pov.map(r => renderRow(r, m)).join('')}
+    </div>
+  `;
+}
+
+function povRow(beat, c) {
+  if (beat.kind === 'REVEAL') return { type: 'reveal', beat };
+  if (beat.kind === 'CLOCK') return { type: 'clock', beat };
+  if (beat.target === 'all') return { type: beat.kind === 'SYSTEM' ? 'system' : 'broadcast', beat };
+  if (beat.target === c.id) {
+    return MOVEMENT_KINDS.has(beat.kind) ? { type: 'movement', beat } : { type: 'real', beat };
+  }
+  return { type: 'cover', beat };
+}
+
+function renderRow(row, m) {
+  const b = row.beat;
+  const time = `T+${b.t}`;
+  const hostNote = b.host_note
+    ? `<div class="host-note"><span class="lbl">HOST · STAGE NOTE</span>${escapeHtml(b.host_note)}</div>`
+    : '';
+
+  switch (row.type) {
+    case 'broadcast':
+      return `
+        <div class="row"><div class="time">${time}</div>
+          <div class="card broadcast">
+            <div class="head"><span class="kind">NARRATIVE</span><span class="meta">HOST READS ALOUD · ALL PHONES BUZZ</span></div>
+            <div class="body">${escapeHtml(b.body)}</div>
+            ${hostNote}
+          </div></div>`;
+    case 'system':
+      return `
+        <div class="row"><div class="time">${time}</div>
+          <div class="card system">
+            <div class="head"><span class="kind">SYSTEM</span><span class="meta">HOST PROMPT · ALL PHONES BUZZ</span></div>
+            <div class="body">${escapeHtml(b.body)}</div>
+            ${hostNote}
+          </div></div>`;
+    case 'clock':
+      return `
+        <div class="row"><div class="time">${time}</div>
+          <div class="card clock">
+            <div class="head"><span class="kind">THE CLOCK</span><span class="meta">EVERY PHONE BUZZES IN UNISON · HOST READS ALOUD</span></div>
+            <div class="body">${escapeHtml(b.body)}</div>
+            ${hostNote}
+          </div></div>`;
+    case 'real': {
+      const tag = b.killer_first ? ' · KILLER-FIRST' : (b.optional ? ' · OPTIONAL' : '');
+      return `
+        <div class="row"><div class="time">${time}</div>
+          <div class="card real">
+            <div class="head"><span class="kind">YOUR TWIST${tag}</span><span class="meta">PRIVATE · ONLY YOUR PHONE BUZZES</span></div>
+            <div class="body">${escapeHtml(b.body)}</div>
+            ${b.actions ? `<div class="actions">${b.actions.map(a => `<span>${escapeHtml(a)}</span>`).join('')}</div>` : ''}
+            ${hostNote}
+          </div></div>`;
+    }
+    case 'movement': {
+      const tag = b.optional ? ' · OPTIONAL' : '';
+      return `
+        <div class="row"><div class="time">${time}</div>
+          <div class="card movement">
+            <div class="head"><span class="kind">${escapeHtml(b.kind.replace('_',' '))}${tag}</span><span class="meta">PHYSICAL MOVEMENT · LEAVE THE TABLE</span></div>
+            <div class="body">${escapeHtml(b.body)}</div>
+            ${b.actions ? `<div class="actions">${b.actions.map(a => `<span>${escapeHtml(a)}</span>`).join('')}</div>` : ''}
+            ${hostNote}
+          </div></div>`;
+    }
+    case 'cover': {
+      const targetName = (m.cast.find(x => x.id === b.target) || {}).name || b.target;
+      const idx = Math.abs(b.t * 31 + (b.target ? b.target.charCodeAt(0) : 0)) % m.covers.length;
+      const line = m.covers[idx];
+      return `
+        <div class="row"><div class="time">${time}</div>
+          <div class="card cover">
+            <div class="head"><span class="kind">COVER</span><span class="meta">private twist firing at <b>${escapeHtml(targetName)}</b> — your phone buzzes with flavor only</span></div>
+            <div class="samples">"${escapeHtml(line)}"</div>
+            ${hostNote}
+          </div></div>`;
+    }
+    case 'reveal': {
+      const killerName = (m.cast.find(x => x.id === m.killer) || {}).name || m.killer;
+      const stypeLine = m.solution_type === 'DISAPPEARANCE' ? 'It was engineered.' : `It was ${killerName}.`;
+      return `
+        <div class="row"><div class="time">${time}</div>
+          <div class="card reveal">
+            <div class="head"><span class="kind">REVEAL</span><span class="meta">ALL PHONES · READ TOGETHER</span></div>
+            <div class="killer-line">${escapeHtml(stypeLine)}</div>
+            <div class="body">${escapeHtml(b.body)}</div>
+            ${hostNote}
+          </div></div>`;
+    }
+  }
+  return '';
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+init();
+</script>
+
+</body>
+</html>

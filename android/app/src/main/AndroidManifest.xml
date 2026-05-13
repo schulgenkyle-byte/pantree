@@ -5,6 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Mystery Nights multiplayer: keep the app process alive (and its
+         WebSocket open) while a game is in progress and the phone is
+         face-down on the table. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <!-- Photo Picker: no READ_MEDIA_IMAGES needed -->
     <!-- All hardware features explicitly required="false". Without these, the
@@ -69,12 +75,11 @@
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <!-- AdMob app id. Test id ca-app-pub-3940256099942544~3347511713 is Google's
-             official sample — safe to ship in debug. Replace with your real
-             AdMob app id before production release. -->
+        <!-- AdMob app id. Production id registered 2026-05-03 in AdMob console
+             for app.brimm / Speakeater. Test id was ca-app-pub-3940256099942544~3347511713. -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-8540719149057182~9475320940" />
 
         <!-- Defer ad init until we explicitly start it (after consent). -->
         <meta-data
@@ -83,6 +88,14 @@
         <meta-data
             android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
             android:value="true" />
+
+        <!-- Mystery Nights session keeper. dataSync foregroundServiceType is the
+             closest match for "ongoing user-initiated WebSocket session" on
+             Android 14+. -->
+        <service
+            android:name=".feature.parties.game.GameSessionService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

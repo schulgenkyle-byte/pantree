@@ -23,8 +23,12 @@ import { handlePreferences } from './preferences.js';
 import { handleSubmissions, handleSubmissionsAdmin } from './submissions.js';
 import { handleImport } from './import.js';
 import { handleLibrary } from './library.js';
+import { handleGames, GameRoom } from './games.js';
 import { json, cors, err, configProblems } from './util.js';
 import { enforce, clientIp } from './ratelimit.js';
+
+// Re-export the Durable Object class so wrangler's bindings can find it.
+export { GameRoom };
 
 export default {
   async fetch(request, env, ctx) {
@@ -86,6 +90,15 @@ export default {
 
       // Parser-box callback — HMAC-authed, no user session required.
       if (path === '/api/import/callback' && request.method === 'POST') return handleImport.callback(request, env);
+
+      // Mystery Nights — multiplayer game WebSocket upgrade. Public on the
+      // /games/<code>/ws path because the code is the credential (you can't
+      // join a game without it). The host_create endpoint downstream is
+      // gated by requireAuth.
+      const gameWsMatch = path.match(/^\/games\/([A-Z2-9]{4})\/ws$/);
+      if (gameWsMatch && request.method === 'GET') {
+        return handleGames.wsUpgrade(request, env, gameWsMatch[1]);
+      }
 
       // Public Library book by id — shareable URL, no auth.
       // .html → server-rendered HTML for browsers + crawlers. Plain id → JSON for clients.
@@ -253,6 +266,11 @@ export default {
       if (path === '/me/preferences' && request.method === 'GET')  return handlePreferences.get(userId, env, request);
       if (path === '/me/preferences' && request.method === 'PUT')  return handlePreferences.put(request, userId, env);
       if (path === '/me/taste'       && request.method === 'GET')  return handlePreferences.taste(userId, env, request);
+
+      // Mystery Nights — host endpoint (requires logged-in user). Players
+      // join via the public /games/<code>/ws WebSocket above using the code
+      // as their credential.
+      if (path === '/games/create' && request.method === 'POST') return handleGames.create(request, userId, env);
 
       return err(404, 'not found');
     } catch (e) {

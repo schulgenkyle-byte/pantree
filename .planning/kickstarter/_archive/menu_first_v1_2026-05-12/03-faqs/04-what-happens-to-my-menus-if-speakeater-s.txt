@@ -1,0 +1,5 @@
+QUESTION:
+What happens to my menus if Speakeater shuts down?
+
+ANSWER:
+Every menu exports as a PDF. If the servers die, your menus survive on your phone. Founder Rate subscriptions are honored for the operational lifetime of the app. Backers at the $30 tier or above lock the $30 a year rate forever, grandfathered as long as the subscription stays active. If the app shuts down, all Pro features unlock for everyone via the final update. Stated in the privacy policy already.

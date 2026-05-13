@@ -1,0 +1,5 @@
+QUESTION:
+Is the app actually working?
+
+ANSWER:
+Yes. Free tier on Android via Google Play from June 10, 2026. Backers at $25 and above get the Internal Testing build the week this campaign closes.

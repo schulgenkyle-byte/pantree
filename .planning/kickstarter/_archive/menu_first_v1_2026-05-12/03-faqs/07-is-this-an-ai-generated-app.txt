@@ -1,0 +1,5 @@
+QUESTION:
+Is this an AI-generated app?
+
+ANSWER:
+No. The recipes are not generated. The cocktails are transcribed from primary-source manuscripts by hand. The food recipes are licensed, edited, and ranked. The only AI involvement is the vision OCR that reads your fridge and the matching engine that ranks recipes by ingredient overlap. The recipes themselves are real.

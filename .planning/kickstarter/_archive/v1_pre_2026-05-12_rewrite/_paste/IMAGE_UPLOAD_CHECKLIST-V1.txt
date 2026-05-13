@@ -1,0 +1,152 @@
+==========================================
+KICKSTARTER IMAGE UPLOAD CHECKLIST
+==========================================
+
+Kickstarter's editor strips local file paths, so the HTML preview's
+embedded images won't survive paste. Instead, work through this list:
+
+1. Paste the plain story text from 01-story.txt into Kickstarter's pitch
+   editor first.
+2. For each step below, click "Add Image" in Kickstarter's editor at the
+   indicated position, then upload the named file from:
+
+     C:\Users\12566\Downloads\pantrie-build (1)\pantrie-build\.planning\kickstarter\_paste\app-screens-NEW\
+
+3. Check the [ ] box as you go.
+
+==========================================
+
+--- HERO (top of campaign, right under the headline) ---
+
+[ ] STEP 01
+    Position: Top of campaign, immediately under the H1 headline.
+    File:     speakeater_mystery-engine_09_host-code-j2g3-4players.jpg
+
+--- SECTION: "What's already built" ---
+
+[ ] STEP 02
+    Position: Directly under the "What's already built" heading.
+    File:     speakeater_party-index_01_bees-knees-garden.jpg
+
+[ ] STEP 03
+    Position: Continue placing in "What's already built" — group these as a strip after the first.
+    File:     speakeater_party-index_02_roaring-rooftop-gatsby.jpg
+
+--- SECTION: "How a Mystery Night works" ---
+
+[ ] STEP 04
+    Position: Directly under the "How a Mystery Night works" heading.
+    File:     speakeater_mystery-engine_02_host-code-qmxl-empty.jpg
+
+[ ] STEP 05
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-engine_01_join-code-entry.jpg
+
+[ ] STEP 06
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-engine_03_host-code-qmxl-3players.jpg
+
+[ ] STEP 07
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-engine_09_host-code-j2g3-4players.jpg
+
+[ ] STEP 08
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-index_03_algonquin-bootlegger.jpg
+
+[ ] STEP 09
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-index_04_ritz-pendennis.jpg
+
+[ ] STEP 10
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-index_05_pendennis-vanishing.jpg
+
+[ ] STEP 11
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-cast_01_playwright-actress.jpg
+
+[ ] STEP 12
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-cast_02_editor-matron-author.jpg
+
+[ ] STEP 13
+    Position: Continue placing in "How a Mystery Night works" — group these as a strip after the first.
+    File:     speakeater_mystery-cast_03_host-playbook-timeline.jpg
+
+--- SECTION: "And the food and drinks are real" ---
+
+[ ] STEP 14
+    Position: Directly under the "And the food and drinks are real" heading.
+    File:     speakeater_party-index_03_gatsby-bootlegger-fiveoffifty.jpg
+
+[ ] STEP 15
+    Position: Continue placing in "And the food and drinks are real" — group these as a strip after the first.
+    File:     speakeater_party-detail_bootleggers-den_hero.jpg
+
+[ ] STEP 16
+    Position: Continue placing in "And the food and drinks are real" — group these as a strip after the first.
+    File:     speakeater_party-detail_bootleggers-den_inside.jpg
+
+[ ] STEP 17
+    Position: Continue placing in "And the food and drinks are real" — group these as a strip after the first.
+    File:     speakeater_party-detail_bootleggers-den_spec.jpg
+
+[ ] STEP 18
+    Position: Continue placing in "And the food and drinks are real" — group these as a strip after the first.
+    File:     speakeater_roadmap_01_hotel-bars-holiday-tour.jpg
+
+[ ] STEP 19
+    Position: Continue placing in "And the food and drinks are real" — group these as a strip after the first.
+    File:     speakeater_roadmap_02_holiday-nights.jpg
+
+[ ] STEP 20
+    Position: Continue placing in "And the food and drinks are real" — group these as a strip after the first.
+    File:     speakeater_roadmap_03_occasions.jpg
+
+--- SECTION: "What this Kickstarter funds" ---
+
+[ ] STEP 21
+    Position: Directly under the "What this Kickstarter funds" heading.
+    File:     speakeater_mystery-engine_04_host-code-qmxl-inprogress.jpg
+
+--- SECTION: "Stretch goals" ---
+
+[ ] STEP 22
+    Position: Directly under the "Stretch goals" heading.
+    File:     speakeater_roadmap_06_speakeasy-world-tour-stretch.jpg
+
+[ ] STEP 23
+    Position: Continue placing in "Stretch goals" — group these as a strip after the first.
+    File:     speakeater_roadmap_07_world-tour-cities.jpg
+
+[ ] STEP 24
+    Position: Continue placing in "Stretch goals" — group these as a strip after the first.
+    File:     speakeater_roadmap_08_world-tour-more-cities.jpg
+
+[ ] STEP 25
+    Position: Continue placing in "Stretch goals" — group these as a strip after the first.
+    File:     speakeater_roadmap_05_more-mystery-nights-stretch.jpg
+
+==========================================
+ALTERNATES (swap-in pool, do not upload by default)
+==========================================
+
+These are byte-different variants of screens already placed above.
+Only use one of these if a primary shot looks off in the editor.
+
+  - speakeater_mystery-engine_05_host-code-gn9k-empty.jpg
+  - speakeater_mystery-engine_06_host-code-x352-empty.jpg
+  - speakeater_mystery-engine_07_host-code-c2ab-3players.jpg
+  - speakeater_mystery-engine_08_host-code-j2g3-2players.jpg
+  - speakeater_mystery-index_01_algonquin-bootlegger.jpg
+  - speakeater_mystery-index_02_algonquin-bootlegger.jpg
+  - speakeater_mystery-index_06_vanishing-fortyfive.jpg
+  - speakeater_party-index_04_gatsby-bootlegger-tiles.jpg
+  - speakeater_roadmap_04_occasions-more-mystery.jpg
+
+==========================================
+TOTAL UPLOADS: 25
+ALTERNATES:    9
+TOTAL FILES:   34
+==========================================

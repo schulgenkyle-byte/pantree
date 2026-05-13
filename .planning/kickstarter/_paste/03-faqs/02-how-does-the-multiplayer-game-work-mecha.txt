@@ -1,0 +1,5 @@
+QUESTION:
+How does the multiplayer game work, mechanically?
+
+ANSWER:
+Eight phones at a dinner. One host opens a game in Speakeater and gets a four-letter code. The other guests open Speakeater on their own phones, tap "Join a Game," type the code. Each phone gets a private character: name, role, the one secret only they know. The host taps Begin. Over the next three hours, the game runs across all eight phones via WebSocket. Some beats are broadcast (everyone sees them). Some beats are private (only one phone). Multiple-choice actions cascade. What one player picks changes what others see five minutes later. The reveal lands at the last cocktail.

@@ -1,0 +1,5 @@
+QUESTION:
+Are you a historian?
+
+ANSWER:
+No. I am a solo software developer who got too into the subject to stay quiet. I am wrong somewhere. The Codex methodology page at speakeater.com/codex/methodology documents what I know and what I do not. If you find an error, email me. I read every one.

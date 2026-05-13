@@ -1,0 +1,8 @@
+| Threshold | Unlock |
+|---:|---|
+| $25,000 | Speakeasy World Tour. Ten international Curate-a-Party menus added to the set. Havana 1928. Paris 1925. Shanghai 1927. London American Bar 1922. Berlin Weimar Salon 1930. Rome Negroni Bar 1919. Sydney American Hotel 1924. Tokyo Ginza Salon 1926. Buenos Aires Sur 1929. Cairo Shepheard's Bar 1925. Sent to every backer at $49 and up. |
+| $40,000 | Expanded Codex. The free public Codex PDF currently holds fifty cocktails. The stretch expands it to all 2,846 hand-transcribed cocktails with the photographed source page paired against the modernized recipe. Sent free to every backer at $19 and up. |
+| $50,000 | Mystery Nights Expansion. Twenty-five additional interactive Mystery Nights on top of the five at launch. Each one a full game: cast, hooks, twists, host playbook, reveal. Total mystery count goes from five to thirty. Sent free to every backer at $49 and up. |
+| $60,000 | Voice mode. The cook timer, the cocktail builds, and the Mystery Night beats read aloud in a 1920s radio register. Optional. Off by default. Ships to every Pro user at no extra cost. |
+| $80,000 | Custom Mystery Builder. An in-app tool that lets backers write and share their own Mystery Nights with the Speakeater community. Cast designer, beat editor, twist library, action-tree builder. Ships to every backer at $99 and up. |
+| $100,000 | Video Clue Pack. AI-generated period-styled video snippets delivered as twist clues during the Mystery Night. Thirty-second clips. Pivotal information, character monologues, location reveals. Some players get videos others do not see. The cinematic layer on top of the game. Sent to every backer at $49 and up. |

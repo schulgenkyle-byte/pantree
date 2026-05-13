@@ -25,6 +25,20 @@ id = "077c4c0587494d66a90ede9efb58bf31"
 binding = "PHOTOS_BUCKET"
 bucket_name = "pan-tree"
 
+# Mystery Nights multiplayer game rooms.
+# One Durable Object instance per active game (keyed by 4-letter code).
+# Uses hibernatable WebSockets so 100+ concurrent games stay cheap.
+[[durable_objects.bindings]]
+name = "GAME_ROOM"
+class_name = "GameRoom"
+
+# First migration that introduces the GameRoom class. New classes must be
+# declared in a migration block. Don't remove this once deployed — DO
+# migrations are append-only.
+[[migrations]]
+tag = "v1-game-room"
+new_classes = ["GameRoom"]
+
 # ---- Non-secret vars ----
 # Accepts a comma-separated list so you can ship Android + iOS + Web clients.
 [vars]

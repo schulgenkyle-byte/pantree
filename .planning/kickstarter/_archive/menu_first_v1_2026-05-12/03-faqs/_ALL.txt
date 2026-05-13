@@ -1,0 +1,64 @@
+---
+[FAQ 1]
+
+QUESTION:
+Is the app actually working?
+
+ANSWER:
+Yes. Free tier on Android via Google Play from June 10, 2026. Backers at $25 and above get the Internal Testing build the week this campaign closes.
+
+---
+[FAQ 2]
+
+QUESTION:
+Why Prohibition?
+
+ANSWER:
+Because the thread stops there. 1862 to 1923 is when the American bartender's manuscripts were written. 1920 to 1933 erased the bars and most of the bartenders. The craft revival of the late 1990s and 2000s was, in important respects, a project of returning to that thread and continuing it. Speakeater's job is to make the source material legible to a person at home tonight.
+
+---
+[FAQ 3]
+
+QUESTION:
+What is Curate a Party, mechanically?
+
+ANSWER:
+A menu is five drinks, six small plates, a host timeline, a shopping list, and a music note. Each menu is dated, sourced, and named for the bar that inspired it. You download one to your phone. You shop. You host.
+
+Every menu ships in two registers. Faithful uses the period ingredients exactly. Modern-flexible offers substitutions for vegetarian, gluten-free, or alcohol-free hosts. The mocktail set covers the alcohol-free swaps with real temperance-era recipes.
+
+---
+[FAQ 4]
+
+QUESTION:
+What happens to my menus if Speakeater shuts down?
+
+ANSWER:
+Every menu exports as a PDF. If the servers die, your menus survive on your phone. Founder Rate subscriptions are honored for the operational lifetime of the app. Backers at the $30 tier or above lock the $30 a year rate forever, grandfathered as long as the subscription stays active. If the app shuts down, all Pro features unlock for everyone via the final update. Stated in the privacy policy already.
+
+---
+[FAQ 5]
+
+QUESTION:
+Are you a historian?
+
+ANSWER:
+No. I am a solo software developer who got too into the subject to stay quiet. I am wrong somewhere. The Codex methodology page at speakeater.com/codex/methodology documents what I know and what I do not. If you find an error, email me. I read every one.
+
+---
+[FAQ 6]
+
+QUESTION:
+Why does Ensslin show up as "1916 (expanded 1917)"?
+
+ANSWER:
+Because Hugo Ensslin published Recipes for Mixed Drinks in 1916 and expanded it the next year. The expanded edition contains the Aviation, which lost its color for almost a century when the recipe got reprinted without the crème de violette.
+
+---
+[FAQ 7]
+
+QUESTION:
+Is this an AI-generated app?
+
+ANSWER:
+No. The recipes are not generated. The cocktails are transcribed from primary-source manuscripts by hand. The food recipes are licensed, edited, and ranked. The only AI involvement is the vision OCR that reads your fridge and the matching engine that ranks recipes by ingredient overlap. The recipes themselves are real.

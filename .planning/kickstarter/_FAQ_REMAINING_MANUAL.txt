@@ -1,0 +1,43 @@
+=========================================================
+2 FAQs left to paste manually into KS /edit/story
+=========================================================
+
+The agent's React-aware fill script seated 6 of 8 FAQs (#3-#8). KS auto-removes
+"empty" rows when other rows are saved, so the first 2 FAQs in the script's
+queue kept getting eaten. Faster to paste these 2 by hand than to keep
+debugging KS's form behavior.
+
+Steps for each:
+1. Scroll to "Frequently Asked Questions" section at the bottom of /edit/story
+2. Click "Add another FAQ"
+3. Click into the new Question box. Paste the question below.
+4. Click into the Answer box. Paste the answer.
+5. Click into the page background to blur (so KS saves state).
+6. After both FAQs added, click Save at top-right.
+
+Note: paste these as FAQ #1 and #2 (at the top of the FAQ list) for the
+ideal reader flow. KS may reorder them — fine either way.
+
+=========================================================
+FAQ #1 — Is the app actually working?
+=========================================================
+
+QUESTION:
+Is the app actually working?
+
+ANSWER:
+Yes. Free tier on Android via Google Play from June 10, 2026. Backers at $25 and above get the Internal Testing build the week this campaign closes. The five Mystery Nights are interactive multiplayer games from day one.
+
+=========================================================
+FAQ #2 — How does the multiplayer game work, mechanically?
+=========================================================
+
+QUESTION:
+How does the multiplayer game work, mechanically?
+
+ANSWER:
+Eight phones at a dinner. One host opens a game in Speakeater and gets a four-letter code. The other guests open Speakeater on their own phones, tap "Join a Game," type the code. Each phone gets a private character: name, role, the one secret only they know. The host taps Begin. Over the next three hours, the game runs across all eight phones via WebSocket. Some beats are broadcast (everyone sees them). Some beats are private (only one phone). Multiple-choice actions cascade. What one player picks changes what others see five minutes later. The reveal lands at the last cocktail.
+
+=========================================================
+END
+=========================================================

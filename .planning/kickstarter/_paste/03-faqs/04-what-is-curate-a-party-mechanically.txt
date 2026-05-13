@@ -1,0 +1,5 @@
+QUESTION:
+What is Curate-a-Party, mechanically?
+
+ANSWER:
+A menu is five drinks, six small plates, a host timeline, a shopping list, and a music note. Each menu is dated, sourced, and named for the bar that inspired it. Every Mystery Night ships with one of these menus baked in. Beyond the five Mystery Nights, fifty additional standalone Curate-a-Party menus ship across the next twelve months.
