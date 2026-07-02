@@ -26,8 +26,8 @@ android {
     applicationId = "app.brimm"
     minSdk = 26
     targetSdk = 35
-    versionCode = 67
-    versionName = "1.0.0"
+    versionCode = 68
+    versionName = "1.0.1"
     vectorDrawables.useSupportLibrary = true
 
     buildConfigField("String", "API_BASE_URL",
@@ -70,11 +70,11 @@ android {
     }
     release {
       isDebuggable = false
-      // v0.1.3 hotfix: disable R8 minify + resource shrink — release was crashing on launch
-      // and we couldn't pinpoint which Hilt/Compose/AdMob class R8 was stripping. Re-enable
-      // with hardened proguard rules in v0.2.0 once the live crash trace is in hand.
-      isMinifyEnabled = false
-      isShrinkResources = false
+      // Re-enabled for vc68 (2026-07-02) with the hardened proguard-rules.pro that was
+      // written after the v0.1.3 launch crash (serialization/Hilt/billing keep rules).
+      // Smoke-test on a device before every Play upload — R8 regressions surface at runtime.
+      isMinifyEnabled = true
+      isShrinkResources = true
       signingConfig = signingConfigs.getByName("release")
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
       // Hard-empty in release. Even if a future maintainer wires a property, the

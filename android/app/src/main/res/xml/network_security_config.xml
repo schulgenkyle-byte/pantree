@@ -32,9 +32,38 @@
         <trust-anchors>
             <certificates src="system"/>
         </trust-anchors>
-        <!-- Pinning disabled for v0.1.2 launch — placeholder pins above were causing
-             SSLPeerUnverifiedException on first network call, crashing the app on launch.
-             Re-add real SPKI pins (see comment block at top) before promoting to Production.
-             System CA validation still applies; TLS is still mandatory. -->
+    </domain-config>
+
+    <!-- API host pinning (vc68, 2026-07-02). Leaf/intermediate pins are forbidden here:
+         Cloudflare auto-rotates both (the intermediate already moved E7 -> YE2 once).
+         Instead we pin the ROOT SPKIs of Cloudflare's entire Universal SSL CA pool
+         (Let's Encrypt/ISRG + Google Trust Services), so any rotation inside the pool
+         still validates. The expiration attribute is the out-of-band-rotation safety
+         valve: past that date Android ignores the pins (fail-open to system CAs)
+         instead of bricking installs. Refresh pins + expiration with EVERY release:
+           openssl s_client -servername pantrie-backend.schulgenkyle.workers.dev \
+             -connect pantrie-backend.schulgenkyle.workers.dev:443 -showcerts (root SPKI)
+           plus https://letsencrypt.org/certs/ and https://pki.goog/roots.pem -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">schulgenkyle.workers.dev</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+        <pin-set expiration="2027-01-31">
+            <!-- ISRG Root YE (root of the chain served today) -->
+            <pin digest="SHA-256">sCkq5UWXjg+7mKu9lMhhYF5bGLsy7VI/UNW3tccdR7w=</pin>
+            <!-- ISRG Root X1 -->
+            <pin digest="SHA-256">C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=</pin>
+            <!-- ISRG Root X2 -->
+            <pin digest="SHA-256">diGVwiVYbubAI3RW4hB9xU8e/CH2GnkuvVFZE8zmgzI=</pin>
+            <!-- GTS Root R1 -->
+            <pin digest="SHA-256">hxqRlPTu1bMS/0DITB1SSu0vd4u/8l8TjPgfaAp63Gc=</pin>
+            <!-- GTS Root R2 -->
+            <pin digest="SHA-256">Vfd95BwDeSQo+NUYxVEEIlvkOlWY2SalKK1lPhzOx78=</pin>
+            <!-- GTS Root R3 -->
+            <pin digest="SHA-256">QXnt2YHvdHR3tJYmQIr0Paosp6t/nggsEGD4QJZ3Q0g=</pin>
+            <!-- GTS Root R4 -->
+            <pin digest="SHA-256">mEflZT5enoR1FuXLgYYGqnVEoZvmf9c2bVBpiOjYQ0c=</pin>
+        </pin-set>
     </domain-config>
 </network-security-config>
