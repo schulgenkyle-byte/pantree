@@ -1,8 +1,8 @@
 # pan-tree — product north star
 
-_see it. save it. savor it._
+_Open your fridge. We'll figure out dinner._
 
-> **pan-tree is the pantry-first cooking app that actually tracks what's in your kitchen, nudges you to cook before food dies, and serves real, human-cooked recipes — not AI slop. We turn your fridge into your cookbook.**
+> **pan-tree is the cook-with-what-you-have cooking app that actually tracks what's in your kitchen, nudges you to cook before food dies, and serves real, human-cooked recipes — not AI slop. We turn your fridge into your cookbook.**
 
 Every feature, every screen, every dollar spent has to justify itself against that sentence.
 
@@ -43,7 +43,7 @@ Our catalog = 3,250 vetted today (TheMealDB + Wikibooks + corbt/all-recipes), gr
 | Tier | Price | What you get |
 |---|---|---|
 | **pan-tree Free** | $0 forever | 10 swipes/day · **1 scan/day** · 5 barcode lookups/day · 1 receipt scan/week · full pantry · full shopping · basic cook mode · 1 ad between swipes |
-| **pan-tree Pro** | **$4.99/mo or $39/yr** | 40 swipes/day · 20 scans/day (max 100/mo) · unlimited barcode · 4 receipts/week · family sharing · voice cook mode · full meal planner · waste-dollar dashboard · recipe URL import · no ads |
+| **Speakeater Pro** | **$4.99/mo or $45/yr** | 40 swipes/day · 20 scans/day (max 100/mo) · unlimited barcode · 4 receipts/week · family sharing · voice cook mode · full meal planner · waste-dollar dashboard · recipe URL import · no ads |
 
 **Why $4.99?** Undercuts Mealime ($5.99) and Samsung Food ($6.99). Premium over ChefGPT ($2.99). Healthy 80%+ gross margin after Play Store 15% cut + variable costs.
 
@@ -176,3 +176,16 @@ Anonymity stays optional — users can post under a handle or fully anonymously.
 ---
 
 *Locked: 2026-04-23. Changes require explicit product decision in a dedicated session, not in passing.*
+
+---
+
+## Addendum — current truths (2026-07-01, D1/APK-verified; supersedes stale numbers above)
+
+The body of this doc predates launch. Where it conflicts with the following, the following wins:
+
+- **Catalog**: 27,242 recipe rows in prod D1 (~23,300 food + ~3,883 drinks), not 3,250. Public claims: "23,000+ recipes", "3,800+ drinks".
+- **Free tier as shipped**: 20 swipes/day (`SwipeQuotaRepository.FREE_DAILY_LIMIT`), **3 fridge scans per 30 days** (`vision.js FREE_MONTHLY=3`), not "1 scan/day". Pro: unlimited swipes and scans.
+- **Pricing**: Pro $4.99/mo · $45/yr (V3 lock 2026-05-17). No lifetime tier; `brimm_pro_lifetime` SKU must be deactivated in Play Console.
+- **Launched** June 10, 2026 on Google Play (`app.brimm`). ~10+ downloads as of 2026-07-01.
+- **Known P0 data defect**: 56% of recipes (15,192) have ≥1 corrupted ingredient row from ingest-time fraction parsing (e.g. "1/2 tsp" stored as 12 tsp). Diagnosis + repair plan: `speakeater-site/_AUDIT_2026-07-01.md` §3.
+- **Images**: only 2,120 recipes (7.8%) have `image_url`; backfill priority order in the same audit §4.

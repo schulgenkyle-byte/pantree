@@ -1,19 +1,10 @@
 // Beta signup capture — public POST endpoint that brimmapp.com can hit anonymously.
 // Stores email + source so we can copy/paste into Play Console Internal Testing.
 
-import { json, err } from './util.js';
+import { json, err, adminAuthed } from './util.js';
+import { enforce } from './ratelimit.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
-
-function adminAuthed(request, env) {
-  // Header-only — never accept the admin key in URL params (logs leak).
-  // Migration note: callers must now send X-Admin-Key header instead of ?key=...
-  const key = request.headers.get('x-admin-key') || '';
-  if (!env.ADMIN_KEY || !key || key.length !== env.ADMIN_KEY.length) return false;
-  let x = 0;
-  for (let i = 0; i < key.length; i++) x |= key.charCodeAt(i) ^ env.ADMIN_KEY.charCodeAt(i);
-  return x === 0;
-}
 
 async function ensureTable(env) {
   await env.DB.prepare(
@@ -35,6 +26,11 @@ async function ensureTable(env) {
 
 export const handleSignups = {
   async create(request, env) {
+    // Public, unauthenticated endpoint — rate-limit by client IP so junk-email
+    // flooding of beta_signup isn't free (previously had no limit at all).
+    const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+    const rl = await enforce(env, 'write', `signup:${ip}`);
+    if (rl) return rl;
     await ensureTable(env);
     let body;
     try {
@@ -101,9 +97,9 @@ export const handleSignups = {
       `SELECT COUNT(*) AS n FROM beta_signup`
     ).first();
     const real = Number(row?.n || 0);
-    // Floor + total signups. Floor = 127. Every new email adds 1 on top.
-    const FLOOR = 127;
-    const count = FLOOR + real;
+    // Honest count only. A fabricated +127 "floor" used to be added here so the
+    // landing page could claim "127 cooks already saved a seat" — removed 2026-07-01.
+    const count = real;
     const res = json({ ok: true, count, real }, 200, request, env);
     res.headers.set('Cache-Control', 'public, max-age=30, s-maxage=30');
     return res;

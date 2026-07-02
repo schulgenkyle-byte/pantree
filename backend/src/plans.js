@@ -122,7 +122,14 @@ export const handlePlans = {
     const { results } = await env.DB.prepare(
       'SELECT id, name, recipe_ids, created_at FROM plan WHERE user_id = ? ORDER BY created_at DESC'
     ).bind(userId).all();
-    return json({ plans: results || [] }, 200, request, env);
+    // Android Plan DTO requires camelCase `recipeIds: List<String>` (no default) —
+    // raw rows made the whole plans list fail to deserialize on the client.
+    const plans = (results || []).map(r => {
+      let recipeIds = [];
+      try { const v = JSON.parse(r.recipe_ids || '[]'); if (Array.isArray(v)) recipeIds = v.filter(x => typeof x === 'string'); } catch { /* keep [] */ }
+      return { id: r.id, name: r.name, recipeIds, createdAt: r.created_at || 0 };
+    });
+    return json({ plans }, 200, request, env);
   },
 
   /** Return 3 alternative proposals similar to a displaced recipe — same cuisine bucket,

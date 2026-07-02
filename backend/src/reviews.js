@@ -102,7 +102,23 @@ export const handleReviews = {
        ORDER BY r.created_at DESC LIMIT 50`
     ).bind(...userIds, userId).all();
 
-    return json({ reviews: results || [] }, 200, request, env);
+    // Shape must match the shipped Android Review DTO: camelCase, required fields
+    // userId/recipeId/ratingPots present, booleans as booleans (D1 stores 0/1).
+    const reviews = (results || []).map(r => ({
+      id: r.id,
+      userId: r.user_id,
+      recipeId: r.recipe_id,
+      ratingPots: r.rating_pots ?? 0,
+      tasteRating: r.rating_taste ?? null,
+      easeRating: r.rating_ease ?? null,
+      wouldCookAgain: r.cook_again == null ? null : !!r.cook_again,
+      notes: r.notes ?? null,
+      isPublic: !!r.is_public,
+      photoUrl: r.photo_url ?? null,
+      createdAt: r.created_at || 0,
+      displayName: r.display_name ?? null,
+    }));
+    return json({ reviews }, 200, request, env);
   },
 
   async delete(id, userId, env, request) {

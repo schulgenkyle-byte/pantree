@@ -9,6 +9,8 @@ import { estimatePriceUsd } from './expiry.js';
 import { getPreferencesFor, getTasteProfileCached, prefHash } from './preferences.js';
 import { addRecipeToStandardBook } from './library.js';
 import { hasSubsFor } from './substitutions.js';
+import { SKU_PRO_YEARLY } from './billing-skus.js';
+import { isTesterEmail } from './util.js';
 
 const INTERACTION_STATUS = new Set(['saved', 'planned', 'cooked', 'dismissed']);
 
@@ -119,24 +121,16 @@ export const handleRecipes = {
     const used = swipeRow?.n || 0;
 
     // Tier check: active entitlement => Pro. Dev (.test) accounts AND the
-    // tester-email whitelist BOTH get unlimited for QA. Whitelist matches
-    // the one in vision.js — kept inline (small set) instead of a shared
-    // util because the endpoints have slightly different tier semantics.
+    // tester-email whitelist BOTH get unlimited for QA. The whitelist lives
+    // in util.js (`isTesterEmail`) — single source of truth shared with vision.js.
     const userRow = await env.DB.prepare('SELECT email FROM user WHERE id = ?').bind(userId).first();
     const userEmail = String(userRow?.email || '').toLowerCase();
-    const TESTER_EMAILS = new Set([
-      'schulgenkyle@gmail.com',
-      'bonniefullerton2015@gmail.com',
-      'ctb0001@gmail.com',
-      'kadinkullan@gmail.com',
-      'cldjax@gmail.com',
-    ]);
     const envIsDev = (env.ENVIRONMENT || 'prod').toLowerCase() === 'dev';
-    const isDev = envIsDev && (/\.test$/i.test(userEmail) || TESTER_EMAILS.has(userEmail));
+    const isDev = envIsDev && (/\.test$/i.test(userEmail) || isTesterEmail(userEmail));
     const ent = await env.DB.prepare(
       'SELECT sku, expires_at FROM entitlement WHERE user_id = ? AND expires_at > ?'
     ).bind(userId, Date.now()).first();
-    const tier = isDev ? 'dev' : (ent ? (ent.sku === 'pantrie_pro_annual' ? 'pro_annual' : 'pro_monthly') : 'free');
+    const tier = isDev ? 'dev' : (ent ? (ent.sku === SKU_PRO_YEARLY ? 'pro_annual' : 'pro_monthly') : 'free');
     // Free daily-swipe cap raised 20→40 earlier this week for cold-start
     // acquisition. recipes.js was still hardcoded at 20 — out of sync with the
     // client's SwipeQuotaRepository.FREE_DAILY_LIMIT. Aligning both at 40 so
@@ -151,7 +145,7 @@ export const handleRecipes = {
         deck: [],
         dailyCap, remaining: 0, resetAt, tier,
         message: tier === 'free'
-          ? `You've seen your 20 free ${bucketLabel} today. Come back tomorrow, or upgrade to Brimm Pro for unlimited swipes.`
+          ? `You've seen your ${dailyCap} free ${bucketLabel} today. Come back tomorrow, or upgrade to Pro for unlimited swipes.`
           : `You've worked through every ${bucketLabel.slice(0, -1)} match for today — come back tomorrow.`,
       }, 200, request, env);
     }
@@ -164,13 +158,14 @@ export const handleRecipes = {
     // — everything else is still considered but bar items lead the index so cocktails
     // don't get starved by produce-heavy pantries.
     const pantrySql = (contentType === 'cocktail' || contentType === 'mocktail')
-      ? `SELECT name, canonical_name, quantity, unit, expires_at,
+      ? `SELECT name, canonical_name, quantity, unit, expires_at, original_shelf_days,
                 CASE WHEN LOWER(COALESCE(category,'')) = 'bar' THEN 0 ELSE 1 END AS sort_key
            FROM pantry_item WHERE user_id = ? ORDER BY sort_key ASC`
-      : 'SELECT name, canonical_name, quantity, unit, expires_at FROM pantry_item WHERE user_id = ?';
+      : 'SELECT name, canonical_name, quantity, unit, expires_at, original_shelf_days FROM pantry_item WHERE user_id = ?';
     const { results: pantry } = await env.DB.prepare(pantrySql).bind(userId).all();
     const nowMs = Date.now();
     const EXPIRING_WINDOW_MS = 5 * 86400_000;
+    const SHELF_STABLE_DAYS = 180; // mirrors expiry.js SHELF_STABLE_THRESHOLD_DAYS
     // Prefer canonical_name when present; falls back to raw name
     const pantryNames = [];
     const expiringNames = [];
@@ -180,6 +175,9 @@ export const handleRecipes = {
       if (!key) continue;
       pantryNames.push(key);
       pantryByName.set(key, p);
+      // Shelf-stable items (salt, vinegar, dry pasta…) never drive "expiring"
+      // urgency, even when their far-future date drifts into the window.
+      if (p.original_shelf_days != null && Number(p.original_shelf_days) > SHELF_STABLE_DAYS) continue;
       if (p.expires_at) {
         const ts = /^\d{10,}$/.test(p.expires_at) ? parseInt(p.expires_at, 10) : Date.parse(p.expires_at);
         if (Number.isFinite(ts) && ts - nowMs < EXPIRING_WINDOW_MS) expiringNames.push(key);

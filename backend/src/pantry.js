@@ -24,11 +24,24 @@ export const handlePantry = {
     const rl = await enforce(env, 'read', userId);
     if (rl) return rl;
     const { results } = await env.DB.prepare(
-      'SELECT id, name, category, quantity, unit, expires_at, created_at FROM pantry_item WHERE user_id = ? ORDER BY created_at DESC'
+      'SELECT id, name, category, quantity, unit, expires_at, original_shelf_days, created_at FROM pantry_item WHERE user_id = ? ORDER BY created_at DESC'
     ).bind(userId).all();
     // Stamp week-seen for CORE-ingredient analysis. Non-blocking, best-effort.
     stampPantryWeek(env, userId).catch(() => {});
-    return json({ items: results || [] }, 200, request, env);
+    // Shape must match the shipped Android PantryItem DTO exactly: camelCase keys,
+    // expiresAt as a string (epoch-ms digits or yyyy-MM-dd — both parse client-side).
+    // Raw snake_case rows left every synced item with a null expiry in the app.
+    const items = (results || []).map(r => ({
+      id: r.id,
+      name: r.name,
+      category: r.category,
+      quantity: r.quantity,
+      unit: r.unit,
+      expiresAt: r.expires_at != null ? String(r.expires_at) : null,
+      originalShelfDays: r.original_shelf_days ?? null,
+      createdAt: r.created_at || 0,
+    }));
+    return json({ items }, 200, request, env);
   },
 
   /** Clear per-user deck cache so the next /recipes/deck picks up new pantry state.
