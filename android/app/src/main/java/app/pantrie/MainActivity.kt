@@ -39,6 +39,7 @@ import app.pantrie.feature.beta.BetaFeedbackSheet
 import app.pantrie.feature.beta.CommunityScreen
 import app.pantrie.feature.cook.CookModeScreen
 import app.pantrie.feature.deck.DeckScreen
+import app.pantrie.feature.entry.EntryScreen
 import app.pantrie.feature.library.BookDetailScreen
 import app.pantrie.feature.library.LibraryScreen
 import app.pantrie.feature.mealprep.MealPrepScreen
@@ -327,7 +328,7 @@ fun PantrieNav(
   }
   // Show bottom nav on every logged-in screen so users can always navigate home.
   // Hide only on login / onboarding / deep drill-downs that own the whole screen (scan, cook, etc).
-  val fullScreenRoutes = setOf("lang_picker", "login", "onboarding", "scan", "receipt", "barcode")
+  val fullScreenRoutes = setOf("lang_picker", "login", "onboarding", "entry", "scan", "receipt", "barcode")
   val showBottomBar = currentRoute != null
     && currentRoute !in fullScreenRoutes
     && !(currentRoute.startsWith("cook/"))
@@ -506,15 +507,26 @@ fun PantrieNav(
           analytics.track("login_success")
           scope.launch {
             val onboarded = runCatching { api.getPreferences().onboarded }.getOrDefault(false)
-            val dest = if (onboarded) "deck" else "onboarding"
+            val dest = if (onboarded) "entry" else "onboarding"
             nav.navigate(dest) { popUpTo("login") { inclusive = true } }
           }
         })
       }
       composable("onboarding") {
         OnboardingScreen(onDone = {
-          nav.navigate("deck") { popUpTo("onboarding") { inclusive = true } }
+          nav.navigate("entry") { popUpTo("onboarding") { inclusive = true } }
         })
+      }
+      // EntryScreen — three photographic rooms (Sip · Eat · Solve) replace the
+      // old deck-as-home landing. Each card routes into its room; rooms own
+      // their own internal navigation and pop back here on system-back.
+      composable("entry") {
+        EntryScreen(
+          onPickSip = { nav.navigate("mixology") },
+          onPickEat = { nav.navigate("deck") },
+          onPickSolve = { nav.navigate("parties") },
+          onOpenYou = { nav.navigate("settings") },
+        )
       }
       composable("pantry") {
         PantryScreen(

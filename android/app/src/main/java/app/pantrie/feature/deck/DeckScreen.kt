@@ -136,13 +136,14 @@ class DeckViewModel @Inject constructor(
   private fun trackSwipeAndEmit() {
     if (entitlement.isPro.value) return  // unlimited for Pro — no counter, no ads
     viewModelScope.launch {
+      // v1.0: swipe wall removed for the Eat (deck) room — users get unlimited
+      // swipes so they can experience the catalog in totality. Interstitial ads
+      // still fire every Nth swipe for free-tier monetization. Pro users skip
+      // both via the entitlement check above.
       val n = quota.increment()
-      val outcome = when {
-        n > app.pantrie.billing.SwipeQuotaRepository.FREE_DAILY_LIMIT -> SwipeOutcomeEvent.Wall
-        n % app.pantrie.billing.SwipeQuotaRepository.AD_EVERY_N_SWIPES == 0 -> SwipeOutcomeEvent.ShowAd
-        else -> return@launch  // no event needed
+      if (n % app.pantrie.billing.SwipeQuotaRepository.AD_EVERY_N_SWIPES == 0) {
+        _swipeEvent.send(SwipeOutcomeEvent.ShowAd)
       }
-      _swipeEvent.send(outcome)
     }
   }
 

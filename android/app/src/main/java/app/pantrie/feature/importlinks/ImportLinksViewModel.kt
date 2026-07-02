@@ -129,7 +129,7 @@ class ImportLinksViewModel @Inject constructor(
   }
 
   private fun humanizeError(e: Exception): String = when {
-    e.message?.contains("402") == true -> "Recipe URL import is a Brimm Pro feature."
+    e.message?.contains("402") == true -> "Recipe URL import is a Speakeater Pro feature."
     e.message?.contains("503") == true -> "Recipe import is temporarily unavailable."
     else -> e.message ?: "Something went wrong."
   }

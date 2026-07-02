@@ -115,12 +115,12 @@ class SwipeQuotaRepository @Inject constructor(
   }
 
   companion object {
-    // Acquisition mode: bumped to 40 to remove friction during the cold-start
-    // phase. We need users in the app exploring — capping at 20 right after
-    // install is paywall theater when nobody knows what Speakeater is yet.
-    // Drop back to 20 once D7 retention crosses 30% and ad revenue covers the
-    // cost of free-tier API calls. Tracked in CFO weekly brief.
-    const val FREE_DAILY_LIMIT = 40
+    // Canonical free tier limit: 20 swipes/day. Aligns with the Play Store
+    // listing copy, the public website, and the V2 pricing handoff. The
+    // earlier 40-swipe acquisition bump conflicted with our published cap
+    // (Play listing + website both showed 20), so we landed on 20 as the
+    // single source of truth.
+    const val FREE_DAILY_LIMIT = 20
     const val AD_EVERY_N_SWIPES = 10
     const val REWARDED_BONUS = 10
 

@@ -20,10 +20,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
- * Test banner ad unit. Google's official sample — safe to ship in debug, replace before prod.
- * Real ad units come from your AdMob console after creating ad units there.
+ * Production banner ad unit. Created in AdMob console 2026-05-03 for Speakeater
+ * (app.brimm). Was Google's test sample (ca-app-pub-3940256099942544/9214589741)
+ * before — keep that handy as a fallback for local dev only.
  */
-const val TEST_BANNER_AD_UNIT_ID = "ca-app-pub-3940256099942544/9214589741"
+const val TEST_BANNER_AD_UNIT_ID = "ca-app-pub-8540719149057182/8026507901"
 
 /**
  * Adaptive-banner ad. Shows nothing for Pro users. The banner takes ~50dp of vertical space.

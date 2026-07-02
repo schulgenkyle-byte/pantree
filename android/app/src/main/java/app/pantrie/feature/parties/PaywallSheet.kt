@@ -81,6 +81,7 @@ fun PaywallSheet(
   onDismiss: () -> Unit,
   onRedeemed: (grantedMenuIds: Set<String>) -> Unit,
   vm: PartiesViewModel,
+  isMystery: Boolean = false,
 ) {
   val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
   val scope = rememberCoroutineScope()
@@ -109,6 +110,7 @@ fun PaywallSheet(
     PaywallContent(
       menuTitle = menuTitle,
       feedback = feedback,
+      isMystery = isMystery,
       onSubmitCode = { code ->
         keyboard?.hide()
         vm.redeemCode(code)
@@ -139,6 +141,7 @@ private fun BrassDragHandle() {
 private fun PaywallContent(
   menuTitle: String,
   feedback: RedemptionResult?,
+  isMystery: Boolean,
   onSubmitCode: (String) -> Unit,
   onDismissFeedback: () -> Unit,
   onClose: () -> Unit,
@@ -181,6 +184,43 @@ private fun PaywallContent(
         fontStyle = FontStyle.Italic,
       ),
     )
+
+    // Host clarification — only for Mystery Nights (multiplayer game). Party
+    // menus don't have multiplayer mode so this would be confusing there.
+    if (isMystery) {
+      Spacer(Modifier.height(14.dp))
+      Box(
+        modifier = Modifier
+          .fillMaxWidth()
+          .border(1.dp, BrassBright.copy(alpha = 0.5f), RoundedCornerShape(3.dp))
+          .padding(horizontal = 14.dp, vertical = 12.dp),
+      ) {
+        Column {
+          Text(
+            text = "1 HOST · UP TO 8 GUESTS · FREE TO JOIN",
+            style = MaterialTheme.typography.labelMedium.copy(
+              color = BrassBright,
+              fontFamily = Mono,
+              fontSize = 11.sp,
+              letterSpacing = 2.4.sp,
+              fontWeight = FontWeight.SemiBold,
+            ),
+          )
+          Spacer(Modifier.height(6.dp))
+          Text(
+            text = "You buy once. Up to eight guests join with a 4-letter code on the free app.",
+            style = MaterialTheme.typography.bodySmall.copy(
+              color = InkSoft,
+              fontFamily = SerifBody,
+              fontSize = 13.sp,
+              lineHeight = 19.sp,
+              fontStyle = FontStyle.Italic,
+            ),
+          )
+        }
+      }
+    }
+
     Spacer(Modifier.height(20.dp))
     DottedGoldRule(modifier = Modifier.fillMaxWidth())
     Spacer(Modifier.height(20.dp))
@@ -303,7 +343,7 @@ private fun PaywallContent(
     )
     Spacer(Modifier.height(8.dp))
     Text(
-      text = "Buy this menu outright for five dollars. Or get Speakeater Pro at $45 a year, which includes every menu we ship.",
+      text = "Subscribe to Speakeater Pro and every menu unlocks — all five Mystery Nights, fifty party menus, the cocktail archive, and no ads.",
       style = MaterialTheme.typography.bodyMedium.copy(
         color = InkSoft,
         fontFamily = SerifBody,
@@ -311,10 +351,10 @@ private fun PaywallContent(
         lineHeight = 20.sp,
       ),
     )
-    Spacer(Modifier.height(12.dp))
+    Spacer(Modifier.height(16.dp))
 
-    // PRIMARY: single-menu purchase button.
-    BuyMenuButton()
+    // PRIMARY: real Pro subscription card (tier selector + Play purchase flow).
+    app.pantrie.billing.ProUpgradeCard(vintageMode = false)
 
     Spacer(Modifier.height(10.dp))
 
@@ -337,7 +377,7 @@ private fun PaywallContent(
 
     Spacer(Modifier.height(24.dp))
     Text(
-      text = "We honor every Kickstarter code for the operational lifetime of the app. If we shut down, all menus unlock for everyone.",
+      text = "We honor every Kickstarter code for as long as the app keeps running. If we shut down, all menus unlock for everyone.",
       style = MaterialTheme.typography.bodySmall.copy(
         color = InkFaint,
         fontFamily = SerifBody,

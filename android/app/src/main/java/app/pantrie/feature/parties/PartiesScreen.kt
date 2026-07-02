@@ -35,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -96,6 +97,12 @@ fun PartiesScreen(
       Cohort.values().forEach { put(it.name, false) }
     }
   }
+  // UX 2026-05-16: the entire "FORTY-FIVE TO FOLLOW" coming-soon section
+  // was eating ~40% of vertical space on first launch with placeholder
+  // content. Default collapsed behind a single tappable footer toggle so
+  // the ready-now grid is what first-time users see; power users + backers
+  // can still expand the upcoming pipeline.
+  var showComingSection by remember { mutableStateOf(false) }
 
   Surface(
     modifier = Modifier.fillMaxSize(),
@@ -163,6 +170,36 @@ fun PartiesScreen(
         }
       }
 
+      // MYSTERY NIGHTS — accordion, default expanded, terracotta accent + NEW badge.
+      // Ordered above Party Menus 2026-05-21: mysteries are the headline feature.
+      val mysteryOpen = expanded[SECTION_MYSTERY] == true
+      item("section_mystery_header") {
+        SectionAccordionHeader(
+          label = "Mystery Nights",
+          eyebrow = "READY NOW · 5 MENUS · ROLE-PLAY",
+          count = MYSTERY_MENUS.size,
+          isOpen = mysteryOpen,
+          isStretch = false,
+          isNew = true,
+          accentColor = Terracotta,
+          onToggle = { expanded[SECTION_MYSTERY] = !mysteryOpen },
+        )
+      }
+      items(MYSTERY_MENUS, key = { it.id }) { menu ->
+        val unlocked = isPro || menu.id in redeemed || PartiesViewModel.ALL_WILDCARD in redeemed
+        AnimatedVisibility(
+          visible = mysteryOpen,
+          enter = fadeIn() + expandVertically(),
+          exit = fadeOut() + shrinkVertically(),
+        ) {
+          MenuGridCard(
+            menu = menu,
+            unlocked = unlocked,
+            onClick = { onOpenMenu(menu.id) },
+          )
+        }
+      }
+
       // PARTY MENUS — accordion, default expanded, brass accent.
       val partyOpen = expanded[SECTION_PARTY] == true
       item("section_party_header") {
@@ -192,61 +229,43 @@ fun PartiesScreen(
         }
       }
 
-      // MYSTERY NIGHTS — accordion, default expanded, terracotta accent + NEW badge.
-      val mysteryOpen = expanded[SECTION_MYSTERY] == true
-      item("section_mystery_header") {
-        SectionAccordionHeader(
-          label = "Mystery Nights",
-          eyebrow = "READY NOW · 5 MENUS · ROLE-PLAY",
-          count = MYSTERY_MENUS.size,
-          isOpen = mysteryOpen,
-          isStretch = false,
-          isNew = true,
-          accentColor = Terracotta,
-          onToggle = { expanded[SECTION_MYSTERY] = !mysteryOpen },
+      // FORTY-FIVE TO FOLLOW — single understated toggle (default closed)
+      // expands to the five-cohort accordion. Reduces first-launch text
+      // density without losing the discoverability of the pipeline for
+      // backers + repeat users. Audit fix 2026-05-16.
+      item("coming_toggle") {
+        ComingSoonToggle(
+          isOpen = showComingSection,
+          onToggle = { showComingSection = !showComingSection },
         )
       }
-      items(MYSTERY_MENUS, key = { it.id }) { menu ->
-        val unlocked = isPro || menu.id in redeemed || PartiesViewModel.ALL_WILDCARD in redeemed
-        AnimatedVisibility(
-          visible = mysteryOpen,
-          enter = fadeIn() + expandVertically(),
-          exit = fadeOut() + shrinkVertically(),
-        ) {
-          MenuGridCard(
-            menu = menu,
-            unlocked = unlocked,
-            onClick = { onOpenMenu(menu.id) },
-          )
+      if (showComingSection) {
+        item("coming_header") {
+          ComingSoonHeader()
         }
-      }
-
-      // SIXTY-FIVE TO FOLLOW — five accordion sections, default collapsed.
-      item("coming_header") {
-        ComingSoonHeader()
-      }
-      PLACEHOLDERS_BY_COHORT.forEach { (cohort, list) ->
-        val isOpen = expanded[cohort.name] == true
-        val cohortAccent = if (cohort == Cohort.MYSTERY_STRETCH) Terracotta else BrassBright
-        item("cohort_${cohort.name}") {
-          SectionAccordionHeader(
-            label = cohort.label,
-            eyebrow = if (cohort.isStretch) "STRETCH GOAL · ${list.size} MENUS" else "COMING · ${list.size} MENUS",
-            count = list.size,
-            isOpen = isOpen,
-            isStretch = cohort.isStretch,
-            isNew = false,
-            accentColor = cohortAccent,
-            onToggle = { expanded[cohort.name] = !isOpen },
-          )
-        }
-        items(list, key = { "ph_${it.title}" }) { ph ->
-          AnimatedVisibility(
-            visible = isOpen,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically(),
-          ) {
-            PlaceholderCard(placeholder = ph)
+        PLACEHOLDERS_BY_COHORT.forEach { (cohort, list) ->
+          val isOpen = expanded[cohort.name] == true
+          val cohortAccent = if (cohort == Cohort.MYSTERY_STRETCH) Terracotta else BrassBright
+          item("cohort_${cohort.name}") {
+            SectionAccordionHeader(
+              label = cohort.label,
+              eyebrow = if (cohort.isStretch) "STRETCH GOAL · ${list.size} MENUS" else "COMING · ${list.size} MENUS",
+              count = list.size,
+              isOpen = isOpen,
+              isStretch = cohort.isStretch,
+              isNew = false,
+              accentColor = cohortAccent,
+              onToggle = { expanded[cohort.name] = !isOpen },
+            )
+          }
+          items(list, key = { "ph_${it.title}" }) { ph ->
+            AnimatedVisibility(
+              visible = isOpen,
+              enter = fadeIn() + expandVertically(),
+              exit = fadeOut() + shrinkVertically(),
+            ) {
+              PlaceholderCard(placeholder = ph)
+            }
           }
         }
       }
@@ -441,6 +460,61 @@ private fun OwnerDebugBar(
   }
 }
 
+/**
+ * Single understated toggle that gates the entire "FORTY-FIVE TO FOLLOW"
+ * cohort accordion. Default closed. Tapping flips state and reveals the
+ * full cohort tree underneath. UX 2026-05-16 — replaces a permanently-
+ * visible 80vh upcoming-content block that buried the ready-now grid.
+ */
+@Composable
+private fun ComingSoonToggle(isOpen: Boolean, onToggle: () -> Unit) {
+  Surface(
+    color = Paper2,
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(top = 8.dp)
+      .border(0.5.dp, BrassBright.copy(alpha = 0.35f), RoundedCornerShape(3.dp))
+      .clip(RoundedCornerShape(3.dp))
+      .clickable(onClick = onToggle),
+  ) {
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 14.dp, vertical = 12.dp),
+      verticalAlignment = Alignment.CenterVertically,
+    ) {
+      Column(modifier = Modifier.weight(1f)) {
+        Text(
+          text = if (isOpen) "FORTY-FIVE TO FOLLOW · OPEN" else "WHAT'S COMING? · +45 MENUS",
+          style = MaterialTheme.typography.labelSmall.copy(
+            color = BrassBright,
+            fontFamily = Mono,
+            fontSize = 10.sp,
+            letterSpacing = 2.8.sp,
+            fontWeight = FontWeight.SemiBold,
+          ),
+        )
+        Spacer(Modifier.height(3.dp))
+        Text(
+          text = if (isOpen) "Tap to hide" else "Hotel Bars, Holidays, Occasions, and a Speakeasy World Tour.",
+          style = MaterialTheme.typography.bodySmall.copy(
+            color = InkSoft,
+            fontFamily = SerifBody,
+            fontStyle = FontStyle.Italic,
+            fontSize = 13.sp,
+          ),
+        )
+      }
+      Icon(
+        imageVector = if (isOpen) Icons.Outlined.KeyboardArrowUp else Icons.Outlined.KeyboardArrowDown,
+        contentDescription = if (isOpen) "Hide upcoming menus" else "Show upcoming menus",
+        tint = BrassBright,
+        modifier = Modifier.size(22.dp),
+      )
+    }
+  }
+}
+
 @Composable
 private fun ComingSoonHeader() {
   Column(
@@ -615,7 +689,7 @@ private fun MenuGridCard(
   // Strong visual differentiation at a single glance.
   val accent = if (menu.isMystery) Terracotta else BrassBright
   val accentDeep = if (menu.isMystery) TerracottaDeep else BrassDeep
-  val typeLabel = if (menu.isMystery) "MYSTERY NIGHT · ROLE-PLAY" else "PARTY MENU"
+  val typeLabel = if (menu.isMystery) "MYSTERY NIGHT · 1 HOST · 8 GUESTS FREE" else "PARTY MENU"
   val lockChipLabel = if (menu.isMystery) "MYSTERY · KICKSTARTER" else "LOCKED · KICKSTARTER"
 
   Column(
@@ -692,16 +766,6 @@ private fun MenuGridCard(
               fontWeight = FontWeight.SemiBold,
             ),
           )
-          Spacer(Modifier.height(5.dp))
-          Text(
-            text = "${menu.eraCity.uppercase()} · ${menu.eraYear} · ${menu.guestCount} GUESTS",
-            style = MaterialTheme.typography.labelSmall.copy(
-              color = InkFaint,
-              fontFamily = Mono,
-              fontSize = 9.sp,
-              letterSpacing = 2.4.sp,
-            ),
-          )
           Spacer(Modifier.height(6.dp))
           Text(
             text = menu.title,
@@ -714,15 +778,11 @@ private fun MenuGridCard(
               lineHeight = 28.sp,
             ),
           )
-          Spacer(Modifier.height(8.dp))
-          Text(
-            text = menu.eraSourceLine,
-            style = MaterialTheme.typography.bodySmall.copy(
-              color = InkSoft,
-              fontFamily = SerifBody,
-              fontSize = 13.sp,
-            ),
-          )
+          // UX 2026-05-16: dropped era/year/guests meta line and era source
+          // line below the title. Cards were stacking 4 text blocks under
+          // each hero — too dense for first-time scanning. MenuDetailScreen
+          // carries the full editorial copy; the card needs only hero +
+          // type label + title.
         }
       }
     }

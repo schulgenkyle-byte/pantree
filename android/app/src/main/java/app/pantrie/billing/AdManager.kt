@@ -19,8 +19,11 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/** Test ad units — Google's official samples. Replace before production release. */
-const val TEST_INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
+/** Production interstitial ad unit. Created in AdMob 2026-05-03 for app.brimm/Speakeater.
+ *  Was test sample ca-app-pub-3940256099942544/1033173712 before. */
+const val TEST_INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-8540719149057182/6475646726"
+/** Rewarded unit still uses Google's test sample — no rewarded unit created yet in AdMob.
+ *  When you add one, swap this value. */
 const val TEST_REWARDED_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
 
 /**

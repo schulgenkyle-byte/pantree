@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.CheckBox
 import androidx.compose.material.icons.outlined.CheckBoxOutlineBlank
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
 import androidx.compose.material.icons.outlined.ExpandLess
@@ -283,6 +284,7 @@ private fun buildShoppingShareText(items: List<ShoppingItem>): String {
 fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
   val smart by vm.smart.collectAsState()
   val loading by vm.loading.collectAsState()
+  val dismissedExpiring by vm.dismissedExpiring.collectAsState()
   // Walkthrough VM — used by the shopping mini-tour to spotlight the Share button.
   val tourVm: app.pantrie.feature.walkthrough.WalkthroughViewModel = hiltViewModel()
   // All aisles default expanded (matches user expectation when shopping). State survives rotation.
@@ -448,8 +450,11 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
         }
       }
 
-      // Expiring section — red chrome, "Add all to shop" convenience + per-item Add buttons
-      if (!s?.expiring.isNullOrEmpty()) {
+      // Expiring section — red chrome, "Add all to shop" + per-item Add + per-item X dismiss.
+      // Filter out anything the user has already dismissed locally so the optimistic
+      // hide is honored even before the next backend refresh lands.
+      val visibleExpiring = s?.expiring?.filter { it.id !in dismissedExpiring }.orEmpty()
+      if (visibleExpiring.isNotEmpty()) {
         item {
           Row(
             Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 16.dp),
@@ -458,19 +463,23 @@ fun ShoppingScreen(vm: ShoppingViewModel = hiltViewModel()) {
             Icon(Icons.Outlined.AccessTime, null, tint = Terracotta, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(6.dp))
             Text(
-              "Use this week · ${s!!.expiring.size}",
+              "Use this week · ${visibleExpiring.size}",
               style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = Ink,
               modifier = Modifier.weight(1f),
             )
-            if (s.expiring.size > 1) {
-              TextButton(onClick = { vm.restockAll(s.expiring) }) {
+            if (visibleExpiring.size > 1) {
+              TextButton(onClick = { vm.restockAll(visibleExpiring) }) {
                 Text("Add all", color = Terracotta, fontWeight = FontWeight.Medium)
               }
             }
           }
         }
-        items(s!!.expiring, key = { "exp-${it.id}" }) { item ->
-          ExpiringRow(item = item, onRestock = { vm.restock(item) })
+        items(visibleExpiring, key = { "exp-${it.id}" }) { item ->
+          ExpiringRow(
+            item = item,
+            onRestock = { vm.restock(item) },
+            onDismiss = { vm.dismissExpiring(item) },
+          )
         }
       }
 
@@ -604,13 +613,13 @@ private fun SectionHeader(title: String, icon: androidx.compose.ui.graphics.vect
 }
 
 @Composable
-private fun ExpiringRow(item: ExpiringItem, onRestock: () -> Unit) {
+private fun ExpiringRow(item: ExpiringItem, onRestock: () -> Unit, onDismiss: () -> Unit) {
   Surface(
     shape = RoundedCornerShape(8.dp),
     color = Terracotta.copy(alpha = 0.06f),
     modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 4.dp),
   ) {
-    Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.padding(start = 12.dp, top = 6.dp, bottom = 6.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
       Column(Modifier.weight(1f)) {
         Text(item.name, style = MaterialTheme.typography.titleMedium, color = Ink)
         val label = when {
@@ -627,6 +636,14 @@ private fun ExpiringRow(item: ExpiringItem, onRestock: () -> Unit) {
         shape = RoundedCornerShape(4.dp),
       ) {
         Text("Add to shop", color = Paper, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium)
+      }
+      IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
+        Icon(
+          Icons.Outlined.Close,
+          contentDescription = "Dismiss",
+          tint = InkMuted,
+          modifier = Modifier.size(18.dp),
+        )
       }
     }
   }

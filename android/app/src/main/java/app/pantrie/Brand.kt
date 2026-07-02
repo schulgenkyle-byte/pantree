@@ -21,7 +21,7 @@ package app.pantrie
 object Brand {
   const val APP_NAME = "Speakeater"
   const val PRO_NAME = "Speakeater Pro"
-  const val TAGLINE = "see it. save it. savor it."
+  const val TAGLINE = "Sip · Eat · Solve."
   const val DOMAIN = "speakeater.com"
   const val LEGACY_DOMAIN = "brimmapp.com"
   const val SUPPORT_EMAIL = "support@brimmapp.com"

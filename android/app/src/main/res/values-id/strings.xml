@@ -20,7 +20,7 @@
 
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Selamat datang di Speakeater</string>
-    <string name="onboarding_welcome_body">Aplikasi memasak yang membaca isi kulkas Anda.</string>
+    <string name="onboarding_welcome_body">Buka kulkas Anda. Biar kami yang pilih makan malam.</string>
     <string name="onboarding_get_started">Mulai</string>
     <string name="onboarding_palate_title">Apa yang suka Anda masak?</string>
     <string name="onboarding_diet_title">Ada preferensi diet?</string>

@@ -20,7 +20,7 @@
 
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bem-vindo ao Speakeater</string>
-    <string name="onboarding_welcome_body">O app de cozinha que lê sua geladeira.</string>
+    <string name="onboarding_welcome_body">Abra sua geladeira. A gente resolve o jantar.</string>
     <string name="onboarding_get_started">Começar</string>
     <string name="onboarding_palate_title">O que você gosta de cozinhar?</string>
     <string name="onboarding_diet_title">Alguma preferência alimentar?</string>

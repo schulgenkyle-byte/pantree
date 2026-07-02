@@ -7,12 +7,20 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteSweep
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material.icons.outlined.Receipt
 import androidx.compose.material3.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import java.util.UUID
 import androidx.compose.runtime.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -57,6 +65,12 @@ class PantryViewModel @Inject constructor(
   private val _home = MutableStateFlow<HomeStats?>(null)
   val home = _home.asStateFlow()
 
+  // Local-only dismiss for the expiring-food banner. Reset on every refreshHome
+  // so the banner reappears when the backend surfaces a fresh expiring list.
+  private val _expiringNudgeDismissed = MutableStateFlow(false)
+  val expiringNudgeDismissed = _expiringNudgeDismissed.asStateFlow()
+  fun dismissExpiringNudge() { _expiringNudgeDismissed.value = true }
+
   init {
     refreshHome()
     oneShotSyncToBackend()
@@ -64,7 +78,11 @@ class PantryViewModel @Inject constructor(
 
   fun refreshHome() {
     viewModelScope.launch {
-      runCatching { api.homeStats() }.onSuccess { _home.value = it }
+      runCatching { api.homeStats() }.onSuccess {
+        _home.value = it
+        // Reset the local dismiss so the banner can reappear if new items expire.
+        _expiringNudgeDismissed.value = false
+      }
     }
   }
 
@@ -173,6 +191,46 @@ class PantryViewModel @Inject constructor(
     return pushed
   }
 
+  /**
+   * Manual pantry entry — user typed in an item name (and optionally quantity/unit)
+   * instead of using camera scan, barcode, or receipt. Adds to backend first so the
+   * server-generated id is the canonical key, then mirrors into local Room cache
+   * for immediate UI reflection. RefreshBus bump triggers home-stats recount.
+   *
+   * On backend failure, falls back to a local-only insert with a generated UUID.
+   * The next syncToBackend() call (on app open or pull-to-refresh) will push it.
+   */
+  fun addManual(name: String, quantity: Double? = null, unit: String? = null) {
+    val cleanName = name.trim()
+    if (cleanName.isEmpty()) return
+    viewModelScope.launch {
+      val req = PantryAddRequest(name = cleanName, quantity = quantity, unit = unit?.trim()?.ifEmpty { null })
+      val result = runCatching { api.addPantryItem(req) }
+      val id = result.getOrNull()?.id ?: UUID.randomUUID().toString()
+      val expiresAt = result.getOrNull()?.expiresAt
+      runCatching {
+        dao.upsert(
+          PantryItemEntity(
+            id = id,
+            name = cleanName,
+            category = null,
+            quantity = quantity,
+            unit = unit?.trim()?.ifEmpty { null },
+            expiresAt = expiresAt,
+            createdAt = System.currentTimeMillis(),
+          )
+        )
+      }
+      if (result.isFailure) {
+        _syncMessage.value = "Added locally — will sync next time"
+      } else {
+        _syncMessage.value = "Added $cleanName"
+      }
+      refreshHome()
+      refreshBus.bumpPantry()
+    }
+  }
+
   fun delete(id: String) { viewModelScope.launch { dao.delete(id) } }
 
   private val _clearing = MutableStateFlow(false)
@@ -247,8 +305,10 @@ fun PantryScreen(
 ) {
   val items by vm.items.collectAsState()
   val home by vm.home.collectAsState()
+  val expiringDismissed by vm.expiringNudgeDismissed.collectAsState()
   val syncMsg by vm.syncMessage.collectAsState()
   val sortedItems = remember(items) { sortByExpiry(items) }
+  var showAddManual by remember { mutableStateOf(false) }
 
   // Walkthrough VM — used to report the "Snap your shelves" button bounds so the
   // first-launch tour can spotlight it (step 2: "scan what you have").
@@ -277,9 +337,19 @@ fun PantryScreen(
       home?.scanNudge?.takeIf { it.show }?.let { nudge ->
         item { NudgeCard(message = nudge.message, onAction = onScan, actionText = "Scan now") }
       }
-      // Expiring nudge
-      home?.expiringNudge?.takeIf { it.show }?.let { nudge ->
-        item { NudgeCard(message = nudge.message, tint = BrassBright, onAction = null, actionText = null) }
+      // Expiring nudge — dismissable until the next backend refresh surfaces
+      // a fresh expiring list. The banner reappears when new items expire
+      // (refreshHome resets the local dismiss flag).
+      home?.expiringNudge?.takeIf { it.show && !expiringDismissed }?.let { nudge ->
+        item {
+          NudgeCard(
+            message = nudge.message,
+            tint = BrassBright,
+            onAction = null,
+            actionText = null,
+            onDismiss = { vm.dismissExpiringNudge() },
+          )
+        }
       }
 
       item { SavingsCard() }
@@ -316,6 +386,11 @@ fun PantryScreen(
             Icon(Icons.Outlined.Receipt, null, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(6.dp))
             Text("Receipt", fontWeight = FontWeight.Medium)
+          }
+          OutlinedButton(onClick = { showAddManual = true }, modifier = Modifier.weight(1f).height(52.dp), shape = RoundedCornerShape(4.dp)) {
+            Icon(Icons.Outlined.Edit, null, modifier = Modifier.size(18.dp))
+            Spacer(Modifier.width(6.dp))
+            Text("Type it", fontWeight = FontWeight.Medium)
           }
         }
       }
@@ -359,7 +434,7 @@ fun PantryScreen(
             ) {
               Text("No ingredients yet", style = MaterialTheme.typography.titleMedium, color = Ink)
               Spacer(Modifier.height(4.dp))
-              Text("Snap a photo, scan a barcode, or photograph a receipt.",
+              Text("Snap a photo, scan a barcode, photograph a receipt, or type it in.",
                 style = MaterialTheme.typography.bodyMedium, color = InkMuted)
             }
           }
@@ -393,25 +468,127 @@ fun PantryScreen(
             )
           }
         }
+        // Banner ad — self-hides for Pro users.
+        item("banner_ad") {
+          Spacer(Modifier.height(12.dp))
+          app.pantrie.billing.BannerAd()
+        }
       }
     }
+  }
+
+  if (showAddManual) {
+    AddManualDialog(
+      onDismiss = { showAddManual = false },
+      onConfirm = { name, qty, unit ->
+        vm.addManual(name, qty, unit)
+        showAddManual = false
+      },
+    )
   }
 }
 
 @Composable
-private fun NudgeCard(message: String, tint: Color = Ink, onAction: (() -> Unit)?, actionText: String?) {
+private fun AddManualDialog(
+  onDismiss: () -> Unit,
+  onConfirm: (name: String, quantity: Double?, unit: String?) -> Unit,
+) {
+  var name by remember { mutableStateOf("") }
+  var qtyText by remember { mutableStateOf("") }
+  var unit by remember { mutableStateOf("") }
+  val nameFocus = remember { FocusRequester() }
+
+  LaunchedEffect(Unit) { nameFocus.requestFocus() }
+
+  AlertDialog(
+    onDismissRequest = onDismiss,
+    title = { Text("Add to pantry") },
+    text = {
+      Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        OutlinedTextField(
+          value = name,
+          onValueChange = { name = it.take(80) },
+          label = { Text("Item name") },
+          placeholder = { Text("e.g. tomato, milk, sourdough") },
+          singleLine = true,
+          modifier = Modifier.fillMaxWidth().focusRequester(nameFocus),
+          keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+          OutlinedTextField(
+            value = qtyText,
+            onValueChange = { new ->
+              // Allow numerics + a single decimal point; cap at 8 chars to fit common quantities
+              val cleaned = new.filter { it.isDigit() || it == '.' }.take(8)
+              // Strip extra decimal points
+              val dotIdx = cleaned.indexOf('.')
+              qtyText = if (dotIdx >= 0) cleaned.substring(0, dotIdx + 1) + cleaned.substring(dotIdx + 1).replace(".", "") else cleaned
+            },
+            label = { Text("Qty") },
+            placeholder = { Text("1") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Next),
+            modifier = Modifier.weight(1f),
+          )
+          OutlinedTextField(
+            value = unit,
+            onValueChange = { unit = it.take(20) },
+            label = { Text("Unit") },
+            placeholder = { Text("lb, oz, cup") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            modifier = Modifier.weight(1.4f),
+          )
+        }
+        Text(
+          "Quantity and unit are optional. Just the name is enough.",
+          style = MaterialTheme.typography.bodySmall,
+          color = InkFaint,
+        )
+      }
+    },
+    confirmButton = {
+      TextButton(
+        enabled = name.trim().isNotEmpty(),
+        onClick = { onConfirm(name.trim(), qtyText.toDoubleOrNull(), unit.trim().ifEmpty { null }) },
+      ) {
+        Text("Add", fontWeight = FontWeight.SemiBold)
+      }
+    },
+    dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+  )
+}
+
+@Composable
+private fun NudgeCard(
+  message: String,
+  tint: Color = Ink,
+  onAction: (() -> Unit)?,
+  actionText: String?,
+  onDismiss: (() -> Unit)? = null,
+) {
   Surface(
     shape = RoundedCornerShape(8.dp),
     color = tint.copy(alpha = 0.08f),
     modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
   ) {
     Row(
-      Modifier.fillMaxWidth().padding(14.dp),
+      Modifier.fillMaxWidth().padding(start = 14.dp, top = 8.dp, bottom = 8.dp, end = 4.dp),
       verticalAlignment = Alignment.CenterVertically,
     ) {
       Text(message, style = MaterialTheme.typography.bodyMedium, color = Ink, modifier = Modifier.weight(1f))
       if (onAction != null && actionText != null) {
         TextButton(onClick = onAction) { Text(actionText, color = tint, fontWeight = FontWeight.Medium) }
+      }
+      if (onDismiss != null) {
+        IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
+          Icon(
+            Icons.Outlined.Close,
+            contentDescription = "Dismiss",
+            tint = InkMuted,
+            modifier = Modifier.size(18.dp),
+          )
+        }
       }
     }
   }

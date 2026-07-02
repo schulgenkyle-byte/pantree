@@ -29,7 +29,7 @@
          ONBOARDING WIZARD
          ================================================================ -->
     <string name="onboarding_welcome_title">Welcome to Speakeater</string>
-    <string name="onboarding_welcome_body">The cooking app that reads your fridge.</string>
+    <string name="onboarding_welcome_body">Sip · Eat · Solve.</string>
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_palate_title">What do you like to cook?</string>
     <string name="onboarding_diet_title">Any dietary preferences?</string>

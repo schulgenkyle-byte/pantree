@@ -142,6 +142,10 @@ interface PantrieApi {
   @POST("me/debug/revoke-pro")
   suspend fun debugRevokePro(): EntitlementResponse
 
+  // ---------- Mystery Nights multiplayer ----------
+  @POST("games/create")
+  suspend fun createGame(@Body req: app.pantrie.network.dto.CreateGameRequest): app.pantrie.network.dto.CreateGameResponse
+
   @GET("scan/status")
   suspend fun scanStatus(): ScanStatusResponse
 

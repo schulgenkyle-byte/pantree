@@ -67,12 +67,16 @@ class LoginViewModel @Inject constructor(
       credentialFlow.signInWithGoogle(activity)
         .onSuccess { _state.value = LoginUiState.LoggedIn }
         .onFailure { e ->
-          // Swallow user-cancellations silently — they tapped Back / outside
-          // the picker, which is not an error worth surfacing as red text.
+          // Swallow user-cancellations AND timeouts silently — both end up
+          // back on Idle with the Sign in button visible. Showing red error
+          // text after Play Services takes too long is just frustrating; the
+          // user can tap again. Real errors (network, server) still surface.
           val msg = e.message?.lowercase().orEmpty()
-          val userCancelled = msg.contains("cancel") || msg.contains("user closed") ||
-            e::class.simpleName?.contains("Cancellation") == true
-          if (userCancelled) {
+          val cls = e::class.simpleName.orEmpty()
+          val benign = msg.contains("cancel") || msg.contains("user closed") ||
+            msg.contains("timed out") || cls.contains("Cancellation") ||
+            cls.contains("Timeout")
+          if (benign) {
             _state.value = LoginUiState.Idle
           } else {
             _state.value = LoginUiState.Error(e.message ?: "Sign-in failed")
@@ -142,7 +146,7 @@ fun LoginScreen(
       Text(app.pantrie.Brand.APP_NAME, style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Normal, color = Ink)
       Spacer(Modifier.height(8.dp))
       Text(
-        "see it. save it. savor it.",
+        app.pantrie.Brand.TAGLINE,
         style = MaterialTheme.typography.bodyLarge, color = InkSoft,
       )
       Spacer(Modifier.height(48.dp))

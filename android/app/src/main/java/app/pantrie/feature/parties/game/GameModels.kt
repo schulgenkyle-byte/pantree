@@ -197,7 +197,17 @@ sealed class IncomingMessage {
   data object GameStarted : IncomingMessage()
   data class BeatPushed(val beat_index: Int, val beat: GameBeat) : IncomingMessage()
   data class HostView(val beat_index: Int, val beat: GameBeat) : IncomingMessage()
-  data class PlayerActionRecorded(val beat_index: Int, val action_id: String) : IncomingMessage()
+  data class PlayerActionRecorded(
+    val beat_index: Int,
+    val action_id: String,
+    /** Display name typed by the player at join. Empty string if older
+     *  server (pre-2026-05-16) sent the lighter payload. */
+    val player_name: String = "",
+    /** Cast character_id the player is playing. Lets the host surface
+     *  "The Editor chose 'reveal letter'" rather than "Charlotte chose
+     *  'reveal letter'." Empty if the player's slot is somehow unassigned. */
+    val character_id: String = "",
+  ) : IncomingMessage()
   data class Reveal(
     val body: String,
     val killer_character_id: String? = null,

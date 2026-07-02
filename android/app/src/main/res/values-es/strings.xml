@@ -21,7 +21,7 @@
 
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bienvenido a Speakeater</string>
-    <string name="onboarding_welcome_body">La app de cocina que lee tu refrigerador.</string>
+    <string name="onboarding_welcome_body">Abre tu nevera. Nosotros decidimos la cena.</string>
     <string name="onboarding_get_started">Empezar</string>
     <string name="onboarding_palate_title">¿Qué te gusta cocinar?</string>
     <string name="onboarding_diet_title">¿Alguna preferencia dietética?</string>

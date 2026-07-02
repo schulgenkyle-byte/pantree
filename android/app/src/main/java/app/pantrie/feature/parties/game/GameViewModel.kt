@@ -32,6 +32,14 @@ data class GameUiState(
   val currentBeatIndex: Int = -1,
   val pendingAction: GameBeat? = null,                  // a TWIST beat awaiting this player's choice
   val recordedActions: List<RecordedAction> = emptyList(),
+  /**
+   * HOST-ONLY rolling log of player choices on TWIST beats. Populated by
+   * PlayerActionRecorded events. The host needs this to direct the room
+   * intelligently — Blood on the Clocktower's Storyteller sees every vote;
+   * Speakeater's host was flying blind before 2026-05-16. Kept to the last
+   * 20 entries to bound memory.
+   */
+  val hostActionLog: List<HostPlayerActionLogEntry> = emptyList(),
   val revealText: String? = null,
   val revealKillerId: String? = null,
   val errorMessage: String? = null,
@@ -48,6 +56,15 @@ data class CharacterAssignment(
 
 data class RecordedAction(val beatIndex: Int, val actionId: String)
 
+/** A single entry in the host's player-action log — "who chose what". */
+data class HostPlayerActionLogEntry(
+  val beatIndex: Int,
+  val actionId: String,
+  val playerName: String,
+  val characterId: String,
+  val atEpochMs: Long,
+)
+
 @HiltViewModel
 class GameViewModel @Inject constructor(
   private val socket: GameSocket,
@@ -62,13 +79,24 @@ class GameViewModel @Inject constructor(
 
   /**
    * Doctrine: players' phones spend 5-10 seconds on a beat, then go back
-   * face-down on the table. We auto-dismiss the current beat 8 seconds after
-   * it arrives so the screen returns to the persistent character header.
-   * Cancelled when the player picks an action, on close, or when the next
-   * beat arrives. Host phones do not auto-dismiss — the host is directing.
+   * face-down on the table. We auto-dismiss the current beat after a
+   * body-length-aware delay (base 4s + ~35ms per character, floored at 6s,
+   * capped at 18s) so longer cover beats stay visible long enough to read,
+   * but short whispers don't linger. Cancelled when the player picks an
+   * action, on close, or when the next beat arrives. Host phones do not
+   * auto-dismiss — the host is directing.
+   * Pre-2026-05-16 this was a fixed 8s window. Audit Fix #4.
    */
   private var beatDismissJob: Job? = null
-  private val PLAYER_BEAT_VISIBLE_MS = 8_000L
+  private val MIN_BEAT_VISIBLE_MS = 6_000L
+  private val MAX_BEAT_VISIBLE_MS = 18_000L
+  private val BEAT_BASE_MS = 4_000L
+  private val BEAT_PER_CHAR_MS = 35L
+
+  private fun computeDismissMs(body: String): Long {
+    val raw = BEAT_BASE_MS + body.length * BEAT_PER_CHAR_MS
+    return raw.coerceIn(MIN_BEAT_VISIBLE_MS, MAX_BEAT_VISIBLE_MS)
+  }
 
   init {
     socket.state.onEach { connState ->
@@ -189,8 +217,10 @@ class GameViewModel @Inject constructor(
     // Only auto-dismiss on player phones. Host stays sticky for directing.
     if (_state.value.role != "player") return
     beatDismissJob?.cancel()
+    val body = _state.value.currentBeat?.body.orEmpty()
+    val ms = computeDismissMs(body)
     beatDismissJob = viewModelScope.launch {
-      delay(PLAYER_BEAT_VISIBLE_MS)
+      delay(ms)
       _state.value = _state.value.copy(currentBeat = null, pendingAction = null)
     }
   }
@@ -265,7 +295,20 @@ class GameViewModel @Inject constructor(
         )
       }
       is IncomingMessage.PlayerActionRecorded -> {
-        // Host echo of a player's choice. Could be surfaced in director view.
+        // Host echo of a player's choice. Surface to the host director view
+        // so they can see WHO chose WHAT in real time. Audit Fix #3
+        // (2026-05-16). Only meaningful on the host; players ignore.
+        if (_state.value.role == "host") {
+          val entry = HostPlayerActionLogEntry(
+            beatIndex = msg.beat_index,
+            actionId = msg.action_id,
+            playerName = msg.player_name,
+            characterId = msg.character_id,
+            atEpochMs = System.currentTimeMillis(),
+          )
+          val trimmed = (_state.value.hostActionLog + entry).takeLast(20)
+          _state.value = _state.value.copy(hostActionLog = trimmed)
+        }
       }
       is IncomingMessage.Reveal -> {
         _state.value = _state.value.copy(

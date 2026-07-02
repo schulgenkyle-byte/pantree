@@ -20,7 +20,7 @@
 
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Speakeater में आपका स्वागत है</string>
-    <string name="onboarding_welcome_body">वह कुकिंग ऐप जो आपके फ्रिज को पढ़ता है।</string>
+    <string name="onboarding_welcome_body">फ्रिज खोलो. खाना हम तय करेंगे.</string>
     <string name="onboarding_get_started">शुरू करें</string>
     <string name="onboarding_palate_title">आप क्या पकाना पसंद करते हैं?</string>
     <string name="onboarding_diet_title">कोई आहार संबंधी प्राथमिकता?</string>

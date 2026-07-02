@@ -10,9 +10,11 @@ import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.acknowledgePurchase
+import com.android.billingclient.api.consumePurchase
 import com.android.billingclient.api.queryProductDetails
 import com.android.billingclient.api.queryPurchasesAsync
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -34,11 +36,82 @@ import javax.inject.Singleton
  * Brand.PRO_NAME ("Speakeater Pro"); only the internal SKU id strings keep the
  * legacy prefix.
  */
-const val SKU_PRO_MONTHLY = "brimm_pro_monthly"
-const val SKU_PRO_YEARLY = "brimm_pro_yearly"
+// V3 SKUs — active in Play Console as of 2026-05-17. $5/mo + $45/yr.
+// V1 SKUs (brimm_pro_monthly @ $4.99 / brimm_pro_yearly @ $50) and V2 SKUs
+// (brimm_pro_monthly_v2 @ $14.99 / brimm_pro_yearly_v2 @ $129) remain Active
+// in Play Console for grandfathered subscribers — backend/src/billing-skus.js
+// keeps all versions on the allowlist so existing renewals still verify.
+// New purchases flow through these v3 SKUs only.
+//
+// V3 PLAY CONSOLE SETUP REQUIRED before this build hits production:
+//   1. Create subscription `speakeater_pro_monthly_v3`, base plan `monthly`, $5/mo
+//   2. Create subscription `speakeater_pro_yearly_v3`, base plan `yearly`, $45/yr
+//   3. Deactivate v2 SKUs for NEW purchases (keep Active for renewals)
+//   4. Deactivate any `brimm_pro_lifetime` / `speakeater_pro_lifetime` SKU
+//      — lifetime Pro is killed in V3, no replacement
+const val SKU_PRO_MONTHLY = "speakeater_pro_monthly_v3"
+const val SKU_PRO_YEARLY = "speakeater_pro_yearly_v3"
+
+// Legacy SKU constants kept for grandfathered-subscriber detection.
+const val SKU_PRO_MONTHLY_V2 = "brimm_pro_monthly_v2"
+const val SKU_PRO_YEARLY_V2 = "brimm_pro_yearly_v2"
+const val SKU_PRO_MONTHLY_V1 = "brimm_pro_monthly"
+const val SKU_PRO_YEARLY_V1 = "brimm_pro_yearly"
+
+// Image scan top-up — consumable IAP, $2 grants 20 fridge scans.
+// Server adds credits to user_scan_credits on verify. Free users see this
+// in the upgrade prompt when they hit the monthly 5-scan cap.
+// REQUIRES Play Console SKU creation: in-app product `speakeater_scans_20` @ $1.99
+const val SKU_SCANS_20 = "speakeater_scans_20"
+
+// Consumable credit packs — 1920s speakeasy naming. Buy once, get extra
+// swipes + photo scans on top of whatever tier you're on. Generous on
+// swipes (cheap to serve), tight on photos (~$0.005 / Vision call so we
+// keep margin even at the largest pack). User keeps unconsumed credits
+// across purchases — they accumulate.
+//
+// NOTE: Credit packs are currently DISABLED end-to-end via
+// [CREDIT_PACKS_ENABLED] below. Server-side credit-grant logic is not yet
+// implemented (no user_credits table, no decrement hooks at swipe/photo
+// usage sites). The paywall UI hides these tiles until the flag flips.
+// Backend mirror: backend/src/billing-skus.js — keep the constants in sync.
+const val SKU_PACK_NIGHTCAP   = "speakeater_pack_nightcap"   // $1.99 — 50 swipes + 5 photos
+const val SKU_PACK_BOOTLEGGER = "speakeater_pack_bootlegger" // $4.99 — 200 swipes + 15 photos
+const val SKU_PACK_GATSBY     = "speakeater_pack_gatsby"     // $9.99 — 500 swipes + 40 photos
+
+/**
+ * Feature flag for the credit-pack purchase flow. False until the backend
+ * `user_credits` table + grant/decrement logic ships AND the Play Console
+ * in-app products are created and activated. When flipping to true:
+ *   1. Populate `ALLOWED_INAPP_SKUS` + `CREDIT_PACK_GRANTS` in
+ *      `backend/src/billing-skus.js`.
+ *   2. Add credit-grant logic to `backend/src/billing.js` (currently the
+ *      `verify` route returns 503 'credit packs not yet available').
+ *   3. Add server-side decrement at every usage site (swipe, photo scan).
+ *   4. Create the three SKUs in Play Console → In-app products.
+ */
+const val CREDIT_PACKS_ENABLED = false
+
+/** Represents a credit pack's value proposition for the paywall UI.
+ *  Prices are placeholders; the real localized price comes from
+ *  ProductDetails once Play Console returns the SKU. */
+data class CreditPack(
+  val sku: String,
+  val displayName: String,
+  val tagline: String,
+  val swipes: Int,
+  val photoScans: Int,
+  val priceFallback: String,  // shown if Play Console hasn't loaded the SKU yet
+)
+
+val CREDIT_PACKS = listOf(
+  CreditPack(SKU_PACK_NIGHTCAP,   "The Nightcap",         "A quick one before bed.",   50,  5,  "$1.99"),
+  CreditPack(SKU_PACK_BOOTLEGGER, "The Bootlegger's Run", "Stocked for the week.",     200, 15, "$4.99"),
+  CreditPack(SKU_PACK_GATSBY,     "The Gatsby",           "Thrown for the whole crew.", 500, 40, "$9.99"),
+)
 
 private val SUBSCRIPTION_SKUS = listOf(SKU_PRO_MONTHLY, SKU_PRO_YEARLY)
-private val INAPP_SKUS = emptyList<String>()
+private val INAPP_SKUS = listOf(SKU_PACK_NIGHTCAP, SKU_PACK_BOOTLEGGER, SKU_PACK_GATSBY)
 
 /**
  * Wraps the Google Play BillingClient. Single-tenant: holds one client per app process.
@@ -223,9 +296,8 @@ class BillingManager @Inject constructor(
   private fun handleNewPurchase(purchase: Purchase, alreadyOnDevice: Boolean = false) {
     if (purchase.purchaseState != Purchase.PurchaseState.PURCHASED) return  // PENDING is not yet a purchase
     val productId = purchase.products.firstOrNull() ?: return
+    val isCreditPack = productId in INAPP_SKUS
     scope.launch {
-      // 1. Server-side verification — backend checks the token against Google Play Developer API
-      //    and (on success) writes an entitlement row.
       runCatching {
         api.verifyPurchase(
           app.pantrie.network.dto.VerifyPurchaseRequest(
@@ -235,18 +307,32 @@ class BillingManager @Inject constructor(
           )
         )
       }.onSuccess {
-        // 2. Mark Pro locally so UI flips immediately + persist.
-        entitlement.markProAfterPurchase()
-        if (!alreadyOnDevice) _purchaseEvents.value = PurchaseEvent.Success(productId)
-
-        // 3. Acknowledge with Google so the purchase isn't auto-refunded after 3 days.
-        if (!purchase.isAcknowledged) {
+        if (isCreditPack) {
+          // Consumable credit pack: server credited the user's swipe/photo
+          // balance. Consume the purchase with Google so the user can buy
+          // the same pack again later. Do NOT mark as Pro — credit packs
+          // don't grant subscription status.
+          if (!alreadyOnDevice) _purchaseEvents.value = PurchaseEvent.Success(productId)
           runCatching {
-            client.acknowledgePurchase(
-              AcknowledgePurchaseParams.newBuilder()
+            client.consumePurchase(
+              ConsumeParams.newBuilder()
                 .setPurchaseToken(purchase.purchaseToken)
                 .build()
             )
+          }
+        } else {
+          // Subscription path — flip Pro locally + acknowledge (NOT consume)
+          // so the subscription survives across sessions.
+          entitlement.markProAfterPurchase()
+          if (!alreadyOnDevice) _purchaseEvents.value = PurchaseEvent.Success(productId)
+          if (!purchase.isAcknowledged) {
+            runCatching {
+              client.acknowledgePurchase(
+                AcknowledgePurchaseParams.newBuilder()
+                  .setPurchaseToken(purchase.purchaseToken)
+                  .build()
+              )
+            }
           }
         }
       }.onFailure { e ->

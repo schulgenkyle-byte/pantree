@@ -899,3 +899,15 @@ data class SearchHit(
   @SerialName("is_historic") val isHistoric: Boolean = false,
   @SerialName("is_alcoholic") val isAlcoholic: Boolean = false,
 )
+
+@kotlinx.serialization.Serializable
+data class CreateGameRequest(
+  @kotlinx.serialization.SerialName("menu_id") val menuId: String,
+)
+
+@kotlinx.serialization.Serializable
+data class CreateGameResponse(
+  val code: String,
+  @kotlinx.serialization.SerialName("ws_path") val wsPath: String,
+  @kotlinx.serialization.SerialName("player_url") val playerUrl: String? = null,
+)

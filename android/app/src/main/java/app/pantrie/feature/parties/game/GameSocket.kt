@@ -224,6 +224,10 @@ class GameSocket @Inject constructor() {
         "player_action_recorded" -> IncomingMessage.PlayerActionRecorded(
           beat_index = obj["beat_index"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0,
           action_id = obj["action_id"]?.jsonPrimitive?.content.orEmpty(),
+          // 2026-05-16: server now includes player_name + character_id so the
+          // host can attribute the choice. Falls back to "" on older servers.
+          player_name = obj["player_name"]?.jsonPrimitive?.contentOrEmpty().orEmpty(),
+          character_id = obj["character_id"]?.jsonPrimitive?.contentOrEmpty().orEmpty(),
         )
         "reveal" -> IncomingMessage.Reveal(
           body = obj["body"]?.jsonPrimitive?.content.orEmpty(),

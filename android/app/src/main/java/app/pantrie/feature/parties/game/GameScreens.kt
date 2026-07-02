@@ -12,16 +12,22 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -354,9 +360,60 @@ fun CharacterCardScreen(
 ) {
   val state by vm.state.collectAsState()
   val character = state.myCharacter
+  val context = LocalContext.current
 
   androidx.compose.runtime.LaunchedEffect(state.phase) {
     if (state.phase == "playing" || state.phase == "reveal") onBegin()
+  }
+
+  // UX 2026-05-16: one-time "How the night runs" tutorial. Used to be a
+  // permanent block on every character card load. Now shows ONLY the first
+  // time a user lands on the character card, gated by SharedPreferences
+  // flag 'mystery_nights_intro_shown'. After dismiss, never shows again
+  // for this device profile.
+  val introPrefs = remember {
+    context.getSharedPreferences("mystery_nights_session", android.content.Context.MODE_PRIVATE)
+  }
+  var showIntro by remember {
+    mutableStateOf(!introPrefs.getBoolean("intro_shown", false))
+  }
+  if (showIntro && character != null) {
+    androidx.compose.material3.AlertDialog(
+      onDismissRequest = {
+        introPrefs.edit().putBoolean("intro_shown", true).apply()
+        showIntro = false
+      },
+      confirmButton = {
+        androidx.compose.material3.TextButton(onClick = {
+          introPrefs.edit().putBoolean("intro_shown", true).apply()
+          showIntro = false
+        }) {
+          Text(
+            "I'M READY",
+            style = MaterialTheme.typography.labelLarge.copy(
+              color = Terracotta, fontFamily = Mono, letterSpacing = 2.4.sp,
+            ),
+          )
+        }
+      },
+      title = {
+        Text(
+          "How the night runs",
+          style = MaterialTheme.typography.headlineSmall.copy(
+            color = Ink, fontFamily = SerifDisplay, fontStyle = FontStyle.Italic, fontSize = 22.sp,
+          ),
+        )
+      },
+      text = {
+        Text(
+          "Study your character now — this is the long read. Once the host taps BEGIN your phone will buzz when the story whispers to you. Each whisper is one sentence: read, decide, put the phone face-down. The night runs across the dinner table, not the screen.",
+          style = MaterialTheme.typography.bodyMedium.copy(
+            color = Ink, fontFamily = SerifBody, fontSize = 14.sp, lineHeight = 20.sp,
+          ),
+        )
+      },
+      containerColor = Paper,
+    )
   }
 
   GameSurface {
@@ -431,26 +488,12 @@ fun CharacterCardScreen(
           )
         }
       }
-      if (character != null) {
-        Spacer(Modifier.height(20.dp))
-        EyebrowLine("HOW THE NIGHT RUNS", BrassBright)
-        Spacer(Modifier.height(6.dp))
-        Box(
-          modifier = Modifier
-            .fillMaxWidth()
-            .background(Paper3, RoundedCornerShape(3.dp))
-            .border(0.5.dp, Rule, RoundedCornerShape(3.dp))
-            .padding(14.dp),
-        ) {
-          Text(
-            "Study your character now. This is the long read. Once the host taps BEGIN your phone will buzz when the story whispers to you. Each whisper is a sentence — read it, decide, put the phone face-down. The night runs across the dinner table, not the screen.",
-            style = MaterialTheme.typography.bodySmall.copy(
-              color = Ink, fontFamily = SerifBody, fontStyle = FontStyle.Italic,
-              fontSize = 13.sp, lineHeight = 19.sp,
-            ),
-          )
-        }
-      }
+      // UX 2026-05-16: "HOW THE NIGHT RUNS" block removed from the per-game
+      // character card. It was 60+ words of instructions shown to every
+      // player every time — high friction after run #1. Moved to a one-time
+      // tutorial overlay shown on first-ever PlayerJoin via
+      // GameOnboardingTutorial (gated by SharedPreferences flag
+      // 'mystery_nights_intro_shown' in the GameSessionStore).
       Spacer(Modifier.height(20.dp))
       Text(
         "ROOM · ${state.code}",
@@ -555,20 +598,132 @@ fun InGameScreen(
         Spacer(Modifier.height(24.dp))
         EyebrowLine("HOST · DIRECTOR VIEW", BrassBright)
         Spacer(Modifier.height(6.dp))
+        // UX 2026-05-16: ADVANCE used to be a one-tap primary button —
+        // an accidental tap during a heated dinner-party moment would
+        // skip a beat and the host couldn't undo. Now requires two taps
+        // within 3s: first tap shifts to a yellow "TAP AGAIN TO ADVANCE"
+        // confirm state, second tap fires hostAdvance, no-second-tap
+        // auto-resets.
+        var advancePending by remember { mutableStateOf(false) }
+        androidx.compose.runtime.LaunchedEffect(advancePending) {
+          if (advancePending) {
+            kotlinx.coroutines.delay(3000)
+            advancePending = false
+          }
+        }
         Row {
           Button(
-            onClick = { vm.hostAdvance() },
-            colors = ButtonDefaults.buttonColors(containerColor = BrassBright, contentColor = Paper),
+            onClick = {
+              if (advancePending) {
+                vm.hostAdvance()
+                advancePending = false
+              } else {
+                advancePending = true
+              }
+            },
+            colors = ButtonDefaults.buttonColors(
+              containerColor = if (advancePending) Terracotta else BrassBright,
+              contentColor = Paper,
+            ),
             shape = RoundedCornerShape(3.dp),
-            modifier = Modifier.weight(1f),
-          ) { Text("ADVANCE", style = MaterialTheme.typography.labelLarge.copy(fontFamily = Mono, letterSpacing = 2.4.sp)) }
+            modifier = Modifier.weight(1f).heightIn(min = 52.dp),
+          ) {
+            Text(
+              if (advancePending) "TAP AGAIN" else "ADVANCE",
+              style = MaterialTheme.typography.labelLarge.copy(fontFamily = Mono, letterSpacing = 2.4.sp),
+            )
+          }
           Spacer(Modifier.size(8.dp))
           Button(
             onClick = { if (state.phase == "playing") vm.hostPause() else vm.hostResume() },
             colors = ButtonDefaults.buttonColors(containerColor = Paper3, contentColor = Ink),
             shape = RoundedCornerShape(3.dp),
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).heightIn(min = 52.dp),
           ) { Text(if (state.phase == "paused") "RESUME" else "PAUSE", style = MaterialTheme.typography.labelLarge.copy(fontFamily = Mono, letterSpacing = 2.4.sp)) }
+        }
+        // Player-action log — host-only. Surfaces who chose what on every
+        // TWIST beat so the host can direct intelligently. Audit fix
+        // 2026-05-16 (Fix #3). Empty state shown when no actions yet so
+        // the host knows the feature exists.
+        if (state.hostActionLog.isNotEmpty() || state.phase == "playing") {
+          Spacer(Modifier.height(20.dp))
+          HostPlayerActionLog(
+            entries = state.hostActionLog,
+            menuId = state.menuId,
+          )
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Host-only feed of player TWIST choices. Each row shows the character
+ * label (preferred) or player name, the action label, and a compact
+ * "B12" beat tag. Newest at top. Capped at 20 entries by the ViewModel.
+ */
+@Composable
+private fun HostPlayerActionLog(
+  entries: List<HostPlayerActionLogEntry>,
+  menuId: String,
+) {
+  EyebrowLine("HOST · PLAYER CHOICES", BrassBright)
+  Spacer(Modifier.height(6.dp))
+  Box(
+    modifier = Modifier
+      .fillMaxWidth()
+      .background(Paper3, RoundedCornerShape(3.dp))
+      .border(0.5.dp, BrassDeep.copy(alpha = 0.4f), RoundedCornerShape(3.dp))
+      .padding(horizontal = 12.dp, vertical = 10.dp),
+  ) {
+    if (entries.isEmpty()) {
+      Text(
+        "No twist choices yet. When a guest's phone shows a multiple-choice TWIST, their pick appears here.",
+        style = MaterialTheme.typography.bodySmall.copy(
+          color = InkFaint, fontFamily = SerifBody, fontStyle = FontStyle.Italic,
+          fontSize = 12.sp, lineHeight = 17.sp,
+        ),
+      )
+    } else {
+      Column {
+        entries.asReversed().take(8).forEach { e ->
+          val label = findCastName(menuId, e.characterId.ifBlank { null })
+            ?: e.playerName.ifBlank { "Someone" }
+          Row(
+            modifier = Modifier.padding(vertical = 3.dp),
+            verticalAlignment = Alignment.CenterVertically,
+          ) {
+            Text(
+              "B${e.beatIndex + 1}",
+              style = MaterialTheme.typography.labelSmall.copy(
+                color = BrassDeep, fontFamily = Mono, letterSpacing = 1.6.sp, fontSize = 10.sp,
+              ),
+              modifier = Modifier.width(36.dp),
+            )
+            Text(
+              label,
+              style = MaterialTheme.typography.bodySmall.copy(
+                color = Ink, fontFamily = SerifBody, fontWeight = FontWeight.SemiBold, fontSize = 13.sp,
+              ),
+              modifier = Modifier.weight(1f),
+            )
+            Spacer(Modifier.size(8.dp))
+            Text(
+              e.actionId,
+              style = MaterialTheme.typography.bodySmall.copy(
+                color = InkSoft, fontFamily = SerifBody, fontStyle = FontStyle.Italic, fontSize = 13.sp,
+              ),
+            )
+          }
+        }
+        if (entries.size > 8) {
+          Spacer(Modifier.height(4.dp))
+          Text(
+            "+ ${entries.size - 8} earlier",
+            style = MaterialTheme.typography.labelSmall.copy(
+              color = InkFaint, fontFamily = Mono, letterSpacing = 1.6.sp, fontSize = 10.sp,
+            ),
+          )
         }
       }
     }
@@ -619,54 +774,77 @@ private fun PersistentHostPlaybook(playersCount: Int, phase: String) {
   }
 }
 
+/**
+ * Persistent character header — collapsed by default to a single-line strip
+ * (name + chevron) so the BEAT body becomes the visual focus, not a
+ * footnote. Tap to expand the Agenda + Secret. UX 2026-05-16 — was a
+ * permanently-expanded 3-block stack that crowded every beat. The
+ * character card screen is still the long read; this strip is the at-a-
+ * glance reminder during play.
+ */
 @Composable
 private fun PersistentCharacterHeader(character: CharacterAssignment) {
+  var expanded by remember { mutableStateOf(false) }
   Box(
     modifier = Modifier
       .fillMaxWidth()
       .background(Paper2, RoundedCornerShape(3.dp))
       .border(0.5.dp, BrassDeep.copy(alpha = 0.5f), RoundedCornerShape(3.dp))
+      .clip(RoundedCornerShape(3.dp))
+      .clickable { expanded = !expanded }
       .padding(horizontal = 14.dp, vertical = 12.dp),
   ) {
     Column {
-      Text(
-        character.name,
-        style = MaterialTheme.typography.titleLarge.copy(
-          color = Ink, fontFamily = SerifDisplay, fontStyle = FontStyle.Italic,
-          fontWeight = FontWeight.Normal, fontSize = 22.sp, lineHeight = 24.sp,
-        ),
-      )
-      if (character.objective.isNotBlank()) {
-        Spacer(Modifier.height(6.dp))
+      // Single-line collapsed state: character name + reveal chevron.
+      Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
-          "AGENDA",
+          character.name,
+          style = MaterialTheme.typography.titleLarge.copy(
+            color = Ink, fontFamily = SerifDisplay, fontStyle = FontStyle.Italic,
+            fontWeight = FontWeight.Normal, fontSize = 22.sp, lineHeight = 24.sp,
+          ),
+          modifier = Modifier.weight(1f),
+        )
+        Icon(
+          imageVector = if (expanded) Icons.Outlined.KeyboardArrowUp else Icons.Outlined.KeyboardArrowDown,
+          contentDescription = if (expanded) "Hide details" else "Show agenda and secret",
+          tint = BrassBright.copy(alpha = 0.7f),
+          modifier = Modifier.size(20.dp),
+        )
+      }
+      if (expanded) {
+        if (character.objective.isNotBlank()) {
+          Spacer(Modifier.height(8.dp))
+          Text(
+            "AGENDA",
+            style = MaterialTheme.typography.labelSmall.copy(
+              color = BrassBright, fontFamily = Mono, letterSpacing = 2.4.sp, fontSize = 9.sp,
+            ),
+          )
+          Spacer(Modifier.height(2.dp))
+          Text(
+            character.objective,
+            style = MaterialTheme.typography.bodySmall.copy(
+              color = Ink, fontFamily = SerifBody, fontSize = 13.sp, lineHeight = 18.sp,
+            ),
+          )
+        }
+        Spacer(Modifier.height(8.dp))
+        Text(
+          "SECRET",
           style = MaterialTheme.typography.labelSmall.copy(
-            color = BrassBright, fontFamily = Mono, letterSpacing = 2.4.sp, fontSize = 9.sp,
+            color = Terracotta, fontFamily = Mono, letterSpacing = 2.4.sp, fontSize = 9.sp,
           ),
         )
         Spacer(Modifier.height(2.dp))
         Text(
-          character.objective,
+          character.secret,
           style = MaterialTheme.typography.bodySmall.copy(
-            color = Ink, fontFamily = SerifBody, fontSize = 13.sp, lineHeight = 18.sp,
+            color = Ink, fontFamily = SerifBody, fontStyle = FontStyle.Italic,
+            fontSize = 13.sp, lineHeight = 18.sp,
           ),
         )
       }
-      Spacer(Modifier.height(6.dp))
-      Text(
-        "SECRET",
-        style = MaterialTheme.typography.labelSmall.copy(
-          color = Terracotta, fontFamily = Mono, letterSpacing = 2.4.sp, fontSize = 9.sp,
-        ),
-      )
-      Spacer(Modifier.height(2.dp))
-      Text(
-        character.secret,
-        style = MaterialTheme.typography.bodySmall.copy(
-          color = Ink, fontFamily = SerifBody, fontStyle = FontStyle.Italic,
-          fontSize = 13.sp, lineHeight = 18.sp,
-        ),
-      )
     }
   }
 }
@@ -721,21 +899,27 @@ private fun BeatBody(
     Spacer(Modifier.height(16.dp))
     EyebrowLine("CHOOSE", BrassBright)
     Spacer(Modifier.height(6.dp))
+    // UX 2026-05-16: action buttons enlarged to 56dp min height + heavier
+    // padding. Old 14dp text rows were sub-48dp targets — bad on a phone
+    // in dim light at a dinner table.
     actions.forEach { action ->
       Box(
         modifier = Modifier
           .fillMaxWidth()
-          .padding(vertical = 4.dp)
-          .background(Paper3, RoundedCornerShape(3.dp))
-          .border(0.5.dp, BrassBright.copy(alpha = 0.4f), RoundedCornerShape(3.dp))
-          .clip(RoundedCornerShape(3.dp))
+          .padding(vertical = 6.dp)
+          .heightIn(min = 56.dp)
+          .background(Paper3, RoundedCornerShape(4.dp))
+          .border(0.75.dp, BrassBright.copy(alpha = 0.55f), RoundedCornerShape(4.dp))
+          .clip(RoundedCornerShape(4.dp))
           .clickable { onAction(action.id) }
-          .padding(14.dp),
+          .padding(horizontal = 18.dp, vertical = 16.dp),
+        contentAlignment = Alignment.CenterStart,
       ) {
         Text(
           action.label,
           style = MaterialTheme.typography.bodyMedium.copy(
-            color = Ink, fontFamily = SerifBody, fontSize = 15.sp,
+            color = Ink, fontFamily = SerifBody, fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
           ),
         )
       }

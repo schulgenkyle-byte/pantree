@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -169,6 +170,36 @@ fun MenuDetailScreen(
         if (unlocked) {
           // THE MYSTERY — only for mystery menus. Comes before THE_NIGHT.
           if (menu.isMystery) {
+            item("host_clarification") {
+              Column(
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(horizontal = 24.dp, vertical = 4.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+              ) {
+                Text(
+                  "1 HOST · UP TO 8 GUESTS · FREE TO JOIN",
+                  style = MaterialTheme.typography.labelSmall.copy(
+                    color = app.pantrie.ui.theme.BrassBright,
+                    fontFamily = Mono,
+                    fontSize = 11.sp,
+                    letterSpacing = 2.4.sp,
+                    fontWeight = FontWeight.SemiBold,
+                  ),
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                  "Generate a 4-letter code, text it to your table. They open the free app and join.",
+                  style = MaterialTheme.typography.bodySmall.copy(
+                    color = app.pantrie.ui.theme.InkSoft,
+                    fontFamily = SerifBody,
+                    fontSize = 12.sp,
+                    fontStyle = FontStyle.Italic,
+                  ),
+                  textAlign = TextAlign.Center,
+                )
+              }
+            }
             item("host_game_cta") {
               androidx.compose.material3.Button(
                 onClick = onHostGame,
@@ -280,6 +311,7 @@ fun MenuDetailScreen(
         onDismiss = { showPaywall = false },
         onRedeemed = { _ -> showPaywall = false },
         vm = vm,
+        isMystery = menu.isMystery,
       )
     }
   }
@@ -1059,7 +1091,7 @@ private fun StickyPaywallBand(
         modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp),
       ) {
         Text(
-          text = "CURATE-A-PARTY MENUS",
+          text = "SPEAKEATER PRO",
           style = MaterialTheme.typography.labelMedium.copy(
             color = BrassBright,
             fontFamily = Mono,
@@ -1069,7 +1101,7 @@ private fun StickyPaywallBand(
         )
         Spacer(Modifier.height(6.dp))
         Text(
-          text = "Five dollars each. Kickstarter backers got a code with their pledge.",
+          text = "Unlock every menu, every Mystery Night, and the cocktail archive. Kickstarter backers can redeem a code instead.",
           style = MaterialTheme.typography.bodyMedium.copy(
             color = Ink,
             fontFamily = SerifBody,
@@ -1088,7 +1120,7 @@ private fun StickyPaywallBand(
           contentAlignment = Alignment.Center,
         ) {
           Text(
-            text = "ENTER KICKSTARTER CODE",
+            text = "UNLOCK WITH PRO",
             style = MaterialTheme.typography.labelLarge.copy(
               color = Paper,
               fontFamily = Mono,

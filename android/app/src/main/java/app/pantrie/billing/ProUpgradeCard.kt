@@ -80,7 +80,7 @@ fun ProUpgradeCard(
   if (isPro) return
 
   // Yearly is the default selection (highlighted tier in TIERS list).
-  var selectedSku by remember { mutableStateOf("brimm_pro_yearly") }
+  var selectedSku by remember { mutableStateOf(SKU_PRO_YEARLY) }
 
   // Activity walk — same ContextWrapper-chain trick PaywallScreen uses.
   val context = androidx.compose.ui.platform.LocalContext.current
@@ -131,7 +131,7 @@ fun ProUpgradeCard(
       Spacer(Modifier.height(6.dp))
 
       Text(
-        text = "Unlimited swipes. Vision scan. Submit recipes. Ad-free.",
+        text = "All five Mystery Nights. 50 party menus. 7,225 cocktails. No ads.",
         color = inkSoft,
         fontSize = 13.sp,
         lineHeight = 18.sp,

@@ -51,32 +51,38 @@ data class PriceTier(
  * also bump the matching SKU price in Play Console — the strings are display-only and
  * do NOT control billing (Play returns its own price; this is just the pre-purchase preview).
  */
+// V3 display strings (2026-05-17). Match the v3 SKU prices in Play Console.
+// Pro is cooking-app only — Mystery Nights and Party Menus are sold as
+// separate one-time products. No bundling. No founder-forever tier.
 internal val TIERS = listOf(
   PriceTier(
-    sku = "brimm_pro_monthly",
+    sku = SKU_PRO_MONTHLY,
     title = "Monthly",
-    price = "$4.99/mo",
+    price = "$5/mo",
     perMonth = null,
     savings = null,
   ),
   PriceTier(
-    sku = "brimm_pro_yearly",
+    sku = SKU_PRO_YEARLY,
     title = "Yearly",
-    price = "$29.99/yr",
-    perMonth = "$2.50/mo",
-    savings = "Save 50%",
+    price = "$45/yr",
+    perMonth = "$3.75/mo",
+    savings = "Save $15 a year",
     highlight = true,
   ),
 )
 
+// Speakeater Pro is the cooking app: 60 fridge scans a month, TikTok/YouTube
+// imports, photo-to-recipe, ad removal. Mystery Nights and Party Menus are
+// sold separately one-time. The pitch is "$5 is the floor for serious cooking
+// use" — no bundling, no founder lock-in, no lifetime tier.
 private val PRO_FEATURES = listOf(
-  "Unlimited pantry items",
-  "Vision pantry scan (snap → ingredients)",
-  "Smart shopping list",
-  "Meal prep planner",
-  "No ads, ever",
-  "Submit your own recipes",
-  "Priority support",
+  "60 fridge scans a month. Plenty for daily cooking.",
+  "Unlimited TikTok and YouTube recipe imports.",
+  "Photo-to-recipe. Handwritten, printed, screenshot.",
+  "Submit your own recipes to the catalog.",
+  "Shareable cookbook links. Open in any browser, no app required.",
+  "No ads. Ever.",
 )
 
 @Composable
@@ -87,7 +93,7 @@ fun PaywallScreen(
   val isPro by vm.isPro.collectAsState()
   val purchasing by vm.purchasing.collectAsState()
   val purchaseEvent by vm.purchaseEvents.collectAsState()
-  var selectedSku by remember { mutableStateOf("brimm_pro_yearly") }
+  var selectedSku by remember { mutableStateOf(SKU_PRO_YEARLY) }
   val context = androidx.compose.ui.platform.LocalContext.current
   // Walk the ContextWrapper chain to find the Activity — LocalContext sometimes returns
   // a ContextWrapper instead of the Activity directly (varies by phone OEM / launcher),
@@ -143,14 +149,21 @@ fun PaywallScreen(
       }
 
       Spacer(Modifier.height(16.dp))
-      Text(app.pantrie.Brand.PRO_NAME, color = ProGold, fontSize = 32.sp, fontWeight = FontWeight.Bold)
-      Spacer(Modifier.height(4.dp))
       Text(
-        "Unlock everything. Cancel anytime.",
+        "SPEAKEATER",
+        color = ProGold,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Bold,
+        letterSpacing = 4.sp,
+      )
+      Spacer(Modifier.height(6.dp))
+      Text(app.pantrie.Brand.PRO_NAME, color = ProInk, fontSize = 36.sp, fontWeight = FontWeight.Bold)
+      Spacer(Modifier.height(6.dp))
+      Text(
+        "60 fridge scans a month. No ads. Five dollars a month.",
         color = ProMuted,
         fontSize = 15.sp,
       )
-
       Spacer(Modifier.height(24.dp))
 
       // Feature list
@@ -180,6 +193,44 @@ fun PaywallScreen(
           onSelect = { selectedSku = tier.sku },
         )
         Spacer(Modifier.height(10.dp))
+      }
+
+      Spacer(Modifier.height(28.dp))
+
+      // ===== Credit packs — one-time consumables. Bypass the subscription
+      // for users who just want a top-up. Speakeasy-themed names per the
+      // brand voice; sized so the swipes are generous (cheap) and the
+      // photo scans are tight (expensive — Vision API costs).
+      //
+      // Hidden behind CREDIT_PACKS_ENABLED until backend grant logic ships.
+      // See BillingManager.kt for the enablement checklist. =====
+      if (CREDIT_PACKS_ENABLED) {
+        Text(
+          "OR JUST A TOP-UP",
+          color = ProMuted,
+          fontSize = 11.sp,
+          fontWeight = FontWeight.Bold,
+          letterSpacing = 2.0.sp,
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+          "One-time. No subscription. Use them whenever.",
+          color = ProMuted,
+          fontSize = 12.sp,
+        )
+        Spacer(Modifier.height(14.dp))
+        app.pantrie.billing.CREDIT_PACKS.forEach { pack ->
+          CreditPackCard(
+            pack = pack,
+            onBuy = {
+              val act = activity
+              if (act != null) vm.purchase(act, pack.sku)
+              else vm.surfaceActivityError()
+            },
+            purchasing = purchasing,
+          )
+          Spacer(Modifier.height(10.dp))
+        }
       }
 
       Spacer(Modifier.height(16.dp))
@@ -280,6 +331,56 @@ private fun TierCard(tier: PriceTier, selected: Boolean, onSelect: () -> Unit) {
         }
       }
       Text(tier.price, color = ProGold, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+    }
+  }
+}
+
+/** Credit-pack card. One per pack: title + tagline (1920s flavor) + the
+ *  swipes/photos breakdown + Buy button. Tap fires the consumable purchase
+ *  flow directly — no shared "selected" state because each pack is a
+ *  standalone one-time purchase, not a tier choice. */
+@Composable
+private fun CreditPackCard(
+  pack: app.pantrie.billing.CreditPack,
+  onBuy: () -> Unit,
+  purchasing: Boolean,
+) {
+  Surface(
+    modifier = Modifier.fillMaxWidth(),
+    shape = RoundedCornerShape(14.dp),
+    color = ProCard,
+    border = androidx.compose.foundation.BorderStroke(1.dp, ProGold.copy(alpha = 0.4f)),
+  ) {
+    Row(
+      Modifier.fillMaxWidth().padding(16.dp),
+      verticalAlignment = Alignment.CenterVertically,
+    ) {
+      Column(Modifier.weight(1f)) {
+        Text(pack.displayName, color = ProInk, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+        Spacer(Modifier.height(2.dp))
+        Text(pack.tagline, color = ProMuted, fontSize = 12.sp, fontStyle = androidx.compose.ui.text.font.FontStyle.Italic)
+        Spacer(Modifier.height(6.dp))
+        Text(
+          "${pack.swipes} swipes · ${pack.photoScans} photo scans",
+          color = ProInk,
+          fontSize = 12.sp,
+          letterSpacing = 0.5.sp,
+        )
+      }
+      Spacer(Modifier.width(12.dp))
+      Button(
+        onClick = onBuy,
+        enabled = !purchasing,
+        colors = ButtonDefaults.buttonColors(
+          containerColor = ProGold,
+          contentColor = ProBg,
+          disabledContainerColor = ProGold.copy(alpha = 0.5f),
+          disabledContentColor = ProBg,
+        ),
+        shape = RoundedCornerShape(10.dp),
+      ) {
+        Text(pack.priceFallback, fontWeight = FontWeight.Bold)
+      }
     }
   }
 }

@@ -75,16 +75,20 @@ import kotlin.math.roundToInt
 // Mixology uses the same swipe threshold as the Tonight deck for muscle-memory consistency.
 private const val SWIPE_THRESHOLD_DP = 110f
 
-// Sepia tint for the TRUE VINTAGE parchment background. Warmer than Cream, richer than Paper.
+// Bootlegger (TRUE VINTAGE) parchment palette. INTENTIONALLY private and NOT
+// in Color.kt — per DESIGN_SYSTEM.md §7, the sepia mode is preserved untouched
+// across theme updates so the "old timey newspaper" look stays stable.
 private val Sepia = Color(0xFFE6D3A7)
 private val SepiaInk = Color(0xFF3A2B1A)
 
-// Modern Mixology palette — full speakeasy black with gold accent. Classy, moody, bar-feel.
-private val ModernBg = Color(0xFF0D0D0E)            // near-black with a hint of warmth
-private val ModernCard = Color(0xFF18181B)          // slightly lighter for card vs bg separation
-private val ModernInk = Color(0xFFE8E3D9)           // warm off-white text
-private val ModernGold = Color(0xFFC9A554)          // aged brass accent
-private val ModernInkMuted = Color(0xFF8B8578)
+// Mixologist (modern speakeasy) palette — aliased to the app-wide editorial
+// tokens in Color.kt so Phase 2 dark-theme updates propagate automatically.
+// Previously these were file-private literals that drifted from the app theme.
+private val ModernBg = Paper3            // ~ near-black with warm undertone (was 0xFF0D0D0E)
+private val ModernCard = Paper2          // lifted card surface (was 0xFF18181B)
+private val ModernInk = Ink              // warm off-white text (was 0xFFE8E3D9)
+private val ModernGold = BrassBright     // aged brass accent (was 0xFFC9A554)
+private val ModernInkMuted = InkFaint    // alpha-based muted text on dark (was 0xFF8B8578)
 
 @HiltViewModel
 class MixologyViewModel @Inject constructor(
